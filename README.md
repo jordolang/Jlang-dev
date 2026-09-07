@@ -183,7 +183,6 @@ portfolio/
 │   │   ├── portfolio/          # Portfolio-specific components
 │   │   │   ├── AboutSection.tsx
 │   │   │   ├── Background.tsx
-│   │   │   ├── CertificationsSection.tsx
 │   │   │   ├── ContactSection.tsx
 │   │   │   ├── ExperienceSection.tsx
 │   │   │   ├── Footer.tsx
@@ -205,7 +204,6 @@ portfolio/
 │   ├── posthog.ts             # PostHog analytics configuration
 │   └── utils.ts               # Utility functions
 ├── public/
-│   ├── certificates/          # Certificate images
 │   ├── CV.pdf                # Resume/CV file
 │   ├── globe.svg             # SVG icons
 │   ├── next.svg

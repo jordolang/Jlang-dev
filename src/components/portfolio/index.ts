@@ -1,7 +1,6 @@
 export { default as AboutSection } from './AboutSection';
 export { default as Background } from './Background';
 export { default as BlogSection } from './BlogSection';
-export { default as CertificationsSection } from './CertificationsSection';
 export { default as ContactSection } from './ContactSection';
 export { default as ExperienceSection } from './ExperienceSection';
 export { default as Footer } from './Footer';

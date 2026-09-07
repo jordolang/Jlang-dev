@@ -67,7 +67,7 @@ export interface CmsProject {
   highlight: string;
   timeline: string;
   clientType: string;
-  group?: "desktop" | "mobile";
+  group?: "desktop" | "mobile" | "desktopApp";
   fullPagePreview?: boolean;
   imageWidth?: number;
   imageHeight?: number;
@@ -106,7 +106,9 @@ export async function getProjects(): Promise<CmsProject[] | null> {
   });
 
   // The section renders the first project as the big hero card, so hoist the featured one.
-  const featuredIndex = projects.findIndex((project) => project.featured && project.group !== "mobile");
+  const featuredIndex = projects.findIndex(
+    (project) => project.featured && project.group !== "mobile" && project.group !== "desktopApp",
+  );
   if (featuredIndex > 0) {
     const [featured] = projects.splice(featuredIndex, 1);
     projects.unshift(featured);
@@ -169,44 +171,6 @@ export async function getTechStack(): Promise<Record<string, CmsTechItem[]> | nu
     (grouped[item.category] ??= []).push(item);
     return grouped;
   }, {});
-}
-
-// ---------------------------------------------------------------------------
-// Certifications
-// ---------------------------------------------------------------------------
-
-export interface CmsCertification {
-  title: string;
-  provider: string;
-  platform: string;
-  issued: string;
-  credentialId: string;
-  skills: string[];
-  providerIcon: string;
-  platformIcon: string;
-  color: string;
-  certificatePreview: string;
-  providerIconSize: number;
-  platformIconSize: number;
-}
-
-interface RawCertification extends Omit<CmsCertification, "certificatePreview"> {
-  certificatePreview: SanityImageRef | null;
-}
-
-export async function getCertifications(): Promise<CmsCertification[] | null> {
-  const raw = await query<RawCertification[]>(
-    `*[_type == "certification"] | order(order asc, _createdAt asc) {
-      title, provider, platform, issued, credentialId, providerIcon, platformIcon,
-      color, providerIconSize, platformIconSize,
-      "skills": coalesce(skills, []),
-      certificatePreview ${IMAGE_PROJECTION}
-    }`,
-    ["certifications"],
-  );
-  if (!raw?.length) return null;
-
-  return raw.map((cert) => ({ ...cert, certificatePreview: urlForImage(cert.certificatePreview) ?? "" }));
 }
 
 // ---------------------------------------------------------------------------
