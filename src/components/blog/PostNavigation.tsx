@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { Icon } from '@iconify/react';
-import { motion } from 'framer-motion';
+import { m } from 'framer-motion';
 
 interface PostNavigationProps {
   previousPost?: {
@@ -24,7 +24,7 @@ export default function PostNavigation({ previousPost, nextPost }: PostNavigatio
     <div className="grid grid-cols-1 md:grid-cols-2 gap-6 my-12">
       {/* Previous Post */}
       {previousPost ? (
-        <motion.div
+        <m.div
           whileHover={{ scale: 1.02 }}
           transition={{ type: 'spring', stiffness: 300 }}
         >
@@ -47,14 +47,14 @@ export default function PostNavigation({ previousPost, nextPost }: PostNavigatio
               </div>
             </div>
           </Link>
-        </motion.div>
+        </m.div>
       ) : (
         <div /> 
       )}
 
       {/* Next Post */}
       {nextPost && (
-        <motion.div
+        <m.div
           whileHover={{ scale: 1.02 }}
           transition={{ type: 'spring', stiffness: 300 }}
         >
@@ -77,7 +77,7 @@ export default function PostNavigation({ previousPost, nextPost }: PostNavigatio
               />
             </div>
           </Link>
-        </motion.div>
+        </m.div>
       )}
     </div>
   );

@@ -1,6 +1,7 @@
 "use client";
 
 import posthog from "posthog-js";
+import { logger } from "./logger";
 
 export enum AnalyticsEvents {
   NAVIGATION_CLICKED = "navigation_clicked",
@@ -52,7 +53,7 @@ export const initializeVisitorTracking = () => {
 // Identify user when they provide contact information
 export const identifyUser = (email: string, name: string, additionalProperties?: Record<string, string | number | boolean>) => {
   if (!posthog) {
-    console.warn("PostHog not initialized");
+    logger.warn("PostHog not initialized");
     return;
   }
 
@@ -78,7 +79,7 @@ export const identifyUser = (email: string, name: string, additionalProperties?:
 // Track custom events
 export const trackEvent = (eventName: string, properties?: Record<string, string | number | boolean>) => {
   if (!posthog) {
-    console.warn("PostHog not initialized");
+    logger.warn("PostHog not initialized");
     return;
   }
 
@@ -91,7 +92,7 @@ export const trackEvent = (eventName: string, properties?: Record<string, string
 // Reset identification (useful for testing or logout scenarios)
 export const resetIdentification = () => {
   if (!posthog) {
-    console.warn("PostHog not initialized");
+    logger.warn("PostHog not initialized");
     return;
   }
 

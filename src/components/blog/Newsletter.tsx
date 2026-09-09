@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { Icon } from '@iconify/react';
-import { motion } from 'framer-motion';
+import { m } from 'framer-motion';
 
 export default function Newsletter() {
   const [email, setEmail] = useState('');
@@ -33,7 +33,7 @@ export default function Newsletter() {
 
   return (
     <div className="my-16">
-      <motion.div
+      <m.div
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
@@ -50,7 +50,7 @@ export default function Newsletter() {
 
         <div className="relative z-10 max-w-2xl mx-auto text-center">
           {/* Icon */}
-          <motion.div
+          <m.div
             initial={{ scale: 0 }}
             whileInView={{ scale: 1 }}
             viewport={{ once: true }}
@@ -58,7 +58,7 @@ export default function Newsletter() {
             className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-2xl mb-6 shadow-lg"
           >
             <Icon icon="solar:letter-bold" width={32} height={32} className="text-white" />
-          </motion.div>
+          </m.div>
 
           {/* Heading */}
           <h3 className="text-3xl md:text-4xl font-bold mb-4 bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 bg-clip-text text-transparent">
@@ -79,7 +79,7 @@ export default function Newsletter() {
               className="flex-1 px-6 py-4 bg-white dark:bg-gray-900 border border-gray-300 dark:border-gray-700 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:focus:ring-indigo-400 focus:border-transparent text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 disabled:opacity-50"
               required
             />
-            <motion.button
+            <m.button
               type="submit"
               disabled={status === 'loading'}
               whileHover={{ scale: status === 'loading' ? 1 : 1.05 }}
@@ -97,12 +97,12 @@ export default function Newsletter() {
                   <Icon icon="solar:arrow-right-outline" width={20} height={20} />
                 </>
               )}
-            </motion.button>
+            </m.button>
           </form>
 
           {/* Status Message */}
           {message && (
-            <motion.div
+            <m.div
               initial={{ opacity: 0, y: -10 }}
               animate={{ opacity: 1, y: 0 }}
               className={`mt-4 p-4 rounded-xl flex items-center justify-center gap-2 ${
@@ -117,7 +117,7 @@ export default function Newsletter() {
                 height={20} 
               />
               <span className="text-sm font-medium">{message}</span>
-            </motion.div>
+            </m.div>
           )}
 
           {/* Privacy Note */}
@@ -125,7 +125,7 @@ export default function Newsletter() {
             We respect your privacy. Your email will never be shared.
           </p>
         </div>
-      </motion.div>
+      </m.div>
     </div>
   );
 }

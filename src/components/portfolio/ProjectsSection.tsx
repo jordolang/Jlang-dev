@@ -1,39 +1,183 @@
 "use client";
 
 import { Icon } from "@iconify/react";
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 import Link from "next/link";
 import Image from "next/image";
 import { AnalyticsEvents, trackEvent } from "@/lib/analytics";
 import SectionHeader from "./SectionHeader";
 
-const projects = [
+interface Project {
+  title: string;
+  subtitle: string;
+  description: string;
+  image: string;
+  features: string[];
+  deliverables: string[];
+  tech: string[];
+  github: string;
+  live: string;
+  gradient: string;
+  status: "Live" | "In Development";
+  category: string;
+  highlight: string;
+  timeline: string;
+  clientType: string;
+  group?: "desktop" | "mobile";
+  fullPagePreview?: boolean;
+  /** Intrinsic size of `image`. Required for full-page captures so the scroll container renders them at true aspect ratio. */
+  imageWidth?: number;
+  imageHeight?: number;
+}
+
+export const projects: Project[] = [
+  {
+    title: "Stuck On You",
+    subtitle: "Permanent Jewelry Bloomington, IN",
+    description:
+      "A bespoke new home on the web for Stuck On You — elegant design, effortless content editing, and lightning-fast pages. Designed & built by JLang Development.",
+    image: "/images/projects/stuck-on-you.jpg",
+    imageWidth: 1440,
+    imageHeight: 7237,
+    fullPagePreview: true,
+    features: [
+      "Elegant, brand-led website design",
+      "Effortless content editing",
+      "Lightning-fast page performance",
+      "Responsive experience for every screen",
+    ],
+    deliverables: [
+      "Website design and development",
+      "Responsive interface implementation",
+      "Content editing experience",
+      "Production deployment",
+    ],
+    tech: ["Next.js", "React", "TypeScript", "Sanity", "Vercel"],
+    github: "",
+    live: "https://stuckonyoupj.com",
+    gradient: "from-amber-700 to-yellow-600",
+    status: "Live",
+    category: "Web Design",
+    highlight: "Latest Project",
+    timeline: "2026",
+    clientType: "Permanent Jewelry",
+  },
+  {
+    title: "Muskingum Materials",
+    subtitle: "Aggregate & Construction Materials Supplier",
+    description:
+      "The newest build: a clean, conversion-focused marketing site for a Muskingum County aggregate and construction materials supplier. Showcases products, service areas, and capabilities with a fast, mobile-first experience deployed on Vercel.",
+    image: "/images/projects/muskingum-materials.jpg",
+    imageWidth: 1280,
+    imageHeight: 7101,
+    features: [
+      "Product and materials catalog presentation",
+      "Service-area and capabilities overview",
+      "Lead-generation contact and quote pathways",
+      "Fast, mobile-first responsive design",
+      "SEO-optimized for local material searches",
+    ],
+    deliverables: [
+      "Full marketing site design and build",
+      "Information architecture and navigation",
+      "Responsive UI implementation",
+      "Deployment and analytics wiring on Vercel",
+    ],
+    tech: ["Next.js", "React", "TypeScript", "Tailwind CSS", "Vercel"],
+    github: "https://github.com/jordolang/muskingum-materials",
+    live: "https://muskingum-materials.vercel.app",
+    gradient: "from-amber-600 to-orange-600",
+    status: "Live",
+    category: "Web Design",
+    highlight: "Latest Project",
+    timeline: "2026",
+    clientType: "Construction Materials",
+  },
+  {
+    title: "Safety Screen",
+    image: "/images/projects/drug-finder.png",
+    subtitle: "Medication Search & Information Web App",
+    description:
+      "A fast, search-first web application for looking up medications and their key details. Built for clarity and speed, it helps users find the information they need across a clean, responsive interface deployed on Vercel.",
+    features: [
+      "Instant medication search and lookup",
+      "Clear, structured drug information display",
+      "Fast, responsive results as you type",
+      "Mobile-first, accessible interface",
+      "Deployed on Vercel for global performance",
+    ],
+    deliverables: [
+      "Search UI and results experience",
+      "Data integration and querying",
+      "Responsive, accessible interface",
+      "Deployment and analytics wiring on Vercel",
+    ],
+    tech: ["Next.js", "React", "TypeScript", "Tailwind CSS", "Vercel"],
+    github: "",
+    live: "https://drug-finder.vercel.app",
+    gradient: "from-cyan-600 to-blue-600",
+    status: "Live",
+    category: "Web App",
+    highlight: "New",
+    timeline: "2026",
+    clientType: "Health & Information",
+  },
+  {
+    title: "Roam",
+    image: "/images/projects/roam.png",
+    subtitle: "AI Travel Agent & Trip Planner",
+    description:
+      "An AI-powered travel agent that turns a simple prompt into a complete trip. Roam helps users discover destinations, build itineraries, and plan the details through a conversational, mobile-first experience.",
+    features: [
+      "Conversational AI trip planning",
+      "Personalized destination recommendations",
+      "Itinerary building and organization",
+      "Responsive, mobile-first design",
+      "Fast, modern web experience",
+    ],
+    deliverables: [
+      "Conversational planning UX",
+      "AI integration and prompt design",
+      "Itinerary and results interface",
+      "Responsive UI implementation",
+    ],
+    tech: ["Next.js", "React", "TypeScript", "Tailwind CSS", "AI SDK", "Vercel"],
+    github: "",
+    live: "",
+    gradient: "from-teal-600 to-emerald-600",
+    status: "In Development",
+    category: "Web App",
+    highlight: "New",
+    timeline: "2026",
+    clientType: "Travel & Lifestyle",
+  },
   {
     title: "Jose Madrid Salsa",
     subtitle: "Premium Gourmet Salsa – E-commerce & Marketing Site",
-    description: "Modern marketing and e‑commerce experience for an Ohio‑made gourmet salsa brand. Highlights include heat‑level guided shopping, fundraising and wholesale pathways, and a clean, mobile‑first design deployed on Vercel.",
-    image: "/images/projects/jose-madrid-salsa.png",
+    description:
+      "Modern marketing and e‑commerce experience for an Ohio‑made gourmet salsa brand. Highlights include heat‑level guided shopping, fundraising and wholesale pathways, and a clean, mobile‑first design deployed on Vercel.",
+    image: "/images/projects/josemadrid.png",
     features: [
       "Heat-level browsing (Mild, Medium, Hot)",
       "Fundraising and wholesale information flows",
       "Responsive, performance‑optimized pages",
-      "Clear CTAs for shopping and subscriptions"
+      "Clear CTAs for shopping and subscriptions",
     ],
     deliverables: [
       "Landing and category page UX",
       "Information architecture & navigation",
       "Responsive UI implementation",
-      "Deployment and analytics wiring"
+      "Deployment and analytics wiring",
     ],
     tech: ["Next.js", "React", "TypeScript", "Tailwind CSS", "Vercel"],
-    github: "",
+    github: "https://github.com/jordolang/josemadrid",
     live: "https://josemadrid.net",
     gradient: "from-rose-600 to-red-600",
     status: "Live",
     category: "Web Design",
-    highlight: "Latest Update",
+    highlight: "Featured",
     timeline: "2025",
-    clientType: "Food & Beverage"
+    clientType: "Food & Beverage",
   },
   {
     title: "Muskingum Materials",
@@ -132,7 +276,8 @@ const projects = [
     title: "Amplinks",
     image: "/images/projects/amplinks.png",
     subtitle: "Self-Hosted iOS/Web Music Platform",
-    description: "A comprehensive self-hosted iOS/Web application for seamless music downloading directly to iPhone as MP3 files without any user interaction. Features a Linktree-style sharing page for real-time music streaming with friends, integrated web music player, and full music management system. Designed for future expansion with additional social and streaming features.",
+    description:
+      "A comprehensive self-hosted iOS/Web application for seamless music downloading directly to iPhone as MP3 files without any user interaction. Features a Linktree-style sharing page for real-time music streaming with friends, integrated web music player, and full music management system.",
     features: [
       "Automatic iOS MP3 downloads with zero clicks",
       "Linktree-style sharing pages for friends",
@@ -141,7 +286,7 @@ const projects = [
       "Complete music library management system",
       "Social listening features and guest sharing",
       "Cross-platform synchronization (iOS/Web)",
-      "Self-hosted with complete privacy control"
+      "Self-hosted with complete privacy control",
     ],
     deliverables: [
       "Native iOS application development",
@@ -151,23 +296,24 @@ const projects = [
       "User management and authentication",
       "API development and integration",
       "Cross-platform data synchronization",
-      "Music library management tools"
+      "Music library management tools",
     ],
     tech: ["React", "React Native", "Node.js", "TypeScript", "WebRTC", "Socket.io", "Swift", "iOS", "MongoDB", "Redis", "Docker", "Tailwind CSS"],
     github: "https://github.com/jordolang/amplinks",
-    live: "",
+    live: "https://paddle-mobile-web-payments-starter-pi-nine.vercel.app",
     gradient: "from-purple-600 to-blue-600",
     status: "In Development",
     category: "Mobile & Web Apps",
     highlight: "Current Project",
     timeline: "Ongoing",
-    clientType: "Mobile & Web Apps"
+    clientType: "Mobile & Web Apps",
   },
   {
     title: "Zanesville.store",
     image: "/images/projects/zanesville-store.png",
     subtitle: "Local E-commerce Platform",
-    description: "Currently developing a comprehensive e-commerce platform designed to connect local Zanesville businesses with customers. This modern web application features intuitive navigation, secure payment processing, and a responsive design optimized for both desktop and mobile shopping experiences.",
+    description:
+      "A comprehensive e-commerce platform designed to connect local Zanesville businesses with customers. Features intuitive navigation, secure payment processing, and a responsive design optimized for both desktop and mobile shopping.",
     features: [
       "Modern responsive design for all devices",
       "Local business directory integration",
@@ -176,7 +322,7 @@ const projects = [
       "User account management and profiles",
       "Mobile-first shopping experience",
       "SEO optimization for local searches",
-      "Performance optimization for fast loading"
+      "Performance optimization for fast loading",
     ],
     deliverables: [
       "Complete e-commerce platform design",
@@ -186,23 +332,24 @@ const projects = [
       "Mobile-responsive design",
       "Local SEO implementation",
       "Performance optimization",
-      "Security implementation"
+      "Security implementation",
     ],
     tech: ["React", "Next.js", "TypeScript", "Tailwind CSS", "Node.js", "MongoDB", "Stripe", "Vercel", "Figma", "Local SEO", "PWA", "Analytics"],
     github: "https://github.com/jordanlang/zanesville-store",
-    live: "https://www.zanesville.store",
+    live: "https://pallets.sale",
     gradient: "from-emerald-600 to-teal-600",
     status: "In Development",
     category: "Web Design",
     highlight: "Current Project",
     timeline: "Ongoing",
-    clientType: "Local E-commerce"
+    clientType: "Local E-commerce",
   },
   {
     title: "Homesh.app",
     image: "/images/projects/homesh-app.png",
     subtitle: "Self-Hosted Home Dashboard",
-    description: "A comprehensive self-hosted home dashboard solution designed for home automation enthusiasts and privacy-conscious users. Features a modern, customizable interface for monitoring and controlling smart home devices, displaying real-time data, and integrating with various home automation platforms while keeping all data locally stored.",
+    description:
+      "A comprehensive self-hosted home dashboard for home automation enthusiasts and privacy-conscious users. Features a modern, customizable interface for monitoring and controlling smart home devices while keeping all data locally stored.",
     features: [
       "Fully self-hosted with complete data privacy",
       "Customizable dashboard widgets and layouts",
@@ -211,7 +358,7 @@ const projects = [
       "Weather and calendar widget integration",
       "Energy consumption tracking and analytics",
       "Mobile-responsive design for all devices",
-      "Docker container deployment support"
+      "Docker container deployment support",
     ],
     deliverables: [
       "Self-hosted dashboard application",
@@ -221,7 +368,7 @@ const projects = [
       "Mobile-responsive interface",
       "Installation and setup documentation",
       "Security configuration guidelines",
-      "Backup and restore functionality"
+      "Backup and restore functionality",
     ],
     tech: ["React", "TypeScript", "Node.js", "Docker", "WebSockets", "Chart.js", "Tailwind CSS", "SQLite", "MQTT", "Home Assistant API", "OpenWeatherMap API", "PWA"],
     github: "https://github.com/jordanlang/homesh-app",
@@ -231,13 +378,14 @@ const projects = [
     category: "Web Design",
     highlight: "Current Project",
     timeline: "Ongoing",
-    clientType: "Self-Hosted Solutions"
+    clientType: "Self-Hosted Solutions",
   },
   {
     title: "Apple-Sider",
     image: "/images/projects/apple-sider.png",
     subtitle: "Self-Hosted Apple Music Library Downloader",
-    description: "A 1-click self-hosted web application to download your entire Apple Music Library using a Library.xml file. Features a clean Apple-inspired interface with real-time progress tracking, concurrent downloads, and automatic metadata enhancement including album artwork. Docker-ready with comprehensive CLI management tools.",
+    description:
+      "A 1-click self-hosted web application to download your entire Apple Music Library using a Library.xml file. Features a clean Apple-inspired interface with real-time progress tracking, concurrent downloads, and automatic metadata enhancement.",
     features: [
       "Single-page web interface with drag-and-drop",
       "Real-time progress tracking and console output",
@@ -246,7 +394,7 @@ const projects = [
       "Automatic album artwork from iTunes API",
       "Docker container deployment support",
       "WebSocket streaming for real-time updates",
-      "Smart parsing of Apple Music libraries"
+      "Smart parsing of Apple Music libraries",
     ],
     deliverables: [
       "Docker container deployment",
@@ -256,7 +404,7 @@ const projects = [
       "Download queue management",
       "Metadata enhancement system",
       "Real-time progress tracking",
-      "Cross-platform compatibility"
+      "Cross-platform compatibility",
     ],
     tech: ["Python", "Flask", "Docker", "WebSockets", "yt-dlp", "JavaScript", "HTML5", "CSS3", "MusicBrainz", "iTunes API", "pip", "Docker Compose"],
     github: "https://github.com/jordolang/Apple-Sider",
@@ -266,13 +414,14 @@ const projects = [
     category: "Self-Hosted Solutions",
     highlight: "Featured",
     timeline: "Ongoing",
-    clientType: "Self-Hosted Solutions"
+    clientType: "Self-Hosted Solutions",
   },
   {
     title: "World Auto Net",
     image: "/images/projects/world-auto-net.png",
     subtitle: "Automotive Marketplace Website",
-    description: "Modern, responsive website design for an automotive marketplace platform. Created a comprehensive digital presence with intuitive navigation, advanced search capabilities, and mobile-first design approach to connect car buyers and sellers efficiently.",
+    description:
+      "Modern, responsive website design for an automotive marketplace platform. A comprehensive digital presence with intuitive navigation, advanced search capabilities, and a mobile-first approach connecting car buyers and sellers.",
     features: [
       "Responsive design optimized for all devices",
       "Vehicle inventory system with advanced filtering",
@@ -281,7 +430,7 @@ const projects = [
       "User-friendly contact forms and lead generation",
       "SEO-optimized content structure",
       "Performance optimization for fast loading",
-      "Cross-browser compatibility testing"
+      "Cross-browser compatibility testing",
     ],
     deliverables: [
       "Fully responsive website design",
@@ -291,7 +440,7 @@ const projects = [
       "Contact form integration",
       "SEO implementation and optimization",
       "Performance optimization",
-      "Browser compatibility testing"
+      "Browser compatibility testing",
     ],
     tech: ["HTML5", "CSS3", "JavaScript", "Bootstrap", "jQuery", "PHP", "MySQL", "Photoshop", "Figma", "WordPress", "SEO Tools", "Google Analytics"],
     github: "https://github.com",
@@ -301,13 +450,14 @@ const projects = [
     category: "Web Design",
     highlight: "Featured",
     timeline: "3 months",
-    clientType: "Automotive Industry"
+    clientType: "Automotive Industry",
   },
   {
     title: "Neff Paving",
     image: "/images/projects/neff-paving.png",
     subtitle: "Professional Paving Services Website",
-    description: "Complete website redesign for a professional paving contractor, featuring modern design principles, service showcases, and lead generation optimization. Focused on converting visitors into qualified leads through strategic design and clear calls-to-action.",
+    description:
+      "Complete website redesign for a professional paving contractor, featuring modern design principles, service showcases, and lead generation optimization focused on converting visitors into qualified leads.",
     features: [
       "Professional brand identity design",
       "Service portfolio with before/after galleries",
@@ -316,7 +466,7 @@ const projects = [
       "Google Maps integration",
       "Testimonials and reviews section",
       "Fast-loading optimized images",
-      "Local SEO optimization"
+      "Local SEO optimization",
     ],
     deliverables: [
       "Complete website redesign",
@@ -326,23 +476,27 @@ const projects = [
       "Mobile optimization",
       "Local SEO setup",
       "Google My Business integration",
-      "Performance optimization"
+      "Performance optimization",
     ],
     tech: ["HTML5", "CSS3", "JavaScript", "WordPress", "PHP", "Photoshop", "Illustrator", "Google Maps API", "Contact Form 7", "Yoast SEO", "GTmetrix", "PageSpeed Insights"],
     github: "https://github.com",
     live: "https://neffpaving.co",
-      gradient: "from-orange-500 to-red-500",
+    gradient: "from-orange-500 to-red-500",
     status: "Live",
     category: "Web Design",
     highlight: "Featured",
     timeline: "2 months",
-    clientType: "Construction Services"
+    clientType: "Construction Services",
+    fullPagePreview: true,
+    imageWidth: 1440,
+    imageHeight: 12000,
   },
   {
     title: "First Baptist Church",
     image: "/images/projects/first-baptist.png",
     subtitle: "Church Community Website",
-    description: "Comprehensive church website design focused on community engagement and information accessibility. Created a welcoming digital space that reflects the church's values while providing essential information for members and visitors.",
+    description:
+      "Comprehensive church website design focused on community engagement and information accessibility. A welcoming digital space that reflects the church's values while providing essential information for members and visitors.",
     features: [
       "Welcoming and accessible design",
       "Event calendar and announcements",
@@ -351,7 +505,7 @@ const projects = [
       "Mobile-friendly responsive layout",
       "Contact and location information",
       "Social media integration",
-      "Newsletter signup functionality"
+      "Newsletter signup functionality",
     ],
     deliverables: [
       "Custom church website design",
@@ -361,7 +515,7 @@ const projects = [
       "Mobile-responsive design",
       "Social media connectivity",
       "Contact information setup",
-      "Content management training"
+      "Content management training",
     ],
     tech: ["HTML5", "CSS3", "JavaScript", "WordPress", "PHP", "MailChimp", "Photoshop", "Illustrator", "Google Fonts", "Social Media APIs", "Calendar Plugins", "Accessibility Tools"],
     github: "https://github.com",
@@ -371,13 +525,14 @@ const projects = [
     category: "Web Design",
     highlight: "Community Focus",
     timeline: "2.5 months",
-    clientType: "Religious Organization"
+    clientType: "Religious Organization",
   },
   {
     title: "Ohio Interests",
     image: "/images/projects/ohio-interests.png",
     subtitle: "Local Interest & Tourism Website",
-    description: "Engaging website design showcasing Ohio's attractions, events, and local interests. Developed with tourism and local business promotion in mind, featuring interactive maps, event listings, and comprehensive resource directories.",
+    description:
+      "Engaging website design showcasing Ohio's attractions, events, and local interests. Built with tourism and local business promotion in mind, featuring interactive maps, event listings, and resource directories.",
     features: [
       "Interactive attraction maps",
       "Local business directory",
@@ -386,7 +541,7 @@ const projects = [
       "Travel guides and recommendations",
       "Mobile-optimized browsing experience",
       "Social sharing capabilities",
-      "Search functionality for quick access"
+      "Search functionality for quick access",
     ],
     deliverables: [
       "Tourism-focused website design",
@@ -396,7 +551,7 @@ const projects = [
       "Photo gallery creation",
       "Mobile optimization",
       "SEO for local searches",
-      "Social media integration"
+      "Social media integration",
     ],
     tech: ["HTML5", "CSS3", "JavaScript", "WordPress", "PHP", "Google Maps API", "Photoshop", "Lightbox", "Event Calendar", "Directory Plugins", "Social Share", "Local SEO Tools"],
     github: "https://github.com",
@@ -406,436 +561,545 @@ const projects = [
     category: "Web Design",
     highlight: "Local Focus",
     timeline: "4 months",
-    clientType: "Tourism & Local Business"
-  }
+    clientType: "Tourism & Local Business",
+  },
+  {
+    title: "Amplinks",
+    image: "/images/projects/amplinks.png",
+    subtitle: "Native iOS & Android Music App",
+    description:
+      "The native mobile companion to the Amplinks platform. Download music straight to your phone as MP3s with zero clicks, stream in real time, and share Linktree-style pages with friends — all from a self-hosted backend you control.",
+    features: [
+      "Zero-click MP3 downloads to your device",
+      "Real-time streaming and listening with friends",
+      "Linktree-style sharing pages on the go",
+      "Offline library and playback management",
+      "Push notifications for shared tracks",
+      "Cross-device sync with the web app",
+    ],
+    deliverables: [
+      "Native iOS application (Swift)",
+      "Android build via React Native",
+      "Real-time streaming integration",
+      "Offline-first music library",
+      "Authentication and account management",
+      "App store release preparation",
+    ],
+    tech: ["Swift", "React Native", "iOS", "Android", "WebRTC", "Socket.io", "Node.js", "TypeScript", "Redis"],
+    github: "https://github.com/jordolang/amplinks",
+    live: "https://paddle-mobile-web-payments-starter-pi-nine.vercel.app",
+    gradient: "from-purple-600 to-blue-600",
+    status: "In Development",
+    category: "Mobile App",
+    highlight: "iOS & Android",
+    timeline: "Ongoing",
+    clientType: "Mobile Applications",
+    group: "mobile",
+  },
+  {
+    title: "Jose Madrid Salsa",
+    image: "/images/projects/josemadrid-ios.png",
+    subtitle: "Mobile Shopping App (iOS & Android)",
+    description:
+      "A mobile commerce experience for the Ohio-made gourmet salsa brand. Browse by heat level, reorder favorites in a tap, and check out fast with a native, mobile-first storefront for iOS and Android.",
+    features: [
+      "Heat-level guided browsing (Mild, Medium, Hot)",
+      "One-tap reorder and saved favorites",
+      "Native mobile checkout flow",
+      "Order tracking and push notifications",
+      "Fundraising and wholesale entry points",
+    ],
+    deliverables: [
+      "Cross-platform mobile app (iOS & Android)",
+      "Product catalog and cart UX",
+      "Checkout and payment integration",
+      "Push notification setup",
+      "App store release preparation",
+    ],
+    tech: ["React Native", "Expo", "TypeScript", "iOS", "Android", "Stripe", "Node.js"],
+    github: "https://github.com/jordolang/josemadrid",
+    live: "https://josemadrid.net",
+    gradient: "from-rose-600 to-red-600",
+    status: "In Development",
+    category: "Mobile App",
+    highlight: "iOS & Android",
+    timeline: "2026",
+    clientType: "Mobile Applications",
+    group: "mobile",
+  },
+  {
+    title: "Radius",
+    image: "/images/projects/radius.png",
+    subtitle: "Proximity-Based Connection App (iOS & Android)",
+    description:
+      "A proximity-based mobile app built around mutual consent. When two nearby users are a potential match, each receives a discreet proximity alert and they only connect if both opt in — turning real-world nearness into spontaneous, consent-first introductions.",
+    features: [
+      "Real-time proximity detection between nearby users",
+      "Mutual opt-in — connections only form when both agree",
+      "Discreet, privacy-first proximity alerts",
+      "Location handling designed with user safety in mind",
+      "Native, mobile-first experience for iOS & Android",
+    ],
+    deliverables: [
+      "Cross-platform mobile app (iOS & Android)",
+      "Real-time proximity and matching system",
+      "Consent and double opt-in flow",
+      "Location and privacy controls",
+      "Authentication and account management",
+    ],
+    tech: ["React Native", "Expo", "TypeScript", "iOS", "Android", "Geolocation", "WebSockets", "Node.js"],
+    github: "",
+    live: "",
+    gradient: "from-pink-600 to-rose-600",
+    status: "In Development",
+    category: "Mobile App",
+    highlight: "iOS & Android",
+    timeline: "2026",
+    clientType: "Mobile Applications",
+    group: "mobile",
+  },
 ];
 
-export default function ProjectsSection() {
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.3,
-        delayChildren: 0.1,
-      },
-    },
-  };
+export interface SectionHeading {
+  tagText?: string;
+  tagIcon?: string;
+  heading?: string;
+  description?: string;
+  ctaText?: string;
+}
 
-  const itemVariants = {
-    hidden: { opacity: 0, y: 60, scale: 0.95 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      scale: 1,
-      transition: {
-        duration: 0.8,
-        ease: [0.25, 0.46, 0.45, 0.94],
-      },
-    },
-  };
+interface ProjectsSectionProps {
+  /** Projects from Sanity. Falls back to the list above when the CMS has none. */
+  projects?: Project[];
+  heading?: SectionHeading;
+}
 
-  const floatVariants = {
-    animate: {
-      y: [-10, 10, -10],
-      x: [-5, 5, -5],
-      transition: {
-        duration: 6,
-        repeat: Infinity,
-        ease: "easeInOut",
-      },
-    },
-  };
+const containerVariants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: { staggerChildren: 0.12, delayChildren: 0.1 },
+  },
+};
 
-  // Image animation variants
-  const imageContainerVariants = {
-    hidden: { 
-      opacity: 0,
-      scale: 0.3,
-      rotateY: -90,
-      rotateX: 45,
-    },
-    visible: {
-      opacity: 1,
-      scale: 1,
-      rotateY: 0,
-      rotateX: 0,
-      transition: {
-        type: "spring",
-        stiffness: 100,
-        damping: 15,
-        duration: 1.2,
-        delay: 0.3,
-      },
-    },
-  };
+const itemVariants = {
+  hidden: { opacity: 0, y: 40, scale: 0.97 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    scale: 1,
+    transition: { duration: 0.7, ease: [0.25, 0.46, 0.45, 0.94] as const },
+  },
+};
+
+function StatusBadge({ status }: { status: Project["status"] }) {
+  const isLive = status === "Live";
+  return (
+    <span
+      className={`px-2.5 py-1 rounded-full text-xs font-semibold inline-flex items-center gap-1.5 backdrop-blur-sm ${
+        isLive
+          ? "bg-green-500/20 text-green-100 border border-green-400/40"
+          : "bg-orange-500/20 text-orange-100 border border-orange-400/40"
+      }`}
+    >
+      <span className={`w-1.5 h-1.5 rounded-full ${isLive ? "bg-green-300" : "bg-orange-300"} animate-pulse`} />
+      {status}
+    </span>
+  );
+}
+
+function ProjectLinks({ project, light = false }: { project: Project; light?: boolean }) {
+  const primaryClass = light
+    ? "bg-white text-gray-900 hover:bg-gray-100"
+    : "bg-gradient-to-r from-blue-600 to-purple-600 text-white hover:opacity-90";
+  const secondaryClass = light
+    ? "bg-white/20 backdrop-blur-sm border border-white/30 text-white hover:bg-white/30"
+    : "bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-200 hover:bg-gray-200 dark:hover:bg-gray-700 border border-gray-200 dark:border-gray-700";
 
   return (
-    <motion.section
-      id="projects"
+    <div className="flex flex-wrap items-center gap-3">
+      {project.live && (
+        <Link
+          href={project.live}
+          target="_blank"
+          rel="noopener noreferrer"
+          onClick={() => trackEvent(AnalyticsEvents.PROJECT_LINK_CLICKED, { destination: "demo", project: project.title })}
+          className={`flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl text-sm font-medium shadow-lg transition-all duration-300 active:scale-95 ${primaryClass}`}
+        >
+          <Icon icon="solar:arrow-right-up-linear" width={18} height={18} />
+          <span>View Live Site</span>
+        </Link>
+      )}
+      {project.github && (
+        <Link
+          href={project.github}
+          target="_blank"
+          rel="noopener noreferrer"
+          onClick={() => trackEvent(AnalyticsEvents.PROJECT_LINK_CLICKED, { destination: "github", project: project.title })}
+          className={`flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl text-sm font-medium transition-all duration-300 active:scale-95 ${secondaryClass}`}
+        >
+          <Icon icon="solar:code-bold" width={18} height={18} />
+          <span>Repository</span>
+        </Link>
+      )}
+    </div>
+  );
+}
+
+function FeaturedProject({ project }: { project: Project }) {
+  return (
+    <m.div variants={itemVariants} className="group">
+      <div className="bg-white/80 dark:bg-gray-900/80 backdrop-blur-xl rounded-3xl border border-white/30 dark:border-gray-700/40 shadow-xl overflow-hidden">
+        <div className="grid lg:grid-cols-2 lg:items-stretch">
+          {/* Left: details, laid out top to bottom */}
+          <div className="p-6 sm:p-8 lg:p-10 flex flex-col">
+            <div className="flex flex-wrap items-center gap-2 mb-5">
+              <span className="px-3 py-1 rounded-full text-xs font-semibold inline-flex items-center gap-1.5 bg-yellow-500/15 text-yellow-700 dark:text-yellow-300 border border-yellow-500/30">
+                <Icon icon="solar:star-bold" width={13} height={13} />
+                {project.highlight}
+              </span>
+              <span className="px-3 py-1 rounded-full text-xs font-semibold bg-indigo-500/10 text-indigo-700 dark:text-indigo-300 border border-indigo-500/20">
+                {project.category}
+              </span>
+              <StatusBadge status={project.status} />
+              <span className="px-3 py-1 rounded-full text-xs font-medium bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-300 border border-gray-200 dark:border-gray-700">
+                {project.timeline}
+              </span>
+            </div>
+
+            <h3 className="text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 dark:text-white leading-tight mb-2">
+              {project.title}
+            </h3>
+            <p className="text-lg md:text-xl text-indigo-600 dark:text-indigo-400 font-medium mb-4">
+              {project.subtitle}
+            </p>
+            <p className="text-gray-700 dark:text-gray-300 text-base md:text-lg leading-relaxed mb-6">
+              {project.description}
+            </p>
+
+            <div className="mb-6">
+              <h4 className="text-sm font-bold uppercase tracking-wide text-gray-500 dark:text-gray-400 mb-3">
+                Key Features
+              </h4>
+              <ul className="space-y-2.5">
+                {project.features.map((feature) => (
+                  <li key={feature} className="flex items-start gap-2.5 text-gray-700 dark:text-gray-300">
+                    <Icon icon="solar:check-circle-bold" className="text-green-500 mt-0.5 flex-shrink-0 w-5 h-5" />
+                    <span className="text-sm md:text-base leading-relaxed">{feature}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            <div className="mb-8">
+              <h4 className="text-sm font-bold uppercase tracking-wide text-gray-500 dark:text-gray-400 mb-3">
+                Technology Stack
+              </h4>
+              <div className="flex flex-wrap gap-2">
+                {project.tech.map((tech) => (
+                  <span
+                    key={tech}
+                    className="px-3 py-1.5 bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 rounded-lg text-xs font-medium border border-gray-200 dark:border-gray-700"
+                  >
+                    {tech}
+                  </span>
+                ))}
+              </div>
+            </div>
+
+            <div className="mt-auto">
+              <ProjectLinks project={project} />
+            </div>
+          </div>
+
+          {/* Right: full top-to-bottom site screenshot */}
+          <div className="relative bg-gray-100 dark:bg-gray-950 border-t lg:border-t-0 lg:border-l border-gray-200/60 dark:border-gray-800">
+            <div className="relative h-[420px] sm:h-[560px] lg:h-full lg:max-h-[860px] overflow-y-auto">
+              <Image
+                src={project.image}
+                alt={`${project.title} – full page screenshot`}
+                width={project.imageWidth ?? 1280}
+                height={project.imageHeight ?? 7101}
+                className="w-full h-auto"
+                sizes="(max-width: 1024px) 100vw, 50vw"
+                priority
+              />
+            </div>
+            <div className="pointer-events-none absolute bottom-0 inset-x-0 h-16 bg-gradient-to-t from-black/30 to-transparent" />
+            <span className="pointer-events-none absolute bottom-3 left-1/2 -translate-x-1/2 px-3 py-1 rounded-full bg-black/50 text-white text-[11px] font-medium backdrop-blur-sm flex items-center gap-1.5">
+              <Icon icon="solar:mouse-bold" width={12} height={12} />
+              Scroll to explore full page
+            </span>
+          </div>
+        </div>
+      </div>
+    </m.div>
+  );
+}
+
+function ProjectCard({ project }: { project: Project }) {
+  const isMobile = project.group === "mobile";
+  const isFullPagePreview = project.fullPagePreview === true;
+
+  return (
+    <m.div
+      variants={itemVariants}
+      whileHover={{ y: -4 }}
+      transition={{ type: "spring", stiffness: 300 }}
+      onClick={() => trackEvent(AnalyticsEvents.PROJECT_CLICKED, { project: project.title })}
+      className="group flex flex-col bg-white/80 dark:bg-gray-900/80 backdrop-blur-xl rounded-2xl border border-white/30 dark:border-gray-700/40 hover:border-gray-300 dark:hover:border-gray-600 shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden"
+    >
+      {/* Screenshot — portrait & fully visible for mobile apps, wide crop for web */}
+      <div
+        className={`relative ${
+          isMobile
+            ? "aspect-[9/16] overflow-hidden bg-gray-900"
+            : isFullPagePreview
+              ? "aspect-[16/10] overflow-y-auto bg-gray-100 dark:bg-gray-800"
+              : "aspect-[16/10] overflow-hidden bg-gray-100 dark:bg-gray-800"
+        }`}
+      >
+        {isFullPagePreview ? (
+          <Image
+            src={project.image}
+            alt={`${project.title} – full page screenshot`}
+            width={project.imageWidth ?? 1440}
+            height={project.imageHeight ?? 12000}
+            className="h-auto w-full"
+            sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+          />
+        ) : (
+          <Image
+            src={project.image}
+            alt={`${project.title} app screenshot`}
+            fill
+            className={
+              isMobile
+                ? "object-contain"
+                : "object-cover object-top transition-transform duration-500 group-hover:scale-105"
+            }
+            sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+          />
+        )}
+        <div className="absolute top-3 left-3 flex flex-wrap gap-2">
+          <StatusBadge status={project.status} />
+        </div>
+        <div className={`absolute inset-x-0 bottom-0 h-1.5 bg-gradient-to-r ${project.gradient}`} />
+        {isFullPagePreview && (
+          <span className="pointer-events-none sticky bottom-3 left-1/2 inline-flex -translate-x-1/2 items-center gap-1.5 rounded-full bg-black/55 px-3 py-1 text-[11px] font-medium text-white backdrop-blur-sm">
+            <Icon icon="solar:mouse-bold" width={12} height={12} />
+            Scroll to explore full page
+          </span>
+        )}
+      </div>
+
+      {/* Body: title + brief overview */}
+      <div className="flex flex-col flex-1 p-5">
+        <div className="flex items-center gap-2 mb-2">
+          <span className="text-[11px] font-semibold uppercase tracking-wide text-indigo-600 dark:text-indigo-400">
+            {project.category}
+          </span>
+          <span className="text-gray-300 dark:text-gray-600">•</span>
+          <span className="text-[11px] text-gray-500 dark:text-gray-400">{project.timeline}</span>
+        </div>
+
+        <h3 className="text-lg font-bold text-gray-900 dark:text-white leading-tight mb-1">
+          {project.title}
+        </h3>
+        <p className="text-sm text-gray-500 dark:text-gray-400 font-medium mb-2">
+          {project.subtitle}
+        </p>
+        <p className="text-sm text-gray-600 dark:text-gray-300 leading-relaxed line-clamp-3 mb-4">
+          {project.description}
+        </p>
+
+        <div className="flex flex-wrap gap-1.5 mb-4">
+          {project.tech.slice(0, 4).map((tech) => (
+            <span
+              key={tech}
+              className="px-2 py-0.5 bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-300 rounded-md text-[11px] font-medium border border-gray-200 dark:border-gray-700"
+            >
+              {tech}
+            </span>
+          ))}
+          {project.tech.length > 4 && (
+            <span className="px-2 py-0.5 text-[11px] font-medium text-gray-400 dark:text-gray-500">
+              +{project.tech.length - 4}
+            </span>
+          )}
+        </div>
+
+        <div className="mt-auto">
+          <ProjectLinks project={project} />
+        </div>
+      </div>
+    </m.div>
+  );
+}
+
+/**
+ * Mobile app card — a large full portrait screenshot fills the top (the majority
+ * of the card), with the project name and a brief, space-saving info block below.
+ */
+function MobileProjectCard({ project }: { project: Project }) {
+  return (
+    <m.div
+      variants={itemVariants}
+      whileHover={{ y: -4 }}
+      transition={{ type: "spring", stiffness: 300 }}
+      onClick={() => trackEvent(AnalyticsEvents.PROJECT_CLICKED, { project: project.title })}
+      className="group flex flex-col overflow-hidden rounded-2xl border border-white/30 bg-white/80 shadow-lg backdrop-blur-xl transition-all duration-300 hover:border-gray-300 hover:shadow-2xl dark:border-gray-700/40 dark:bg-gray-900/80 dark:hover:border-gray-600"
+    >
+      {/* Full portrait screenshot — the visual majority of the card */}
+      <div className="relative aspect-[9/16] overflow-hidden bg-zinc-950">
+        {project.image ? (
+          <Image
+            src={project.image}
+            alt={`${project.title} mobile app screenshot`}
+            fill
+            className="object-cover object-top transition-transform duration-500 group-hover:scale-[1.03]"
+            sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+          />
+        ) : (
+          <div
+            className={`flex h-full w-full flex-col items-center justify-center gap-3 bg-gradient-to-br ${project.gradient} px-5 text-center text-white`}
+          >
+            <Icon icon="solar:smartphone-2-bold" width={52} height={52} className="opacity-90" />
+            <span className="text-xl font-bold leading-tight">{project.title}</span>
+            <span className="rounded-full bg-black/25 px-3 py-1 text-[10px] font-semibold uppercase tracking-widest backdrop-blur-sm">
+              In Development
+            </span>
+          </div>
+        )}
+        <div className="absolute left-3 top-3 flex flex-wrap gap-2">
+          <StatusBadge status={project.status} />
+        </div>
+        <span className="absolute right-3 top-3 inline-flex items-center gap-1 rounded-full bg-black/45 px-2.5 py-1 text-[10px] font-semibold text-white backdrop-blur-sm">
+          <Icon icon="solar:smartphone-2-bold" width={11} height={11} />
+          {project.highlight}
+        </span>
+        <div className={`absolute inset-x-0 bottom-0 h-1.5 bg-gradient-to-r ${project.gradient}`} />
+      </div>
+
+      {/* Brief info below — name + main points only */}
+      <div className="flex flex-1 flex-col p-5">
+        <h3 className="text-lg font-bold leading-tight text-gray-900 dark:text-white">
+          {project.title}
+        </h3>
+        <p className="mt-0.5 text-sm font-medium text-indigo-600 dark:text-indigo-400">
+          {project.subtitle}
+        </p>
+        <p className="mt-2 text-sm leading-relaxed text-gray-600 line-clamp-2 dark:text-gray-300">
+          {project.description}
+        </p>
+
+        <div className="mt-3 flex flex-wrap gap-1.5">
+          {project.tech.slice(0, 3).map((tech) => (
+            <span
+              key={tech}
+              className="rounded-md border border-gray-200 bg-gray-100 px-2 py-0.5 text-[11px] font-medium text-gray-600 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-300"
+            >
+              {tech}
+            </span>
+          ))}
+          {project.tech.length > 3 && (
+            <span className="px-2 py-0.5 text-[11px] font-medium text-gray-400 dark:text-gray-500">
+              +{project.tech.length - 3}
+            </span>
+          )}
+        </div>
+
+        <div className="mt-auto pt-4">
+          <ProjectLinks project={project} />
+        </div>
+      </div>
+    </m.div>
+  );
+}
+
+export default function ProjectsSection({ projects: cmsProjects, heading }: ProjectsSectionProps) {
+  const allProjects = cmsProjects?.length ? cmsProjects : projects;
+  const desktopProjects = allProjects.filter((project) => project.group !== "mobile");
+  const mobileProjects = allProjects.filter((project) => project.group === "mobile");
+  const [featured, ...desktopRest] = desktopProjects;
+
+  return (
+    <m.section
       initial={{ opacity: 0 }}
       whileInView={{ opacity: 1 }}
       transition={{ duration: 1.2 }}
       viewport={{ once: true }}
       className="mb-16 md:mb-24 lg:mb-32 relative overflow-hidden"
     >
-      {/* Enhanced Background Elements */}
+      {/* Background accents */}
       <div className="absolute inset-0 pointer-events-none">
-        <motion.div
-          variants={floatVariants}
-          animate="animate"
-          className="absolute top-5 md:top-20 right-2 md:right-16 w-12 sm:w-16 md:w-32 h-12 sm:h-16 md:h-32 bg-gradient-to-br from-purple-400/15 md:from-purple-400/20 to-pink-400/15 md:to-pink-400/20 rounded-full blur-xl md:blur-4xl"
-        />
-        <motion.div
-          variants={floatVariants}
-          animate="animate"
-          style={{ animationDelay: "2s" }}
-          className="absolute bottom-5 md:bottom-20 left-2 md:left-16 w-16 sm:w-20 md:w-40 h-16 sm:h-20 md:h-40 bg-gradient-to-br from-blue-400/10 md:from-blue-400/15 to-cyan-400/10 md:to-cyan-400/15 rounded-full blur-xl md:blur-2xl"
-        />
-        <motion.div
-          variants={floatVariants}
-          animate="animate"
-          style={{ animationDelay: "4s" }}
-          className="hidden lg:block absolute top-1/3 right-1/3 w-20 h-20 bg-gradient-to-br from-green-400/20 to-emerald-400/20 rounded-full blur-xl"
-        />
+        <div className="absolute top-5 md:top-20 right-2 md:right-16 w-12 sm:w-16 md:w-32 h-12 sm:h-16 md:h-32 bg-gradient-to-br from-purple-400/15 to-pink-400/15 rounded-full blur-xl md:blur-3xl" />
+        <div className="absolute bottom-5 md:bottom-20 left-2 md:left-16 w-16 sm:w-20 md:w-40 h-16 sm:h-20 md:h-40 bg-gradient-to-br from-blue-400/10 to-cyan-400/10 rounded-full blur-xl md:blur-2xl" />
       </div>
 
-      <motion.div
+      <m.div
         variants={containerVariants}
         initial="hidden"
         whileInView="visible"
         viewport={{ once: true }}
         className="relative z-10"
       >
-        {/* Section Header */}
         <SectionHeader
-          tagText="Portfolio Showcase"
-          tagIcon="solar:code-square-bold"
-          heading="Featured Projects"
-          description="Explore my web design portfolio featuring modern, responsive websites and digital solutions for diverse industries"
+          tagText={heading?.tagText ?? "Portfolio Showcase"}
+          tagIcon={heading?.tagIcon ?? "solar:code-square-bold"}
+          heading={heading?.heading ?? "Featured Projects"}
+          description={
+            heading?.description ??
+            "Explore my web design portfolio featuring modern, responsive websites and digital solutions for diverse industries"
+          }
           showUnderline={true}
           centered={true}
         />
 
-        {/* Full-Width Stacked Projects */}
-        <div className="max-w-7xl mx-auto px-3 md:px-4 space-y-8 md:space-y-12 lg:space-y-16">
-          {projects.map((project, index) => (
-            <motion.div
-              key={index}
-              variants={itemVariants}
-              whileHover={{ y: -2 }}
-              transition={{ type: "spring", stiffness: 300 }}
-              className="group"
-              onClick={() => trackEvent(AnalyticsEvents.PROJECT_CLICKED, { project: project.title })}
-            >
-              <div className="bg-white/80 dark:bg-gray-900/80 backdrop-blur-xl rounded-2xl md:rounded-3xl border border-white/30 dark:border-gray-700/40 hover:border-gray-300 dark:hover:border-gray-600 transition-all duration-500 overflow-hidden shadow-lg md:shadow-xl hover:shadow-xl md:hover:shadow-2xl">
+        <div className="max-w-7xl mx-auto px-3 md:px-4">
+          {/* Featured project */}
+          <FeaturedProject project={featured} />
 
-                {/* Project Header with Gradient */}
-                <div className={`relative bg-gradient-to-br ${project.gradient} p-4 sm:p-6 md:p-8 lg:p-10`}>
-                  {/* Project Screenshot - Top Right with Animations */}
-                  {project.image && (
-                    <motion.div
-                      variants={imageContainerVariants}
-                      initial="hidden"
-                      whileInView="visible"
-                      viewport={{ once: true }}
-                      whileHover={{ 
-                        scale: 1.15,
-                        rotateY: 5,
-                        rotateX: -5,
-                        z: 50,
-                        boxShadow: "0 25px 50px -12px rgba(0, 0, 0, 0.5)",
-                        transition: { 
-                          type: "spring", 
-                          stiffness: 300, 
-                          damping: 20 
-                        }
-                      }}
-                      whileTap={{ 
-                        scale: 1.25,
-                        rotateY: 0,
-                        rotateX: 0,
-                        z: 100,
-                        boxShadow: "0 30px 60px -15px rgba(0, 0, 0, 0.6)",
-                        transition: { 
-                          type: "spring", 
-                          stiffness: 400, 
-                          damping: 15 
-                        }
-                      }}
-                      className="absolute top-4 right-4 md:top-8 md:right-8 w-32 h-24 sm:w-40 sm:h-28 md:w-56 md:h-40 lg:w-72 lg:h-48 rounded-lg md:rounded-xl overflow-hidden shadow-2xl border-2 md:border-4 border-white/30 backdrop-blur-sm z-20 cursor-pointer"
-                      style={{ 
-                        perspective: 1000,
-                        transformStyle: "preserve-3d"
-                      }}
-                    >
-                      <motion.div
-                        className="relative w-full h-full"
-                        whileHover={{
-                          filter: "brightness(1.1) contrast(1.05)",
-                        }}
-                        animate={{
-                          boxShadow: [
-                            "0 0 20px rgba(255, 255, 255, 0.3)",
-                            "0 0 30px rgba(255, 255, 255, 0.5)",
-                            "0 0 20px rgba(255, 255, 255, 0.3)",
-                          ],
-                        }}
-                        transition={{
-                          boxShadow: {
-                            duration: 3,
-                            repeat: Infinity,
-                            ease: "easeInOut",
-                          },
-                        }}
-                      >
-                        <Image
-                          src={project.image}
-                          alt={`${project.title} screenshot`}
-                          fill
-                          className="object-cover object-top"
-                          sizes="(max-width: 640px) 128px, (max-width: 768px) 160px, (max-width: 1024px) 224px, 288px"
-                        />
-                        {/* Animated border glow effect */}
-                        <motion.div
-                          className="absolute inset-0 border-2 border-white/0 rounded-lg md:rounded-xl"
-                          whileHover={{
-                            borderColor: "rgba(255, 255, 255, 0.6)",
-                            boxShadow: "inset 0 0 20px rgba(255, 255, 255, 0.3)",
-                          }}
-                        />
-                      </motion.div>
-                    </motion.div>
-                  )}
+          {/* Desktop Web Apps — 3 across */}
+          <h3 className="text-xl md:text-2xl font-bold text-gray-900 dark:text-white mt-12 md:mt-16 mb-6 md:mb-8">
+            Desktop Web Apps
+          </h3>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            {desktopRest.map((project) => (
+              <ProjectCard key={project.title} project={project} />
+            ))}
+          </div>
 
-                  {/* Animated background pattern */}
-                  <div className="absolute inset-0 opacity-10">
-                    <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(255,255,255,0.3)_1px,transparent_1px)] bg-[length:20px_20px] md:bg-[length:30px_30px]" />
-                  </div>
-
-                  {/* Floating tech icons - hidden on mobile */}
-                  <div className="hidden md:block absolute inset-0 opacity-20 group-hover:opacity-30 transition-opacity duration-500">
-                    {[
-                      { icon: "logos:html-5", pos: { top: "15%", left: "80%" } },
-                      { icon: "logos:css-3", pos: { top: "60%", right: "4%" } },
-                      { icon: "logos:javascript", pos: { bottom: "20%", left: "75%" } },
-                      { icon: "logos:wordpress-icon", pos: { top: "25%", right: "15%" } },
-                      { icon: "logos:bootstrap", pos: { bottom: "30%", left: "85%" } },
-                      { icon: "logos:php", pos: { top: "40%", right: "20%" } },
-                      { icon: "logos:adobe-photoshop", pos: { bottom: "10%", left: "70%" } },
-                      { icon: "logos:mysql", pos: { top: "20%", right: "25%" } },
-                      { icon: "logos:figma", pos: { bottom: "25%", left: "90%" } },
-                      { icon: "logos:google-analytics", pos: { top: "30%", right: "30%" } },
-                      { icon: "logos:jquery", pos: { bottom: "15%", left: "65%" } },
-                    ].map((item, i) => (
-                      <motion.div
-                        key={i}
-                        className="absolute text-white text-2xl md:text-3xl"
-                        style={item.pos}
-                        animate={{
-                          y: [0, -8, 0],
-                          rotate: [0, 5, 0],
-                        }}
-                        transition={{
-                          duration: 4 + i * 0.5,
-                          repeat: Infinity,
-                          ease: "easeInOut",
-                        }}
-                      >
-                        <Icon icon={item.icon} width={24} height={24} className="md:w-8 md:h-8" />
-                      </motion.div>
-                    ))}
-                  </div>
-
-                  <div className="relative z-10">
-                    {/* Project Meta Info */}
-                    <div className="flex flex-wrap items-center gap-2 md:gap-3 mb-4 md:mb-6 pr-36 sm:pr-44 md:pr-60 lg:pr-80">
-                      <motion.span
-                        className="px-2.5 py-1.5 md:px-4 md:py-2 bg-white/20 backdrop-blur-sm border border-white/30 rounded-full text-white text-xs md:text-sm font-semibold"
-                        whileHover={{ scale: 1.05 }}
-                      >
-                        {project.category}
-                      </motion.span>
-
-                      {project.highlight && (
-                        <motion.span
-                          className="px-2.5 py-1.5 md:px-4 md:py-2 bg-yellow-500/20 backdrop-blur-sm border border-yellow-400/30 text-yellow-200 rounded-full text-xs md:text-sm font-semibold flex items-center gap-1 md:gap-2"
-                          whileHover={{ scale: 1.05 }}
-                        >
-                          <Icon icon="solar:star-bold" width={12} height={12} className="md:w-4 md:h-4" />
-                          <span className="hidden sm:inline">{project.highlight}</span>
-                        </motion.span>
-                      )}
-
-                      <motion.span
-                        className={`px-2.5 py-1.5 md:px-4 md:py-2 backdrop-blur-sm rounded-full text-xs md:text-sm font-semibold flex items-center gap-1 md:gap-2 ${project.status === 'Live'
-                          ? 'bg-green-500/20 text-green-200 border border-green-400/30'
-                          : 'bg-orange-500/20 text-orange-200 border border-orange-400/30'
-                          }`}
-                        whileHover={{ scale: 1.05 }}
-                      >
-                        <div className={`w-1.5 h-1.5 md:w-2 md:h-2 rounded-full ${project.status === 'Live' ? 'bg-green-400' : 'bg-orange-400'
-                          } animate-pulse`} />
-                        {project.status}
-                      </motion.span>
-
-                      <span className="px-2.5 py-1.5 md:px-4 md:py-2 bg-black/20 backdrop-blur-sm border border-white/20 rounded-full text-white text-xs md:text-sm font-medium">
-                        {project.timeline}
-                      </span>
-
-                      <span className="hidden sm:inline-block px-2.5 py-1.5 md:px-4 md:py-2 bg-black/20 backdrop-blur-sm border border-white/20 rounded-full text-white text-xs md:text-sm font-medium">
-                        {project.clientType}
-                      </span>
-                    </div>
-
-                    {/* Project Title & Description */}
-                    <div className="mb-6 md:mb-8 pr-36 sm:pr-44 md:pr-60 lg:pr-80">
-                      <h3 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-bold text-white mb-2 leading-tight">
-                        {project.title}
-                      </h3>
-                      <p className="text-sm sm:text-base md:text-lg lg:text-xl xl:text-2xl text-white/90 font-medium mb-3 md:mb-4">
-                        {project.subtitle}
-                      </p>
-                      <p className="text-white/80 text-sm sm:text-base md:text-lg leading-relaxed max-w-4xl">
-                        {project.description}
-                      </p>
-                    </div>
-
-                    {/* Action Buttons */}
-                    <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 sm:gap-4">
-                      <Link
-                        href={project.github}
-                        onClick={() => trackEvent(AnalyticsEvents.PROJECT_LINK_CLICKED, { destination: 'github', project: project.title })}
-                        className="flex items-center justify-center gap-2 md:gap-3 px-4 py-2.5 md:px-6 md:py-3 bg-white/20 backdrop-blur-sm border border-white/30 text-white rounded-lg md:rounded-xl hover:bg-white/30 transition-all duration-300 text-sm font-medium shadow-lg hover:shadow-xl active:scale-95"
-                      >
-                        <Icon icon="solar:code-bold" width={18} height={18} className="md:w-5 md:h-5" />
-                        <span>View Repository</span>
-                      </Link>
-
-                      {project.live && (
-                        <Link
-                          href={project.live}
-                          onClick={() => trackEvent(AnalyticsEvents.PROJECT_LINK_CLICKED, { destination: 'demo', project: project.title })}
-                          className="flex items-center justify-center gap-2 md:gap-3 px-4 py-2.5 md:px-6 md:py-3 bg-white text-gray-900 rounded-lg md:rounded-xl hover:bg-gray-100 transition-all duration-300 text-sm font-medium shadow-lg hover:shadow-xl active:scale-95"
-                        >
-                          <Icon icon="solar:arrow-up-outline" width={18} height={18} className="md:w-5 md:h-5" />
-                          <span>Live Demo</span>
-                        </Link>
-                      )}
-                    </div>
-                  </div>
-                </div>
-
-                {/* Project Details Content */}
-                <div className="p-4 sm:p-6 md:p-8 lg:p-10">
-                  <div className="grid lg:grid-cols-2 gap-6 md:gap-8 lg:gap-12">
-
-                    {/* Features Section */}
-                    <div>
-                      <h4 className="text-lg md:text-xl lg:text-2xl font-bold text-gray-900 dark:text-white mb-4 md:mb-6 flex items-center gap-2 md:gap-3">
-                        <div className="p-1.5 md:p-2 bg-gradient-to-r from-blue-500 to-purple-600 rounded-lg md:rounded-xl">
-                          <Icon icon="solar:settings-bold" className="text-white w-[18px] h-[18px] md:w-6 md:h-6" />
-                        </div>
-                        <span>Key Features</span>
-                      </h4>
-                      <ul className="space-y-2.5 md:space-y-3">
-                        {project.features.map((feature, featureIndex) => (
-                          <motion.li
-                            key={featureIndex}
-                            initial={{ opacity: 0, x: -20 }}
-                            whileInView={{ opacity: 1, x: 0 }}
-                            transition={{ delay: featureIndex * 0.1 }}
-                            className="flex items-start gap-2.5 md:gap-3 text-gray-700 dark:text-gray-300"
-                          >
-                            <Icon
-                              icon="solar:check-circle-bold"
-                              className="text-green-500 mt-0.5 flex-shrink-0 w-4 h-4 md:w-5 md:h-5"
-                            />
-                            <span className="text-sm md:text-base leading-relaxed">{feature}</span>
-                          </motion.li>
-                        ))}
-                      </ul>
-                    </div>
-
-                    {/* Deliverables Section */}
-                    <div className="mt-6 lg:mt-0">
-                      <h4 className="text-lg md:text-xl lg:text-2xl font-bold text-gray-900 dark:text-white mb-4 md:mb-6 flex items-center gap-2 md:gap-3">
-                        <div className="p-1.5 md:p-2 bg-gradient-to-r from-green-500 to-emerald-600 rounded-lg md:rounded-xl">
-                          <Icon icon="solar:delivery-bold" className="text-white w-[18px] h-[18px] md:w-6 md:h-6" />
-                        </div>
-                        <span>Deliverables</span>
-                      </h4>
-                      <ul className="space-y-2.5 md:space-y-3">
-                        {project.deliverables.map((deliverable, deliverableIndex) => (
-                          <motion.li
-                            key={deliverableIndex}
-                            initial={{ opacity: 0, x: -20 }}
-                            whileInView={{ opacity: 1, x: 0 }}
-                            transition={{ delay: deliverableIndex * 0.1 }}
-                            className="flex items-start gap-2.5 md:gap-3 text-gray-700 dark:text-gray-300"
-                          >
-                            <Icon
-                              icon="solar:box-bold"
-                              className="text-blue-500 mt-0.5 flex-shrink-0 w-4 h-4 md:w-5 md:h-5"
-                            />
-                            <span className="text-sm md:text-base leading-relaxed">{deliverable}</span>
-                          </motion.li>
-                        ))}
-                      </ul>
-                    </div>
-                  </div>
-
-                  {/* Tech Stack Section */}
-                  <div className="mt-6 md:mt-8 lg:mt-12 pt-6 md:pt-8 border-t border-gray-200/50 dark:border-gray-700/50">
-                    <h4 className="text-lg md:text-xl lg:text-2xl font-bold text-gray-900 dark:text-white mb-4 md:mb-6 flex items-center gap-2 md:gap-3">
-                      <div className="p-1.5 md:p-2 bg-gradient-to-r from-purple-500 to-pink-600 rounded-lg md:rounded-xl">
-                        <Icon icon="solar:code-bold" className="text-white w-[18px] h-[18px] md:w-6 md:h-6" />
-                      </div>
-                      <span>Technology Stack</span>
-                    </h4>
-                    <div className="flex flex-wrap gap-2 md:gap-3">
-                      {project.tech.map((tech, techIndex) => (
-                        <motion.span
-                          key={techIndex}
-                          initial={{ opacity: 0, scale: 0 }}
-                          whileInView={{ opacity: 1, scale: 1 }}
-                          transition={{ delay: techIndex * 0.05 }}
-                          whileHover={{ scale: 1.05, y: -2 }}
-                          className="px-2.5 py-1.5 md:px-4 md:py-2 bg-gradient-to-r from-gray-100 to-gray-200 dark:from-gray-800 dark:to-gray-700 text-gray-700 dark:text-gray-300 rounded-lg md:rounded-xl text-xs md:text-sm font-medium border border-gray-200 dark:border-gray-600 hover:shadow-md md:hover:shadow-lg transition-all duration-200"
-                        >
-                          {tech}
-                        </motion.span>
-                      ))}
-                    </div>
-                  </div>
-                </div>
+          {/* Mobile Applications — iPhone mockups stacked vertically */}
+          {mobileProjects.length > 0 && (
+            <>
+              <h3 className="text-xl md:text-2xl font-bold text-gray-900 dark:text-white mt-12 md:mt-16 mb-6 md:mb-8">
+                Mobile Applications (iOS &amp; Android)
+              </h3>
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                {mobileProjects.map((project) => (
+                  <MobileProjectCard key={project.title} project={project} />
+                ))}
               </div>
-            </motion.div>
-          ))}
+            </>
+          )}
         </div>
 
         {/* Call to Action */}
-
-        <motion.div
-          variants={itemVariants}
-          className="text-center mt-12 md:mt-16 lg:mt-20 px-4 mb-12"
-        >
-          <Link
-            href="#contact"
-          >
-
-            <motion.div
+        <m.div variants={itemVariants} className="text-center mt-12 md:mt-16 lg:mt-20 px-4 mb-12">
+          <Link href="#contact">
+            <m.div
               className="inline-flex items-center gap-2 md:gap-3 px-4 py-2.5 md:px-6 md:py-3 bg-gradient-to-r from-blue-500/10 to-purple-500/10 backdrop-blur-sm border border-blue-500/20 dark:border-purple-500/20 rounded-xl md:rounded-2xl"
               whileHover={{ scale: 1.05 }}
             >
               <Icon icon="solar:programming-bold" className="text-blue-500 dark:text-purple-400 w-5 h-5 md:w-6 md:h-6" />
               <span className="text-gray-700 dark:text-gray-300 font-medium text-sm md:text-base text-center">
-                Interested in working together? Let&apos;s create something amazing!
+                {heading?.ctaText ?? "Interested in working together? Let's create something amazing!"}
               </span>
-            </motion.div>
+            </m.div>
           </Link>
-        </motion.div>
-      </motion.div>
-    </motion.section>
+        </m.div>
+      </m.div>
+    </m.section>
   );
-} 
+}

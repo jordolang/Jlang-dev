@@ -1,10 +1,10 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 
 export default function AboutSection() {
   return (
-    <motion.section
+    <m.section
       id="about"
       initial={{ opacity: 0, y: 30 }}
       whileInView={{ opacity: 1, y: 0 }}
@@ -29,6 +29,6 @@ export default function AboutSection() {
           technological innovation.
         </p>
       </div>
-    </motion.section>
+    </m.section>
   );
 } 

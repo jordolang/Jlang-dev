@@ -1,10 +1,11 @@
 "use client";
 
 import { Icon } from "@iconify/react";
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 import Link from "next/link";
 import Image from "next/image";
 import { AnalyticsEvents, trackEvent } from "@/lib/analytics";
+import { logger } from "@/lib/logger";
 import SectionHeader from "./SectionHeader";
 import { useEffect, useState } from "react";
 
@@ -24,16 +25,22 @@ function formatDate(dateString: string): string {
   return date.toLocaleDateString('en-US', {
     year: 'numeric',
     month: 'long',
-    day: 'numeric',
-  });
+    day: 'numeric', timeZone: 'UTC' });
 }
 
-export default function BlogSection() {
-  const [posts, setPosts] = useState<BlogPost[]>([]);
-  const [loading, setLoading] = useState(true);
+interface BlogSectionProps {
+  /** Posts fetched on the server. When omitted the section fetches them itself. */
+  posts?: BlogPost[];
+  heading?: { tagText?: string; tagIcon?: string; heading?: string; description?: string };
+}
+
+export default function BlogSection({ posts: serverPosts, heading }: BlogSectionProps) {
+  const [posts, setPosts] = useState<BlogPost[]>(serverPosts ?? []);
+  const [loading, setLoading] = useState(!serverPosts);
 
   useEffect(() => {
-    // Fetch blog posts from API route
+    if (serverPosts) return; // already have them from the server
+
     async function fetchPosts() {
       try {
         const response = await fetch('/api/blog');
@@ -43,7 +50,7 @@ export default function BlogSection() {
         const data = await response.json();
         setPosts(data);
       } catch (error) {
-        console.error('Error fetching blog posts:', error);
+        logger.error('Error fetching blog posts:', error);
         setPosts([]);
       } finally {
         setLoading(false);
@@ -51,7 +58,7 @@ export default function BlogSection() {
     }
 
     fetchPosts();
-  }, []);
+  }, [serverPosts]);
 
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -77,28 +84,15 @@ export default function BlogSection() {
     },
   };
 
-  const floatVariants = {
-    animate: {
-      y: [-8, 8, -8],
-      x: [-4, 4, -4],
-      transition: {
-        duration: 5,
-        repeat: Infinity,
-        ease: "easeInOut",
-      },
-    },
-  };
-
   if (loading) {
     return (
-      <motion.section
-        id="blog"
+      <m.section
         className="mb-16 md:mb-24 lg:mb-32 relative overflow-hidden"
       >
         <div className="flex justify-center items-center py-20">
           <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-indigo-600"></div>
         </div>
-      </motion.section>
+      </m.section>
     );
   }
 
@@ -107,8 +101,7 @@ export default function BlogSection() {
   }
 
   return (
-    <motion.section
-      id="blog"
+    <m.section
       initial={{ opacity: 0 }}
       whileInView={{ opacity: 1 }}
       transition={{ duration: 1.2 }}
@@ -117,20 +110,16 @@ export default function BlogSection() {
     >
       {/* Background Elements */}
       <div className="absolute inset-0 pointer-events-none">
-        <motion.div
-          variants={floatVariants}
-          animate="animate"
+        <div
           className="absolute top-10 right-10 w-20 h-20 bg-gradient-to-br from-indigo-400/10 to-purple-400/10 rounded-full blur-xl"
         />
-        <motion.div
-          variants={floatVariants}
-          animate="animate"
+        <div
           style={{ animationDelay: "2s" }}
           className="absolute bottom-10 left-10 w-32 h-32 bg-gradient-to-br from-violet-400/10 to-pink-400/10 rounded-full blur-xl"
         />
       </div>
 
-      <motion.div
+      <m.div
         variants={containerVariants}
         initial="hidden"
         whileInView="visible"
@@ -139,10 +128,10 @@ export default function BlogSection() {
       >
         {/* Section Header */}
         <SectionHeader
-          tagText="Latest Insights"
-          tagIcon="solar:document-text-bold"
-          heading="Blog Posts"
-          description="Thoughts on web development, self-hosting, mobile apps, and technology trends"
+          tagText={heading?.tagText ?? "Latest Insights"}
+          tagIcon={heading?.tagIcon ?? "solar:document-text-bold"}
+          heading={heading?.heading ?? "Blog Posts"}
+          description={heading?.description ?? "Thoughts on web development, self-hosting, mobile apps, and technology trends"}
           showUnderline={true}
           centered={true}
         />
@@ -151,7 +140,7 @@ export default function BlogSection() {
         <div className="max-w-7xl mx-auto px-4">
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
             {posts.map((post) => (
-              <motion.article
+              <m.article
                 key={post.slug}
                 variants={cardVariants}
                 whileHover={{ y: -4, scale: 1.02 }}
@@ -240,12 +229,12 @@ export default function BlogSection() {
                     </div>
                   </div>
                 </div>
-              </motion.article>
+              </m.article>
             ))}
           </div>
 
           {/* View All Blog Posts Link */}
-          <motion.div
+          <m.div
             variants={cardVariants}
             className="text-center mt-12"
           >
@@ -258,9 +247,9 @@ export default function BlogSection() {
               <span className="text-gray-700 dark:text-gray-300 font-medium">View All Posts</span>
               <Icon icon="solar:arrow-right-outline" width={16} height={16} className="text-indigo-500 dark:text-purple-400" />
             </Link>
-          </motion.div>
+          </m.div>
         </div>
-      </motion.div>
-    </motion.section>
+      </m.div>
+    </m.section>
   );
 }

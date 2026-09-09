@@ -1,0 +1,928 @@
+"use client";
+
+import { Background, Footer, Navigation } from "@/components/portfolio";
+import { Icon } from "@iconify/react";
+import { m } from "framer-motion";
+import Link from "next/link";
+import { useState, useEffect } from "react";
+import emailjs from '@emailjs/browser';
+import { AnalyticsEvents, identifyUser, trackEvent } from '@/lib/analytics';
+import { logger } from '@/lib/logger';
+import { ADDON_FEATURES, type AddonFeature } from "@/lib/content/addons";
+
+interface Package {
+  name: string;
+  price: string;
+  originalPrice?: string;
+  basePrice: number | null;
+  originalBasePrice?: number | null;
+  gradient: string;
+  features: string[];
+}
+
+
+const defaultPackages: Record<string, Package> = {
+  launchpad: {
+    name: "Launchpad",
+    price: "$400",
+    originalPrice: "$499",
+    basePrice: 400,
+    originalBasePrice: 499,
+    gradient: "from-blue-600 to-cyan-600",
+    features: [
+      "🖥️ Design & Development",
+      "Single-page responsive website with high-impact design",
+      "Mobile-first design optimized for smartphones & tablets",
+      "Next-day turnaround: Fully published within 24 hours",
+      "",
+      "⚙️ Integrations & Performance",
+      "Secure contact form integration",
+      "Full social media integration",
+      "Basic SEO: Essential on-page optimization",
+      "Basic analytics platform setup (Google Analytics)",
+      "",
+      "🌐 Hosting & Support",
+      "Simple 1-year domain registration included",
+      "Free lifetime web hosting on optimized servers",
+      "1 month of post-launch support & bug fixes"
+    ]
+  },
+  professional: {
+    name: "Professional",
+    price: "Starting at $1,400+",
+    originalPrice: "Starting at $1,499+",
+    basePrice: 1400,
+    originalBasePrice: 1499,
+    gradient: "from-purple-600 to-pink-600",
+    features: [
+      "💻 Development & Design",
+      "Custom-built website: 5-25 pages, responsive design",
+      "Custom design & branding aligned with your identity",
+      "Blog/CMS integration (+$1,000 for custom admin panel)",
+      "Comprehensive performance optimization",
+      "",
+      "📈 Marketing & SEO",
+      "Advanced SEO optimization for organic traffic",
+      "Google My Business & Facebook Business Page setup",
+      "Small business social media campaigns",
+      "Advanced analytics & tracking for deep insights",
+      "Email marketing platform integration",
+      "Local premium ad campaigns available (add-on)",
+      "",
+      "🔒 Integrations & Functionality",
+      "Optional basic e-commerce & Stripe payment integration",
+      "FB Messenger or AI chatbot widget for support",
+      "Lead management & financial systems integration",
+      "Custom business forms & PDFs tailored to your needs",
+      "Third-party application support available",
+      "Basic AI integration (API/service fees not included)",
+      "",
+      "⭐ Support & Flexibility",
+      "6 months of post-launch support & maintenance",
+      "Extra features available upon request"
+    ]
+  },
+  enterprise: {
+    name: "Enterprise",
+    price: "Custom Pricing (Contact Sales)",
+    originalPrice: "Custom Pricing (Contact Sales)",
+    basePrice: null,
+    originalBasePrice: null,
+    gradient: "from-indigo-600 to-violet-600",
+    features: [
+      "💻 Platform & Development",
+      "Full custom solution: Unlimited pages, custom design, bespoke development",
+      "Maximum scalability: Cloud hosting on dedicated servers for peak traffic",
+      "Custom features & APIs: Bespoke functionality, integrations, custom endpoints",
+      "Core infrastructure: Automated backups (50GB offsite), DNS/subdomain management, .com domain guarantee",
+      "",
+      "🛒 E-Commerce & Functionality",
+      "Advanced e-commerce: Unlimited products, custom product pages, automated ordering",
+      "Third-party integration: Seamless connection to Shopify, Magento, custom cart/order processing",
+      "Secure payment processing: Stripe, Square POS, PayPal POS, and other leading payment APIs",
+      "Enhanced security: SSO/OAuth support, SSL certificates, encryption for data safety",
+      "",
+      "🛡️ Security & Performance",
+      "Priority hosting: 24/7 uptime monitoring & management on dedicated servers",
+      "Security assurance: Regular audits, optimizations, 24/7 threat protection",
+      "",
+      "📈 Brand Launch & Marketing",
+      "Full-spectrum launch campaign: Custom branding, 3-month pre-launch campaign (social, newspaper, TV, radio)",
+      "Branded promotional materials: Vehicle wraps, banners, mugs, business forms, promotional videos",
+      "Digital presence: Reputation management, Google My Business personalization",
+      "Integrated AI solutions for business efficiency",
+      "",
+      "⭐ Support & Training",
+      "Dedicated account manager",
+      "1-year priority support included",
+      "Comprehensive training & documentation for admins, users, developers",
+      "Enterprise email: Up to 100+ custom email accounts unique to your domain",
+      "Multi-language support for global reach"
+    ]
+  }
+};
+
+interface PromoOrderViewProps {
+  /** Packages, add-ons and promo copy from Sanity; the constants above are the fallback. */
+  packages?: Record<string, Package>;
+  addons?: AddonFeature[];
+  promo?: { eyebrow?: string; headline?: string; subhead?: string; attributionOffer?: string; attributionCheckboxLabel?: string };
+}
+
+export default function PromoOrderView({ packages: cmsPackages, addons: cmsAddons, promo }: PromoOrderViewProps) {
+  const packages = cmsPackages && Object.keys(cmsPackages).length ? cmsPackages : defaultPackages;
+  const additionalFeatures = cmsAddons?.length ? cmsAddons : ADDON_FEATURES;
+  const [selectedPackage, setSelectedPackage] = useState<string>("launchpad");
+  const [selectedFeatures, setSelectedFeatures] = useState<string[]>([]);
+  const [allowPromotion, setAllowPromotion] = useState<boolean>(false);
+  const [formData, setFormData] = useState({
+    businessName: "",
+    contactName: "",
+    email: "",
+    phone: "",
+    projectDescription: "",
+    budget: "",
+    timeline: ""
+  });
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle');
+
+  // Get package and feature from URL parameters
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const packageParam = params.get('package');
+    const featureParam = params.get('feature');
+    
+    if (packageParam && packages[packageParam as keyof typeof packages]) {
+      setSelectedPackage(packageParam);
+    }
+    
+    if (featureParam && additionalFeatures.find(f => f.name === featureParam)) {
+      setSelectedFeatures(prev => {
+        if (!prev.includes(featureParam)) {
+          trackEvent(AnalyticsEvents.FEATURE_ADDED, { feature_name: featureParam, source: 'promo_page' });
+          return [...prev, featureParam];
+        }
+        return prev;
+      });
+    }
+  }, []);
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({
+      ...prev,
+      [name]: value
+    }));
+  };
+
+  const handlePackageChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const newPackage = e.target.value;
+    setSelectedPackage(newPackage);
+    trackEvent(AnalyticsEvents.PACKAGE_SELECTED, { package: newPackage, source: 'promo_page' });
+    
+    // Clear features if switching to Professional or Enterprise (they include most features)
+    if (newPackage !== 'launchpad') {
+      setSelectedFeatures([]);
+    }
+  };
+
+  const toggleFeature = (featureName: string) => {
+    setSelectedFeatures(prev => {
+      if (prev.includes(featureName)) {
+        trackEvent(AnalyticsEvents.FEATURE_REMOVED, { feature_name: featureName, source: 'promo_page' });
+        return prev.filter(f => f !== featureName);
+      } else {
+        trackEvent(AnalyticsEvents.FEATURE_ADDED, { feature_name: featureName, source: 'promo_page' });
+        return [...prev, featureName];
+      }
+    });
+  };
+
+  const calculateTotalPrice = () => {
+    const pkg = packages[selectedPackage as keyof typeof packages];
+    if (!pkg.basePrice || selectedPackage !== 'launchpad') {
+      return null; // Don't calculate for Professional/Enterprise
+    }
+    
+    const featuresTotal = selectedFeatures.reduce((total, featureName) => {
+      const feature = additionalFeatures.find(f => f.name === featureName);
+      return total + (feature?.price || 0);
+    }, 0);
+    
+    let total = pkg.basePrice + featuresTotal;
+    
+    // Apply promotional discount
+    if (allowPromotion) {
+      total -= 50;
+    }
+    
+    return total;
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+
+    // Validation
+    if (!formData.businessName.trim() || !formData.contactName.trim()) {
+      alert('Please enter your business and contact name.');
+      return;
+    }
+    if (!formData.email.trim() || !formData.email.includes('@')) {
+      alert('Please enter a valid email address.');
+      return;
+    }
+    if (!formData.phone.trim()) {
+      alert('Please enter your phone number.');
+      return;
+    }
+    if (!formData.projectDescription.trim()) {
+      alert('Please describe your project requirements.');
+      return;
+    }
+
+    setIsSubmitting(true);
+    setSubmitStatus('idle');
+
+    const serviceId = process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID || 'YOUR_SERVICE_ID';
+    const templateId = process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID || 'YOUR_TEMPLATE_ID';
+    const publicKey = process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY || 'YOUR_PUBLIC_KEY';
+
+    // Prepare package info outside try block for error logging
+    const packageInfo = packages[selectedPackage as keyof typeof packages];
+    const totalPrice = calculateTotalPrice();
+    const selectedFeaturesList = selectedFeatures.map(featureName => {
+      const feature = additionalFeatures.find(f => f.name === featureName);
+      return feature ? `${feature.name} (+$${feature.price})` : featureName;
+    }).join(', ');
+    const priceDisplay = totalPrice ? `$${totalPrice}` : packageInfo.price;
+    const originalPriceDisplay = packageInfo.originalPrice;
+    const savings = packageInfo.originalBasePrice && totalPrice ? packageInfo.originalBasePrice - totalPrice : 99;
+
+    try {
+      
+      // Format message to match the contact form template structure
+      const serviceMessage = `🎯 NEW PROMOTIONAL ORDER REQUEST
+      
+🎉 SPECIAL OFFER - $99 OFF + ${allowPromotion ? '$50 PROMOTIONAL CREDIT' : 'No Promotional Credit'}
+Original Price: ${originalPriceDisplay}
+Discounted Price: ${priceDisplay}
+Total Savings: $${savings + (allowPromotion ? 50 : 0)}
+
+${allowPromotion ? '✅ CLIENT AGREED TO PROMOTIONAL ATTRIBUTION' : '❌ Client opted out of promotional attribution'}
+
+📋 Business Information:
+Business Name: ${formData.businessName}
+Contact Name: ${formData.contactName}
+Email: ${formData.email}
+Phone: ${formData.phone}
+
+📦 Package Details:
+Selected Package: ${packageInfo.name}
+Price: ${priceDisplay}${selectedFeatures.length > 0 ? `\n\nAdditional Features:\n${selectedFeaturesList}` : ''}
+
+📝 Project Description:
+${formData.projectDescription}
+
+💰 Budget: ${formData.budget || 'Not specified'}
+⏱️ Timeline: ${formData.timeline || 'Not specified'}`;
+      
+      await emailjs.send(
+        serviceId,
+        templateId,
+        {
+          from_name: formData.contactName,
+          from_email: formData.email,
+          message: serviceMessage,
+          to_email: 'jordan@jlang.dev',
+        },
+        publicKey
+      );
+
+      trackEvent(AnalyticsEvents.SERVICE_ORDER_SUBMITTED, {
+        package: selectedPackage,
+        status: 'success',
+        source: 'promo_page',
+        promotional_credit: allowPromotion
+      });
+      
+      identifyUser(formData.email, formData.contactName, {
+        business_name: formData.businessName,
+        phone: formData.phone,
+        selected_package: packageInfo.name,
+        budget: formData.budget,
+        timeline: formData.timeline,
+        order_method: 'promo_page',
+        promotional_credit: allowPromotion,
+        discount_amount: savings + (allowPromotion ? 50 : 0)
+      });
+      
+      setSubmitStatus('success');
+      setFormData({
+        businessName: "",
+        contactName: "",
+        email: "",
+        phone: "",
+        projectDescription: "",
+        budget: "",
+        timeline: ""
+      });
+      setAllowPromotion(false);
+
+    } catch (error) {
+      logger.error('Failed to send promotional order form:', error);
+
+      trackEvent(AnalyticsEvents.SERVICE_ORDER_SUBMITTED, {
+        package: selectedPackage,
+        status: 'error',
+        source: 'promo_page',
+        error_message: error instanceof Error ? error.message : 'Unknown error',
+      });
+      
+      setSubmitStatus('error');
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  const currentPackage = packages[selectedPackage as keyof typeof packages];
+  const totalSavings = currentPackage.originalBasePrice && calculateTotalPrice() 
+    ? currentPackage.originalBasePrice - calculateTotalPrice()! 
+    : (allowPromotion ? 149 : 99);
+
+  return (
+    <div className="min-h-screen text-gray-900 dark:text-white relative">
+      <Background />
+      <Navigation />
+
+      <div className="max-w-6xl mx-auto px-6 pt-32 pb-16">
+        <m.div
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8 }}
+        >
+          {/* Promotional Banner */}
+          <m.div
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.5 }}
+            className="mb-8 relative overflow-hidden rounded-3xl bg-gradient-to-br from-red-600/20 via-orange-600/20 to-yellow-600/20 dark:from-red-600/30 dark:via-orange-600/30 dark:to-yellow-600/30 border-2 border-red-300 dark:border-red-700 p-8 text-center"
+          >
+            <div className="absolute top-0 right-0 w-64 h-64 bg-gradient-to-br from-red-500/30 to-orange-500/30 rounded-full blur-3xl"></div>
+            <div className="relative z-10">
+              <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gradient-to-r from-red-600 to-orange-600 text-white text-sm font-bold mb-4">
+                <Icon icon="solar:fire-bold" width={20} height={20} />
+                {promo?.eyebrow ?? "EXCLUSIVE EMAIL OFFER"}
+              </div>
+              <h2 className="text-3xl md:text-5xl font-bold mb-4 bg-gradient-to-r from-red-600 to-orange-600 dark:from-red-400 dark:to-orange-400 bg-clip-text text-transparent">
+                {promo?.headline ?? "Limited Time: $99 OFF Launchpad Package!"}
+              </h2>
+              <p className="text-lg text-gray-700 dark:text-gray-300 mb-4">
+                {promo?.subhead ?? "Plus, get an additional $50 OFF by allowing us to showcase our work on your site"}
+              </p>
+              <div className="flex flex-wrap items-center justify-center gap-4 text-sm text-gray-600 dark:text-gray-400">
+                <div className="flex items-center gap-2">
+                  <Icon icon="solar:check-circle-bold" className="text-green-600 dark:text-green-400" width={20} height={20} />
+                  <span>Valid from email link only</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <Icon icon="solar:clock-circle-bold" className="text-orange-600 dark:text-orange-400" width={20} height={20} />
+                  <span>Act fast - offer expires soon!</span>
+                </div>
+              </div>
+            </div>
+          </m.div>
+
+          {/* Header */}
+          <div className="text-center mb-16">
+            <m.div
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.5 }}
+              className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gradient-to-r from-indigo-600/20 to-purple-600/20 dark:from-indigo-600/30 dark:to-purple-600/30 border border-indigo-300 dark:border-indigo-700 mb-6"
+            >
+              <Icon icon="solar:document-add-bold" width={20} height={20} className="text-indigo-600 dark:text-indigo-400" />
+              <span className="text-sm font-semibold text-indigo-600 dark:text-indigo-400">Start Your Project</span>
+            </m.div>
+
+            <m.h1
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.1 }}
+              className="text-4xl md:text-6xl font-bold mb-6 bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 dark:from-indigo-400 dark:via-purple-400 dark:to-pink-400 bg-clip-text text-transparent"
+            >
+              Let&apos;s Build Something Amazing
+            </m.h1>
+
+            <m.p
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.2 }}
+              className="text-xl text-gray-600 dark:text-gray-400 max-w-3xl mx-auto"
+            >
+              Fill out the form below to claim your exclusive discount. I&apos;ll review your requirements and get back to you within 24 hours.
+            </m.p>
+          </div>
+
+          <div className="grid lg:grid-cols-3 gap-8">
+            {/* Order Form */}
+            <m.div
+              initial={{ opacity: 0, x: -30 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.6, delay: 0.3 }}
+              className="lg:col-span-2"
+            >
+              <div className="bg-white dark:bg-gray-800 rounded-2xl border border-gray-200 dark:border-gray-700 p-8 shadow-xl">
+                <h2 className="text-2xl font-bold mb-6 text-gray-900 dark:text-white">
+                  Project Information
+                </h2>
+
+                <form onSubmit={handleSubmit} className="space-y-6">
+                  {/* Business Name */}
+                  <div>
+                    <label htmlFor="businessName" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                      Business Name *
+                    </label>
+                    <input
+                      type="text"
+                      id="businessName"
+                      name="businessName"
+                      required
+                      value={formData.businessName}
+                      onChange={handleInputChange}
+                      className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-xl focus:ring-2 focus:ring-purple-500 focus:border-transparent bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 transition-all duration-300"
+                      placeholder="Your Business Name"
+                    />
+                  </div>
+
+                  {/* Contact Name & Email */}
+                  <div className="grid md:grid-cols-2 gap-6">
+                    <div>
+                      <label htmlFor="contactName" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                        Contact Name *
+                      </label>
+                      <input
+                        type="text"
+                        id="contactName"
+                        name="contactName"
+                        required
+                        value={formData.contactName}
+                        onChange={handleInputChange}
+                        className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-xl focus:ring-2 focus:ring-purple-500 focus:border-transparent bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 transition-all duration-300"
+                        placeholder="Your Full Name"
+                      />
+                    </div>
+
+                    <div>
+                      <label htmlFor="email" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                        Email Address *
+                      </label>
+                      <input
+                        type="email"
+                        id="email"
+                        name="email"
+                        required
+                        value={formData.email}
+                        onChange={handleInputChange}
+                        className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-xl focus:ring-2 focus:ring-purple-500 focus:border-transparent bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 transition-all duration-300"
+                        placeholder="your.email@example.com"
+                      />
+                    </div>
+                  </div>
+
+                  {/* Phone & Package */}
+                  <div className="grid md:grid-cols-2 gap-6">
+                    <div>
+                      <label htmlFor="phone" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                        Phone Number *
+                      </label>
+                      <input
+                        type="tel"
+                        id="phone"
+                        name="phone"
+                        required
+                        value={formData.phone}
+                        onChange={handleInputChange}
+                        className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-xl focus:ring-2 focus:ring-purple-500 focus:border-transparent bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 transition-all duration-300"
+                        placeholder="(123) 456-7890"
+                      />
+                    </div>
+
+                    <div>
+                      <label htmlFor="package" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                        Selected Package *
+                      </label>
+                      <select
+                        id="package"
+                        value={selectedPackage}
+                        onChange={handlePackageChange}
+                        className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-xl focus:ring-2 focus:ring-purple-500 focus:border-transparent bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 transition-all duration-300"
+                      >
+                        <option value="launchpad">Launchpad - $400 (Save $99!)</option>
+                        <option value="professional">Professional - Starting at $1,400+ (Save $99!)</option>
+                        <option value="enterprise">Enterprise - Custom Pricing</option>
+                      </select>
+                    </div>
+                  </div>
+
+                  {/* Project Description */}
+                  <div>
+                    <label htmlFor="projectDescription" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                      Project Description *
+                    </label>
+                    <textarea
+                      id="projectDescription"
+                      name="projectDescription"
+                      required
+                      value={formData.projectDescription}
+                      onChange={handleInputChange}
+                      rows={5}
+                      className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-xl focus:ring-2 focus:ring-purple-500 focus:border-transparent bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 transition-all duration-300 resize-none"
+                      placeholder="Tell me about your project, goals, target audience, and any specific features you need..."
+                    />
+                  </div>
+
+                  {/* Budget & Timeline */}
+                  <div className="grid md:grid-cols-2 gap-6">
+                    <div>
+                      <label htmlFor="budget" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                        Budget Range (Optional)
+                      </label>
+                      <input
+                        type="text"
+                        id="budget"
+                        name="budget"
+                        value={formData.budget}
+                        onChange={handleInputChange}
+                        className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-xl focus:ring-2 focus:ring-purple-500 focus:border-transparent bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 transition-all duration-300"
+                        placeholder="e.g., $5,000 - $10,000"
+                      />
+                    </div>
+
+                    <div>
+                      <label htmlFor="timeline" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                        Preferred Timeline (Optional)
+                      </label>
+                      <input
+                        type="text"
+                        id="timeline"
+                        name="timeline"
+                        value={formData.timeline}
+                        onChange={handleInputChange}
+                        className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-xl focus:ring-2 focus:ring-purple-500 focus:border-transparent bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 transition-all duration-300"
+                        placeholder="e.g., 4-6 weeks"
+                      />
+                    </div>
+                  </div>
+
+                  {/* Promotional Credit Opt-In */}
+                  <div className="p-6 rounded-xl bg-gradient-to-br from-green-50 to-emerald-50 dark:from-green-900/20 dark:to-emerald-900/20 border-2 border-green-300 dark:border-green-700">
+                    <div className="flex items-start gap-4">
+                      <input
+                        type="checkbox"
+                        id="allowPromotion"
+                        checked={allowPromotion}
+                        onChange={(e) => {
+                          setAllowPromotion(e.target.checked);
+                          trackEvent(AnalyticsEvents.FEATURE_TOGGLED, { 
+                            feature_name: 'promotional_credit', 
+                            enabled: e.target.checked,
+                            source: 'promo_page'
+                          });
+                        }}
+                        className="mt-1 w-5 h-5 text-green-600 border-gray-300 rounded focus:ring-green-500"
+                      />
+                      <div className="flex-1">
+                        <label htmlFor="allowPromotion" className="block font-semibold text-gray-900 dark:text-white mb-2 cursor-pointer">
+                          <div className="flex items-center gap-2">
+                            <Icon icon="solar:star-bold" className="text-yellow-500" width={20} height={20} />
+                            Get an Additional $50 OFF!
+                          </div>
+                        </label>
+                        <p className="text-sm text-gray-700 dark:text-gray-300 leading-relaxed">
+                          By checking this box, I agree to allow <strong>Jlang.dev</strong> to include a small &quot;Powered by Jlang.dev&quot; attribution link in my website&apos;s footer. This helps promote their services and earns me an additional <strong className="text-green-600 dark:text-green-400">$50 discount</strong> on my project!
+                        </p>
+                        {allowPromotion && (
+                          <m.div
+                            initial={{ opacity: 0, y: 10 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            className="mt-3 flex items-center gap-2 text-sm font-semibold text-green-700 dark:text-green-300"
+                          >
+                            <Icon icon="solar:check-circle-bold" width={18} height={18} />
+                            <span>Great choice! You&apos;re saving an extra $50</span>
+                          </m.div>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Submit Button */}
+                  <m.button
+                    type="submit"
+                    disabled={isSubmitting}
+                    whileHover={{ scale: isSubmitting ? 1 : 1.02 }}
+                    whileTap={{ scale: isSubmitting ? 1 : 0.98 }}
+                    className={`w-full py-4 rounded-xl font-semibold text-lg transition-all duration-300 ${
+                      isSubmitting
+                        ? 'bg-gray-400 cursor-not-allowed'
+                        : 'bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 text-white shadow-lg shadow-purple-500/30 hover:shadow-xl'
+                    }`}
+                  >
+                    {isSubmitting ? (
+                      <span className="flex items-center justify-center gap-2">
+                        <Icon icon="solar:refresh-bold" className="animate-spin" width={24} height={24} />
+                        Sending...
+                      </span>
+                    ) : (
+                      'Claim Your Discount & Submit Request'
+                    )}
+                  </m.button>
+
+                  {/* Status Messages */}
+                  {submitStatus === 'success' && (
+                    <m.div
+                      initial={{ opacity: 0, y: 10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      className="p-4 rounded-xl bg-green-100 dark:bg-green-900/30 border border-green-300 dark:border-green-700"
+                    >
+                      <div className="flex items-center gap-3">
+                        <Icon icon="solar:check-circle-bold" className="text-green-600 dark:text-green-400" width={24} height={24} />
+                        <div>
+                          <p className="font-semibold text-green-800 dark:text-green-300">Request Submitted Successfully!</p>
+                          <p className="text-sm text-green-700 dark:text-green-400">I&apos;ll review your project and get back to you within 24 hours with your discounted quote.</p>
+                        </div>
+                      </div>
+                    </m.div>
+                  )}
+
+                  {submitStatus === 'error' && (
+                    <m.div
+                      initial={{ opacity: 0, y: 10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      className="p-4 rounded-xl bg-red-100 dark:bg-red-900/30 border border-red-300 dark:border-red-700"
+                    >
+                      <div className="flex items-center gap-3">
+                        <Icon icon="solar:danger-circle-bold" className="text-red-600 dark:text-red-400" width={24} height={24} />
+                        <div>
+                          <p className="font-semibold text-red-800 dark:text-red-300">Submission Failed</p>
+                          <p className="text-sm text-red-700 dark:text-red-400">Please try again or email me directly at jordan@jlang.dev</p>
+                        </div>
+                      </div>
+                    </m.div>
+                  )}
+                </form>
+              </div>
+            </m.div>
+
+            {/* Package Summary Sidebar */}
+            <m.div
+              initial={{ opacity: 0, x: 30 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.6, delay: 0.4 }}
+              className="lg:col-span-1"
+            >
+              <div className="sticky top-32 space-y-6">
+                {/* Savings Badge */}
+                <div className="bg-gradient-to-br from-green-600 to-emerald-600 rounded-2xl p-6 text-white shadow-xl">
+                  <div className="flex items-center justify-center gap-2 mb-3">
+                    <Icon icon="solar:ticket-bold" width={32} height={32} />
+                  </div>
+                  <p className="text-center text-sm font-medium mb-2">Your Total Savings</p>
+                  <p className="text-center text-5xl font-bold">${totalSavings}</p>
+                  <p className="text-center text-xs mt-2 opacity-90">
+                    {allowPromotion ? '$99 email discount + $50 promotional credit' : '$99 exclusive email discount'}
+                  </p>
+                </div>
+
+                {/* Package Details */}
+                <div className={`bg-gradient-to-br ${currentPackage.gradient} rounded-2xl p-8 text-white shadow-xl`}>
+                  <h3 className="text-2xl font-bold mb-2">{currentPackage.name} Package</h3>
+                  <div className="mb-2">
+                    <span className="text-sm line-through opacity-75">{currentPackage.originalPrice}</span>
+                  </div>
+                  <p className="text-3xl font-bold mb-6">{currentPackage.price}</p>
+
+                  <div className="space-y-3 max-h-96 overflow-y-auto pr-2">
+                    <p className="font-semibold mb-3">Includes:</p>
+                    {currentPackage.features.slice(0, 10).map((feature, index) => {
+                      // Skip empty strings (separators)
+                      if (feature === "") {
+                        return <div key={index} className="h-2"></div>;
+                      }
+                      
+                      // Check if it's a category header (starts with emoji)
+                      const isCategory = /^[\u{1F300}-\u{1F9FF}\u{2600}-\u{26FF}\u{2700}-\u{27BF}]/u.test(feature);
+                      
+                      if (isCategory) {
+                        return (
+                          <div key={index} className="font-bold text-sm mt-4 mb-2">
+                            {feature}
+                          </div>
+                        );
+                      }
+                      
+                      return (
+                        <div key={index} className="flex items-start gap-2">
+                          <Icon icon="solar:check-circle-bold" className="flex-shrink-0 mt-1" width={20} height={20} />
+                          <span className="text-sm">{feature}</span>
+                        </div>
+                      );
+                    })}
+                    {currentPackage.features.length > 10 && (
+                      <p className="text-xs opacity-75 italic">+ {currentPackage.features.length - 10} more features...</p>
+                    )}
+                  </div>
+                </div>
+
+                {/* Selected Features Display - Only for Launchpad */}
+                {selectedPackage === 'launchpad' && selectedFeatures.length > 0 && (
+                  <div className="bg-white dark:bg-gray-800 rounded-2xl border-2 border-blue-400 dark:border-blue-500 p-6">
+                    <div className="flex items-center justify-between mb-4">
+                      <h4 className="font-bold text-gray-900 dark:text-white">Additional Features</h4>
+                      <span className="text-xs font-medium px-2 py-1 rounded-full bg-blue-100 dark:bg-blue-900 text-blue-700 dark:text-blue-300">
+                        {selectedFeatures.length} selected
+                      </span>
+                    </div>
+                    
+                    <div className="space-y-2 mb-4">
+                      {selectedFeatures.map(featureName => {
+                        const feature = additionalFeatures.find(f => f.name === featureName);
+                        if (!feature) return null;
+                        
+                        return (
+                          <div key={featureName} className="flex items-center justify-between p-2 rounded-lg bg-gray-50 dark:bg-gray-900">
+                            <div className="flex items-center gap-2 flex-1 min-w-0">
+                              <Icon icon={feature.icon} className="text-blue-600 dark:text-blue-400 flex-shrink-0" width={16} height={16} />
+                              <span className="text-xs text-gray-700 dark:text-gray-300 truncate">{feature.name}</span>
+                            </div>
+                            <div className="flex items-center gap-2">
+                              <span className="text-xs font-semibold text-gray-900 dark:text-white">${feature.price}</span>
+                              <button
+                                onClick={() => toggleFeature(featureName)}
+                                className="p-1 hover:bg-red-100 dark:hover:bg-red-900/30 rounded transition-colors"
+                                aria-label="Remove feature"
+                              >
+                                <Icon icon="solar:close-circle-bold" className="text-red-500" width={16} height={16} />
+                              </button>
+                            </div>
+                          </div>
+                        );
+                      })}
+                    </div>
+                    
+                    <div className="pt-4 border-t border-gray-200 dark:border-gray-700">
+                      <div className="flex items-center justify-between">
+                        <span className="text-sm font-bold text-gray-900 dark:text-white">Estimated Total:</span>
+                        <span className="text-2xl font-bold bg-gradient-to-r from-blue-600 to-cyan-600 dark:from-blue-400 dark:to-cyan-400 bg-clip-text text-transparent">
+                          ${calculateTotalPrice()}
+                        </span>
+                      </div>
+                      <p className="text-xs text-gray-500 dark:text-gray-400 mt-2">
+                        Final price confirmed after reviewing your requirements
+                      </p>
+                    </div>
+                  </div>
+                )}
+
+                <div className="bg-white dark:bg-gray-800 rounded-2xl border border-gray-200 dark:border-gray-700 p-6">
+                  <h4 className="font-bold text-gray-900 dark:text-white mb-4">Need Help Choosing?</h4>
+                  <p className="text-sm text-gray-600 dark:text-gray-400 mb-4">
+                    Not sure which package is right for you? Let&apos;s discuss your needs and find the perfect solution.
+                  </p>
+                  <Link 
+                    href="/#contact"
+                    className="text-sm font-semibold text-purple-600 dark:text-purple-400 hover:underline flex items-center gap-2"
+                  >
+                    Contact Me
+                    <Icon icon="solar:arrow-right-bold" width={16} height={16} />
+                  </Link>
+                </div>
+              </div>
+            </m.div>
+          </div>
+        </m.div>
+
+        {/* Additional Features Section */}
+        <m.div
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.5 }}
+          className="mt-16"
+        >
+          <div className="bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-800 dark:to-gray-900 rounded-2xl border border-gray-200 dark:border-gray-700 p-8">
+            <div className="text-center mb-8">
+              <h2 className="text-2xl md:text-3xl font-bold mb-3 bg-gradient-to-r from-blue-600 to-cyan-600 dark:from-blue-400 dark:to-cyan-400 bg-clip-text text-transparent">
+                Additional Features Available
+              </h2>
+              <p className="text-gray-600 dark:text-gray-400 mb-2">
+                {selectedPackage === 'launchpad' 
+                  ? 'Click features to add them to your package estimate'
+                  : 'Most features are included in Professional and Enterprise packages at no extra cost'}
+              </p>
+              {selectedPackage === 'launchpad' && (
+                <p className="text-sm text-blue-600 dark:text-blue-400">
+                  * Prices shown are one-time add-on costs for the Launchpad Package
+                </p>
+              )}
+            </div>
+
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
+              {additionalFeatures.map((feature, index) => {
+                const isSelected = selectedFeatures.includes(feature.name);
+                const isLaunchpad = selectedPackage === 'launchpad';
+                
+                return (
+                  <m.button
+                    key={index}
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.5, delay: 0.6 + index * 0.02 }}
+                    onClick={() => isLaunchpad && toggleFeature(feature.name)}
+                    disabled={!isLaunchpad}
+                    whileHover={isLaunchpad ? { scale: 1.03, y: -3 } : {}}
+                    whileTap={isLaunchpad ? { scale: 0.98 } : {}}
+                    className={`flex flex-col gap-3 p-4 rounded-xl bg-white dark:bg-gray-800 transition-all duration-300 text-left ${
+                      isLaunchpad
+                        ? `cursor-pointer ${
+                            isSelected
+                              ? 'border-2 border-blue-500 dark:border-blue-400 shadow-lg shadow-blue-500/20'
+                              : 'border-2 border-gray-200 dark:border-gray-700 hover:border-blue-300 dark:hover:border-blue-600 hover:shadow-lg'
+                          }`
+                        : 'border border-gray-200 dark:border-gray-700 cursor-not-allowed opacity-75'
+                    }`}
+                  >
+                    <div className="flex items-start gap-3">
+                      <div className={`flex-shrink-0 p-2 rounded-lg transition-all ${
+                        isSelected && isLaunchpad
+                          ? 'bg-gradient-to-br from-blue-600 to-cyan-600 scale-110'
+                          : 'bg-gradient-to-br from-blue-600 to-cyan-600 opacity-70'
+                      }`}>
+                        <Icon icon={feature.icon} className="text-white" width={24} height={24} />
+                      </div>
+                      <div className="flex-1 min-w-0">
+                        <h4 className="font-semibold text-gray-900 dark:text-white mb-1 text-sm flex items-center gap-2">
+                          {feature.name}
+                          {isSelected && isLaunchpad && (
+                            <Icon icon="solar:check-circle-bold" className="text-blue-600 dark:text-blue-400 flex-shrink-0" width={16} height={16} />
+                          )}
+                        </h4>
+                        <p className="text-xs text-gray-600 dark:text-gray-400 line-clamp-2">
+                          {feature.desc}
+                        </p>
+                      </div>
+                    </div>
+                    <div className="flex items-center justify-between pt-2 border-t border-gray-200 dark:border-gray-700">
+                      {isLaunchpad ? (
+                        <>
+                          <span className="text-xs font-medium text-gray-500 dark:text-gray-400">
+                            {isSelected ? 'Selected' : 'Click to add'}
+                          </span>
+                          <span className={`text-sm font-bold ${
+                            isSelected
+                              ? 'text-blue-600 dark:text-blue-400'
+                              : 'text-gray-700 dark:text-gray-300'
+                          }`}>
+                            +${feature.price}
+                          </span>
+                        </>
+                      ) : (
+                        <span className="text-xs font-medium text-green-600 dark:text-green-400">
+                          ✓ Included in package
+                        </span>
+                      )}
+                    </div>
+                  </m.button>
+                );
+              })}
+            </div>
+
+            <m.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 1.1 }}
+              className="text-center mt-8 space-y-3"
+            >
+              {selectedPackage === 'launchpad' && selectedFeatures.length > 0 && (
+                <div className="p-4 rounded-xl bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800">
+                  <p className="text-sm font-semibold text-gray-900 dark:text-white mb-1">
+                    {selectedFeatures.length} feature{selectedFeatures.length !== 1 ? 's' : ''} selected
+                  </p>
+                  <p className="text-xs text-gray-600 dark:text-gray-400">
+                    View your estimate in the package summary above
+                  </p>
+                </div>
+              )}
+              <div className="p-4 rounded-xl bg-gradient-to-r from-purple-50 to-pink-50 dark:from-purple-900/20 dark:to-pink-900/20 border border-purple-200 dark:border-purple-800">
+                <p className="text-sm text-gray-700 dark:text-gray-300 font-medium">
+                  💡 <strong>Professional & Enterprise packages</strong> include most of these features at no additional cost!
+                </p>
+              </div>
+            </m.div>
+          </div>
+        </m.div>
+      </div>
+
+      <Footer />
+    </div>
+  );
+}

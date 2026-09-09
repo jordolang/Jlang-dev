@@ -1,7 +1,7 @@
 "use client";
 
 import { Icon } from "@iconify/react";
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 import { useState } from "react";
 import SectionHeader from "./SectionHeader";
 
@@ -11,7 +11,7 @@ interface Testimonial {
   role: string;
   company: string;
   rating: number;
-  project: string;
+  project?: string;
   avatar: string;
   featured?: boolean;
 }
@@ -27,7 +27,7 @@ interface FeaturedTestimonialProps {
   testimonial: Testimonial;
 }
 
-const testimonials = [
+export const defaultTestimonials: Testimonial[] = [
   {
     content: "Jordan Lang transformed our business with his outstanding web design and strategic insights.",
     author: "Fred Amir",
@@ -64,6 +64,24 @@ const testimonials = [
     rating: 5,
     project: "Community Website Development",
     avatar: "DN"
+  },
+  {
+    content: "Jordan gave our salsa brand the online presence it always deserved. We're so grateful for everything he's done to help our business grow.",
+    author: "Matt Harlin",
+    role: "Owner",
+    company: "Jose Madrid Salsa",
+    rating: 5,
+    project: "E-commerce & Marketing Site",
+    avatar: "MH"
+  },
+  {
+    content: "Working with Jordan was a true blessing for our company. He understood our vision and brought it to life beautifully — we couldn't be more thankful.",
+    author: "Michael Zakany",
+    role: "Owner",
+    company: "Jose Madrid Salsa",
+    rating: 5,
+    project: "E-commerce & Marketing Site",
+    avatar: "MZ"
   }
 
 ];
@@ -87,7 +105,7 @@ const TestimonialCard = ({ testimonial, index, isHovered, onHover }: Testimonial
   const borderGradient = borderGradients[index % borderGradients.length];
 
   return (
-    <motion.div
+    <m.div
       initial={{ opacity: 0, y: 30 }}
       whileInView={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.6, delay: index * 0.1 }}
@@ -96,7 +114,7 @@ const TestimonialCard = ({ testimonial, index, isHovered, onHover }: Testimonial
       onMouseLeave={() => onHover(null)}
       className="h-full w-full group"
     >
-      <motion.div
+      <m.div
         className={`h-full w-full rounded-2xl relative overflow-hidden transition-all duration-500 border-0 ${isHovered === index
           ? 'transform scale-105 shadow-2'
           : 'shadow-lg hover:shadow-xlkk'
@@ -119,7 +137,7 @@ const TestimonialCard = ({ testimonial, index, isHovered, onHover }: Testimonial
             {/* Rating with Animation */}
             <div className="flex items-center gap-1 mb-6">
               {Array.from({ length: testimonial.rating }).map((_, i) => (
-                <motion.div
+                <m.div
                   key={i}
                   initial={{ opacity: 0, scale: 0 }}
                   animate={{ opacity: 1, scale: 1 }}
@@ -129,7 +147,7 @@ const TestimonialCard = ({ testimonial, index, isHovered, onHover }: Testimonial
                     icon="solar:star-bold"
                     className="text-yellow-500 text-2xl drop-shadow-sm"
                   />
-                </motion.div>
+                </m.div>
               ))}
               <span className="ml-2 text-sm font-medium text-gray-600 dark:text-gray-400">
                 {testimonial.rating}.0
@@ -169,13 +187,13 @@ const TestimonialCard = ({ testimonial, index, isHovered, onHover }: Testimonial
 
           </div>
         </div>
-      </motion.div>
-    </motion.div>
+      </m.div>
+    </m.div>
   );
 };
 
 const FeaturedTestimonial = ({ testimonial }: FeaturedTestimonialProps) => (
-  <motion.div
+  <m.div
     initial={{ opacity: 0, y: 30 }}
     whileInView={{ opacity: 1, y: 0 }}
     transition={{ duration: 0.8 }}
@@ -210,7 +228,7 @@ const FeaturedTestimonial = ({ testimonial }: FeaturedTestimonialProps) => (
       {/* Rating with Animation */}
       <div className="flex items-center justify-center gap-1 mb-6">
         {Array.from({ length: testimonial.rating }).map((_, i) => (
-          <motion.div
+          <m.div
             key={i}
             initial={{ opacity: 0, scale: 0 }}
             animate={{ opacity: 1, scale: 1 }}
@@ -220,7 +238,7 @@ const FeaturedTestimonial = ({ testimonial }: FeaturedTestimonialProps) => (
               icon="solar:star-bold"
               className="text-yellow-500 text-2xl drop-shadow-sm"
             />
-          </motion.div>
+          </m.div>
         ))}
         <span className="ml-2 text-sm font-medium text-gray-600 dark:text-gray-400">
           {testimonial.rating}.0
@@ -243,21 +261,47 @@ const FeaturedTestimonial = ({ testimonial }: FeaturedTestimonialProps) => (
         </div>
       </div>
     </div>
-  </motion.div>
+  </m.div>
 );
 
-export default function TestimonialsSection() {
+interface TestimonialsSectionProps {
+  /** Approved testimonials from Sanity, fetched on the server. */
+  testimonials?: Omit<Testimonial, "avatar">[];
+  heading?: { tagText?: string; tagIcon?: string; heading?: string; description?: string };
+}
+
+/** Initials, e.g. "Fred Amir" -> "FA". */
+function initials(author: string): string {
+  return author
+    .split(/\s+/)
+    .map((part) => part[0])
+    .join("")
+    .slice(0, 2)
+    .toUpperCase();
+}
+
+export default function TestimonialsSection({ testimonials: managed, heading }: TestimonialsSectionProps) {
   const [hoveredCard, setHoveredCard] = useState<number | null>(null);
+
+  // The CMS is the source of truth once it has reviews — the bundled ones (which are also
+  // seeded into Sanity) are only a backstop for an empty or unreachable CMS. Concatenating
+  // the two would show every seeded quote twice.
+  const testimonials: Testimonial[] = managed?.length
+    ? managed.map((t) => ({ ...t, avatar: initials(t.author) }))
+    : defaultTestimonials;
+
   const featuredTestimonial = testimonials.find(t => t.featured);
   const otherTestimonials = testimonials.filter(t => !t.featured);
+  const overallRating = testimonials.length
+    ? testimonials.reduce((sum, testimonial) => sum + testimonial.rating, 0) / testimonials.length
+    : 0;
 
   if (!featuredTestimonial) {
     return null;
   }
 
   return (
-    <motion.section
-      id="testimonials"
+    <m.section
       initial={{ opacity: 0 }}
       whileInView={{ opacity: 1 }}
       transition={{ duration: 1 }}
@@ -274,13 +318,21 @@ export default function TestimonialsSection() {
       <div className="relative z-10">
         {/* Header */}
         <SectionHeader
-          tagText="Client Stories"
-          tagIcon="solar:users-group-rounded-outline"
-          heading="Testimonials Wall"
-          description="Real feedback from real clients who trusted me with their projects"
+          tagText={heading?.tagText ?? "Client Stories"}
+          tagIcon={heading?.tagIcon ?? "solar:users-group-rounded-outline"}
+          heading={heading?.heading ?? "Testimonials Wall"}
+          description={heading?.description ?? "Real feedback from real clients who trusted me with their projects"}
           showUnderline={false}
           centered={true}
         />
+
+        <div className="mx-auto mb-10 flex w-fit items-center gap-3 rounded-full border border-yellow-400/30 bg-yellow-50/80 px-5 py-2.5 shadow-sm dark:bg-yellow-950/20">
+          <div className="flex text-lg text-yellow-500" aria-label={`${overallRating.toFixed(1)} out of 5 stars`}>
+            {Array.from({ length: 5 }).map((_, index) => <span key={index}>★</span>)}
+          </div>
+          <span className="font-bold text-gray-900 dark:text-white">{overallRating.toFixed(1)}</span>
+          <span className="text-sm text-gray-500">from {testimonials.length} reviews</span>
+        </div>
 
         {/* Featured Testimonial */}
         <div className="mb-16">
@@ -313,6 +365,6 @@ export default function TestimonialsSection() {
 
 
       </div>
-    </motion.section>
+    </m.section>
   );
-} 
+}

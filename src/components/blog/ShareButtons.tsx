@@ -2,7 +2,8 @@
 
 import { useState } from 'react';
 import { Icon } from '@iconify/react';
-import { motion } from 'framer-motion';
+import { m } from 'framer-motion';
+import { logger } from '@/lib/logger';
 
 interface ShareButtonsProps {
   title: string;
@@ -18,7 +19,7 @@ export default function ShareButtons({ title, url }: ShareButtonsProps) {
       setCopied(true);
       setTimeout(() => setCopied(false), 2000);
     } catch (error) {
-      console.error('Failed to copy link:', error);
+      logger.error('Failed to copy link:', error);
     }
   };
 
@@ -36,7 +37,7 @@ export default function ShareButtons({ title, url }: ShareButtonsProps) {
       
       <div className="flex items-center gap-2">
         {/* Twitter */}
-        <motion.a
+        <m.a
           href={shareLinks.twitter}
           target="_blank"
           rel="noopener noreferrer"
@@ -46,10 +47,10 @@ export default function ShareButtons({ title, url }: ShareButtonsProps) {
           aria-label="Share on Twitter"
         >
           <Icon icon="ri:twitter-x-fill" width={18} height={18} />
-        </motion.a>
+        </m.a>
 
         {/* LinkedIn */}
-        <motion.a
+        <m.a
           href={shareLinks.linkedin}
           target="_blank"
           rel="noopener noreferrer"
@@ -59,10 +60,10 @@ export default function ShareButtons({ title, url }: ShareButtonsProps) {
           aria-label="Share on LinkedIn"
         >
           <Icon icon="ri:linkedin-fill" width={18} height={18} />
-        </motion.a>
+        </m.a>
 
         {/* Facebook */}
-        <motion.a
+        <m.a
           href={shareLinks.facebook}
           target="_blank"
           rel="noopener noreferrer"
@@ -72,10 +73,10 @@ export default function ShareButtons({ title, url }: ShareButtonsProps) {
           aria-label="Share on Facebook"
         >
           <Icon icon="ri:facebook-fill" width={18} height={18} />
-        </motion.a>
+        </m.a>
 
         {/* Copy Link */}
-        <motion.button
+        <m.button
           onClick={handleCopyLink}
           whileHover={{ scale: 1.1 }}
           whileTap={{ scale: 0.95 }}
@@ -91,19 +92,19 @@ export default function ShareButtons({ title, url }: ShareButtonsProps) {
             width={18} 
             height={18} 
           />
-        </motion.button>
+        </m.button>
       </div>
 
       {/* Copied Tooltip */}
       {copied && (
-        <motion.span
+        <m.span
           initial={{ opacity: 0, y: -10 }}
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0 }}
           className="text-xs text-green-600 dark:text-green-400 font-medium"
         >
           Link copied!
-        </motion.span>
+        </m.span>
       )}
     </div>
   );

@@ -44,7 +44,7 @@ module.exports = {
 				},
 			},
 			fontFamily: {
-				sans: ["Inter", "sans-serif"],
+				sans: ["Space Grotesk", "Inter", "ui-sans-serif", "system-ui", "sans-serif"],
 			},
 			backgroundImage: {
 				"gradient-radial": "radial-gradient(var(--tw-gradient-stops))",

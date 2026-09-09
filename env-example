@@ -5,3 +5,20 @@ NEXT_PUBLIC_EMAILJS_TEMPLATE_ID=YOUR_EMAILJS_TEMPLATE_ID
 NEXT_PUBLIC_EMAILJS_PUBLIC_KEY=YOUR_EMAILJS_PUBLIC_KEY
 NEXT_PUBLIC_POSTHOG_KEY=YOUR_POSTHOG_KEY
 NEXT_PUBLIC_POSTHOG_HOST=YOUR_POSTHOG_HOST
+# Sanity Studio and review storage
+NEXT_PUBLIC_SANITY_PROJECT_ID=your_sanity_project_id
+NEXT_PUBLIC_SANITY_DATASET=production
+NEXT_PUBLIC_SANITY_API_VERSION=2026-01-01
+SANITY_API_WRITE_TOKEN=your_server_only_sanity_editor_token
+
+# Sanity webhook: POST /api/webhooks/sanity/review-request
+# Configure the webhook Authorization header as: Bearer <this value>
+SANITY_WEBHOOK_SECRET=replace_with_a_long_random_secret
+
+# Review request email delivery
+RESEND_API_KEY=re_your_resend_api_key
+REVIEW_EMAIL_FROM=JLang Development <reviews@jlang.dev>
+
+# Public links used in review request emails and the Google handoff
+NEXT_PUBLIC_SITE_URL=https://jlang.dev
+NEXT_PUBLIC_GOOGLE_REVIEW_URL=https://search.google.com/local/writereview?placeid=your_place_id

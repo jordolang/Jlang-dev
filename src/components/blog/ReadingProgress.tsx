@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from 'react';
-import { motion } from 'framer-motion';
+import { m } from 'framer-motion';
 
 export default function ReadingProgress() {
   const [progress, setProgress] = useState(0);
@@ -23,7 +23,7 @@ export default function ReadingProgress() {
 
   return (
     <div className="fixed top-0 left-0 right-0 z-50 h-1 bg-gray-200/50 dark:bg-gray-800/50">
-      <motion.div
+      <m.div
         className="h-full bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600"
         initial={{ width: 0 }}
         animate={{ width: `${progress}%` }}

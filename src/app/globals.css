@@ -60,6 +60,8 @@
 
 	html {
 		scroll-behavior: smooth;
+		/* Offset anchored scrolling so the fixed navbar doesn't cover section headings. */
+		scroll-padding-top: 6rem;
 	}
 }
 
@@ -300,4 +302,32 @@ textarea:focus-visible {
 		),
 		linear-gradient(90deg, rgba(59, 130, 246, 0.1) 1px, transparent 1px);
 	background-size: 50px 50px;
+}
+
+/* ---------------------------------------------------------------------------
+   Hero entrance animation (CSS, not JS).
+   Runs the instant the element paints — it is NOT gated on React hydration —
+   so the above-the-fold hero (including the LCP logo) is visible almost
+   immediately instead of waiting ~3s for framer-motion to hydrate. Stagger is
+   done with per-element `animation-delay`; `both` keeps the final state.
+--------------------------------------------------------------------------- */
+@keyframes hero-fade-up {
+	from {
+		opacity: 0;
+		transform: translateY(20px);
+	}
+	to {
+		opacity: 1;
+		transform: none;
+	}
+}
+
+.hero-reveal {
+	animation: hero-fade-up 0.6s ease-out both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.hero-reveal {
+		animation: none;
+	}
 }

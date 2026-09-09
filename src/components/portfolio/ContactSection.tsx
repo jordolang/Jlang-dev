@@ -2,13 +2,23 @@
 
 import emailjs from '@emailjs/browser';
 import { Icon } from "@iconify/react";
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 import Link from "next/link";
 import { useState } from "react";
 import { AnalyticsEvents, identifyUser, trackEvent } from '../../lib/analytics';
+import { logger } from '../../lib/logger';
 import SectionHeader from './SectionHeader';
 
-export default function ContactSection() {
+interface ContactSectionProps {
+  /** Where the form is delivered, and the address shown as the direct contact link. */
+  email?: string;
+  publicEmail?: string;
+  heading?: { tagText?: string; tagIcon?: string; heading?: string; description?: string };
+}
+
+export default function ContactSection({ email, publicEmail, heading }: ContactSectionProps) {
+  const recipient = email || 'jordan@jlang.dev';
+  const directEmail = publicEmail || 'jordolang@gmail.com';
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -61,13 +71,11 @@ const handleSubmit = async (e: React.FormEvent) => {
           from_name: formData.name,
           from_email: formData.email,
           message: formData.message,
-          to_email: 'jordan@jlang.dev', // Your email
+          to_email: recipient,
         },
         publicKey
       );
 
-      console.log('Email sent successfully:', result);
-      
       // Track successful form submission
       trackEvent(AnalyticsEvents.CONTACT_FORM_SUBMITTED, { status: 'success' });
       
@@ -86,19 +94,9 @@ const handleSubmit = async (e: React.FormEvent) => {
       setSubmittedName(submittedName);
 
     } catch (error) {
-      console.error('Failed to send email:', error);
-      console.error('EmailJS Configuration:', {
-        serviceId,
-        templateId,
-        publicKey: publicKey.substring(0, 10) + '...',
-      });
-      console.error('Form data being sent:', {
-        from_name: formData.name,
-        from_email: formData.email,
-        message: formData.message.substring(0, 50) + '...',
-        to_email: 'jordan@jlang.dev',
-      });
-      
+      logger.error('Failed to send email:', error);
+
+
       // Track form submission failure
       trackEvent(AnalyticsEvents.CONTACT_FORM_SUBMITTED, { 
         status: 'error',
@@ -117,8 +115,7 @@ const handleSubmit = async (e: React.FormEvent) => {
   };
 
   return (
-    <motion.section
-      id="contact"
+    <m.section
       initial={{ opacity: 0, y: 30 }}
       whileInView={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.8 }}
@@ -129,16 +126,18 @@ const handleSubmit = async (e: React.FormEvent) => {
 
 
         <SectionHeader
-          heading="Let's Work Together"
-          description="Ready to bring your ideas to life? I'm always excited to work on interesting projects and collaborate with amazing people. Let's create something extraordinary together."
-          tagIcon='solar:chat-line-bold'
-          tagText='Contact'
+          heading={heading?.heading ?? "Let's Work Together"}
+          description={
+            heading?.description ??
+            "Ready to bring your ideas to life? I'm always excited to work on interesting projects and collaborate with amazing people. Let's create something extraordinary together."
+          }
+          tagIcon={heading?.tagIcon ?? 'solar:chat-line-bold'}
+          tagText={heading?.tagText ?? 'Contact'}
           centered={true}
-
         />
 
         {/* Contact Form */}
-        <motion.div
+        <m.div
           className="mb-12"
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -147,7 +146,7 @@ const handleSubmit = async (e: React.FormEvent) => {
         >
           <form onSubmit={handleSubmit} className="max-w-2xl mx-auto space-y-6">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <motion.div
+              <m.div
                 initial={{ opacity: 0, x: -20 }}
                 whileInView={{ opacity: 1, x: 0 }}
                 transition={{ duration: 0.6, delay: 0.7 }}
@@ -166,9 +165,9 @@ const handleSubmit = async (e: React.FormEvent) => {
                   className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 transition-all duration-300"
                   placeholder="Your full name"
                 />
-              </motion.div>
+              </m.div>
 
-              <motion.div
+              <m.div
                 initial={{ opacity: 0, x: 20 }}
                 whileInView={{ opacity: 1, x: 0 }}
                 transition={{ duration: 0.6, delay: 0.8 }}
@@ -187,10 +186,10 @@ const handleSubmit = async (e: React.FormEvent) => {
                   className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 transition-all duration-300"
                   placeholder="your.email@example.com"
                 />
-              </motion.div>
+              </m.div>
             </div>
 
-            <motion.div
+            <m.div
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.9 }}
@@ -209,16 +208,16 @@ const handleSubmit = async (e: React.FormEvent) => {
                 className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 transition-all duration-300 resize-none"
                 placeholder="Tell me about your project or idea..."
               />
-            </motion.div>
+            </m.div>
 
-            <motion.div
+            <m.div
               className="text-center"
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 1.0 }}
               viewport={{ once: true }}
             >
-              <motion.button
+              <m.button
                 type="submit"
                 disabled={isSubmitting}
                 whileHover={{ scale: 1.05 }}
@@ -234,20 +233,16 @@ const handleSubmit = async (e: React.FormEvent) => {
                   <>
                     <Icon icon="solar:letter-outline" width={20} height={20} />
                     Send Message
-                    <motion.div
-                      className="ml-2"
-                      animate={{ x: [0, 4, 0] }}
-                      transition={{ duration: 1.5, repeat: Infinity }}
-                    >
+                    <div className="ml-2">
                       →
-                    </motion.div>
+                    </div>
                   </>
                 )}
-              </motion.button>
+              </m.button>
 
               {/* Status Messages */}
               {submitStatus === 'success' && (
-                <motion.div
+                <m.div
                   initial={{ opacity: 0, y: 10 }}
                   animate={{ opacity: 1, y: 0 }}
                   className="relative mt-4 p-6 bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 rounded-xl"
@@ -260,7 +255,7 @@ const handleSubmit = async (e: React.FormEvent) => {
                     Thank you, <span className="font-medium">{submittedName}</span>! Your message has been delivered and I&apos;ll get back to you as soon as possible.
                   </p>
                   <div className="flex flex-col sm:flex-row gap-3 justify-center">
-                    <motion.button
+                    <m.button
                       onClick={() => {
                         setSubmitStatus('idle');
                         setSubmittedName('');
@@ -271,7 +266,7 @@ const handleSubmit = async (e: React.FormEvent) => {
                     >
                       <Icon icon="solar:letter-outline" width={18} height={18} />
                       Send Another Message
-                    </motion.button>
+                    </m.button>
                     <button
                       onClick={() => {
                         setSubmitStatus('idle');
@@ -283,11 +278,11 @@ const handleSubmit = async (e: React.FormEvent) => {
                       Close
                     </button>
                   </div>
-                </motion.div>
+                </m.div>
               )}
 
               {submitStatus === 'error' && (
-                <motion.div
+                <m.div
                   initial={{ opacity: 0, y: 10 }}
                   animate={{ opacity: 1, y: 0 }}
                   className="mt-4 p-4 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-xl"
@@ -297,7 +292,7 @@ const handleSubmit = async (e: React.FormEvent) => {
                     <span className="font-medium">Failed to send message</span>
                   </div>
                   <p className="text-red-600 text-left dark:text-red-500 text-sm mt-1">
-                    Please try again or contact me directly at jordan@jlang.dev
+                    Please try again or contact me directly at {recipient}
                   </p>
                   {/* add a button to close the message */}
                   <button
@@ -306,14 +301,14 @@ const handleSubmit = async (e: React.FormEvent) => {
                   >
                     <Icon icon="solar:close-circle-bold" width={20} height={20} />
                   </button>
-                </motion.div>
+                </m.div>
               )}
-            </motion.div>
+            </m.div>
           </form>
-        </motion.div>
+        </m.div>
 
         {/* Alternative Contact Methods */}
-        <motion.div
+        <m.div
           className="text-center"
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -322,19 +317,19 @@ const handleSubmit = async (e: React.FormEvent) => {
         >
           <p className="text-gray-600 dark:text-gray-400 mb-6">Or reach out directly:</p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+            <m.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
               <Link
-                href="mailto:jordolang@gmail.com"
+                href={`mailto:${directEmail}`}
                 onClick={() => trackEvent(AnalyticsEvents.SOCIAL_LINK_CLICKED, { platform: 'email', method: 'email_link' })}
                 className="inline-flex items-center gap-2 px-6 py-3 bg-white hover:bg-gray-50 dark:bg-gray-800 dark:hover:bg-gray-700 border-2 border-gray-300 hover:border-gray-400 dark:border-gray-600 dark:hover:border-gray-500 rounded-xl font-medium transition-all duration-300 shadow-md hover:shadow-lg"
               >
                 <Icon icon="solar:mailbox-bold-duotone" width={18} height={18} />
                 Send Email
               </Link>
-            </motion.div>
+            </m.div>
           </div>
-        </motion.div>
+        </m.div>
       </div>
-    </motion.section>
+    </m.section>
   );
 }

@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { Icon } from '@iconify/react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { m, AnimatePresence } from 'framer-motion';
 
 interface Heading {
   id: string;
@@ -82,7 +82,7 @@ export default function TableOfContents({ content }: TableOfContentsProps) {
         {/* TOC List */}
         <AnimatePresence>
           {isOpen && (
-            <motion.nav
+            <m.nav
               initial={{ height: 0, opacity: 0 }}
               animate={{ height: 'auto', opacity: 1 }}
               exit={{ height: 0, opacity: 0 }}
@@ -122,7 +122,7 @@ export default function TableOfContents({ content }: TableOfContentsProps) {
                   </li>
                 ))}
               </ul>
-            </motion.nav>
+            </m.nav>
           )}
         </AnimatePresence>
 

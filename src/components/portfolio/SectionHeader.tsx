@@ -1,7 +1,7 @@
 "use client";
 
 import { Icon } from "@iconify/react";
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 
 interface SectionHeaderProps {
   tagText: string;
@@ -34,12 +34,12 @@ export default function SectionHeader({
   };
 
   return (
-    <motion.div
+    <m.div
       variants={itemVariants}
       className={`mb-8 md:mb-12 lg:mb-16 px-4 ${centered ? 'text-center' : ''}`}
     >
       {/* Tag Badge */}
-      <motion.div
+      <m.div
         className={`inline-flex items-center gap-2 px-4 py-2 bg-indigo-500/10 border border-indigo-500/20 rounded-full mb-4 md:mb-6 ${centered ? 'justify-center' : ''}`}
         whileHover={{ scale: 1.05 }}
       >
@@ -47,10 +47,10 @@ export default function SectionHeader({
         <span className="text-indigo-600 dark:text-indigo-400 text-sm font-medium">
           {tagText}
         </span>
-      </motion.div>
+      </m.div>
 
       {/* Heading */}
-      <motion.h2
+      <m.h2
         className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold mb-3 md:mb-4 lg:mb-6"
         whileHover={{ scale: 1.02 }}
         transition={{ type: "spring", stiffness: 300 }}
@@ -58,12 +58,12 @@ export default function SectionHeader({
         <span className="bg-gradient-to-l from-indigo-600 via-purple-600 to-violet-600 dark:from-indigo-400 dark:via-purple-400 dark:to-violet-400 bg-clip-text text-transparent">
           {heading}
         </span>
-      </motion.h2>
+      </m.h2>
 
       {/* Underline */}
       {
         showUnderline && (
-          <motion.div
+          <m.div
             className={`h-1 md:h-1.5 lg:h-2 bg-gradient-to-l from-indigo-600 via-purple-600 to-violet-600 dark:from-indigo-400 dark:via-purple-400 dark:to-violet-400 rounded-full mb-3 md:mb-4 lg:mb-6 ${centered ? 'mx-auto' : ''}`}
             initial={{ width: 0 }}
             whileInView={{ width: 80 }}
@@ -75,14 +75,14 @@ export default function SectionHeader({
       {/* Description */}
       {
         description && (
-          <motion.p
+          <m.p
             className={`text-base md:text-lg lg:text-xl text-gray-600 dark:text-gray-300 max-w-3xl ${centered ? 'mx-auto' : ''}`}
             variants={itemVariants}
           >
             {description}
-          </motion.p>
+          </m.p>
         )
       }
-    </motion.div >
+    </m.div >
   );
 } 
