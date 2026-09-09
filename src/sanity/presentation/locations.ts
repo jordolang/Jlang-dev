@@ -51,7 +51,6 @@ export const locations: DocumentLocationResolvers = {
   project: homePage("Projects"),
   experience: homePage("Experience"),
   techItem: homePage("Tech stack"),
-  certification: homePage("Certifications"),
   testimonial: homePage("Testimonials"),
   sectionContent: homePage("Section headings"),
 

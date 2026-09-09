@@ -2,7 +2,6 @@ import { aboutContentType } from "./aboutContent";
 import { addonFeatureType } from "./addonFeature";
 import { blockContentType } from "./blockContent";
 import { blogPostType } from "./blogPost";
-import { certificationType } from "./certification";
 import { experienceType } from "./experience";
 import { faqType } from "./faq";
 import { projectType } from "./project";
@@ -24,7 +23,6 @@ export const schemaTypes = [
   projectType,
   experienceType,
   techItemType,
-  certificationType,
   servicePackageType,
   addonFeatureType,
   faqType,
