@@ -180,6 +180,99 @@ export const projects: Project[] = [
     clientType: "Food & Beverage",
   },
   {
+    title: "Muskingum Materials",
+    subtitle: "Southeast Ohio's Sand, Soil & Gravel Website",
+    description: "Modern, full-featured business website for a family-owned sand, soil, and gravel operation in Zanesville, Ohio. Delivers a clean product catalog, real-time AI-powered customer chat trained on pricing and business data, lead capture system, and a Sanity Studio CMS backend giving owners full content control.",
+    image: "/images/projects/muskingum-materials.png",
+    features: [
+      "Product catalog with 15+ sand, gravel, soil, and stone products",
+      "AI chat agent powered by Anthropic Claude (Haiku)",
+      "Contact form, quote builder, and newsletter signup",
+      "Photo gallery with 23 photos and 3 videos",
+      "Sanity Studio CMS with 7 document schemas",
+      "Google Maps integration and social media links"
+    ],
+    deliverables: [
+      "Full business website design and development",
+      "AI chat integration with Vercel AI SDK",
+      "Sanity CMS setup and schema design",
+      "Lead capture and email notification system",
+      "Responsive mobile-first design",
+      "Google Analytics and Postmark email setup"
+    ],
+    tech: ["Next.js 15", "TypeScript", "Tailwind CSS", "Sanity CMS", "PostgreSQL", "Prisma", "Clerk", "Stripe", "Anthropic Claude", "Framer Motion", "Postmark", "Vercel"],
+    github: "https://github.com/jordolang/muskingum-materials",
+    live: "https://muskingummaterials.com",
+    gradient: "from-amber-700 to-yellow-600",
+    status: "Live",
+    category: "Web Design",
+    highlight: "Client Project",
+    timeline: "2025",
+    clientType: "Construction & Materials"
+  },
+  {
+    title: "SalsaDocs",
+    subtitle: "Jose Madrid Salsa Developer Documentation",
+    description: "Comprehensive developer documentation site for the Jose Madrid Salsa e-commerce platform. Built with Next.js and Fumadocs, it serves as the single source of truth for the platform — covering API reference, integration guides, deployment, configuration, and system architecture with Mermaid diagram support.",
+    image: "/images/projects/salsadocs.png",
+    features: [
+      "Full API reference with endpoint schemas and examples",
+      "Getting started and developer onboarding guides",
+      "Integration docs for Stripe, PayPal, Google Maps, and email",
+      "Deployment and CI/CD configuration guides",
+      "Mermaid diagram support for system architecture",
+      "Fumadocs-powered navigation and full-text search"
+    ],
+    deliverables: [
+      "Documentation site design and development",
+      "MDX-based content authoring system",
+      "Fumadocs integration with custom theming",
+      "Full API reference and feature documentation",
+      "Integration and deployment guide structure",
+      "Responsive, searchable documentation experience"
+    ],
+    tech: ["Next.js", "TypeScript", "Fumadocs", "MDX", "Tailwind CSS", "Mermaid", "Framer Motion", "Vercel"],
+    github: "https://github.com/jordolang/salsadocs",
+    live: "",
+    gradient: "from-slate-700 to-gray-800",
+    status: "Live",
+    category: "Web Design",
+    highlight: "Featured",
+    timeline: "2025",
+    clientType: "Documentation"
+  },
+  {
+    title: "Jessica ASP",
+    subtitle: "Creator Subscription Platform",
+    description: "A full-featured creator subscription platform where creators publish gated content and fans subscribe to tiers. Includes creator dashboards, admin tools, subscription management, web push notifications, file uploads via UploadThing, and Stripe subscription payments — built on Next.js 14 App Router.",
+    image: "/images/projects/jessica-asp.png",
+    features: [
+      "Creator dashboard for content, earnings, and subscriber management",
+      "Subscription tier system for fan access to gated content",
+      "Web push notifications via VAPID",
+      "Stripe subscription payments and webhook handling",
+      "File upload system powered by UploadThing",
+      "Admin tools for users, content moderation, and payouts"
+    ],
+    deliverables: [
+      "Full-stack Next.js 14 App Router platform",
+      "Stripe subscription and webhook integration",
+      "Creator and admin dashboard development",
+      "UploadThing file upload system",
+      "Web push notification infrastructure",
+      "Vitest unit tests and Playwright E2E test suite"
+    ],
+    tech: ["Next.js 14", "React", "TypeScript", "NextAuth", "Prisma", "PostgreSQL", "Stripe", "UploadThing", "Tailwind CSS", "Radix UI", "Vitest", "Playwright"],
+    github: "https://github.com/jordolang/jessica-asp",
+    live: "",
+    gradient: "from-violet-600 to-purple-700",
+    status: "In Development",
+    category: "Web Apps",
+    highlight: "Current Project",
+    timeline: "Ongoing",
+    clientType: "Creator Economy"
+  },
+  {
     title: "Amplinks",
     image: "/images/projects/amplinks.png",
     subtitle: "Self-Hosted iOS/Web Music Platform",
