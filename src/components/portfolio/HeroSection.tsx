@@ -69,19 +69,13 @@ export default function HeroSection({ content }: { content?: HeroContent }) {
   };
 
   // Background loop: the poster <Image> paints first (it's the LCP candidate);
-  // the video fades in over it once it is actually playing. Skipped entirely
-  // for reduced-motion users.
+  // the video fades in over it once it is actually playing. Reduced-motion
+  // visitors never get it: every <source> is gated on the media query, so the
+  // browser selects no file and downloads nothing, with no hydration race.
   const videoRef = useRef<HTMLVideoElement>(null);
   const [videoReady, setVideoReady] = useState(false);
   useEffect(() => {
-    const video = videoRef.current;
-    if (!video) return;
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
-      video.pause();
-      video.removeAttribute("autoplay");
-      return;
-    }
-    video.play().catch(() => {});
+    videoRef.current?.play().catch(() => {});
   }, []);
 
   return (
@@ -117,8 +111,16 @@ export default function HeroSection({ content }: { content?: HeroContent }) {
           preload="auto"
           onPlaying={() => setVideoReady(true)}
         >
-          <source src="/media/hero/hero-mobile.mp4" type="video/mp4" media="(max-width: 767px)" />
-          <source src="/media/hero/hero-desktop.mp4" type="video/mp4" />
+          <source
+            src="/media/hero/hero-mobile.mp4"
+            type="video/mp4"
+            media="(prefers-reduced-motion: no-preference) and (max-width: 767px)"
+          />
+          <source
+            src="/media/hero/hero-desktop.mp4"
+            type="video/mp4"
+            media="(prefers-reduced-motion: no-preference)"
+          />
         </video>
         {/* Scrims keep the copy legible over any frame */}
         <div className="absolute inset-0 bg-black/55" />

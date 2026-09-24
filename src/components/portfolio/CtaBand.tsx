@@ -26,7 +26,7 @@ export default function CtaBand() {
           </span>
         </h2>
         <p className="mx-auto mt-6 max-w-xl text-lg text-silver-200">
-          Packages start at $499 with a 24-hour turnaround. Tell me about your business and I&apos;ll reply
+          Clear, fixed-price packages for every stage of business. Tell me about yours and I&apos;ll reply
           with a plan within one business day.
         </p>
         <div className="mt-10 flex flex-wrap justify-center gap-3">

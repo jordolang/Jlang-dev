@@ -84,18 +84,59 @@ const range = (...stops: number[]) => {
   return stops.map((v) => (prev = Math.max(prev, Math.min(1, Math.max(0, v)))));
 };
 
+/** Chapter number, label, headline, body and (on the last chapter) the CTAs. */
+function ChapterCopy({ chapter, index }: { chapter: Chapter; index: number }) {
+  return (
+    <div className="max-w-2xl">
+      <div className="mb-5 flex items-center gap-4">
+        <span className="font-mono text-sm tracking-[0.3em] text-gold-300">
+          {String(index + 1).padStart(2, "0")} / {String(N).padStart(2, "0")}
+        </span>
+        <span className="h-px w-12 bg-gradient-to-r from-gold-400 to-transparent" />
+        <span className="text-sm uppercase tracking-[0.3em] text-silver-300">{chapter.label}</span>
+      </div>
+      <h3 className="mb-5 text-4xl font-bold leading-[1.05] text-white md:text-6xl">
+        {chapter.title}
+      </h3>
+      <p className="max-w-xl text-base leading-relaxed text-silver-200 md:text-lg">{chapter.body}</p>
+
+      {index === N - 1 && (
+        <div className="mt-8 flex flex-wrap gap-3">
+          <Link
+            href="/#contact"
+            className="inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-gold-300 via-gold-400 to-gold-500 px-6 py-3 font-semibold text-black shadow-lg shadow-gold-500/20 transition-transform hover:scale-105 active:scale-95"
+          >
+            Start your project
+            <Icon icon="solar:arrow-right-linear" width={18} height={18} />
+          </Link>
+          <Link
+            href="/services"
+            className="inline-flex items-center gap-2 rounded-full border border-silver-300/40 bg-white/5 px-6 py-3 font-semibold text-white backdrop-blur-sm transition-colors hover:bg-white/10"
+          >
+            View packages
+          </Link>
+        </div>
+      )}
+    </div>
+  );
+}
+
 function ChapterLayer({
   chapter,
   index,
   progress,
   live,
+  current,
 }: {
   chapter: Chapter;
   index: number;
   progress: MotionValue<number>;
   /** On screen and allowed to move: mount and play the video. */
   live: boolean;
+  /** The chapter whose copy is showing; every other layer's copy is inert. */
+  current: boolean;
 }) {
+  const copyRef = useRef<HTMLDivElement>(null);
   const start = index / N;
   const span = 1 / N;
 
@@ -115,6 +156,13 @@ function ChapterLayer({
     index === 0 ? [1, 1, 1, 0] : index === N - 1 ? [0, 1, 1, 1] : [0, 1, 1, 0],
   );
   const copyY = useTransform(progress, range(start - span * 0.1, start + span * 0.15), index === 0 ? [0, 0] : [60, 0]);
+
+  // Copy on clipped / faded-out layers stays mounted, so take it out of the tab
+  // order and the accessibility tree; otherwise keyboard focus lands on the
+  // invisible final-chapter CTAs. (Set as a property: React 18 has no `inert` prop.)
+  useEffect(() => {
+    if (copyRef.current) copyRef.current.inert = !current;
+  }, [current]);
 
   return (
     <m.div className="absolute inset-0" style={{ clipPath, zIndex: index }}>
@@ -146,40 +194,12 @@ function ChapterLayer({
       <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/20 to-transparent" />
 
       <m.div
+        ref={copyRef}
+        aria-hidden={!current}
         className="absolute inset-x-0 bottom-0 px-6 pb-24 md:pb-28 md:px-12 lg:px-20"
         style={{ opacity: copyOpacity, y: copyY }}
       >
-        <div className="max-w-2xl">
-          <div className="mb-5 flex items-center gap-4">
-            <span className="font-mono text-sm tracking-[0.3em] text-gold-300">
-              {String(index + 1).padStart(2, "0")} / {String(N).padStart(2, "0")}
-            </span>
-            <span className="h-px w-12 bg-gradient-to-r from-gold-400 to-transparent" />
-            <span className="text-sm uppercase tracking-[0.3em] text-silver-300">{chapter.label}</span>
-          </div>
-          <h3 className="mb-5 text-4xl font-bold leading-[1.05] text-white md:text-6xl">
-            {chapter.title}
-          </h3>
-          <p className="max-w-xl text-base leading-relaxed text-silver-200 md:text-lg">{chapter.body}</p>
-
-          {index === N - 1 && (
-            <div className="mt-8 flex flex-wrap gap-3">
-              <Link
-                href="/#contact"
-                className="inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-gold-300 via-gold-400 to-gold-500 px-6 py-3 font-semibold text-black shadow-lg shadow-gold-500/20 transition-transform hover:scale-105 active:scale-95"
-              >
-                Start your project
-                <Icon icon="solar:arrow-right-linear" width={18} height={18} />
-              </Link>
-              <Link
-                href="/services"
-                className="inline-flex items-center gap-2 rounded-full border border-silver-300/40 bg-white/5 px-6 py-3 font-semibold text-white backdrop-blur-sm transition-colors hover:bg-white/10"
-              >
-                View packages
-              </Link>
-            </div>
-          )}
-        </div>
+        <ChapterCopy chapter={chapter} index={index} />
       </m.div>
     </m.div>
   );
@@ -192,6 +212,11 @@ export default function ScrollStory() {
   // [chapter fully revealed underneath, chapter wiping in over it (if any)].
   const [[base, wipingIn], setVisible] = useState<[number, number | null]>([0, null]);
   const [inView, setInView] = useState(false);
+  // Decided after mount so server and first client render agree (the server
+  // can't know the preference); reduced-motion visitors then get the static
+  // layout below instead of the pinned, scroll-animated stage.
+  const [staticLayout, setStaticLayout] = useState(false);
+  useEffect(() => setStaticLayout(!!reduceMotion), [reduceMotion]);
 
   const { scrollYProgress } = useScroll({ target: sectionRef, offset: ["start start", "end end"] });
   const barScale = useTransform(scrollYProgress, [0, 1], [0, 1]);
@@ -223,6 +248,24 @@ export default function ScrollStory() {
     window.scrollTo({ top: top + (travel * (i + 0.2)) / N, behavior: "smooth" });
   };
 
+  if (staticLayout) {
+    return (
+      <section id="process" aria-label="How I work" className="dark bg-black">
+        {CHAPTERS.map((chapter, i) => (
+          <div key={chapter.key} className="relative flex min-h-[80vh] items-end overflow-hidden">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src={chapter.poster} alt="" className="absolute inset-0 h-full w-full object-cover" loading="lazy" />
+            <div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-black/10" />
+            <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/20 to-transparent" />
+            <div className="relative w-full px-6 pb-20 pt-40 md:px-12 lg:px-20">
+              <ChapterCopy chapter={chapter} index={i} />
+            </div>
+          </div>
+        ))}
+      </section>
+    );
+  }
+
   return (
     <section
       ref={sectionRef}
@@ -238,7 +281,8 @@ export default function ScrollStory() {
             chapter={chapter}
             index={i}
             progress={scrollYProgress}
-            live={!reduceMotion && inView && (i === base || i === wipingIn)}
+            live={inView && (i === base || i === wipingIn)}
+            current={i === active}
           />
         ))}
 
