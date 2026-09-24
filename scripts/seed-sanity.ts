@@ -18,7 +18,6 @@ import matter from "gray-matter";
 import { projects } from "../src/components/portfolio/ProjectsSection";
 import { experience } from "../src/components/portfolio/ExperienceSection";
 import { techStackData } from "../src/components/portfolio/TechStackSection";
-import { certifications } from "../src/components/portfolio/CertificationsSection";
 import { pricingPackages, faqs } from "../src/components/portfolio/ServicesSection";
 import { defaultTestimonials } from "../src/components/portfolio/TestimonialsSection";
 import { ADDON_FEATURES } from "../src/lib/content/addons";
@@ -243,29 +242,6 @@ async function main() {
   );
   await seedGroup("Tech stack", techDocs);
 
-  const certDocs = [];
-  for (const [index, cert] of certifications.entries()) {
-    const preview = await uploadImage(cert.certificatePreview);
-    certDocs.push({
-      _id: id("cert", cert.credentialId || cert.title),
-      _type: "certification",
-      title: cert.title,
-      provider: cert.provider,
-      platform: cert.platform,
-      issued: cert.issued,
-      credentialId: cert.credentialId,
-      skills: cert.skills,
-      providerIcon: cert.providerIcon,
-      platformIcon: cert.platformIcon,
-      providerIconSize: cert.providerIconSize,
-      platformIconSize: cert.platformIconSize,
-      color: cert.color,
-      ...(preview ? { certificatePreview: preview } : {}),
-      order: index,
-    });
-  }
-  await seedGroup("Certifications", certDocs);
-
   // --- Testimonials: the six bundled quotes become editable documents. ---
   await seedGroup(
     "Testimonials",
@@ -350,7 +326,6 @@ async function main() {
         { _key: "blog", label: "Blog", href: "/#blog" },
         { _key: "stack", label: "Stack", href: "/#stack" },
         { _key: "experience", label: "Experience", href: "/#experience" },
-        { _key: "certifications", label: "Certifications", href: "/#certifications" },
         { _key: "projects", label: "Projects", href: "/#projects" },
         { _key: "services", label: "Services", href: "/services" },
         { _key: "testimonials", label: "Testimonials", href: "/#testimonials" },
@@ -425,7 +400,6 @@ async function main() {
     { sectionId: "blog", tagText: "Latest Insights", tagIcon: "solar:document-text-bold", heading: "Blog Posts", description: "Thoughts on web development, self-hosting, mobile apps, and technology trends" },
     { sectionId: "stack", tagText: "Tech Arsenal", tagIcon: "solar:settings-bold", heading: "Technology Stack", description: "Technologies I use to bring ideas to life" },
     { sectionId: "experience", tagText: "Professional Journey", tagIcon: "solar:case-bold", heading: "Experience", description: "My professional journey and the impact I've made across different domains" },
-    { sectionId: "certifications", tagText: "Professional Credentials", tagIcon: "solar:verified-check-bold", heading: "Certifications", description: "Credentials backing the stack and the experience above. Select one to view the certificate." },
     { sectionId: "projects", tagText: "Portfolio Showcase", tagIcon: "solar:code-square-bold", heading: "Featured Projects", description: "Explore my web design portfolio featuring modern, responsive websites and digital solutions for diverse industries", ctaText: "Interested in working together? Let's create something amazing!" },
     { sectionId: "services", tagText: "Services", tagIcon: "solar:code-square-bold", heading: "Web Design & Development Services", description: "Custom web solutions tailored to your business — pick a package and order in minutes." },
     { sectionId: "testimonials", tagText: "Client Stories", tagIcon: "solar:users-group-rounded-outline", heading: "Testimonials Wall", description: "Real feedback from real clients who trusted me with their projects" },

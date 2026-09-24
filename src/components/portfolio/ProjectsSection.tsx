@@ -23,7 +23,7 @@ interface Project {
   highlight: string;
   timeline: string;
   clientType: string;
-  group?: "desktop" | "mobile";
+  group?: "desktop" | "mobile" | "desktopApp";
   fullPagePreview?: boolean;
   /** Intrinsic size of `image`. Required for full-page captures so the scroll container renders them at true aspect ratio. */
   imageWidth?: number;
@@ -61,6 +61,36 @@ export const projects: Project[] = [
     highlight: "Latest Project",
     timeline: "2026",
     clientType: "Permanent Jewelry",
+  },
+  {
+    title: "Steamers Stonewall Tavern",
+    subtitle: "Upscale-Casual Tavern — North Lima, OH",
+    description:
+      "A cinematic front end for a family-run Market Street tavern: a scroll-driven walk-in from the parking lot to the octagonal bar, the full 64-dish menu, and every fact on the page traceable to a verified source.",
+    image: "/images/projects/steamers.jpg",
+    features: [
+      "Scroll-scrubbed video hero that walks you into the room",
+      "Full 64-dish menu across eight sections, prices current",
+      "Live open/closed status from the restaurant's real hours",
+      "Editorial typography and a restrained neon-led palette",
+      "Tuned for Core Web Vitals — preloaded LCP still, inlined critical CSS",
+    ],
+    deliverables: [
+      "Content research and source-verified copy",
+      "Location and dish photography direction",
+      "Responsive site design and build",
+      "Social card, structured data, and SEO metadata",
+      "Deployment on Vercel",
+    ],
+    tech: ["Next.js", "React", "TypeScript", "Tailwind CSS", "Framer Motion", "Vercel"],
+    github: "",
+    live: "",
+    gradient: "from-red-600 to-cyan-500",
+    status: "Live",
+    category: "Web Design",
+    highlight: "Latest Project",
+    timeline: "2026",
+    clientType: "Restaurant",
   },
   {
     title: "Muskingum Materials",
@@ -178,6 +208,99 @@ export const projects: Project[] = [
     highlight: "Featured",
     timeline: "2025",
     clientType: "Food & Beverage",
+  },
+  {
+    title: "Muskingum Materials",
+    subtitle: "Southeast Ohio's Sand, Soil & Gravel Website",
+    description: "Modern, full-featured business website for a family-owned sand, soil, and gravel operation in Zanesville, Ohio. Delivers a clean product catalog, real-time AI-powered customer chat trained on pricing and business data, lead capture system, and a Sanity Studio CMS backend giving owners full content control.",
+    image: "/images/projects/muskingum-materials.png",
+    features: [
+      "Product catalog with 15+ sand, gravel, soil, and stone products",
+      "AI chat agent powered by Anthropic Claude (Haiku)",
+      "Contact form, quote builder, and newsletter signup",
+      "Photo gallery with 23 photos and 3 videos",
+      "Sanity Studio CMS with 7 document schemas",
+      "Google Maps integration and social media links"
+    ],
+    deliverables: [
+      "Full business website design and development",
+      "AI chat integration with Vercel AI SDK",
+      "Sanity CMS setup and schema design",
+      "Lead capture and email notification system",
+      "Responsive mobile-first design",
+      "Google Analytics and Postmark email setup"
+    ],
+    tech: ["Next.js 15", "TypeScript", "Tailwind CSS", "Sanity CMS", "PostgreSQL", "Prisma", "Clerk", "Stripe", "Anthropic Claude", "Framer Motion", "Postmark", "Vercel"],
+    github: "https://github.com/jordolang/muskingum-materials",
+    live: "https://muskingummaterials.com",
+    gradient: "from-amber-700 to-yellow-600",
+    status: "Live",
+    category: "Web Design",
+    highlight: "Client Project",
+    timeline: "2025",
+    clientType: "Construction & Materials"
+  },
+  {
+    title: "SalsaDocs",
+    subtitle: "Jose Madrid Salsa Developer Documentation",
+    description: "Comprehensive developer documentation site for the Jose Madrid Salsa e-commerce platform. Built with Next.js and Fumadocs, it serves as the single source of truth for the platform — covering API reference, integration guides, deployment, configuration, and system architecture with Mermaid diagram support.",
+    image: "/images/projects/salsadocs.png",
+    features: [
+      "Full API reference with endpoint schemas and examples",
+      "Getting started and developer onboarding guides",
+      "Integration docs for Stripe, PayPal, Google Maps, and email",
+      "Deployment and CI/CD configuration guides",
+      "Mermaid diagram support for system architecture",
+      "Fumadocs-powered navigation and full-text search"
+    ],
+    deliverables: [
+      "Documentation site design and development",
+      "MDX-based content authoring system",
+      "Fumadocs integration with custom theming",
+      "Full API reference and feature documentation",
+      "Integration and deployment guide structure",
+      "Responsive, searchable documentation experience"
+    ],
+    tech: ["Next.js", "TypeScript", "Fumadocs", "MDX", "Tailwind CSS", "Mermaid", "Framer Motion", "Vercel"],
+    github: "https://github.com/jordolang/salsadocs",
+    live: "",
+    gradient: "from-slate-700 to-gray-800",
+    status: "Live",
+    category: "Web Design",
+    highlight: "Featured",
+    timeline: "2025",
+    clientType: "Documentation"
+  },
+  {
+    title: "Jessica ASP",
+    subtitle: "Creator Subscription Platform",
+    description: "A full-featured creator subscription platform where creators publish gated content and fans subscribe to tiers. Includes creator dashboards, admin tools, subscription management, web push notifications, file uploads via UploadThing, and Stripe subscription payments — built on Next.js 14 App Router.",
+    image: "/images/projects/jessica-asp.png",
+    features: [
+      "Creator dashboard for content, earnings, and subscriber management",
+      "Subscription tier system for fan access to gated content",
+      "Web push notifications via VAPID",
+      "Stripe subscription payments and webhook handling",
+      "File upload system powered by UploadThing",
+      "Admin tools for users, content moderation, and payouts"
+    ],
+    deliverables: [
+      "Full-stack Next.js 14 App Router platform",
+      "Stripe subscription and webhook integration",
+      "Creator and admin dashboard development",
+      "UploadThing file upload system",
+      "Web push notification infrastructure",
+      "Vitest unit tests and Playwright E2E test suite"
+    ],
+    tech: ["Next.js 14", "React", "TypeScript", "NextAuth", "Prisma", "PostgreSQL", "Stripe", "UploadThing", "Tailwind CSS", "Radix UI", "Vitest", "Playwright"],
+    github: "https://github.com/jordolang/jessica-asp",
+    live: "",
+    gradient: "from-violet-600 to-purple-700",
+    status: "In Development",
+    category: "Web Apps",
+    highlight: "Current Project",
+    timeline: "Ongoing",
+    clientType: "Creator Economy"
   },
   {
     title: "Amplinks",
@@ -565,6 +688,103 @@ export const projects: Project[] = [
     clientType: "Mobile Applications",
     group: "mobile",
   },
+  {
+    title: "Jose Madrid Admin Panel",
+    subtitle: "Windows & macOS Desktop Admin",
+    description:
+      "The whole Jose Madrid Salsa business in a native window. A dense, keyboard-driven shell over 23 live sections — orders, products, inventory, customers, financials, fundraisers — with native menus, real printing, a save dialog on every export, and automatic updates.",
+    image: "/images/projects/desktop/jose-madrid-admin.png",
+    imageWidth: 1600,
+    imageHeight: 1000,
+    features: [
+      "23 live sections, from orders to the general ledger",
+      "Command palette and keyboard navigation throughout",
+      "Native menus, printing, and a save dialog on every export",
+      "Persistent signed-in session with an offline screen",
+      "Automatic updates on Windows; ships for Intel and Apple silicon",
+    ],
+    deliverables: [
+      "Electron shell for Windows 11 and a SwiftUI build for macOS",
+      "Desktop shell UI over the existing admin data layer",
+      "Role-based access and audit logging",
+      "Signed installers (NSIS .exe and .dmg) with an update channel",
+    ],
+    tech: ["Electron", "SwiftUI", "TypeScript", "Next.js", "Prisma", "PostgreSQL"],
+    github: "",
+    live: "",
+    gradient: "from-amber-700 to-yellow-600",
+    status: "Live",
+    category: "Desktop App",
+    highlight: "Windows & macOS",
+    timeline: "2026",
+    clientType: "Food Manufacturer",
+    group: "desktopApp",
+  },
+  {
+    title: "Local Lead Scraper Pro",
+    subtitle: "Google Maps Prospecting Desktop App",
+    description:
+      "A licensed Windows desktop app that turns a city and an industry into a worked lead list: scrape Google Maps listings, scan each site for contacts, compose and send personalised outreach, and work the follow-up calls from a prioritised cockpit.",
+    image: "/images/projects/desktop/google-scraper.png",
+    imageWidth: 1600,
+    imageHeight: 820,
+    features: [
+      "Google Maps listing scraper with radius and result caps",
+      "Website crawler that pulls emails and contact details",
+      "Templated email generation and campaign sending",
+      "Prioritised call cockpit with a built-in pitch script",
+      "CSV and XLSX export, plus a licensing and trial system",
+    ],
+    deliverables: [
+      "PySide6 desktop application with eight screens",
+      "Selenium scraping pipeline with an embedded browser",
+      "Email generation, templating, and sending",
+      "Ed25519-signed licensing with a 72-hour trial",
+      "Packaged single-file Windows executable",
+    ],
+    tech: ["Python", "PySide6", "Qt", "Selenium", "PyInstaller"],
+    github: "https://github.com/jordolang/Google-Scraper",
+    live: "",
+    gradient: "from-blue-600 to-indigo-600",
+    status: "Live",
+    category: "Desktop App",
+    highlight: "Windows",
+    timeline: "2026",
+    clientType: "Lead Generation",
+    group: "desktopApp",
+  },
+  {
+    title: "FestivalNet Scraper",
+    subtitle: "Vendor Show-Finder Desktop App",
+    description:
+      "Finds the most profitable shows for the lowest out-of-pocket cost. It scans every upcoming weekend within driving distance, scores each expo, fair, and festival on what it should actually put in a vendor's pocket, and lays the results out as a table, a map, a calendar, and four charts.",
+    image: "/images/projects/desktop/festivalnet-scraper.png",
+    imageWidth: 1500,
+    imageHeight: 968,
+    features: [
+      "Scores every event on estimated profit, not just attendance",
+      "Geocoding and a drive-time radius from your home town",
+      "Results as a table, map, calendar, and four charts",
+      "Per-event breakdown: booth fees, travel, cost of goods, return",
+      "One-click export and saved search profiles",
+    ],
+    deliverables: [
+      "Cross-platform desktop app for Windows and macOS",
+      "Scraping and geocoding pipeline with a scoring model",
+      "Map, calendar, and charting views",
+      "Windows and macOS builds for Intel and ARM",
+    ],
+    tech: ["Python", "Qt", "Requests", "Geocoding", "PyInstaller"],
+    github: "https://github.com/jordolang/festivalnetwork-scraper",
+    live: "",
+    gradient: "from-emerald-600 to-teal-600",
+    status: "Live",
+    category: "Desktop App",
+    highlight: "Windows & macOS",
+    timeline: "2026",
+    clientType: "Event Vendors",
+    group: "desktopApp",
+  },
 ];
 
 export interface SectionHeading {
@@ -924,10 +1144,98 @@ function MobileProjectCard({ project }: { project: Project }) {
   );
 }
 
+/**
+ * Desktop app card — the app's own window fills the top of the card, framed by a
+ * title bar so a screenshot of a native window reads as one rather than as a web
+ * page. These ship as installers, so there is usually no live URL to link.
+ */
+function DesktopAppCard({ project }: { project: Project }) {
+  return (
+    <m.div
+      variants={itemVariants}
+      whileHover={{ y: -4 }}
+      transition={{ type: "spring", stiffness: 300 }}
+      onClick={() => trackEvent(AnalyticsEvents.PROJECT_CLICKED, { project: project.title })}
+      className="group flex flex-col overflow-hidden rounded-2xl border border-white/30 bg-white/80 shadow-lg backdrop-blur-xl transition-all duration-300 hover:border-gray-300 hover:shadow-2xl dark:border-gray-700/40 dark:bg-gray-900/80 dark:hover:border-gray-600"
+    >
+      {/* Window chrome + the app's own screenshot */}
+      <div className="relative bg-gray-200 dark:bg-gray-800">
+        <div className="flex items-center gap-1.5 border-b border-gray-300/70 px-3 py-2 dark:border-gray-700">
+          <span className="h-2.5 w-2.5 rounded-full bg-red-400" />
+          <span className="h-2.5 w-2.5 rounded-full bg-yellow-400" />
+          <span className="h-2.5 w-2.5 rounded-full bg-green-400" />
+          <span className="ml-2 truncate text-[11px] font-medium text-gray-500 dark:text-gray-400">
+            {project.title}
+          </span>
+        </div>
+        {/* object-contain, not cover: a cropped desktop window loses the layout that
+            makes it recognisable as an application rather than a web page. */}
+        <div className="relative aspect-[16/10] overflow-hidden bg-gray-100 dark:bg-gray-900">
+          <Image
+            src={project.image}
+            alt={`${project.title} desktop application screenshot`}
+            fill
+            className="object-contain object-top transition-transform duration-500 group-hover:scale-[1.03]"
+            sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+          />
+          <div className="absolute left-3 top-3 flex flex-wrap gap-2">
+            <StatusBadge status={project.status} />
+          </div>
+          <span className="absolute right-3 top-3 inline-flex items-center gap-1 rounded-full bg-black/45 px-2.5 py-1 text-[10px] font-semibold text-white backdrop-blur-sm">
+            <Icon icon="solar:monitor-bold" width={11} height={11} />
+            {project.highlight}
+          </span>
+        </div>
+        <div className={`absolute inset-x-0 bottom-0 h-1.5 bg-gradient-to-r ${project.gradient}`} />
+      </div>
+
+      <div className="flex flex-1 flex-col p-5">
+        <h3 className="text-lg font-bold leading-tight text-gray-900 dark:text-white">{project.title}</h3>
+        <p className="mt-0.5 text-sm font-medium text-indigo-600 dark:text-indigo-400">{project.subtitle}</p>
+        <p className="mt-2 text-sm leading-relaxed text-gray-600 line-clamp-3 dark:text-gray-300">
+          {project.description}
+        </p>
+
+        <ul className="mt-3 space-y-1.5">
+          {project.features.slice(0, 3).map((feature) => (
+            <li key={feature} className="flex items-start gap-2 text-xs text-gray-600 dark:text-gray-400">
+              <Icon icon="solar:check-circle-bold" className="mt-0.5 h-3.5 w-3.5 flex-shrink-0 text-green-500" />
+              <span className="leading-relaxed">{feature}</span>
+            </li>
+          ))}
+        </ul>
+
+        <div className="mt-3 flex flex-wrap gap-1.5">
+          {project.tech.slice(0, 3).map((tech) => (
+            <span
+              key={tech}
+              className="rounded-md border border-gray-200 bg-gray-100 px-2 py-0.5 text-[11px] font-medium text-gray-600 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-300"
+            >
+              {tech}
+            </span>
+          ))}
+          {project.tech.length > 3 && (
+            <span className="px-2 py-0.5 text-[11px] font-medium text-gray-400 dark:text-gray-500">
+              +{project.tech.length - 3}
+            </span>
+          )}
+        </div>
+
+        <div className="mt-auto pt-4">
+          <ProjectLinks project={project} />
+        </div>
+      </div>
+    </m.div>
+  );
+}
+
 export default function ProjectsSection({ projects: cmsProjects, heading }: ProjectsSectionProps) {
   const allProjects = cmsProjects?.length ? cmsProjects : projects;
-  const desktopProjects = allProjects.filter((project) => project.group !== "mobile");
+  const desktopProjects = allProjects.filter(
+    (project) => project.group !== "mobile" && project.group !== "desktopApp",
+  );
   const mobileProjects = allProjects.filter((project) => project.group === "mobile");
+  const desktopApps = allProjects.filter((project) => project.group === "desktopApp");
   const [featured, ...desktopRest] = desktopProjects;
 
   return (
@@ -986,6 +1294,20 @@ export default function ProjectsSection({ projects: cmsProjects, heading }: Proj
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
                 {mobileProjects.map((project) => (
                   <MobileProjectCard key={project.title} project={project} />
+                ))}
+              </div>
+            </>
+          )}
+
+          {/* Desktop Applications — native apps that ship as installers */}
+          {desktopApps.length > 0 && (
+            <>
+              <h3 className="text-xl md:text-2xl font-bold text-gray-900 dark:text-white mt-12 md:mt-16 mb-6 md:mb-8">
+                Desktop Applications (Windows &amp; macOS)
+              </h3>
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                {desktopApps.map((project) => (
+                  <DesktopAppCard key={project.title} project={project} />
                 ))}
               </div>
             </>

@@ -51,7 +51,14 @@ export const projectType = defineType({
       name: "group",
       title: "Group",
       type: "string",
-      options: { list: [{ title: "Desktop / Web", value: "desktop" }, { title: "Mobile app", value: "mobile" }], layout: "radio" },
+      options: {
+        list: [
+          { title: "Desktop / Web", value: "desktop" },
+          { title: "Mobile app", value: "mobile" },
+          { title: "Desktop application", value: "desktopApp" },
+        ],
+        layout: "radio",
+      },
       initialValue: "desktop",
     }),
     defineField({

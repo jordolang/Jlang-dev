@@ -21,7 +21,6 @@ export const sectionContentType = defineType({
           { title: "Services", value: "services" },
           { title: "Testimonials", value: "testimonials" },
           { title: "Contact", value: "contact" },
-          { title: "Certifications", value: "certifications" },
         ],
       },
       validation: (rule) => rule.required(),

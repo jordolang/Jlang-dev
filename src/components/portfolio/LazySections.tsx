@@ -21,7 +21,6 @@ const reserve = (minHeight: number) => {
 
 const BlogSection = dynamic(() => import("./BlogSection"), { ssr: false, loading: reserve(500) });
 const TechStackSection = dynamic(() => import("./TechStackSection"), { ssr: false, loading: reserve(600) });
-const CertificationsSection = dynamic(() => import("./CertificationsSection"), { ssr: false, loading: reserve(400) });
 const ProjectsSection = dynamic(() => import("./ProjectsSection"), { ssr: false, loading: reserve(800) });
 const ServicesSection = dynamic(() => import("./ServicesSection"), { ssr: false, loading: reserve(700) });
 const TestimonialsSection = dynamic(() => import("./TestimonialsSection"), { ssr: false, loading: reserve(500) });
@@ -39,14 +38,6 @@ export function LazyTechStackSection(props: ComponentProps<typeof TechStackSecti
   return (
     <LazyOnScroll id="stack" minHeight={600}>
       <TechStackSection {...props} />
-    </LazyOnScroll>
-  );
-}
-
-export function LazyCertificationsSection(props: ComponentProps<typeof CertificationsSection>) {
-  return (
-    <LazyOnScroll id="certifications" minHeight={400}>
-      <CertificationsSection {...props} />
     </LazyOnScroll>
   );
 }

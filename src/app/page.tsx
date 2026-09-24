@@ -10,7 +10,6 @@ import CtaBand from "@/components/portfolio/CtaBand";
 import {
   LazyBlogSection,
   LazyTechStackSection,
-  LazyCertificationsSection,
   LazyProjectsSection,
   LazyServicesSection,
   LazyTestimonialsSection,
@@ -18,7 +17,6 @@ import {
 } from "@/components/portfolio/LazySections";
 import {
   getAboutContent,
-  getCertifications,
   getExperience,
   getFaqs,
   getProjects,
@@ -40,7 +38,6 @@ export default async function Portfolio() {
     projects,
     experience,
     techStack,
-    certifications,
     packages,
     faqs,
     posts,
@@ -52,7 +49,6 @@ export default async function Portfolio() {
     getProjects(),
     getExperience(),
     getTechStack(),
-    getCertifications(),
     getServicePackages(),
     getFaqs(),
     getLatestBlogPosts(3),
@@ -87,10 +83,6 @@ export default async function Portfolio() {
           items={experience ?? undefined}
           stats={about?.stats ?? undefined}
           heading={headings?.experience}
-        />
-        <LazyCertificationsSection
-          items={certifications ?? undefined}
-          heading={headings?.certifications}
         />
         <LazyProjectsSection projects={projects ?? undefined} heading={headings?.projects} />
         <LazyServicesSection
