@@ -23,7 +23,7 @@ export async function generateMetadata(): Promise<Metadata> {
   const description = settings?.seoDescription || DEFAULT_DESCRIPTION;
   const ogTitle = settings?.ogTitle || DEFAULT_OG_TITLE;
   const ogDescription = settings?.ogDescription || DEFAULT_OG_DESCRIPTION;
-  const ogImage = settings?.ogImage || "/jlangdev.png";
+  const ogImage = settings?.ogImage || "/og-jlang.jpg";
 
   return {
     metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || "https://jlang.dev"),

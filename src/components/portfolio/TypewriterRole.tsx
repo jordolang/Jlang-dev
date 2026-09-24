@@ -44,17 +44,17 @@ export default function TypewriterRole({ roles: cmsRoles }: { roles?: string[] }
     >
       {/* Role pill — static gradient (no per-frame animation) */}
       <m.div
-        className="relative overflow-hidden rounded-2xl px-6 py-3 min-w-[280px] bg-gradient-to-br from-blue-500 via-purple-500 to-pink-500 shadow-lg"
+        className="relative overflow-hidden rounded-2xl px-6 py-3 min-w-[280px] bg-black/40 backdrop-blur-md border border-gold-400/40 shadow-lg shadow-black/40"
         initial={{ scale: 0.8 }}
         animate={{ scale: 1 }}
         transition={{ delay: 0.6, type: "spring", stiffness: 200 }}
       >
         {/* Role Text */}
         <div className="relative z-10 text-center">
-          <span className="text-white font-semibold text-left inline-block min-w-[200px]">
+          <span className="text-gold-100 font-semibold text-left inline-block min-w-[200px] tracking-wide">
             {displayText}
             {/* Blinking cursor — cheap CSS animation, no JS/compositor cost */}
-            <span className="inline-block w-0.5 h-6 bg-white/80 ml-1 align-middle animate-pulse" />
+            <span className="inline-block w-0.5 h-6 bg-gold-300 ml-1 align-middle animate-pulse" />
           </span>
         </div>
       </m.div>

@@ -7,7 +7,7 @@ export default function Background() {
   return (
     <div className="fixed inset-0 -z-10 overflow-hidden">
       {/* Base gradient */}
-      <div className="absolute inset-0 bg-gradient-to-br from-blue-50 via-white to-purple-50 dark:from-gray-900 dark:via-gray-800 dark:to-black" />
+      <div className="absolute inset-0 bg-gradient-to-br from-white via-white to-gold-50/60 dark:from-black dark:via-neutral-950 dark:to-black" />
 
       {/* Static soft color orbs (no animation) */}
       <div className="absolute top-1/4 left-1/4 w-96 h-96 rounded-full bg-gradient-to-r from-blue-400/20 to-purple-500/20 dark:from-blue-500/30 dark:to-purple-600/30 blur-3xl" />
@@ -20,8 +20,8 @@ export default function Background() {
           className="w-full h-full"
           style={{
             backgroundImage: `
-              linear-gradient(rgba(59, 130, 246, 0.1) 1px, transparent 1px),
-              linear-gradient(90deg, rgba(59, 130, 246, 0.1) 1px, transparent 1px)
+              linear-gradient(rgba(195, 148, 69, 0.12) 1px, transparent 1px),
+              linear-gradient(90deg, rgba(195, 148, 69, 0.12) 1px, transparent 1px)
             `,
             backgroundSize: "60px 60px",
           }}

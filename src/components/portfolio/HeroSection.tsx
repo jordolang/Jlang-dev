@@ -3,6 +3,7 @@
 import { Icon } from "@iconify/react";
 import Image from "next/image";
 import Link from "next/link";
+import { useEffect, useRef, useState } from "react";
 import { AnalyticsEvents, trackEvent } from "@/lib/analytics";
 import TypewriterRole from "./TypewriterRole";
 
@@ -44,7 +45,6 @@ const DEFAULT_COPY_COMMAND = "curl https://jlang.dev/api/resume/launch.sh | bash
 export default function HeroSection({ content }: { content?: HeroContent }) {
   const name = content?.name || "Jordan Lang";
   const tagline = content?.tagline || "Creating beautiful, accessible websites that engage users and drive results";
-  const logoLight = content?.logoLight || "/JLang-Development.png";
   const logoDark = content?.logoDark || "/JLang-Development-Black.png";
   const availability = content?.availabilityBanner || "Available for contract web design & App Development & Various IT projects";
   const resumeCommand = content?.resumeCommand || "curl jlang.dev/resume | bash";
@@ -57,62 +57,94 @@ export default function HeroSection({ content }: { content?: HeroContent }) {
     const notification = document.createElement("div");
     notification.textContent = `Command copied to clipboard: ${resumeCopyCommand}`;
     notification.className =
-      "fixed top-4 right-4 bg-blue-600 text-white px-4 py-2 rounded-lg shadow-lg z-50 text-sm max-w-md";
+      "fixed top-4 right-4 bg-neutral-900 border border-gold-400/40 text-gold-100 px-4 py-2 rounded-lg shadow-lg z-50 text-sm max-w-md";
     document.body.appendChild(notification);
     setTimeout(() => {
       notification.remove();
     }, 3000);
   };
 
-  const scrollToOverview = () => {
-    document.getElementById("overview")?.scrollIntoView({ behavior: "smooth", block: "start" });
+  const scrollToStory = () => {
+    document.getElementById("process")?.scrollIntoView({ behavior: "smooth", block: "start" });
   };
 
-  return (
-    <div className="relative min-h-[100dvh] flex items-center justify-center">
-      {/* Subtle Background Pattern */}
-      <div className="absolute inset-0 overflow-hidden">
-        <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-blue-500/5 dark:bg-blue-400/10 rounded-full blur-3xl" />
-        <div className="absolute bottom-1/3 right-1/4 w-80 h-80 bg-purple-500/5 dark:bg-purple-400/10 rounded-full blur-3xl" />
+  // Background loop: the poster <Image> paints first (it's the LCP candidate);
+  // the video fades in over it once it is actually playing. Skipped entirely
+  // for reduced-motion users.
+  const videoRef = useRef<HTMLVideoElement>(null);
+  const [videoReady, setVideoReady] = useState(false);
+  useEffect(() => {
+    const video = videoRef.current;
+    if (!video) return;
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      video.pause();
+      video.removeAttribute("autoplay");
+      return;
+    }
+    video.play().catch(() => {});
+  }, []);
 
-        {/* Geometric Accents (static) */}
-        <div className="absolute top-20 right-20 w-2 h-2 bg-blue-500/30 rounded-full" />
-        <div className="absolute bottom-32 left-16 w-1 h-1 bg-purple-500/40 rounded-full" />
-        <div className="absolute top-1/2 left-10 w-1.5 h-1.5 bg-pink-500/35 rounded-full" />
+  return (
+    // `dark` scopes the hero to its dark styling in both themes: it always sits on the video.
+    <div className="dark relative min-h-[100dvh] flex items-center justify-center overflow-hidden bg-black text-white">
+      {/* Cinematic background */}
+      <div className="absolute inset-0" aria-hidden>
+        <Image
+          src="/media/hero/hero-poster.webp"
+          alt=""
+          fill
+          priority
+          sizes="100vw"
+          className="hidden object-cover md:block"
+        />
+        <Image
+          src="/media/hero/hero-poster-mobile.webp"
+          alt=""
+          fill
+          priority
+          sizes="100vw"
+          className="object-cover md:hidden"
+        />
+        <video
+          ref={videoRef}
+          className={`absolute inset-0 h-full w-full object-cover transition-opacity duration-1000 ${
+            videoReady ? "opacity-100" : "opacity-0"
+          }`}
+          autoPlay
+          muted
+          loop
+          playsInline
+          preload="auto"
+          onPlaying={() => setVideoReady(true)}
+        >
+          <source src="/media/hero/hero-mobile.mp4" type="video/mp4" media="(max-width: 767px)" />
+          <source src="/media/hero/hero-desktop.mp4" type="video/mp4" />
+        </video>
+        {/* Scrims keep the copy legible over any frame */}
+        <div className="absolute inset-0 bg-black/55" />
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_0%,rgba(0,0,0,0.65)_75%)]" />
+        <div className="absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-black to-transparent" />
       </div>
 
-      <section className="relative z-10 max-w-4xl mx-auto px-6 text-center -mb-8">
-        {/* Logo Image — the LCP element. No animation delay so it paints first.
-            Two variants toggled purely by the `.dark` CSS class (set before
-            paint in layout.tsx). No React state, so the correct logo is in the
-            SSR HTML, matches its preload, and is never swapped after hydration.
-            The light variant carries `priority` because a fresh visit (no stored
-            theme, e.g. Lighthouse) resolves to light, making it the preloaded
-            LCP image. */}
+      <section className="relative z-10 max-w-4xl mx-auto px-6 pt-24 pb-16 md:pt-20 md:pb-10 text-center">
+        {/* Logo — the hero is always dark (it sits on the video), so only the
+            dark-background variant is needed and it can be preloaded directly. */}
         <div className="hero-reveal flex justify-center mb-6">
-          <Image
-            src={logoLight}
-            alt="JLang Development"
-            width={1254}
-            height={1254}
-            sizes="(max-width: 768px) 60vw, 260px"
-            priority
-            fetchPriority="high"
-            className="w-full max-w-[260px] h-auto rounded-2xl shadow-lg dark:hidden"
-          />
           <Image
             src={logoDark}
             alt="JLang Development"
             width={1254}
             height={1254}
-            sizes="(max-width: 768px) 60vw, 260px"
-            className="hidden w-full max-w-[260px] h-auto rounded-2xl shadow-lg dark:block"
+            sizes="(max-width: 768px) 50vw, 220px"
+            priority
+            fetchPriority="high"
+            className="w-full max-w-[200px] md:max-w-[220px] h-auto rounded-2xl shadow-2xl shadow-black/60 ring-1 ring-gold-400/20"
           />
         </div>
 
         {/* Name */}
         <h1 className="hero-reveal text-5xl md:text-6xl font-bold mb-4" style={{ animationDelay: "0.05s" }}>
-          <span className="bg-gradient-to-r from-gray-900 via-gray-700 to-gray-900 dark:from-white dark:via-gray-100 dark:to-white bg-clip-text text-transparent z-10">
+          <span className="bg-gradient-to-r from-gray-900 via-gray-700 to-gray-900 dark:from-white dark:via-silver-200 dark:to-gold-200 bg-clip-text text-transparent z-10">
             {name}
           </span>
         </h1>
@@ -132,11 +164,11 @@ export default function HeroSection({ content }: { content?: HeroContent }) {
         <div className="hero-reveal flex justify-center mb-8" style={{ animationDelay: "0.15s" }}>
           <button
             onClick={copyResumeCommand}
-            className="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white rounded-full font-medium transition-transform duration-300 shadow-lg hover:shadow-xl hover:scale-105 active:scale-95 backdrop-blur-sm border border-white/20"
+            className="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-gold-300 via-gold-400 to-gold-500 text-black rounded-full font-semibold transition-transform duration-300 shadow-lg shadow-gold-500/25 hover:shadow-xl hover:scale-105 active:scale-95 border border-gold-200/40"
           >
             <Icon icon="material-symbols:terminal" width={20} height={20} />
             <span>Try My CLI Resume</span>
-            <code className="text-xs bg-white/20 px-2 py-1 rounded font-mono">{resumeCommand}</code>
+            <code className="text-xs bg-black/15 px-2 py-1 rounded font-mono">{resumeCommand}</code>
           </button>
         </div>
 
@@ -147,7 +179,7 @@ export default function HeroSection({ content }: { content?: HeroContent }) {
               key={link.label}
               href={link.href}
               onClick={() => trackEvent(AnalyticsEvents.SOCIAL_LINK_CLICKED, { platform: link.label })}
-              className={`inline-flex items-center gap-2 px-4 py-2 bg-white/80 hover:bg-white dark:bg-gray-800/80 dark:hover:bg-gray-800 backdrop-blur-sm rounded-full text-sm transition-transform duration-300 hover:scale-105 active:scale-95 border border-gray-300/50 dark:border-gray-600/50 shadow-lg hover:shadow-xl ${link.color}`}
+              className={`inline-flex items-center gap-2 px-4 py-2 bg-white/5 hover:bg-white/10 text-silver-100 backdrop-blur-md rounded-full text-sm transition-transform duration-300 hover:scale-105 active:scale-95 border border-white/15 hover:border-gold-300/50 ${link.color}`}
             >
               <Icon icon={link.icon} width={18} height={18} />
               {link.label}
@@ -160,7 +192,7 @@ export default function HeroSection({ content }: { content?: HeroContent }) {
           {skills.map((skill) => (
             <div
               key={skill.label}
-              className="flex items-center gap-2 px-3 py-2 bg-gray-50/80 dark:bg-gray-800/50 backdrop-blur-sm rounded-lg border border-gray-200/50 dark:border-gray-700/30 transition-transform duration-300 hover:scale-105"
+              className="flex items-center gap-2 px-3 py-2 bg-black/30 backdrop-blur-md rounded-lg border border-white/10 transition-transform duration-300 hover:scale-105"
             >
               <Icon icon={skill.icon} width={16} height={16} />
               <span className="text-sm text-gray-700 dark:text-gray-300">{skill.label}</span>
@@ -184,11 +216,11 @@ export default function HeroSection({ content }: { content?: HeroContent }) {
 
       {/* Scroll for more indicator */}
       <div
-        className="hero-reveal hidden md:flex absolute bottom-20 left-0 right-0 justify-center pb-8 z-10"
+        className="hero-reveal hidden md:flex [@media(max-height:900px)]:!hidden absolute bottom-6 left-0 right-0 justify-center z-10"
         style={{ animationDelay: "0.35s" }}
       >
         <button
-          onClick={scrollToOverview}
+          onClick={scrollToStory}
           className="flex flex-col items-center gap-2 text-gray-500 dark:text-gray-400 cursor-pointer hover:text-gray-700 dark:hover:text-gray-200 transition-transform duration-300 hover:scale-105 active:scale-95"
         >
           <span className="text-sm font-medium tracking-wide">Scroll for more</span>
