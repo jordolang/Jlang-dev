@@ -1,3 +1,36 @@
+const colors = require("tailwindcss/colors");
+
+// Brand palette sampled from the JLang Development logo: brushed gold + brushed
+// silver on black/white. The legacy indigo/purple/violet/pink and blue/cyan
+// utilities used across the site are remapped onto these scales so every
+// existing class picks up the brand without a sweeping rename.
+const gold = {
+	50: "#FBF7EE",
+	100: "#F5ECD6",
+	200: "#EBD8AC",
+	300: "#E0C282",
+	400: "#D4AC5F",
+	500: "#C39445",
+	600: "#9C7433",
+	700: "#7A5A25",
+	800: "#5C431B",
+	900: "#443214",
+	950: "#2A1E0A",
+};
+const silver = {
+	50: "#F7F7F8",
+	100: "#EDEEF0",
+	200: "#DADCE0",
+	300: "#BFC2C8",
+	400: "#A2A6AE",
+	500: "#82868F",
+	600: "#62666E",
+	700: "#4B4E55",
+	800: "#36383D",
+	900: "#232427",
+	950: "#141517",
+};
+
 /** @type {import('tailwindcss').Config} */
 module.exports = {
 	content: [
@@ -9,6 +42,18 @@ module.exports = {
 	theme: {
 		extend: {
 			colors: {
+				gold,
+				silver,
+				indigo: gold,
+				purple: gold,
+				violet: gold,
+				pink: gold,
+				fuchsia: gold,
+				blue: silver,
+				sky: silver,
+				cyan: silver,
+				gray: colors.neutral,
+				slate: colors.neutral,
 				border: "hsl(var(--border))",
 				input: "hsl(var(--input))",
 				ring: "hsl(var(--ring))",
@@ -62,12 +107,12 @@ module.exports = {
 				"pulse-glow": {
 					"0%, 100%": {
 						opacity: "1",
-						boxShadow: "0 0 5px rgba(59, 130, 246, 0.5)",
+						boxShadow: "0 0 5px rgba(195, 148, 69, 0.5)",
 					},
 					"50%": {
 						opacity: "0.8",
 						boxShadow:
-							"0 0 20px rgba(59, 130, 246, 0.8), 0 0 30px rgba(139, 92, 246, 0.6)",
+							"0 0 20px rgba(195, 148, 69, 0.8), 0 0 30px rgba(162, 166, 174, 0.6)",
 					},
 				},
 				float: {
@@ -84,7 +129,7 @@ module.exports = {
 				},
 				"blink-caret": {
 					"from, to": { borderColor: "transparent" },
-					"50%": { borderColor: "#3b82f6" },
+					"50%": { borderColor: "#C39445" },
 				},
 				"particle-float": {
 					"0%": {

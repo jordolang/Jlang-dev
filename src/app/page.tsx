@@ -4,6 +4,9 @@ import Navigation from "@/components/portfolio/Navigation";
 import OverviewSection from "@/components/portfolio/OverviewSection";
 import ExperienceSection from "@/components/portfolio/ExperienceSection";
 import Footer from "@/components/portfolio/Footer";
+import ScrollStory from "@/components/portfolio/ScrollStory";
+import CapabilitiesSection from "@/components/portfolio/CapabilitiesSection";
+import CtaBand from "@/components/portfolio/CtaBand";
 import {
   LazyBlogSection,
   LazyTechStackSection,
@@ -60,9 +63,12 @@ export default async function Portfolio() {
       {/* Navigation */}
       <Navigation items={settings?.navItems} />
 
-      <div className="max-w-6xl mx-auto px-6 pt-24">
-        {/* Above the fold */}
-        <HeroSection content={settings ?? undefined} />
+      {/* Full-bleed cinematic opening: video hero, then the pinned scroll story */}
+      <HeroSection content={settings ?? undefined} />
+      <ScrollStory />
+
+      <div className="max-w-6xl mx-auto px-6">
+        <CapabilitiesSection />
         <OverviewSection
           content={about ?? undefined}
           contact={settings ?? undefined}
@@ -85,6 +91,11 @@ export default async function Portfolio() {
           heading={headings?.services}
         />
         <LazyTestimonialsSection testimonials={testimonials} heading={headings?.testimonials} />
+      </div>
+
+      <CtaBand />
+
+      <div className="max-w-6xl mx-auto px-6 pt-20">
         <LazyContactSection
           email={settings?.email}
           publicEmail={settings?.publicEmail}
