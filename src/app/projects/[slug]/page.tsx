@@ -27,6 +27,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
       description: project.description,
       type: "article",
       url,
+      tags: project.tech,
       images: project.image ? [{ url: project.image, alt: project.title }] : undefined,
     },
     twitter: {
@@ -100,7 +101,7 @@ export default async function ProjectPage({ params }: { params: Promise<{ slug: 
           {project.testimonial && (
             <section className="mt-12 rounded-lg bg-gray-100 p-6 dark:bg-gray-800">
               <blockquote className="text-lg italic">
-                "{project.testimonial.content}"
+                &ldquo;{project.testimonial.content}&rdquo;
               </blockquote>
               <footer className="mt-4">
                 <p className="font-semibold">{project.testimonial.author}</p>
