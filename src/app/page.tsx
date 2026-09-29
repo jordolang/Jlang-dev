@@ -51,7 +51,7 @@ export default async function Portfolio() {
     getTechStack(),
     getServicePackages(),
     getFaqs(),
-    getLatestBlogPosts(3),
+    getLatestBlogPosts(15),
     getApprovedTestimonials(),
   ]);
 
