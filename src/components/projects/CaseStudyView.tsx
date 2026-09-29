@@ -7,7 +7,7 @@ import Link from "next/link";
 import Image from "next/image";
 import type { PortableTextBlock } from "@portabletext/react";
 import { AnalyticsEvents, trackEvent } from "@/lib/analytics";
-import PortableTextContent from "@/components/blog/PortableTextContent";
+import CaseStudySection from "@/components/projects/CaseStudySection";
 
 export interface CaseStudyViewProject {
   slug: string;
@@ -142,65 +142,30 @@ export default function CaseStudyView({ project }: CaseStudyViewProps) {
           {/* Case Study Sections */}
           {hasCaseStudy && (
             <div className="space-y-12">
-              {/* Challenge Section */}
-              {project.challenge && project.challenge.length > 0 && (
-                <section className="mb-12">
-                  <div className="flex items-center gap-3 mb-6">
-                    <div className="w-12 h-12 bg-gradient-to-br from-red-500 to-orange-600 rounded-xl flex items-center justify-center shadow-lg">
-                      <Icon icon="solar:danger-triangle-bold" width={24} height={24} className="text-white" />
-                    </div>
-                    <h2 className="text-3xl font-bold text-gray-900 dark:text-white">The Challenge</h2>
-                  </div>
-                  <div className="prose prose-lg dark:prose-invert max-w-none">
-                    <PortableTextContent value={project.challenge} />
-                  </div>
-                </section>
-              )}
-
-              {/* Approach Section */}
-              {project.approach && project.approach.length > 0 && (
-                <section className="mb-12">
-                  <div className="flex items-center gap-3 mb-6">
-                    <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-xl flex items-center justify-center shadow-lg">
-                      <Icon icon="solar:lightbulb-bolt-bold" width={24} height={24} className="text-white" />
-                    </div>
-                    <h2 className="text-3xl font-bold text-gray-900 dark:text-white">The Approach</h2>
-                  </div>
-                  <div className="prose prose-lg dark:prose-invert max-w-none">
-                    <PortableTextContent value={project.approach} />
-                  </div>
-                </section>
-              )}
-
-              {/* Solution Section */}
-              {project.solution && project.solution.length > 0 && (
-                <section className="mb-12">
-                  <div className="flex items-center gap-3 mb-6">
-                    <div className="w-12 h-12 bg-gradient-to-br from-purple-500 to-pink-600 rounded-xl flex items-center justify-center shadow-lg">
-                      <Icon icon="solar:code-square-bold" width={24} height={24} className="text-white" />
-                    </div>
-                    <h2 className="text-3xl font-bold text-gray-900 dark:text-white">The Solution</h2>
-                  </div>
-                  <div className="prose prose-lg dark:prose-invert max-w-none">
-                    <PortableTextContent value={project.solution} />
-                  </div>
-                </section>
-              )}
-
-              {/* Results Section */}
-              {project.results && project.results.length > 0 && (
-                <section className="mb-12">
-                  <div className="flex items-center gap-3 mb-6">
-                    <div className="w-12 h-12 bg-gradient-to-br from-green-500 to-emerald-600 rounded-xl flex items-center justify-center shadow-lg">
-                      <Icon icon="solar:chart-2-bold" width={24} height={24} className="text-white" />
-                    </div>
-                    <h2 className="text-3xl font-bold text-gray-900 dark:text-white">The Results</h2>
-                  </div>
-                  <div className="prose prose-lg dark:prose-invert max-w-none">
-                    <PortableTextContent value={project.results} />
-                  </div>
-                </section>
-              )}
+              <CaseStudySection
+                title="The Challenge"
+                icon="solar:danger-triangle-bold"
+                gradient="from-red-500 to-orange-600"
+                content={project.challenge ?? []}
+              />
+              <CaseStudySection
+                title="The Approach"
+                icon="solar:lightbulb-bolt-bold"
+                gradient="from-blue-500 to-indigo-600"
+                content={project.approach ?? []}
+              />
+              <CaseStudySection
+                title="The Solution"
+                icon="solar:code-square-bold"
+                gradient="from-purple-500 to-pink-600"
+                content={project.solution ?? []}
+              />
+              <CaseStudySection
+                title="The Results"
+                icon="solar:chart-2-bold"
+                gradient="from-green-500 to-emerald-600"
+                content={project.results ?? []}
+              />
             </div>
           )}
 
