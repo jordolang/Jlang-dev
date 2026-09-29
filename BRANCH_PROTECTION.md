@@ -94,7 +94,7 @@ To verify branch protection is working:
 | **install** | Verifies dependencies install correctly | Dependencies fail to install |
 | **lint** | Runs ESLint to check code quality | Code style violations exist |
 | **type-check** | Validates TypeScript types | Type errors are present |
-| **test** | Runs Jest unit test suite | Any tests fail |
+| **test** | Runs Vitest unit and integration test suite | Any tests fail |
 | **build** | Builds the Next.js application | Build fails or errors occur |
 
 ## Troubleshooting
