@@ -53,21 +53,9 @@ export default async function TagPage({ params }: { params: Promise<{ slug: stri
 
   if (!tag) notFound();
 
-  // Map BlogPost objects to the format expected by BlogListView
-  const mappedPosts = posts.map((post) => ({
-    slug: post.slug,
-    title: post.title,
-    date: post.date,
-    excerpt: post.excerpt,
-    image: post.image,
-    tags: post.tags.map((tag) => tag.name),
-    author: post.author,
-    readTime: post.readTime,
-  }));
-
   return (
     <BlogListView
-      posts={mappedPosts}
+      posts={posts}
       title={`#${tag.name}`}
       description={tag.description || `Browse all blog posts tagged with ${tag.name}`}
     />

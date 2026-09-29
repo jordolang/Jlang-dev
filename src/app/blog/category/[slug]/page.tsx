@@ -53,21 +53,9 @@ export default async function CategoryPage({ params }: { params: Promise<{ slug:
 
   if (!category) notFound();
 
-  // Map BlogPost objects to the format expected by BlogListView
-  const mappedPosts = posts.map((post) => ({
-    slug: post.slug,
-    title: post.title,
-    date: post.date,
-    excerpt: post.excerpt,
-    image: post.image,
-    tags: post.tags.map((tag) => tag.name),
-    author: post.author,
-    readTime: post.readTime,
-  }));
-
   return (
     <BlogListView
-      posts={mappedPosts}
+      posts={posts}
       filterByCategory={category.slug}
       title={`${category.name} Articles`}
       description={category.description || `Browse all blog posts in the ${category.name} category`}

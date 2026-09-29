@@ -77,7 +77,13 @@ export default async function Portfolio() {
 
         {/* Below the fold — interactive sections lazy-mount on scroll;
             Experience + Footer are static server components rendered directly. */}
-        <LazyBlogSection posts={posts} heading={headings?.blog} />
+        <LazyBlogSection
+          posts={posts.map(post => ({
+            ...post,
+            tags: post.tags.map(t => t.name)
+          }))}
+          heading={headings?.blog}
+        />
         <LazyTechStackSection stack={techStack ?? undefined} heading={headings?.stack} />
         <ExperienceSection
           items={experience ?? undefined}

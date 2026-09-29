@@ -22,7 +22,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   return {
     title: `${post.title} | Jordan Lang`,
     description: post.excerpt,
-    keywords: post.tags?.join(", "),
+    keywords: post.tags?.map(t => t.name).join(", "),
     authors: [{ name: post.author }],
     alternates: { canonical: `/blog/${post.slug}` },
     openGraph: {
@@ -32,7 +32,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
       url,
       publishedTime: post.date,
       authors: [post.author],
-      tags: post.tags,
+      tags: post.tags?.map(t => t.name),
       images: post.image ? [{ url: post.image, alt: post.title }] : undefined,
     },
     twitter: {
@@ -74,8 +74,14 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
 
   return (
     <BlogPostView
-      post={post}
-      allPosts={allPosts}
+      post={{
+        ...post,
+        tags: post.tags.map(t => t.name)
+      }}
+      allPosts={allPosts.map(p => ({
+        ...p,
+        tags: p.tags.map(t => t.name)
+      }))}
       previousPost={adjacent.previous ? { slug: adjacent.previous.slug, title: adjacent.previous.title } : undefined}
       nextPost={adjacent.next ? { slug: adjacent.next.slug, title: adjacent.next.title } : undefined}
       tocSource={tocSourceFor(post.content, post.body)}
