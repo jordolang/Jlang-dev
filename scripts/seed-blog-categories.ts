@@ -68,7 +68,7 @@ async function main() {
     "Blog categories",
     categories.map((category, index) => ({
       _id: id("category", category.name),
-      _type: "blogCategory",
+      _type: "category",
       name: category.name,
       slug: { _type: "slug", current: slugify(category.name) },
       description: category.description,
