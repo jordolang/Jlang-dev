@@ -1,6 +1,7 @@
 "use client";
 
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
+import { useSearchParams, useRouter } from "next/navigation";
 import { Icon } from "@iconify/react";
 import { m, AnimatePresence } from "framer-motion";
 import Link from "next/link";
@@ -28,8 +29,33 @@ function formatDate(dateString: string): string {
 }
 
 export default function BlogListView({ posts }: { posts: BlogPost[] }) {
+  const searchParams = useSearchParams();
+  const router = useRouter();
+
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedTag, setSelectedTag] = useState<string | null>(null);
+
+  // Initialize search query from URL parameter on mount
+  useEffect(() => {
+    const queryFromUrl = searchParams.get('q') || '';
+    if (queryFromUrl) {
+      setSearchQuery(queryFromUrl);
+    }
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+
+  // Update URL when search query changes
+  useEffect(() => {
+    const params = new URLSearchParams(searchParams.toString());
+
+    if (searchQuery) {
+      params.set('q', searchQuery);
+    } else {
+      params.delete('q');
+    }
+
+    const newUrl = params.toString() ? `?${params.toString()}` : '/blog';
+    router.replace(newUrl, { scroll: false });
+  }, [searchQuery, router]); // eslint-disable-line react-hooks/exhaustive-deps
 
   // Debounce search query to reduce re-renders
   const debouncedSearchQuery = useDebounce(searchQuery, 200);
