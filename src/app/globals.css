@@ -150,12 +150,23 @@ textarea {
 	transition: all 0.3s ease;
 }
 
-/* Custom focus states */
+/* Custom focus states - WCAG 2.1 AA compliant (3:1 contrast ratio) */
+*:focus-visible {
+	outline: 3px solid hsl(var(--ring));
+	outline-offset: 2px;
+	border-radius: 2px;
+}
+
+/* Ensure focus is always visible for keyboard navigation */
 button:focus-visible,
 a:focus-visible,
 input:focus-visible,
-textarea:focus-visible {
-	outline: 2px solid #C39445;
+textarea:focus-visible,
+select:focus-visible,
+[role="button"]:focus-visible,
+[role="link"]:focus-visible,
+[tabindex]:focus-visible {
+	outline: 3px solid hsl(var(--ring));
 	outline-offset: 2px;
 }
 
