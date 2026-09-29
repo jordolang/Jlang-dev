@@ -7,6 +7,27 @@ import { logger } from './logger';
 import type { PortableTextBlock } from '@portabletext/react';
 
 /**
+ * Testimonial interface for case studies
+ */
+export interface CaseStudyTestimonial {
+  author: string;
+  role: string;
+  content: string;
+  rating?: number;
+}
+
+/**
+ * Case study interface with all required fields
+ */
+export interface CaseStudy {
+  challenge: PortableTextBlock[];
+  approach: PortableTextBlock[];
+  solution: PortableTextBlock[];
+  results: PortableTextBlock[];
+  testimonial: CaseStudyTestimonial | null;
+}
+
+/**
  * Project interface with slug for routing and optional case study content
  */
 export interface Project {
@@ -36,24 +57,14 @@ export interface Project {
   approach?: PortableTextBlock[];
   solution?: PortableTextBlock[];
   results?: PortableTextBlock[];
-  testimonial?: {
-    author: string;
-    role: string;
-    content: string;
-    rating?: number;
-  } | null;
+  testimonial?: CaseStudyTestimonial | null;
 }
 
 interface RawProject
   extends Omit<Project, 'image' | 'imageWidth' | 'imageHeight' | 'slug' | 'testimonial'> {
   slug: { current: string };
   image: SanityImageRef | null;
-  testimonialRef?: {
-    author: string;
-    role: string;
-    content: string;
-    rating?: number;
-  } | null;
+  testimonialRef?: CaseStudyTestimonial | null;
 }
 
 const IMAGE_PROJECTION = `{ asset->{ _id, url, metadata { dimensions } } }`;
