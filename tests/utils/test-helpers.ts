@@ -1,4 +1,4 @@
-import { vi } from 'vitest'
+import { afterEach, vi } from 'vitest'
 import type { Mock } from 'vitest'
 
 /**
