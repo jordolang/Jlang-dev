@@ -6,6 +6,11 @@ vi.mock('@/lib/blog', () => ({
   getAllBlogPosts: vi.fn(),
 }))
 
+// Mock draft mode detection (no request context in tests)
+vi.mock('@/lib/cms', () => ({
+  isDraftMode: vi.fn().mockResolvedValue(false),
+}))
+
 // Mock the logger
 vi.mock('@/lib/logger', () => ({
   logger: {
@@ -147,6 +152,18 @@ describe('GET /api/blog/rss.xml', () => {
 
     expect(response.headers.get('cache-control')).toContain('public')
     expect(response.headers.get('cache-control')).toContain('s-maxage=3600')
+  })
+
+  it('should not allow shared caching in draft mode', async () => {
+    const { getAllBlogPosts } = await import('@/lib/blog')
+    vi.mocked(getAllBlogPosts).mockResolvedValue([])
+    const { isDraftMode } = await import('@/lib/cms')
+    vi.mocked(isDraftMode).mockResolvedValueOnce(true)
+
+    const { GET } = await import('@/app/blog/rss.xml/route')
+    const response = await GET()
+
+    expect(response.headers.get('cache-control')).toBe('private, no-store')
   })
 
   it('should escape XML special characters in RSS', async () => {
@@ -309,6 +326,18 @@ describe('GET /api/blog/feed.xml', () => {
 
     expect(response.headers.get('cache-control')).toContain('public')
     expect(response.headers.get('cache-control')).toContain('s-maxage=3600')
+  })
+
+  it('should not allow shared caching in draft mode', async () => {
+    const { getAllBlogPosts } = await import('@/lib/blog')
+    vi.mocked(getAllBlogPosts).mockResolvedValue([])
+    const { isDraftMode } = await import('@/lib/cms')
+    vi.mocked(isDraftMode).mockResolvedValueOnce(true)
+
+    const { GET } = await import('@/app/blog/feed.xml/route')
+    const response = await GET()
+
+    expect(response.headers.get('cache-control')).toBe('private, no-store')
   })
 
   it('should escape XML special characters in Atom', async () => {

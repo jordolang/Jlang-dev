@@ -70,7 +70,8 @@ describe('Feed Library', () => {
       expect(result).toContain('<link>https://test.example.com/blog/test-post-1</link>')
       expect(result).toContain('<guid isPermaLink="true">https://test.example.com/blog/test-post-1</guid>')
       expect(result).toContain('<description>This is the first test post excerpt</description>')
-      expect(result).toContain('<author>Test Author</author>')
+      expect(result).toContain('<dc:creator>Test Author</dc:creator>')
+      expect(result).not.toContain('<author>')
     })
 
     it('should include post tags as categories', async () => {
@@ -413,6 +414,36 @@ describe('Feed Library', () => {
 
       const result = generateRssFeed(post)
       expect(result).toContain('&amp;amp;')
+    })
+  })
+  describe('feed timestamps and URLs', () => {
+    it('should use the newest post date regardless of input order', async () => {
+      const { generateRssFeed, generateAtomFeed } = await import('@/lib/feed')
+      const unordered = [...mockPosts].reverse()
+
+      expect(generateRssFeed(unordered)).toMatch(/<lastBuildDate>[A-Z][a-z]{2}, 15 Jan 2024/)
+      expect(generateAtomFeed(unordered)).toMatch(/<feed[\s\S]*?<updated>2024-01-15T00:00:00\.000Z<\/updated>/)
+    })
+
+    it('should escape special characters in post URLs', async () => {
+      const { generateRssFeed, generateAtomFeed } = await import('@/lib/feed')
+      const post: BlogPost[] = [{ ...mockPosts[0], slug: 'c-&-cpp' }]
+
+      expect(generateRssFeed(post)).toContain('/blog/c-&amp;-cpp</link>')
+      expect(generateAtomFeed(post)).toContain('/blog/c-&amp;-cpp" rel="alternate"/>')
+      expect(generateRssFeed(post)).not.toContain('c-&-cpp')
+    })
+  })
+
+  describe('feedCacheControl', () => {
+    it('should allow shared caching with a stale-while-revalidate window for published feeds', async () => {
+      const { feedCacheControl } = await import('@/lib/feed')
+      expect(feedCacheControl(false)).toBe('public, s-maxage=3600, stale-while-revalidate=86400')
+    })
+
+    it('should never allow shared caching in draft mode', async () => {
+      const { feedCacheControl } = await import('@/lib/feed')
+      expect(feedCacheControl(true)).toBe('private, no-store')
     })
   })
 })

@@ -35,6 +35,16 @@ function formatIso8601Date(dateString: string): string {
 }
 
 /**
+ * The newest post date, so the feed's timestamp only moves when content does.
+ * Falls back to the current time for an empty feed.
+ */
+function latestPostDate(posts: BlogPost[]): string {
+  if (posts.length === 0) return new Date().toISOString();
+  const newest = Math.max(...posts.map((post) => new Date(post.date).getTime()));
+  return new Date(newest).toISOString();
+}
+
+/**
  * Generates an RSS 2.0 feed XML string from an array of blog posts.
  *
  * @param posts - Array of blog posts to include in the feed
@@ -42,7 +52,8 @@ function formatIso8601Date(dateString: string): string {
  * @returns RSS 2.0 XML string
  */
 export function generateRssFeed(posts: BlogPost[], siteUrl: string = SITE_URL): string {
-  const latestPostDate = posts.length > 0 ? formatRfc822Date(posts[0].date) : formatRfc822Date(new Date().toISOString());
+  const lastBuildDate = formatRfc822Date(latestPostDate(posts));
+  const safeSiteUrl = escapeXml(siteUrl);
 
   const items = posts
     .map((post) => {
@@ -55,21 +66,21 @@ export function generateRssFeed(posts: BlogPost[], siteUrl: string = SITE_URL): 
       <guid isPermaLink="true">${escapeXml(postUrl)}</guid>
       <description>${escapeXml(post.excerpt)}</description>
       <pubDate>${pubDate}</pubDate>
-      <author>${escapeXml(post.author)}</author>
+      <dc:creator>${escapeXml(post.author)}</dc:creator>
       ${post.tags.map((tag) => `<category>${escapeXml(tag)}</category>`).join('\n      ')}
     </item>`;
     })
     .join('\n');
 
   return `<?xml version="1.0" encoding="UTF-8"?>
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:dc="http://purl.org/dc/elements/1.1/">
   <channel>
     <title>${escapeXml(SITE_TITLE)}</title>
-    <link>${siteUrl}/blog</link>
+    <link>${safeSiteUrl}/blog</link>
     <description>${escapeXml(SITE_DESCRIPTION)}</description>
     <language>${SITE_LANGUAGE}</language>
-    <lastBuildDate>${latestPostDate}</lastBuildDate>
-    <atom:link href="${siteUrl}/blog/rss.xml" rel="self" type="application/rss+xml"/>
+    <lastBuildDate>${lastBuildDate}</lastBuildDate>
+    <atom:link href="${safeSiteUrl}/blog/rss.xml" rel="self" type="application/rss+xml"/>
 ${items}
   </channel>
 </rss>`;
@@ -83,7 +94,8 @@ ${items}
  * @returns Atom XML string
  */
 export function generateAtomFeed(posts: BlogPost[], siteUrl: string = SITE_URL): string {
-  const updatedDate = posts.length > 0 ? formatIso8601Date(posts[0].date) : formatIso8601Date(new Date().toISOString());
+  const updatedDate = formatIso8601Date(latestPostDate(posts));
+  const safeSiteUrl = escapeXml(siteUrl);
 
   const entries = posts
     .map((post) => {
@@ -109,9 +121,9 @@ export function generateAtomFeed(posts: BlogPost[], siteUrl: string = SITE_URL):
   return `<?xml version="1.0" encoding="UTF-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
   <title>${escapeXml(SITE_TITLE)}</title>
-  <link href="${siteUrl}/blog" rel="alternate"/>
-  <link href="${siteUrl}/blog/feed.xml" rel="self" type="application/atom+xml"/>
-  <id>${siteUrl}/blog</id>
+  <link href="${safeSiteUrl}/blog" rel="alternate"/>
+  <link href="${safeSiteUrl}/blog/feed.xml" rel="self" type="application/atom+xml"/>
+  <id>${safeSiteUrl}/blog</id>
   <updated>${updatedDate}</updated>
   <subtitle>${escapeXml(SITE_DESCRIPTION)}</subtitle>
   <author>
@@ -119,4 +131,12 @@ export function generateAtomFeed(posts: BlogPost[], siteUrl: string = SITE_URL):
   </author>
 ${entries}
 </feed>`;
+}
+
+/**
+ * Cache-Control for feed responses. In draft mode the feed can include unpublished posts,
+ * so it must never land in a shared cache where a public reader could be served it.
+ */
+export function feedCacheControl(draft: boolean): string {
+  return draft ? 'private, no-store' : 'public, s-maxage=3600, stale-while-revalidate=86400';
 }
