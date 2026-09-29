@@ -1,11 +1,13 @@
 "use client";
 
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect, useRef, useCallback, Suspense } from "react";
+import { useSearchParams } from "next/navigation";
 import { Icon } from "@iconify/react";
 import { m, AnimatePresence } from "framer-motion";
 import Link from "next/link";
 import Image from "next/image";
 import { AnalyticsEvents, trackEvent } from "@/lib/analytics";
+import { useDebounce } from "@/hooks/useDebounce";
 
 interface BlogPost {
   slug: string;
@@ -26,9 +28,103 @@ function formatDate(dateString: string): string {
     day: 'numeric', timeZone: 'UTC' });
 }
 
+// Component to highlight matching text in search results
+function HighlightedText({ text, searchQuery }: { text: string; searchQuery: string }) {
+  // If no search query, return text as-is
+  if (!searchQuery.trim()) {
+    return <>{text}</>;
+  }
+
+  // Escape special regex characters in search query
+  const escapedQuery = searchQuery.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+
+  // Create regex for case-insensitive matching
+  const regex = new RegExp(`(${escapedQuery})`, 'gi');
+
+  // Split text by matches
+  const parts = text.split(regex);
+
+  return (
+    <>
+      {parts.map((part, index) => {
+        // Check if this part matches the search query (case-insensitive)
+        const isMatch = part.toLowerCase() === searchQuery.toLowerCase();
+
+        return isMatch ? (
+          <mark
+            key={index}
+            className="bg-yellow-200 dark:bg-yellow-500/40 text-gray-900 dark:text-white px-1 rounded"
+          >
+            {part}
+          </mark>
+        ) : (
+          <span key={index}>{part}</span>
+        );
+      })}
+    </>
+  );
+}
+
+// Reports the `q` URL parameter whenever it changes. Isolated behind a Suspense
+// boundary so reading search params doesn't opt the whole page out of static rendering.
+function SearchParamSync({ onQueryChange }: { onQueryChange: (query: string) => void }) {
+  const query = useSearchParams().get('q') ?? '';
+
+  useEffect(() => {
+    onQueryChange(query);
+  }, [query, onQueryChange]);
+
+  return null;
+}
+
 export default function BlogListView({ posts }: { posts: BlogPost[] }) {
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedTag, setSelectedTag] = useState<string | null>(null);
+  const searchInputRef = useRef<HTMLInputElement>(null);
+  // Last query reflected in the URL, so our own URL writes aren't echoed back into the input
+  const urlQueryRef = useRef('');
+
+  // Debounce search query to reduce re-renders and URL updates
+  const debouncedSearchQuery = useDebounce(searchQuery, 200);
+  const normalizedQuery = debouncedSearchQuery.trim();
+
+  // Adopt the query from the URL on load and on later navigations (e.g. following a /blog?q=... link)
+  const handleUrlQueryChange = useCallback((query: string) => {
+    if (query !== urlQueryRef.current) {
+      urlQueryRef.current = query;
+      setSearchQuery(query);
+    }
+  }, []);
+
+  // Update the URL from the debounced query. Uses the History API so typing doesn't trigger router navigations.
+  useEffect(() => {
+    if (normalizedQuery === urlQueryRef.current) return;
+    urlQueryRef.current = normalizedQuery;
+
+    const params = new URLSearchParams(window.location.search);
+    if (normalizedQuery) {
+      params.set('q', normalizedQuery);
+    } else {
+      params.delete('q');
+    }
+
+    const search = params.toString();
+    window.history.replaceState(null, '', `${window.location.pathname}${search ? `?${search}` : ''}`);
+  }, [normalizedQuery]);
+
+  // Keyboard shortcut: Press '/' to focus search
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      // Only trigger if '/' is pressed and user is not already typing in an input or textarea
+      if (e.key === '/' && document.activeElement?.tagName !== 'INPUT' && document.activeElement?.tagName !== 'TEXTAREA') {
+        e.preventDefault();
+        searchInputRef.current?.focus();
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, []);
 
   // Get all unique tags
   const allTags = useMemo(() => {
@@ -42,19 +138,23 @@ export default function BlogListView({ posts }: { posts: BlogPost[] }) {
   // Filter posts based on search and tag
   const filteredPosts = useMemo(() => {
     return posts.filter(post => {
-      const matchesSearch = searchQuery === '' || 
-        post.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        post.excerpt.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        post.tags.some(tag => tag.toLowerCase().includes(searchQuery.toLowerCase()));
-      
+      const query = normalizedQuery.toLowerCase();
+      const matchesSearch = query === '' ||
+        post.title.toLowerCase().includes(query) ||
+        post.excerpt.toLowerCase().includes(query) ||
+        post.tags.some(tag => tag.toLowerCase().includes(query));
+
       const matchesTag = !selectedTag || post.tags.includes(selectedTag);
-      
+
       return matchesSearch && matchesTag;
     });
-  }, [posts, searchQuery, selectedTag]);
+  }, [posts, normalizedQuery, selectedTag]);
 
-return (
+  return (
     <div className="min-h-screen bg-white dark:bg-gray-950 text-gray-900 dark:text-white">
+      <Suspense fallback={null}>
+        <SearchParamSync onQueryChange={handleUrlQueryChange} />
+      </Suspense>
       {/* Header */}
       <header className="border-b border-gray-200 dark:border-gray-800">
         <div className="max-w-7xl mx-auto px-4 py-8">
@@ -82,6 +182,7 @@ return (
                 className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400"
               />
               <input
+                ref={searchInputRef}
                 type="text"
                 placeholder="Search posts by title, content, or tags..."
                 value={searchQuery}
@@ -172,8 +273,8 @@ return (
           </m.div>
         ) : (
           <AnimatePresence mode="wait">
-            <m.div 
-              key={`${searchQuery}-${selectedTag}`}
+            <m.div
+              key={`${normalizedQuery}-${selectedTag}`}
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
@@ -240,12 +341,12 @@ return (
 
                       {/* Title */}
                       <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-3 group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors duration-300 line-clamp-2">
-                        {post.title}
+                        <HighlightedText text={post.title} searchQuery={normalizedQuery} />
                       </h2>
 
                       {/* Excerpt */}
                       <p className="text-gray-600 dark:text-gray-300 text-sm leading-relaxed mb-4 line-clamp-3 flex-1">
-                        {post.excerpt}
+                        <HighlightedText text={post.excerpt} searchQuery={normalizedQuery} />
                       </p>
 
                       {/* Author and Read More */}
