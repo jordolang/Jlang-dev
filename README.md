@@ -7,6 +7,7 @@ A stunning, modern portfolio website built with cutting-edge technologies and be
 ![TypeScript](https://img.shields.io/badge/TypeScript-5.0-blue)
 ![Tailwind CSS](https://img.shields.io/badge/Tailwind%20CSS-3.0-38B2AC)
 ![Framer Motion](https://img.shields.io/badge/Framer%20Motion-11.0-FF0055)
+![CI/CD](https://img.shields.io/github/workflow/status/jordolang/portfolio/CI)
 
 ## ✨ Features
 
