@@ -56,8 +56,10 @@ const BLOG_DIRECTORY = path.join(process.cwd(), 'content/blog');
 
 const POST_PROJECTION = `{
   "slug": slug.current,
-  title, date, excerpt, tags, author, readTime, body,
-  image { asset->{ _id, url } }
+  title, date, excerpt, author, readTime, body,
+  image { asset->{ _id, url } },
+  category->{ slug, name, color, description },
+  "tags": tags[]->{ slug, name, description }
 }`;
 
 interface RawSanityPost extends Omit<BlogPost, 'image' | 'content' | 'category' | 'tags'> {
