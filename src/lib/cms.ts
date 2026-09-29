@@ -402,3 +402,50 @@ export async function getPromoContent(): Promise<CmsPromoContent | null> {
     ["promoContent"],
   );
 }
+
+// ---------------------------------------------------------------------------
+// Comparison page
+// ---------------------------------------------------------------------------
+
+export interface CmsComparisonFeature {
+  feature: string;
+  us: string;
+  competitors: string;
+  icon?: string;
+}
+
+export interface CmsComparisonPage {
+  title: string;
+  subtitle: string;
+  description: string;
+  heroImage?: string;
+  heroImageWidth?: number;
+  heroImageHeight?: number;
+  features: CmsComparisonFeature[];
+  ctaText?: string;
+  ctaLink?: string;
+}
+
+interface RawComparisonPage extends Omit<CmsComparisonPage, "heroImage" | "heroImageWidth" | "heroImageHeight"> {
+  heroImage?: SanityImageRef | null;
+}
+
+export async function getComparisonPage(): Promise<CmsComparisonPage | null> {
+  const raw = await query<RawComparisonPage | null>(
+    `*[_type == "comparisonPage"][0] {
+      title, subtitle, description, ctaText, ctaLink,
+      "features": coalesce(features[]{ feature, us, competitors, icon }, []),
+      heroImage ${IMAGE_PROJECTION}
+    }`,
+    ["comparisonPage"],
+  );
+  if (!raw) return null;
+
+  const dims = dimensionsForImage(raw.heroImage);
+  return {
+    ...raw,
+    heroImage: urlForImage(raw.heroImage) ?? undefined,
+    heroImageWidth: dims?.width,
+    heroImageHeight: dims?.height,
+  };
+}
