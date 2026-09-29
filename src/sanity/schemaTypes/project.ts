@@ -82,6 +82,38 @@ export const projectType = defineType({
       description: "Lower numbers appear first.",
       initialValue: 100,
     }),
+    // Case study fields
+    defineField({
+      name: "challenge",
+      title: "Challenge",
+      type: "blockContent",
+      description: "Describe the problem, need, or goal the client had. What challenges did they face?",
+    }),
+    defineField({
+      name: "approach",
+      title: "Approach",
+      type: "blockContent",
+      description: "Explain the strategy and process you used to tackle the challenge.",
+    }),
+    defineField({
+      name: "solution",
+      title: "Solution",
+      type: "blockContent",
+      description: "Detail the technical implementation and key features delivered.",
+    }),
+    defineField({
+      name: "results",
+      title: "Results",
+      type: "blockContent",
+      description: "Share measurable outcomes, metrics, and client feedback.",
+    }),
+    defineField({
+      name: "testimonialRef",
+      title: "Client testimonial",
+      type: "reference",
+      to: [{ type: "testimonial" }],
+      description: "Link a client testimonial to display in this case study.",
+    }),
   ],
   orderings: [{ title: "Display order", name: "orderAsc", by: [{ field: "order", direction: "asc" }] }],
   preview: {
