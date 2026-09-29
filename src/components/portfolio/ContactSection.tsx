@@ -27,6 +27,7 @@ export default function ContactSection({ email, publicEmail, heading }: ContactS
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle');
   const [submittedName, setSubmittedName] = useState('');
+  const [errorMessage, setErrorMessage] = useState('');
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
@@ -41,20 +42,24 @@ const handleSubmit = async (e: React.FormEvent) => {
 
     // Basic Validation Checks
     if (!formData.name.trim()) {
-        alert('Please enter your name.');
+        setSubmitStatus('error');
+        setErrorMessage('Please enter your name.');
         return;
     }
     if (!formData.email.trim() || !formData.email.includes('@')) {
-        alert('Please enter a valid email address.');
+        setSubmitStatus('error');
+        setErrorMessage('Please enter a valid email address.');
         return;
     }
     if (!formData.message.trim()) {
-        alert('Please enter a message.');
+        setSubmitStatus('error');
+        setErrorMessage('Please enter a message.');
         return;
     }
 
     setIsSubmitting(true);
     setSubmitStatus('idle');
+    setErrorMessage('');
 
     // EmailJS configuration
     const serviceId = process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID || 'YOUR_SERVICE_ID';
@@ -107,8 +112,9 @@ const handleSubmit = async (e: React.FormEvent) => {
           message_length: formData.message.length,
         }),
       });
-      
+
       setSubmitStatus('error');
+      setErrorMessage('Failed to send message. Please try again or contact me directly.');
     } finally {
       setIsSubmitting(false);
     }
@@ -286,18 +292,25 @@ const handleSubmit = async (e: React.FormEvent) => {
                   initial={{ opacity: 0, y: 10 }}
                   animate={{ opacity: 1, y: 0 }}
                   className="mt-4 p-4 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-xl"
+                  role="alert"
                 >
                   <div className="flex items-center gap-2 text-red-700 dark:text-red-400">
                     <Icon icon="solar:close-circle-bold" width={20} height={20} />
-                    <span className="font-medium">Failed to send message</span>
+                    <span className="font-medium">{errorMessage}</span>
                   </div>
-                  <p className="text-red-600 text-left dark:text-red-500 text-sm mt-1">
-                    Please try again or contact me directly at {recipient}
-                  </p>
+                  {errorMessage.includes('Failed to send message') && (
+                    <p className="text-red-600 text-left dark:text-red-500 text-sm mt-1">
+                      You can also contact me directly at {recipient}
+                    </p>
+                  )}
                   {/* add a button to close the message */}
                   <button
-                    onClick={() => setSubmitStatus('idle')}
+                    onClick={() => {
+                      setSubmitStatus('idle');
+                      setErrorMessage('');
+                    }}
                     className="absolute top-1 right-1  text-red-500 rounded-md"
+                    aria-label="Close error message"
                   >
                     <Icon icon="solar:close-circle-bold" width={20} height={20} />
                   </button>
