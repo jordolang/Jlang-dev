@@ -145,7 +145,7 @@ results.push(validateSchema('LocalBusiness', localBusinessSchema));
 console.log('3. Testing Review Schema...');
 const reviewSchema = generateReviewSchema({
   itemReviewed: {
-    type: 'LocalBusiness',
+    "@type": 'LocalBusiness',
     name: 'Jordan Lang',
   },
   author: {

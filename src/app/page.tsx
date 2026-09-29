@@ -60,11 +60,11 @@ export default async function Portfolio() {
   // Generate structured data for SEO
   const personSchema = generatePersonSchema({
     name: settings?.name || "Jordan Lang",
-    jobTitle: settings?.jobTitle || "Web Developer & IT Specialist",
+    jobTitle: "Web Developer & IT Specialist",
     url: process.env.NEXT_PUBLIC_SITE_URL || "https://jordanlang.dev",
     email: settings?.publicEmail,
     image: settings?.ogImage || "/og-jlang.jpg",
-    sameAs: settings?.socialLinks?.map((link: any) => link.url).filter(Boolean),
+    sameAs: settings?.socials?.map((social) => social.href).filter(Boolean),
   });
 
   const localBusinessSchema = generateLocalBusinessSchema({
@@ -73,7 +73,7 @@ export default async function Portfolio() {
     url: process.env.NEXT_PUBLIC_SITE_URL || "https://jordanlang.dev",
     email: settings?.publicEmail,
     image: settings?.ogImage || "/og-jlang.jpg",
-    sameAs: settings?.socialLinks?.map((link: any) => link.url).filter(Boolean),
+    sameAs: settings?.socials?.map((social) => social.href).filter(Boolean),
     areaServed: "Global",
   });
 
@@ -81,7 +81,7 @@ export default async function Portfolio() {
   const reviewSchemas = testimonials.map((testimonial) =>
     generateReviewSchema({
       itemReviewed: {
-        type: "LocalBusiness",
+        "@type": "LocalBusiness",
         name: settings?.name || "Jordan Lang",
       },
       author: {

@@ -542,7 +542,7 @@ export interface ReviewSchemaProps {
   itemReviewed:
     | LocalBusinessSchema
     | ServiceSchema
-    | { "@type": "Organization" | "Product"; name: string; url?: string };
+    | { "@type": "Organization" | "Product" | "LocalBusiness" | "Service"; name: string; url?: string };
   author: {
     name: string;
     url?: string;
@@ -561,7 +561,7 @@ export interface ReviewSchema extends WithContext {
   itemReviewed:
     | LocalBusinessSchema
     | ServiceSchema
-    | { "@type": "Organization" | "Product"; name: string; url?: string };
+    | { "@type": "Organization" | "Product" | "LocalBusiness" | "Service"; name: string; url?: string };
   author: {
     "@type": "Person";
     name: string;
