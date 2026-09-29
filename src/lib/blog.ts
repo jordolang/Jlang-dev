@@ -12,13 +12,27 @@ import { isDraftMode } from './cms';
 import { urlForImage, type SanityImageRef } from '@/sanity/lib/image';
 import { logger } from './logger';
 
+export interface Category {
+  slug: string;
+  name: string;
+  description?: string;
+  color?: string;
+}
+
+export interface Tag {
+  slug: string;
+  name: string;
+  description?: string;
+}
+
 export interface BlogPost {
   slug: string;
   title: string;
   date: string;
   excerpt: string;
   image: string;
-  tags: string[];
+  category?: Category;
+  tags: Tag[];
   author: string;
   readTime: string;
   /** Raw MDX source. Only present for posts still living in content/blog. */
@@ -32,6 +46,7 @@ export interface BlogFrontmatter {
   date: string;
   excerpt: string;
   image: string;
+  category?: string;
   tags: string[];
   author: string;
   readTime: string;
@@ -45,8 +60,10 @@ const POST_PROJECTION = `{
   image { asset->{ _id, url } }
 }`;
 
-interface RawSanityPost extends Omit<BlogPost, 'image' | 'content'> {
+interface RawSanityPost extends Omit<BlogPost, 'image' | 'content' | 'category' | 'tags'> {
   image: SanityImageRef | null;
+  category?: Category | null;
+  tags?: Tag[] | null;
 }
 
 /** Rough reading time from the plain text inside a Portable Text body. */
@@ -71,6 +88,7 @@ function normalizeSanityPost(post: RawSanityPost): BlogPost {
     date: post.date,
     excerpt: post.excerpt,
     image: urlForImage(post.image) ?? '/images/blog/default.svg',
+    category: post.category ?? undefined,
     tags: post.tags ?? [],
     author: post.author || 'Jordan Lang',
     readTime: post.readTime || estimateReadTime(post.body),
@@ -114,13 +132,28 @@ export function getMdxBlogPosts(): BlogPost[] {
         const { data, content } = matter(fileContents);
         const frontmatter = data as BlogFrontmatter;
 
+        // Convert string tags to Tag objects for MDX posts
+        const tags: Tag[] = (frontmatter.tags || []).map((tagName) => ({
+          slug: tagName.toLowerCase().replace(/\s+/g, '-'),
+          name: tagName,
+        }));
+
+        // Convert category string to Category object for MDX posts
+        const category: Category | undefined = frontmatter.category
+          ? {
+              slug: frontmatter.category.toLowerCase().replace(/\s+/g, '-'),
+              name: frontmatter.category,
+            }
+          : undefined;
+
         return {
           slug,
           title: frontmatter.title,
           date: frontmatter.date,
           excerpt: frontmatter.excerpt,
           image: frontmatter.image || '/images/blog/default.svg',
-          tags: frontmatter.tags || [],
+          category,
+          tags,
           author: frontmatter.author || 'Jordan Lang',
           readTime: frontmatter.readTime || '5 min read',
           content,
