@@ -27,6 +27,8 @@ import {
 } from "@/lib/cms";
 import { getLatestBlogPosts } from "@/lib/blog";
 import { getApprovedTestimonials } from "@/lib/reviews";
+import { JsonLd } from "@/components/JsonLd";
+import { generatePersonSchema, generateLocalBusinessSchema } from "@/lib/schema";
 
 export default async function Portfolio() {
   // One server-side pass for the whole page. Anything the CMS doesn't have comes back
@@ -55,8 +57,32 @@ export default async function Portfolio() {
     getApprovedTestimonials(),
   ]);
 
+  // Generate structured data for SEO
+  const personSchema = generatePersonSchema({
+    name: settings?.name || "Jordan Lang",
+    jobTitle: settings?.jobTitle || "Web Developer & IT Specialist",
+    url: process.env.NEXT_PUBLIC_SITE_URL || "https://jordanlang.dev",
+    email: settings?.publicEmail,
+    image: settings?.ogImage || "/og-jlang.jpg",
+    sameAs: settings?.socialLinks?.map((link: any) => link.url).filter(Boolean),
+  });
+
+  const localBusinessSchema = generateLocalBusinessSchema({
+    name: settings?.name || "Jordan Lang",
+    description: settings?.seoDescription || "Web Developer & IT Specialist specializing in contract web design and IT projects",
+    url: process.env.NEXT_PUBLIC_SITE_URL || "https://jordanlang.dev",
+    email: settings?.publicEmail,
+    image: settings?.ogImage || "/og-jlang.jpg",
+    sameAs: settings?.socialLinks?.map((link: any) => link.url).filter(Boolean),
+    areaServed: "Global",
+  });
+
   return (
     <div className="min-h-screen text-gray-900 dark:text-white relative">
+      {/* Structured data for SEO */}
+      <JsonLd data={personSchema} id="person-schema" />
+      <JsonLd data={localBusinessSchema} id="local-business-schema" />
+
       {/* Background (static, server) */}
       <Background />
 
