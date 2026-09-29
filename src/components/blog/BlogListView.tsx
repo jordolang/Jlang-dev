@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useMemo, useEffect } from "react";
+import { useState, useMemo, useEffect, useRef } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import { Icon } from "@iconify/react";
 import { m, AnimatePresence } from "framer-motion";
@@ -34,6 +34,7 @@ export default function BlogListView({ posts }: { posts: BlogPost[] }) {
 
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedTag, setSelectedTag] = useState<string | null>(null);
+  const searchInputRef = useRef<HTMLInputElement>(null);
 
   // Initialize search query from URL parameter on mount
   useEffect(() => {
@@ -56,6 +57,20 @@ export default function BlogListView({ posts }: { posts: BlogPost[] }) {
     const newUrl = params.toString() ? `?${params.toString()}` : '/blog';
     router.replace(newUrl, { scroll: false });
   }, [searchQuery, router]); // eslint-disable-line react-hooks/exhaustive-deps
+
+  // Keyboard shortcut: Press '/' to focus search
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      // Only trigger if '/' is pressed and user is not already typing in an input or textarea
+      if (e.key === '/' && document.activeElement?.tagName !== 'INPUT' && document.activeElement?.tagName !== 'TEXTAREA') {
+        e.preventDefault();
+        searchInputRef.current?.focus();
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, []);
 
   // Debounce search query to reduce re-renders
   const debouncedSearchQuery = useDebounce(searchQuery, 200);
@@ -112,6 +127,7 @@ return (
                 className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400"
               />
               <input
+                ref={searchInputRef}
                 type="text"
                 placeholder="Search posts by title, content, or tags..."
                 value={searchQuery}
