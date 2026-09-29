@@ -192,6 +192,20 @@ export function generateLocalBusinessSchema(props: LocalBusinessSchemaProps): Lo
     };
   }
 
+  if (props.openingHours && props.openingHours.length > 0) {
+    schema.openingHoursSpecification = props.openingHours.map((hours) => {
+      const [days, times] = hours.split(" ");
+      const [opens, closes] = times.split("-");
+      const dayOfWeek = days.split(",");
+      return {
+        "@type": "OpeningHoursSpecification" as const,
+        dayOfWeek,
+        opens,
+        closes,
+      };
+    });
+  }
+
   return schema;
 }
 
