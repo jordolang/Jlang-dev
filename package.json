@@ -11,7 +11,8 @@
 		"lint": "next lint",
 		"test": "jest --passWithNoTests",
 		"test:watch": "jest --watch",
-		"test:coverage": "jest --coverage"
+		"test:coverage": "jest --coverage",
+		"type-check": "tsc --noEmit"
 	},
 	"dependencies": {
 		"@anthropic-ai/sdk": "^0.111.0",
