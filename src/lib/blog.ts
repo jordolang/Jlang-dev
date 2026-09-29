@@ -214,6 +214,46 @@ export async function getAdjacentPosts(currentSlug: string) {
   };
 }
 
+/** Get all unique categories from blog posts. */
+export async function getAllCategories(): Promise<Category[]> {
+  const posts = await getAllBlogPosts();
+  const categoryMap = new Map<string, Category>();
+
+  posts.forEach((post) => {
+    if (post.category) {
+      categoryMap.set(post.category.slug, post.category);
+    }
+  });
+
+  return Array.from(categoryMap.values());
+}
+
+/** Get all unique tags from blog posts. */
+export async function getAllTags(): Promise<Tag[]> {
+  const posts = await getAllBlogPosts();
+  const tagMap = new Map<string, Tag>();
+
+  posts.forEach((post) => {
+    post.tags.forEach((tag) => {
+      tagMap.set(tag.slug, tag);
+    });
+  });
+
+  return Array.from(tagMap.values());
+}
+
+/** Get all posts in a specific category. */
+export async function getPostsByCategory(slug: string): Promise<BlogPost[]> {
+  const posts = await getAllBlogPosts();
+  return posts.filter((post) => post.category?.slug === slug);
+}
+
+/** Get all posts with a specific tag. */
+export async function getPostsByTag(slug: string): Promise<BlogPost[]> {
+  const posts = await getAllBlogPosts();
+  return posts.filter((post) => post.tags.some((tag) => tag.slug === slug));
+}
+
 export function formatDate(dateString: string): string {
   const date = new Date(dateString);
   return date.toLocaleDateString('en-US', {
