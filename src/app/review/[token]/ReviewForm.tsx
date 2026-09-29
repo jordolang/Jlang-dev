@@ -57,11 +57,15 @@ export default function ReviewForm({ token, clientName, company, role }: ReviewF
   }
 
   const visibleRating = hoveredRating || rating;
+  const hasError = status === "error";
+  const reviewDescribedBy = hasError ? "form-description review-hint error-message" : "form-description review-hint";
+  const ratingDescribedBy = hasError ? "rating-hint error-message" : "rating-hint";
+
   return (
     <form onSubmit={submit} className="rounded-3xl border border-white/40 bg-white/90 p-6 shadow-2xl backdrop-blur-xl sm:p-10 dark:border-gray-700 dark:bg-gray-900/90">
       <p className="text-sm font-semibold uppercase tracking-[0.2em] text-indigo-600">Client review</p>
       <h1 className="mt-3 text-3xl font-bold sm:text-4xl">Share your experience</h1>
-      <p className="mt-3 text-gray-600 dark:text-gray-300">Your details are already filled in. Just write your review and choose a rating.</p>
+      <p id="form-description" className="mt-3 text-gray-600 dark:text-gray-300">Your details are already filled in. Just write your review and choose a rating.</p>
 
       <div className="mt-7 grid gap-4 sm:grid-cols-3">
         {[['Name', clientName], ['Company', company], ['Role', role]].map(([label, value]) => (
@@ -73,10 +77,12 @@ export default function ReviewForm({ token, clientName, company, role }: ReviewF
       </div>
 
       <label htmlFor="review" className="mt-7 block text-sm font-semibold">Your review</label>
-      <textarea id="review" value={content} onChange={(event) => setContent(event.target.value)} rows={7} maxLength={3000} required placeholder="Tell others what it was like working with Jordan…" className="mt-2 w-full resize-y rounded-xl border border-gray-300 bg-white px-4 py-3 outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20 dark:border-gray-700 dark:bg-gray-950" />
+      <p id="review-hint" className="mt-1 text-sm text-gray-600 dark:text-gray-400">Maximum 3000 characters</p>
+      <textarea id="review" value={content} onChange={(event) => setContent(event.target.value)} rows={7} maxLength={3000} required placeholder="Tell others what it was like working with Jordan…" aria-describedby={reviewDescribedBy} aria-invalid={hasError} className="mt-2 w-full resize-y rounded-xl border border-gray-300 bg-white px-4 py-3 outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20 dark:border-gray-700 dark:bg-gray-950" />
 
-      <fieldset className="mt-6">
+      <fieldset className="mt-6" aria-describedby={ratingDescribedBy} aria-invalid={hasError && rating === 0}>
         <legend className="text-sm font-semibold">Your rating</legend>
+        <p id="rating-hint" className="mt-1 text-sm text-gray-600 dark:text-gray-400">Select a star rating from 1 to 5</p>
         <div className="mt-2 flex gap-2" onMouseLeave={() => setHoveredRating(0)}>
           {[1, 2, 3, 4, 5].map((star) => (
             <button key={star} type="button" onMouseEnter={() => setHoveredRating(star)} onFocus={() => setHoveredRating(star)} onBlur={() => setHoveredRating(0)} onClick={() => setRating(star)} aria-label={`${star} star${star === 1 ? "" : "s"}`} aria-pressed={rating === star} className={`text-5xl leading-none transition hover:scale-110 focus:outline-none focus:ring-2 focus:ring-indigo-500 ${star <= visibleRating ? "text-yellow-400" : "text-gray-300 dark:text-gray-700"}`}>
@@ -86,7 +92,7 @@ export default function ReviewForm({ token, clientName, company, role }: ReviewF
         </div>
       </fieldset>
 
-      {status === "error" && <p role="alert" className="mt-5 rounded-xl bg-red-50 p-3 text-sm text-red-700 dark:bg-red-950/40 dark:text-red-300">{message}</p>}
+      {hasError && <p id="error-message" role="alert" className="mt-5 rounded-xl bg-red-50 p-3 text-sm text-red-700 dark:bg-red-950/40 dark:text-red-300">{message}</p>}
       <button type="submit" disabled={status === "sending"} className="mt-7 w-full rounded-xl bg-gradient-to-r from-blue-600 to-purple-600 px-6 py-3.5 font-bold text-white shadow-lg disabled:opacity-60">
         {status === "sending" ? "Submitting…" : "Submit review"}
       </button>
