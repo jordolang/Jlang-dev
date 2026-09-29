@@ -13,6 +13,7 @@ import type {
   CmsPromoContent,
 } from '@/lib/cms'
 import type { SanityImageRef } from '@/sanity/lib/image'
+import type { SiteTestimonial, ReviewRequest } from '@/lib/reviews'
 
 /**
  * Sanity CMS mock utilities for testing.
@@ -265,6 +266,36 @@ export function createMockPromoContent(overrides: Partial<CmsPromoContent> = {})
   }
 }
 
+/**
+ * Creates a mock testimonial with optional custom properties.
+ */
+export function createMockTestimonial(overrides: Partial<SiteTestimonial> = {}): SiteTestimonial {
+  return {
+    _id: 'testimonial-test-1234',
+    content: 'This is a test testimonial. The work was excellent and exceeded expectations.',
+    author: 'John Doe',
+    role: 'CEO',
+    company: 'Test Company',
+    rating: 5,
+    featured: false,
+    ...overrides,
+  }
+}
+
+/**
+ * Creates a mock review request with optional custom properties.
+ */
+export function createMockReviewRequest(overrides: Partial<ReviewRequest> = {}): ReviewRequest {
+  return {
+    _id: 'review-request-test-1234',
+    clientName: 'Jane Smith',
+    company: 'Test Corporation',
+    role: 'CTO',
+    status: 'pending',
+    ...overrides,
+  }
+}
+
 // ============================================================================
 // Mock Client Utilities
 // ============================================================================
@@ -305,6 +336,12 @@ export function createMockSanityClient(mockResponses: Record<string, unknown> = 
       }
       if (query.includes('_type == "promoContent"')) {
         return mockResponses.promoContent ?? createMockPromoContent()
+      }
+      if (query.includes('_type == "testimonial"')) {
+        return mockResponses.testimonials ?? [createMockTestimonial()]
+      }
+      if (query.includes('_type == "reviewRequest"')) {
+        return mockResponses.reviewRequest ?? createMockReviewRequest()
       }
       return null
     }),
