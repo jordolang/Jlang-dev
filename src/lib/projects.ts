@@ -12,6 +12,7 @@ import type { PortableTextBlock } from '@portabletext/react';
 export interface CaseStudyTestimonial {
   author: string;
   role: string;
+  company: string;
   content: string;
   rating?: number;
 }
@@ -81,7 +82,7 @@ async function getSanityProjects(): Promise<Project[]> {
         gradient, status, category, highlight, timeline, clientType, group,
         fullPagePreview, featured, challenge, approach, solution, results,
         image ${IMAGE_PROJECTION},
-        "testimonialRef": testimonialRef->{ author, role, content, rating }
+        "testimonialRef": testimonialRef->{ author, role, company, content, rating }
       }`,
       {},
       draft ? { cache: 'no-store' } : { next: { revalidate: 60, tags: ['projects'] } },

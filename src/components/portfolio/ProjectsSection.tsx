@@ -8,6 +8,7 @@ import { AnalyticsEvents, trackEvent } from "@/lib/analytics";
 import SectionHeader from "./SectionHeader";
 
 interface Project {
+  slug: string;
   title: string;
   subtitle: string;
   description: string;
@@ -32,6 +33,7 @@ interface Project {
 
 export const projects: Project[] = [
   {
+    slug: "stuck-on-you",
     title: "Stuck On You",
     subtitle: "Permanent Jewelry Bloomington, IN",
     description:
@@ -63,6 +65,7 @@ export const projects: Project[] = [
     clientType: "Permanent Jewelry",
   },
   {
+    slug: "steamers-stonewall-tavern",
     title: "Steamers Stonewall Tavern",
     subtitle: "Upscale-Casual Tavern — North Lima, OH",
     description:
@@ -93,6 +96,7 @@ export const projects: Project[] = [
     clientType: "Restaurant",
   },
   {
+    slug: "muskingum-materials-aggregate",
     title: "Muskingum Materials",
     subtitle: "Aggregate & Construction Materials Supplier",
     description:
@@ -124,6 +128,7 @@ export const projects: Project[] = [
     clientType: "Construction Materials",
   },
   {
+    slug: "safety-screen",
     title: "Safety Screen",
     image: "/images/projects/drug-finder.png",
     subtitle: "Medication Search & Information Web App",
@@ -153,6 +158,7 @@ export const projects: Project[] = [
     clientType: "Health & Information",
   },
   {
+    slug: "roam",
     title: "Roam",
     image: "/images/projects/roam.png",
     subtitle: "AI Travel Agent & Trip Planner",
@@ -182,6 +188,7 @@ export const projects: Project[] = [
     clientType: "Travel & Lifestyle",
   },
   {
+    slug: "jose-madrid-salsa",
     title: "Jose Madrid Salsa",
     subtitle: "Premium Gourmet Salsa – E-commerce & Marketing Site",
     description:
@@ -210,6 +217,7 @@ export const projects: Project[] = [
     clientType: "Food & Beverage",
   },
   {
+    slug: "muskingum-materials",
     title: "Muskingum Materials",
     subtitle: "Southeast Ohio's Sand, Soil & Gravel Website",
     description: "Modern, full-featured business website for a family-owned sand, soil, and gravel operation in Zanesville, Ohio. Delivers a clean product catalog, real-time AI-powered customer chat trained on pricing and business data, lead capture system, and a Sanity Studio CMS backend giving owners full content control.",
@@ -241,6 +249,7 @@ export const projects: Project[] = [
     clientType: "Construction & Materials"
   },
   {
+    slug: "salsadocs",
     title: "SalsaDocs",
     subtitle: "Jose Madrid Salsa Developer Documentation",
     description: "Comprehensive developer documentation site for the Jose Madrid Salsa e-commerce platform. Built with Next.js and Fumadocs, it serves as the single source of truth for the platform — covering API reference, integration guides, deployment, configuration, and system architecture with Mermaid diagram support.",
@@ -272,6 +281,7 @@ export const projects: Project[] = [
     clientType: "Documentation"
   },
   {
+    slug: "jessica-asp",
     title: "Jessica ASP",
     subtitle: "Creator Subscription Platform",
     description: "A full-featured creator subscription platform where creators publish gated content and fans subscribe to tiers. Includes creator dashboards, admin tools, subscription management, web push notifications, file uploads via UploadThing, and Stripe subscription payments — built on Next.js 14 App Router.",
@@ -303,6 +313,7 @@ export const projects: Project[] = [
     clientType: "Creator Economy"
   },
   {
+    slug: "amplinks",
     title: "Amplinks",
     image: "/images/projects/amplinks.png",
     subtitle: "Self-Hosted iOS/Web Music Platform",
@@ -339,6 +350,7 @@ export const projects: Project[] = [
     clientType: "Mobile & Web Apps",
   },
   {
+    slug: "zanesville-store",
     title: "Zanesville.store",
     image: "/images/projects/zanesville-store.png",
     subtitle: "Local E-commerce Platform",
@@ -375,6 +387,7 @@ export const projects: Project[] = [
     clientType: "Local E-commerce",
   },
   {
+    slug: "homesh-app",
     title: "Homesh.app",
     image: "/images/projects/homesh-app.png",
     subtitle: "Self-Hosted Home Dashboard",
@@ -411,6 +424,7 @@ export const projects: Project[] = [
     clientType: "Self-Hosted Solutions",
   },
   {
+    slug: "apple-sider",
     title: "Apple-Sider",
     image: "/images/projects/apple-sider.png",
     subtitle: "Self-Hosted Apple Music Library Downloader",
@@ -447,6 +461,7 @@ export const projects: Project[] = [
     clientType: "Self-Hosted Solutions",
   },
   {
+    slug: "world-auto-net",
     title: "World Auto Net",
     image: "/images/projects/world-auto-net.png",
     subtitle: "Automotive Marketplace Website",
@@ -483,6 +498,7 @@ export const projects: Project[] = [
     clientType: "Automotive Industry",
   },
   {
+    slug: "neff-paving",
     title: "Neff Paving",
     image: "/images/projects/neff-paving.png",
     subtitle: "Professional Paving Services Website",
@@ -522,6 +538,7 @@ export const projects: Project[] = [
     imageHeight: 12000,
   },
   {
+    slug: "first-baptist-church",
     title: "First Baptist Church",
     image: "/images/projects/first-baptist.png",
     subtitle: "Church Community Website",
@@ -558,6 +575,7 @@ export const projects: Project[] = [
     clientType: "Religious Organization",
   },
   {
+    slug: "ohio-interests",
     title: "Ohio Interests",
     image: "/images/projects/ohio-interests.png",
     subtitle: "Local Interest & Tourism Website",
@@ -594,6 +612,7 @@ export const projects: Project[] = [
     clientType: "Tourism & Local Business",
   },
   {
+    slug: "amplinks-mobile",
     title: "Amplinks",
     image: "/images/projects/amplinks.png",
     subtitle: "Native iOS & Android Music App",
@@ -627,6 +646,7 @@ export const projects: Project[] = [
     group: "mobile",
   },
   {
+    slug: "jose-madrid-mobile",
     title: "Jose Madrid Salsa",
     image: "/images/projects/josemadrid-ios.png",
     subtitle: "Mobile Shopping App (iOS & Android)",
@@ -658,6 +678,7 @@ export const projects: Project[] = [
     group: "mobile",
   },
   {
+    slug: "radius",
     title: "Radius",
     image: "/images/projects/radius.png",
     subtitle: "Proximity-Based Connection App (iOS & Android)",
@@ -689,6 +710,7 @@ export const projects: Project[] = [
     group: "mobile",
   },
   {
+    slug: "jose-madrid-admin-panel",
     title: "Jose Madrid Admin Panel",
     subtitle: "Windows & macOS Desktop Admin",
     description:
@@ -721,6 +743,7 @@ export const projects: Project[] = [
     group: "desktopApp",
   },
   {
+    slug: "local-lead-scraper-pro",
     title: "Local Lead Scraper Pro",
     subtitle: "Google Maps Prospecting Desktop App",
     description:
@@ -754,6 +777,7 @@ export const projects: Project[] = [
     group: "desktopApp",
   },
   {
+    slug: "festivalnet-scraper",
     title: "FestivalNet Scraper",
     subtitle: "Vendor Show-Finder Desktop App",
     description:
@@ -876,7 +900,8 @@ function ProjectLinks({ project, light = false }: { project: Project; light?: bo
 function FeaturedProject({ project }: { project: Project }) {
   return (
     <m.div variants={itemVariants} className="group">
-      <div className="bg-white/80 dark:bg-gray-900/80 backdrop-blur-xl rounded-3xl border border-white/30 dark:border-gray-700/40 shadow-xl overflow-hidden">
+      <Link href={`/projects/${project.slug}`} className="block">
+        <div className="bg-white/80 dark:bg-gray-900/80 backdrop-blur-xl rounded-3xl border border-white/30 dark:border-gray-700/40 shadow-xl overflow-hidden transition-all duration-300 hover:border-gray-300 dark:hover:border-gray-600 hover:shadow-2xl">
         <div className="grid lg:grid-cols-2 lg:items-stretch">
           {/* Left: details, laid out top to bottom */}
           <div className="p-6 sm:p-8 lg:p-10 flex flex-col">
@@ -960,6 +985,7 @@ function FeaturedProject({ project }: { project: Project }) {
           </div>
         </div>
       </div>
+      </Link>
     </m.div>
   );
 }
@@ -969,13 +995,13 @@ function ProjectCard({ project }: { project: Project }) {
   const isFullPagePreview = project.fullPagePreview === true;
 
   return (
-    <m.div
-      variants={itemVariants}
-      whileHover={{ y: -4 }}
-      transition={{ type: "spring", stiffness: 300 }}
-      onClick={() => trackEvent(AnalyticsEvents.PROJECT_CLICKED, { project: project.title })}
-      className="group flex flex-col bg-white/80 dark:bg-gray-900/80 backdrop-blur-xl rounded-2xl border border-white/30 dark:border-gray-700/40 hover:border-gray-300 dark:hover:border-gray-600 shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden"
-    >
+    <Link href={`/projects/${project.slug}`} onClick={() => trackEvent(AnalyticsEvents.PROJECT_CLICKED, { project: project.title })}>
+      <m.div
+        variants={itemVariants}
+        whileHover={{ y: -4 }}
+        transition={{ type: "spring", stiffness: 300 }}
+        className="group flex flex-col bg-white/80 dark:bg-gray-900/80 backdrop-blur-xl rounded-2xl border border-white/30 dark:border-gray-700/40 hover:border-gray-300 dark:hover:border-gray-600 shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden"
+      >
       {/* Screenshot — portrait & fully visible for mobile apps, wide crop for web */}
       <div
         className={`relative ${
@@ -1061,6 +1087,7 @@ function ProjectCard({ project }: { project: Project }) {
         </div>
       </div>
     </m.div>
+    </Link>
   );
 }
 
@@ -1070,13 +1097,13 @@ function ProjectCard({ project }: { project: Project }) {
  */
 function MobileProjectCard({ project }: { project: Project }) {
   return (
-    <m.div
-      variants={itemVariants}
-      whileHover={{ y: -4 }}
-      transition={{ type: "spring", stiffness: 300 }}
-      onClick={() => trackEvent(AnalyticsEvents.PROJECT_CLICKED, { project: project.title })}
-      className="group flex flex-col overflow-hidden rounded-2xl border border-white/30 bg-white/80 shadow-lg backdrop-blur-xl transition-all duration-300 hover:border-gray-300 hover:shadow-2xl dark:border-gray-700/40 dark:bg-gray-900/80 dark:hover:border-gray-600"
-    >
+    <Link href={`/projects/${project.slug}`} onClick={() => trackEvent(AnalyticsEvents.PROJECT_CLICKED, { project: project.title })}>
+      <m.div
+        variants={itemVariants}
+        whileHover={{ y: -4 }}
+        transition={{ type: "spring", stiffness: 300 }}
+        className="group flex flex-col overflow-hidden rounded-2xl border border-white/30 bg-white/80 shadow-lg backdrop-blur-xl transition-all duration-300 hover:border-gray-300 hover:shadow-2xl dark:border-gray-700/40 dark:bg-gray-900/80 dark:hover:border-gray-600"
+      >
       {/* Full portrait screenshot — the visual majority of the card */}
       <div className="relative aspect-[9/16] overflow-hidden bg-zinc-950">
         {project.image ? (
@@ -1141,6 +1168,7 @@ function MobileProjectCard({ project }: { project: Project }) {
         </div>
       </div>
     </m.div>
+    </Link>
   );
 }
 
@@ -1151,13 +1179,13 @@ function MobileProjectCard({ project }: { project: Project }) {
  */
 function DesktopAppCard({ project }: { project: Project }) {
   return (
-    <m.div
-      variants={itemVariants}
-      whileHover={{ y: -4 }}
-      transition={{ type: "spring", stiffness: 300 }}
-      onClick={() => trackEvent(AnalyticsEvents.PROJECT_CLICKED, { project: project.title })}
-      className="group flex flex-col overflow-hidden rounded-2xl border border-white/30 bg-white/80 shadow-lg backdrop-blur-xl transition-all duration-300 hover:border-gray-300 hover:shadow-2xl dark:border-gray-700/40 dark:bg-gray-900/80 dark:hover:border-gray-600"
-    >
+    <Link href={`/projects/${project.slug}`} onClick={() => trackEvent(AnalyticsEvents.PROJECT_CLICKED, { project: project.title })}>
+      <m.div
+        variants={itemVariants}
+        whileHover={{ y: -4 }}
+        transition={{ type: "spring", stiffness: 300 }}
+        className="group flex flex-col overflow-hidden rounded-2xl border border-white/30 bg-white/80 shadow-lg backdrop-blur-xl transition-all duration-300 hover:border-gray-300 hover:shadow-2xl dark:border-gray-700/40 dark:bg-gray-900/80 dark:hover:border-gray-600"
+      >
       {/* Window chrome + the app's own screenshot */}
       <div className="relative bg-gray-200 dark:bg-gray-800">
         <div className="flex items-center gap-1.5 border-b border-gray-300/70 px-3 py-2 dark:border-gray-700">
@@ -1226,6 +1254,7 @@ function DesktopAppCard({ project }: { project: Project }) {
         </div>
       </div>
     </m.div>
+    </Link>
   );
 }
 

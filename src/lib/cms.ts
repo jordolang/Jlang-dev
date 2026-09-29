@@ -52,6 +52,7 @@ function orNull<T>(items: T[] | null): T[] | null {
 // ---------------------------------------------------------------------------
 
 export interface CmsProject {
+  slug: string;
   title: string;
   subtitle: string;
   description: string;
@@ -74,13 +75,15 @@ export interface CmsProject {
   featured?: boolean;
 }
 
-interface RawProject extends Omit<CmsProject, "image" | "imageWidth" | "imageHeight"> {
+interface RawProject extends Omit<CmsProject, "image" | "imageWidth" | "imageHeight" | "slug"> {
+  slug: { current: string };
   image: SanityImageRef | null;
 }
 
 export async function getProjects(): Promise<CmsProject[] | null> {
   const raw = await query<RawProject[]>(
     `*[_type == "project"] | order(order asc, _createdAt asc) {
+      slug,
       title, subtitle, description, features, deliverables, tech, github, live,
       gradient, status, category, highlight, timeline, clientType, group,
       fullPagePreview, featured,
@@ -94,6 +97,7 @@ export async function getProjects(): Promise<CmsProject[] | null> {
     const dims = dimensionsForImage(project.image);
     return {
       ...project,
+      slug: project.slug.current,
       image: urlForImage(project.image) ?? "",
       features: project.features ?? [],
       deliverables: project.deliverables ?? [],
