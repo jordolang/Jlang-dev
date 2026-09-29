@@ -28,6 +28,43 @@ function formatDate(dateString: string): string {
     day: 'numeric', timeZone: 'UTC' });
 }
 
+// Component to highlight matching text in search results
+function HighlightedText({ text, searchQuery }: { text: string; searchQuery: string }) {
+  // If no search query, return text as-is
+  if (!searchQuery.trim()) {
+    return <>{text}</>;
+  }
+
+  // Escape special regex characters in search query
+  const escapedQuery = searchQuery.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+
+  // Create regex for case-insensitive matching
+  const regex = new RegExp(`(${escapedQuery})`, 'gi');
+
+  // Split text by matches
+  const parts = text.split(regex);
+
+  return (
+    <>
+      {parts.map((part, index) => {
+        // Check if this part matches the search query (case-insensitive)
+        const isMatch = part.toLowerCase() === searchQuery.toLowerCase();
+
+        return isMatch ? (
+          <mark
+            key={index}
+            className="bg-yellow-200 dark:bg-yellow-500/40 text-gray-900 dark:text-white px-1 rounded"
+          >
+            {part}
+          </mark>
+        ) : (
+          <span key={index}>{part}</span>
+        );
+      })}
+    </>
+  );
+}
+
 export default function BlogListView({ posts }: { posts: BlogPost[] }) {
   const searchParams = useSearchParams();
   const router = useRouter();
@@ -286,12 +323,12 @@ return (
 
                       {/* Title */}
                       <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-3 group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors duration-300 line-clamp-2">
-                        {post.title}
+                        <HighlightedText text={post.title} searchQuery={debouncedSearchQuery} />
                       </h2>
 
                       {/* Excerpt */}
                       <p className="text-gray-600 dark:text-gray-300 text-sm leading-relaxed mb-4 line-clamp-3 flex-1">
-                        {post.excerpt}
+                        <HighlightedText text={post.excerpt} searchQuery={debouncedSearchQuery} />
                       </p>
 
                       {/* Author and Read More */}
