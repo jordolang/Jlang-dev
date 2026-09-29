@@ -9,13 +9,27 @@ import Image from "next/image";
 import { AnalyticsEvents, trackEvent } from "@/lib/analytics";
 import { useDebounce } from "@/hooks/useDebounce";
 
+interface Category {
+  slug: string;
+  name: string;
+  description?: string;
+  color?: string;
+}
+
+interface Tag {
+  slug: string;
+  name: string;
+  description?: string;
+}
+
 interface BlogPost {
   slug: string;
   title: string;
   date: string;
   excerpt: string;
   image: string;
-  tags: string[];
+  category?: Category;
+  tags: Tag[];
   author: string;
   readTime: string;
 }
@@ -79,6 +93,7 @@ function SearchParamSync({ onQueryChange }: { onQueryChange: (query: string) => 
 
 export default function BlogListView({ posts }: { posts: BlogPost[] }) {
   const [searchQuery, setSearchQuery] = useState('');
+  const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
   const [selectedTag, setSelectedTag] = useState<string | null>(null);
   const searchInputRef = useRef<HTMLInputElement>(null);
   // Last query reflected in the URL, so our own URL writes aren't echoed back into the input
@@ -126,29 +141,45 @@ export default function BlogListView({ posts }: { posts: BlogPost[] }) {
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, []);
 
-  // Get all unique tags
-  const allTags = useMemo(() => {
-    const tagSet = new Set<string>();
+  // Get all unique categories
+  const allCategories = useMemo(() => {
+    const categoryMap = new Map<string, Category>();
     posts.forEach(post => {
-      post.tags.forEach(tag => tagSet.add(tag));
+      if (post.category) {
+        categoryMap.set(post.category.slug, post.category);
+      }
     });
-    return Array.from(tagSet).sort();
+    return Array.from(categoryMap.values()).sort((a, b) => a.name.localeCompare(b.name));
   }, [posts]);
 
-  // Filter posts based on search and tag
+  // Get all unique tags
+  const allTags = useMemo(() => {
+    const tagMap = new Map<string, Tag>();
+    posts.forEach(post => {
+      post.tags.forEach(tag => {
+        tagMap.set(tag.slug, tag);
+      });
+    });
+    return Array.from(tagMap.values()).sort((a, b) => a.name.localeCompare(b.name));
+  }, [posts]);
+
+  // Filter posts based on search, category, and tag
   const filteredPosts = useMemo(() => {
     return posts.filter(post => {
       const query = normalizedQuery.toLowerCase();
       const matchesSearch = query === '' ||
         post.title.toLowerCase().includes(query) ||
         post.excerpt.toLowerCase().includes(query) ||
-        post.tags.some(tag => tag.toLowerCase().includes(query));
+        post.category?.name.toLowerCase().includes(query) ||
+        post.tags.some(tag => tag.name.toLowerCase().includes(query));
 
-      const matchesTag = !selectedTag || post.tags.includes(selectedTag);
+      const matchesCategory = !selectedCategory || post.category?.slug === selectedCategory;
 
-      return matchesSearch && matchesTag;
+      const matchesTag = !selectedTag || post.tags.some(tag => tag.slug === selectedTag);
+
+      return matchesSearch && matchesCategory && matchesTag;
     });
-  }, [posts, normalizedQuery, selectedTag]);
+  }, [posts, normalizedQuery, selectedCategory, selectedTag]);
 
   return (
     <div className="min-h-screen bg-white dark:bg-gray-950 text-gray-900 dark:text-white">
@@ -200,6 +231,52 @@ export default function BlogListView({ posts }: { posts: BlogPost[] }) {
             </div>
           </div>
 
+          {/* Category Filter Tabs */}
+          {allCategories.length > 0 && (
+            <div className="mt-6">
+              <div className="flex items-center gap-2 mb-3">
+                <Icon icon="solar:folder-bold" width={20} height={20} className="text-gray-500 dark:text-gray-400" />
+                <span className="text-sm font-medium text-gray-600 dark:text-gray-400">Filter by category:</span>
+              </div>
+              <div className="flex flex-wrap gap-2">
+                <button
+                  onClick={() => {
+                    setSelectedCategory(null);
+                    setSelectedTag(null);
+                  }}
+                  className={`px-4 py-2 rounded-xl font-medium transition-all ${
+                    selectedCategory === null
+                      ? 'bg-indigo-600 text-white shadow-lg'
+                      : 'bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700'
+                  }`}
+                >
+                  All Categories
+                </button>
+                {allCategories.map((category) => (
+                  <button
+                    key={category.slug}
+                    onClick={() => {
+                      setSelectedCategory(category.slug === selectedCategory ? null : category.slug);
+                      setSelectedTag(null);
+                    }}
+                    className={`px-4 py-2 rounded-xl font-medium transition-all ${
+                      selectedCategory === category.slug
+                        ? 'bg-indigo-600 text-white shadow-lg'
+                        : 'bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700'
+                    }`}
+                    style={
+                      selectedCategory === category.slug && category.color
+                        ? { backgroundColor: category.color }
+                        : undefined
+                    }
+                  >
+                    {category.name}
+                  </button>
+                ))}
+              </div>
+            </div>
+          )}
+
           {/* Tag Filters */}
           {allTags.length > 0 && (
             <div className="mt-6">
@@ -216,19 +293,19 @@ export default function BlogListView({ posts }: { posts: BlogPost[] }) {
                       : 'bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700'
                   }`}
                 >
-                  All Posts
+                  All Tags
                 </button>
                 {allTags.map((tag) => (
                   <button
-                    key={tag}
-                    onClick={() => setSelectedTag(tag === selectedTag ? null : tag)}
+                    key={tag.slug}
+                    onClick={() => setSelectedTag(tag.slug === selectedTag ? null : tag.slug)}
                     className={`px-4 py-2 rounded-xl font-medium transition-all ${
-                      selectedTag === tag
+                      selectedTag === tag.slug
                         ? 'bg-indigo-600 text-white shadow-lg'
                         : 'bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700'
                     }`}
                   >
-                    #{tag}
+                    #{tag.name}
                   </button>
                 ))}
               </div>
@@ -258,10 +335,11 @@ export default function BlogListView({ posts }: { posts: BlogPost[] }) {
             <p className="text-gray-600 dark:text-gray-400 text-lg mb-4">
               {posts.length === 0 ? 'No blog posts found.' : 'No posts match your search criteria.'}
             </p>
-            {(searchQuery || selectedTag) && (
+            {(searchQuery || selectedCategory || selectedTag) && (
               <button
                 onClick={() => {
                   setSearchQuery('');
+                  setSelectedCategory(null);
                   setSelectedTag(null);
                 }}
                 className="inline-flex items-center gap-2 px-6 py-3 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl transition-colors"
@@ -274,7 +352,7 @@ export default function BlogListView({ posts }: { posts: BlogPost[] }) {
         ) : (
           <AnimatePresence mode="wait">
             <m.div
-              key={`${normalizedQuery}-${selectedTag}`}
+              key={`${normalizedQuery}-${selectedCategory}-${selectedTag}`}
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
@@ -331,10 +409,10 @@ export default function BlogListView({ posts }: { posts: BlogPost[] }) {
                         </span>
                         {post.tags.slice(0, 2).map((tag) => (
                           <span
-                            key={tag}
+                            key={tag.slug}
                             className="px-2 py-1 text-xs font-medium bg-indigo-100 dark:bg-indigo-900/30 text-indigo-600 dark:text-indigo-400 rounded-full"
                           >
-                            {tag}
+                            {tag.name}
                           </span>
                         ))}
                       </div>
