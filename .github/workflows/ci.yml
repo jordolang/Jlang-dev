@@ -1,0 +1,21 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  # Jobs will be added in subsequent subtasks
+  placeholder:
+    name: Placeholder Job
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup complete
+        run: echo "Workflow structure created - jobs will be added in next steps"
