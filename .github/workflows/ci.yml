@@ -9,13 +9,30 @@ on:
       - main
 
 jobs:
-  # Jobs will be added in subsequent subtasks
-  placeholder:
-    name: Placeholder Job
+  install:
+    name: Install Dependencies
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Setup complete
-        run: echo "Workflow structure created - jobs will be added in next steps"
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Cache node modules
+        id: cache-node-modules
+        uses: actions/cache@v4
+        with:
+          path: node_modules
+          key: ${{ runner.os }}-node-modules-${{ hashFiles('package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-modules-
+
+      - name: Install dependencies
+        if: steps.cache-node-modules.outputs.cache-hit != 'true'
+        run: npm ci
+
+      - name: Verify installation
+        run: npm list --depth=0
