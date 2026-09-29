@@ -91,9 +91,9 @@ function SearchParamSync({ onQueryChange }: { onQueryChange: (query: string) => 
   return null;
 }
 
-export default function BlogListView({ posts }: { posts: BlogPost[] }) {
+export default function BlogListView({ posts, filterByCategory }: { posts: BlogPost[]; filterByCategory?: string }) {
   const [searchQuery, setSearchQuery] = useState('');
-  const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
+  const [selectedCategory, setSelectedCategory] = useState<string | null>(filterByCategory ?? null);
   const [selectedTag, setSelectedTag] = useState<string | null>(null);
   const searchInputRef = useRef<HTMLInputElement>(null);
   // Last query reflected in the URL, so our own URL writes aren't echoed back into the input
