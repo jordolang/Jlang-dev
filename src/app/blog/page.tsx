@@ -7,7 +7,13 @@ export const revalidate = 60;
 export const metadata: Metadata = {
   title: "Blog | Jordan Lang",
   description: "Thoughts on web development, self-hosting, mobile apps, and technology trends.",
-  alternates: { canonical: "/blog" },
+  alternates: {
+    canonical: "/blog",
+    types: {
+      "application/rss+xml": "/blog/rss.xml",
+      "application/atom+xml": "/blog/atom.xml",
+    },
+  },
   openGraph: {
     title: "Blog | Jordan Lang",
     description: "Thoughts on web development, self-hosting, mobile apps, and technology trends.",
