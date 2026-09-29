@@ -37,7 +37,7 @@ yarn-error.log*
 .vercel
 
 # local agent tooling
-.claude/
+.claude
 .omc/
 
 # typescript

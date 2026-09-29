@@ -9,12 +9,14 @@
 		"build": "next build",
 		"start": "next start",
 		"lint": "next lint",
-		"test": "vitest",
+		"test": "vitest run",
+		"test:watch": "vitest",
 		"test:unit": "vitest tests/unit",
 		"test:integration": "vitest tests/integration",
 		"test:e2e": "playwright test",
 		"test:ui": "vitest --ui",
-		"test:coverage": "vitest --coverage"
+		"test:coverage": "vitest run --coverage",
+		"type-check": "tsc --noEmit"
 	},
 	"dependencies": {
 		"@anthropic-ai/sdk": "^0.111.0",

@@ -7,6 +7,7 @@ A stunning, modern portfolio website built with cutting-edge technologies and be
 ![TypeScript](https://img.shields.io/badge/TypeScript-5.0-blue)
 ![Tailwind CSS](https://img.shields.io/badge/Tailwind%20CSS-3.0-38B2AC)
 ![Framer Motion](https://img.shields.io/badge/Framer%20Motion-11.0-FF0055)
+![CI/CD](https://img.shields.io/github/workflow/status/jordolang/portfolio/CI)
 
 ## ✨ Features
 
@@ -239,6 +240,72 @@ portfolio/
 - `npm run build` - Build for production
 - `npm run start` - Start production server
 - `npm run lint` - Run ESLint
+
+## 🔄 CI/CD Pipeline
+
+This project uses GitHub Actions for continuous integration to ensure code quality and catch issues early.
+
+### **Workflow Overview**
+
+The CI pipeline runs automatically on:
+- Every push to the `main` branch
+- Every pull request targeting `main`
+
+### **Pipeline Jobs**
+
+The CI workflow includes parallel jobs that validate different aspects of the codebase:
+
+1. **Install Dependencies** 
+   - Sets up Node.js 20
+   - Caches and installs npm dependencies
+   - Verifies successful installation
+
+2. **Lint**
+   - Runs ESLint to check code quality and style
+   - Ensures consistent code formatting across the project
+
+3. **Type Check**
+   - Runs TypeScript compiler in check-only mode
+   - Validates type safety without emitting files
+
+4. **Test**
+   - Executes the test suite
+   - Ensures all functionality works as expected
+
+5. **Build**
+   - Builds the Next.js application for production
+   - Verifies the app compiles successfully
+
+### **Caching Strategy**
+
+The pipeline uses intelligent caching to speed up CI runs:
+
+- **Node Modules Cache**
+  - Key: `node-modules-{package-lock.json hash}`
+  - Restores cached dependencies when `package-lock.json` hasn't changed
+  - Dramatically reduces installation time on subsequent runs
+
+- **Next.js Build Cache**
+  - Key: `nextjs-{package-lock.json hash}-{source files hash}`
+  - Caches `.next/cache` directory
+  - Speeds up builds by reusing unchanged compiled pages and components
+
+### **Running Tests Locally**
+
+To run the same checks locally before pushing:
+
+```bash
+# Run all checks
+npm run lint        # ESLint code quality check
+npx tsc --noEmit    # TypeScript type checking
+npm test            # Run test suite
+npm run build       # Production build verification
+
+# Or run them all in sequence
+npm run lint && npx tsc --noEmit && npm test && npm run build
+```
+
+**Pro Tip**: Install dependencies with `npm ci` (like CI does) instead of `npm install` for a clean, reproducible install based on `package-lock.json`.
 
 ## 📄 License
 

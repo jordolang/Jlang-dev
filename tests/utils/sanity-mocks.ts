@@ -51,6 +51,7 @@ export function createMockSanityImage(overrides: Partial<SanityImageRef> = {}): 
  */
 export function createMockProject(overrides: Partial<CmsProject> = {}): CmsProject {
   return {
+    slug: 'test-project',
     title: 'Test Project',
     subtitle: 'A test project subtitle',
     description: 'This is a test project description',
