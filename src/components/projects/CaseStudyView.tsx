@@ -36,6 +36,7 @@ export interface CaseStudyViewProject {
   testimonial?: {
     author: string;
     role: string;
+    company: string;
     content: string;
     rating?: number;
   } | null;
@@ -219,7 +220,9 @@ export default function CaseStudyView({ project }: CaseStudyViewProps) {
                   </div>
                   <div>
                     <p className="font-bold text-gray-900 dark:text-white">{project.testimonial.author}</p>
-                    <p className="text-sm text-gray-600 dark:text-gray-400">{project.testimonial.role}</p>
+                    <p className="text-sm text-gray-600 dark:text-gray-400">
+                      {project.testimonial.role ? `${project.testimonial.role} · ` : ''}{project.testimonial.company}
+                    </p>
                   </div>
                   {project.testimonial.rating && (
                     <div className="ml-auto flex gap-1">
