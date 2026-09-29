@@ -1,7 +1,7 @@
 "use client";
 
-import { useState, useMemo, useEffect, useRef } from "react";
-import { useSearchParams, useRouter } from "next/navigation";
+import { useState, useMemo, useEffect, useRef, useCallback, Suspense } from "react";
+import { useSearchParams } from "next/navigation";
 import { Icon } from "@iconify/react";
 import { m, AnimatePresence } from "framer-motion";
 import Link from "next/link";
@@ -65,35 +65,52 @@ function HighlightedText({ text, searchQuery }: { text: string; searchQuery: str
   );
 }
 
-export default function BlogListView({ posts }: { posts: BlogPost[] }) {
-  const searchParams = useSearchParams();
-  const router = useRouter();
+// Reports the `q` URL parameter whenever it changes. Isolated behind a Suspense
+// boundary so reading search params doesn't opt the whole page out of static rendering.
+function SearchParamSync({ onQueryChange }: { onQueryChange: (query: string) => void }) {
+  const query = useSearchParams().get('q') ?? '';
 
+  useEffect(() => {
+    onQueryChange(query);
+  }, [query, onQueryChange]);
+
+  return null;
+}
+
+export default function BlogListView({ posts }: { posts: BlogPost[] }) {
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedTag, setSelectedTag] = useState<string | null>(null);
   const searchInputRef = useRef<HTMLInputElement>(null);
+  // Last query reflected in the URL, so our own URL writes aren't echoed back into the input
+  const urlQueryRef = useRef('');
 
-  // Initialize search query from URL parameter on mount
-  useEffect(() => {
-    const queryFromUrl = searchParams.get('q') || '';
-    if (queryFromUrl) {
-      setSearchQuery(queryFromUrl);
+  // Debounce search query to reduce re-renders and URL updates
+  const debouncedSearchQuery = useDebounce(searchQuery, 200);
+  const normalizedQuery = debouncedSearchQuery.trim();
+
+  // Adopt the query from the URL on load and on later navigations (e.g. following a /blog?q=... link)
+  const handleUrlQueryChange = useCallback((query: string) => {
+    if (query !== urlQueryRef.current) {
+      urlQueryRef.current = query;
+      setSearchQuery(query);
     }
-  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+  }, []);
 
-  // Update URL when search query changes
+  // Update the URL from the debounced query. Uses the History API so typing doesn't trigger router navigations.
   useEffect(() => {
-    const params = new URLSearchParams(searchParams.toString());
+    if (normalizedQuery === urlQueryRef.current) return;
+    urlQueryRef.current = normalizedQuery;
 
-    if (searchQuery) {
-      params.set('q', searchQuery);
+    const params = new URLSearchParams(window.location.search);
+    if (normalizedQuery) {
+      params.set('q', normalizedQuery);
     } else {
       params.delete('q');
     }
 
-    const newUrl = params.toString() ? `?${params.toString()}` : '/blog';
-    router.replace(newUrl, { scroll: false });
-  }, [searchQuery, router]); // eslint-disable-line react-hooks/exhaustive-deps
+    const search = params.toString();
+    window.history.replaceState(null, '', `${window.location.pathname}${search ? `?${search}` : ''}`);
+  }, [normalizedQuery]);
 
   // Keyboard shortcut: Press '/' to focus search
   useEffect(() => {
@@ -109,9 +126,6 @@ export default function BlogListView({ posts }: { posts: BlogPost[] }) {
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, []);
 
-  // Debounce search query to reduce re-renders
-  const debouncedSearchQuery = useDebounce(searchQuery, 200);
-
   // Get all unique tags
   const allTags = useMemo(() => {
     const tagSet = new Set<string>();
@@ -124,19 +138,23 @@ export default function BlogListView({ posts }: { posts: BlogPost[] }) {
   // Filter posts based on search and tag
   const filteredPosts = useMemo(() => {
     return posts.filter(post => {
-      const matchesSearch = debouncedSearchQuery === '' ||
-        post.title.toLowerCase().includes(debouncedSearchQuery.toLowerCase()) ||
-        post.excerpt.toLowerCase().includes(debouncedSearchQuery.toLowerCase()) ||
-        post.tags.some(tag => tag.toLowerCase().includes(debouncedSearchQuery.toLowerCase()));
+      const query = normalizedQuery.toLowerCase();
+      const matchesSearch = query === '' ||
+        post.title.toLowerCase().includes(query) ||
+        post.excerpt.toLowerCase().includes(query) ||
+        post.tags.some(tag => tag.toLowerCase().includes(query));
 
       const matchesTag = !selectedTag || post.tags.includes(selectedTag);
 
       return matchesSearch && matchesTag;
     });
-  }, [posts, debouncedSearchQuery, selectedTag]);
+  }, [posts, normalizedQuery, selectedTag]);
 
-return (
+  return (
     <div className="min-h-screen bg-white dark:bg-gray-950 text-gray-900 dark:text-white">
+      <Suspense fallback={null}>
+        <SearchParamSync onQueryChange={handleUrlQueryChange} />
+      </Suspense>
       {/* Header */}
       <header className="border-b border-gray-200 dark:border-gray-800">
         <div className="max-w-7xl mx-auto px-4 py-8">
@@ -256,7 +274,7 @@ return (
         ) : (
           <AnimatePresence mode="wait">
             <m.div
-              key={`${debouncedSearchQuery}-${selectedTag}`}
+              key={`${normalizedQuery}-${selectedTag}`}
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
@@ -323,12 +341,12 @@ return (
 
                       {/* Title */}
                       <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-3 group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors duration-300 line-clamp-2">
-                        <HighlightedText text={post.title} searchQuery={debouncedSearchQuery} />
+                        <HighlightedText text={post.title} searchQuery={normalizedQuery} />
                       </h2>
 
                       {/* Excerpt */}
                       <p className="text-gray-600 dark:text-gray-300 text-sm leading-relaxed mb-4 line-clamp-3 flex-1">
-                        <HighlightedText text={post.excerpt} searchQuery={debouncedSearchQuery} />
+                        <HighlightedText text={post.excerpt} searchQuery={normalizedQuery} />
                       </p>
 
                       {/* Author and Read More */}
