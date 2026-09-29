@@ -166,6 +166,9 @@ const handleSubmit = async (e: React.FormEvent) => {
                   id="name"
                   name="name"
                   required
+                  aria-required="true"
+                  aria-invalid={submitStatus === 'error' && !formData.name.trim()}
+                  aria-describedby={submitStatus === 'error' ? 'contact-error-message' : undefined}
                   value={formData.name}
                   onChange={handleInputChange}
                   className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 transition-all duration-300"
@@ -187,6 +190,9 @@ const handleSubmit = async (e: React.FormEvent) => {
                   id="email"
                   name="email"
                   required
+                  aria-required="true"
+                  aria-invalid={submitStatus === 'error' && (!formData.email.trim() || !formData.email.includes('@'))}
+                  aria-describedby={submitStatus === 'error' ? 'contact-error-message' : undefined}
                   value={formData.email}
                   onChange={handleInputChange}
                   className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 transition-all duration-300"
@@ -208,6 +214,9 @@ const handleSubmit = async (e: React.FormEvent) => {
                 id="message"
                 name="message"
                 required
+                aria-required="true"
+                aria-invalid={submitStatus === 'error' && !formData.message.trim()}
+                aria-describedby={submitStatus === 'error' ? 'contact-error-message' : undefined}
                 rows={5}
                 value={formData.message}
                 onChange={handleInputChange}
@@ -293,6 +302,7 @@ const handleSubmit = async (e: React.FormEvent) => {
                   animate={{ opacity: 1, y: 0 }}
                   className="mt-4 p-4 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-xl"
                   role="alert"
+                  id="contact-error-message"
                 >
                   <div className="flex items-center gap-2 text-red-700 dark:text-red-400">
                     <Icon icon="solar:close-circle-bold" width={20} height={20} />

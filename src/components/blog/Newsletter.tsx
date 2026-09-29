@@ -64,21 +64,30 @@ export default function Newsletter() {
           <h3 className="text-3xl md:text-4xl font-bold mb-4 bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 bg-clip-text text-transparent">
             Subscribe to the Newsletter
           </h3>
-          <p className="text-gray-600 dark:text-gray-300 mb-8 text-lg">
+          <p id="newsletter-description" className="text-gray-600 dark:text-gray-300 mb-8 text-lg">
             Get the latest posts and insights delivered directly to your inbox. No spam, unsubscribe anytime.
           </p>
 
           {/* Form */}
           <form onSubmit={handleSubmit} className="flex flex-col sm:flex-row gap-3 max-w-lg mx-auto">
-            <input
-              type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              placeholder="Enter your email"
-              disabled={status === 'loading'}
-              className="flex-1 px-6 py-4 bg-white dark:bg-gray-900 border border-gray-300 dark:border-gray-700 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:focus:ring-indigo-400 focus:border-transparent text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 disabled:opacity-50"
-              required
-            />
+            <div className="flex-1">
+              <label htmlFor="newsletter-email" className="sr-only">
+                Email address
+              </label>
+              <input
+                type="email"
+                id="newsletter-email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                placeholder="Enter your email"
+                disabled={status === 'loading'}
+                required
+                aria-required="true"
+                aria-invalid={status === 'error'}
+                aria-describedby={status === 'error' ? 'newsletter-error newsletter-description' : 'newsletter-description'}
+                className="w-full px-6 py-4 bg-white dark:bg-gray-900 border border-gray-300 dark:border-gray-700 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:focus:ring-indigo-400 focus:border-transparent text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 disabled:opacity-50"
+              />
+            </div>
             <m.button
               type="submit"
               disabled={status === 'loading'}
@@ -105,16 +114,18 @@ export default function Newsletter() {
             <m.div
               initial={{ opacity: 0, y: -10 }}
               animate={{ opacity: 1, y: 0 }}
+              role="alert"
+              id={status === 'error' ? 'newsletter-error' : undefined}
               className={`mt-4 p-4 rounded-xl flex items-center justify-center gap-2 ${
                 status === 'success'
                   ? 'bg-green-50 dark:bg-green-950/30 text-green-700 dark:text-green-400 border border-green-200 dark:border-green-800'
                   : 'bg-red-50 dark:bg-red-950/30 text-red-700 dark:text-red-400 border border-red-200 dark:border-red-800'
               }`}
             >
-              <Icon 
-                icon={status === 'success' ? 'solar:check-circle-bold' : 'solar:danger-circle-bold'} 
-                width={20} 
-                height={20} 
+              <Icon
+                icon={status === 'success' ? 'solar:check-circle-bold' : 'solar:danger-circle-bold'}
+                width={20}
+                height={20}
               />
               <span className="text-sm font-medium">{message}</span>
             </m.div>
