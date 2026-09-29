@@ -78,9 +78,7 @@ export default async function RootLayout({
         <PostHogProvider>
           <ThemeProvider>
             <MotionProvider>
-              <main id="main-content">
-                {children}
-              </main>
+              {children}
             </MotionProvider>
           </ThemeProvider>
         </PostHogProvider>
