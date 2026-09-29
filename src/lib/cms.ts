@@ -75,15 +75,14 @@ export interface CmsProject {
   featured?: boolean;
 }
 
-interface RawProject extends Omit<CmsProject, "image" | "imageWidth" | "imageHeight" | "slug"> {
-  slug: { current: string };
+interface RawProject extends Omit<CmsProject, "image" | "imageWidth" | "imageHeight"> {
   image: SanityImageRef | null;
 }
 
 export async function getProjects(): Promise<CmsProject[] | null> {
   const raw = await query<RawProject[]>(
-    `*[_type == "project"] | order(order asc, _createdAt asc) {
-      slug,
+    `*[_type == "project" && defined(slug.current)] | order(order asc, _createdAt asc) {
+      "slug": slug.current,
       title, subtitle, description, features, deliverables, tech, github, live,
       gradient, status, category, highlight, timeline, clientType, group,
       fullPagePreview, featured,
@@ -97,7 +96,6 @@ export async function getProjects(): Promise<CmsProject[] | null> {
     const dims = dimensionsForImage(project.image);
     return {
       ...project,
-      slug: project.slug.current,
       image: urlForImage(project.image) ?? "",
       features: project.features ?? [],
       deliverables: project.deliverables ?? [],

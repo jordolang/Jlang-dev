@@ -4,6 +4,7 @@ import { getSanityClient, sanityIsConfigured } from '@/sanity/lib/client';
 import { isDraftMode } from './cms';
 import { dimensionsForImage, urlForImage, type SanityImageRef } from '@/sanity/lib/image';
 import { logger } from './logger';
+import { projects as fallbackProjects } from './fallbackProjects';
 import type { PortableTextBlock } from '@portabletext/react';
 
 /**
@@ -62,8 +63,7 @@ export interface Project {
 }
 
 interface RawProject
-  extends Omit<Project, 'image' | 'imageWidth' | 'imageHeight' | 'slug' | 'testimonial'> {
-  slug: { current: string };
+  extends Omit<Project, 'image' | 'imageWidth' | 'imageHeight' | 'testimonial'> {
   image: SanityImageRef | null;
   testimonialRef?: CaseStudyTestimonial | null;
 }
@@ -91,7 +91,7 @@ async function getSanityProjects(): Promise<Project[]> {
     return (projects ?? []).map((project) => {
       const dims = dimensionsForImage(project.image);
       return {
-        slug: project.slug.current,
+        slug: project.slug,
         title: project.title,
         subtitle: project.subtitle,
         description: project.description,
@@ -126,10 +126,12 @@ async function getSanityProjects(): Promise<Project[]> {
 }
 
 /**
- * Get all projects from Sanity CMS
+ * Get all projects from Sanity CMS, falling back to the bundled list the
+ * portfolio shows when Sanity has none, so every project card has a page.
  */
 export async function getAllProjects(): Promise<Project[]> {
-  return getSanityProjects();
+  const projects = await getSanityProjects();
+  return projects.length ? projects : fallbackProjects;
 }
 
 /**
