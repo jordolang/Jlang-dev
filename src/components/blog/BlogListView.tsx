@@ -6,6 +6,7 @@ import { m, AnimatePresence } from "framer-motion";
 import Link from "next/link";
 import Image from "next/image";
 import { AnalyticsEvents, trackEvent } from "@/lib/analytics";
+import { useDebounce } from "@/hooks/useDebounce";
 
 interface BlogPost {
   slug: string;
@@ -30,6 +31,9 @@ export default function BlogListView({ posts }: { posts: BlogPost[] }) {
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedTag, setSelectedTag] = useState<string | null>(null);
 
+  // Debounce search query to reduce re-renders
+  const debouncedSearchQuery = useDebounce(searchQuery, 200);
+
   // Get all unique tags
   const allTags = useMemo(() => {
     const tagSet = new Set<string>();
@@ -42,16 +46,16 @@ export default function BlogListView({ posts }: { posts: BlogPost[] }) {
   // Filter posts based on search and tag
   const filteredPosts = useMemo(() => {
     return posts.filter(post => {
-      const matchesSearch = searchQuery === '' || 
-        post.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        post.excerpt.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        post.tags.some(tag => tag.toLowerCase().includes(searchQuery.toLowerCase()));
-      
+      const matchesSearch = debouncedSearchQuery === '' ||
+        post.title.toLowerCase().includes(debouncedSearchQuery.toLowerCase()) ||
+        post.excerpt.toLowerCase().includes(debouncedSearchQuery.toLowerCase()) ||
+        post.tags.some(tag => tag.toLowerCase().includes(debouncedSearchQuery.toLowerCase()));
+
       const matchesTag = !selectedTag || post.tags.includes(selectedTag);
-      
+
       return matchesSearch && matchesTag;
     });
-  }, [posts, searchQuery, selectedTag]);
+  }, [posts, debouncedSearchQuery, selectedTag]);
 
 return (
     <div className="min-h-screen bg-white dark:bg-gray-950 text-gray-900 dark:text-white">
@@ -172,8 +176,8 @@ return (
           </m.div>
         ) : (
           <AnimatePresence mode="wait">
-            <m.div 
-              key={`${searchQuery}-${selectedTag}`}
+            <m.div
+              key={`${debouncedSearchQuery}-${selectedTag}`}
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
