@@ -48,7 +48,7 @@ interface CaseStudyViewProps {
 
 export default function CaseStudyView({ project }: CaseStudyViewProps) {
   useEffect(() => {
-    trackEvent(AnalyticsEvents.PROJECT_CLICKED, { project: project.title });
+    trackEvent(AnalyticsEvents.PROJECT_VIEWED, { project: project.title });
   }, [project.title]);
 
   const hasCaseStudy = project.challenge || project.approach || project.solution || project.results;

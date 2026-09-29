@@ -82,7 +82,7 @@ async function getSanityProjects(): Promise<Project[]> {
         gradient, status, category, highlight, timeline, clientType, group,
         fullPagePreview, featured, challenge, approach, solution, results,
         image ${IMAGE_PROJECTION},
-        "testimonialRef": testimonialRef->{ author, role, company, content, rating }
+        "testimonialRef": *[_type == "testimonial" && _id == ^.testimonialRef._ref && approved == true][0]{ author, role, company, content, rating }
       }`,
       {},
       draft ? { cache: 'no-store' } : { next: { revalidate: 60, tags: ['projects'] } },

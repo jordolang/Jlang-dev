@@ -56,6 +56,23 @@ function StatusBadge({ status }: { status: Project["status"] }) {
   );
 }
 
+/**
+ * Title link whose ::after overlay covers the whole card, so the card is clickable without
+ * nesting the live-site/repository anchors inside another anchor. Anything interactive in the
+ * card (action links, scrollable screenshots) sits above the overlay with `relative z-10`.
+ */
+function CaseStudyLink({ project }: { project: Project }) {
+  return (
+    <Link
+      href={`/projects/${project.slug}`}
+      onClick={() => trackEvent(AnalyticsEvents.PROJECT_CLICKED, { project: project.title })}
+      className="after:absolute after:inset-0 after:content-[''] focus:outline-none focus-visible:after:rounded-[inherit] focus-visible:after:ring-2 focus-visible:after:ring-indigo-500"
+    >
+      {project.title}
+    </Link>
+  );
+}
+
 function ProjectLinks({ project, light = false }: { project: Project; light?: boolean }) {
   const primaryClass = light
     ? "bg-white text-gray-900 hover:bg-gray-100"
@@ -65,7 +82,7 @@ function ProjectLinks({ project, light = false }: { project: Project; light?: bo
     : "bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-200 hover:bg-gray-200 dark:hover:bg-gray-700 border border-gray-200 dark:border-gray-700";
 
   return (
-    <div className="flex flex-wrap items-center gap-3">
+    <div className="relative z-10 flex flex-wrap items-center gap-3">
       {project.live && (
         <Link
           href={project.live}
@@ -97,8 +114,7 @@ function ProjectLinks({ project, light = false }: { project: Project; light?: bo
 function FeaturedProject({ project }: { project: Project }) {
   return (
     <m.div variants={itemVariants} className="group">
-      <Link href={`/projects/${project.slug}`} className="block">
-        <div className="bg-white/80 dark:bg-gray-900/80 backdrop-blur-xl rounded-3xl border border-white/30 dark:border-gray-700/40 shadow-xl overflow-hidden transition-all duration-300 hover:border-gray-300 dark:hover:border-gray-600 hover:shadow-2xl">
+      <div className="relative bg-white/80 dark:bg-gray-900/80 backdrop-blur-xl rounded-3xl border border-white/30 dark:border-gray-700/40 shadow-xl overflow-hidden transition-all duration-300 hover:border-gray-300 dark:hover:border-gray-600 hover:shadow-2xl">
         <div className="grid lg:grid-cols-2 lg:items-stretch">
           {/* Left: details, laid out top to bottom */}
           <div className="p-6 sm:p-8 lg:p-10 flex flex-col">
@@ -117,7 +133,7 @@ function FeaturedProject({ project }: { project: Project }) {
             </div>
 
             <h3 className="text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 dark:text-white leading-tight mb-2">
-              {project.title}
+              <CaseStudyLink project={project} />
             </h3>
             <p className="text-lg md:text-xl text-indigo-600 dark:text-indigo-400 font-medium mb-4">
               {project.subtitle}
@@ -163,7 +179,7 @@ function FeaturedProject({ project }: { project: Project }) {
 
           {/* Right: full top-to-bottom site screenshot */}
           <div className="relative bg-gray-100 dark:bg-gray-950 border-t lg:border-t-0 lg:border-l border-gray-200/60 dark:border-gray-800">
-            <div className="relative h-[420px] sm:h-[560px] lg:h-full lg:max-h-[860px] overflow-y-auto">
+            <div className="relative z-10 h-[420px] sm:h-[560px] lg:h-full lg:max-h-[860px] overflow-y-auto">
               <Image
                 src={project.image}
                 alt={`${project.title} – full page screenshot`}
@@ -182,7 +198,6 @@ function FeaturedProject({ project }: { project: Project }) {
           </div>
         </div>
       </div>
-      </Link>
     </m.div>
   );
 }
@@ -192,12 +207,11 @@ function ProjectCard({ project }: { project: Project }) {
   const isFullPagePreview = project.fullPagePreview === true;
 
   return (
-    <Link href={`/projects/${project.slug}`} onClick={() => trackEvent(AnalyticsEvents.PROJECT_CLICKED, { project: project.title })}>
-      <m.div
+    <m.div
         variants={itemVariants}
         whileHover={{ y: -4 }}
         transition={{ type: "spring", stiffness: 300 }}
-        className="group flex flex-col bg-white/80 dark:bg-gray-900/80 backdrop-blur-xl rounded-2xl border border-white/30 dark:border-gray-700/40 hover:border-gray-300 dark:hover:border-gray-600 shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden"
+        className="group relative flex flex-col bg-white/80 dark:bg-gray-900/80 backdrop-blur-xl rounded-2xl border border-white/30 dark:border-gray-700/40 hover:border-gray-300 dark:hover:border-gray-600 shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden"
       >
       {/* Screenshot — portrait & fully visible for mobile apps, wide crop for web */}
       <div
@@ -205,7 +219,7 @@ function ProjectCard({ project }: { project: Project }) {
           isMobile
             ? "aspect-[9/16] overflow-hidden bg-gray-900"
             : isFullPagePreview
-              ? "aspect-[16/10] overflow-y-auto bg-gray-100 dark:bg-gray-800"
+              ? "z-10 aspect-[16/10] overflow-y-auto bg-gray-100 dark:bg-gray-800"
               : "aspect-[16/10] overflow-hidden bg-gray-100 dark:bg-gray-800"
         }`}
       >
@@ -254,7 +268,7 @@ function ProjectCard({ project }: { project: Project }) {
         </div>
 
         <h3 className="text-lg font-bold text-gray-900 dark:text-white leading-tight mb-1">
-          {project.title}
+          <CaseStudyLink project={project} />
         </h3>
         <p className="text-sm text-gray-500 dark:text-gray-400 font-medium mb-2">
           {project.subtitle}
@@ -284,7 +298,6 @@ function ProjectCard({ project }: { project: Project }) {
         </div>
       </div>
     </m.div>
-    </Link>
   );
 }
 
@@ -294,12 +307,11 @@ function ProjectCard({ project }: { project: Project }) {
  */
 function MobileProjectCard({ project }: { project: Project }) {
   return (
-    <Link href={`/projects/${project.slug}`} onClick={() => trackEvent(AnalyticsEvents.PROJECT_CLICKED, { project: project.title })}>
-      <m.div
+    <m.div
         variants={itemVariants}
         whileHover={{ y: -4 }}
         transition={{ type: "spring", stiffness: 300 }}
-        className="group flex flex-col overflow-hidden rounded-2xl border border-white/30 bg-white/80 shadow-lg backdrop-blur-xl transition-all duration-300 hover:border-gray-300 hover:shadow-2xl dark:border-gray-700/40 dark:bg-gray-900/80 dark:hover:border-gray-600"
+        className="group relative flex flex-col overflow-hidden rounded-2xl border border-white/30 bg-white/80 shadow-lg backdrop-blur-xl transition-all duration-300 hover:border-gray-300 hover:shadow-2xl dark:border-gray-700/40 dark:bg-gray-900/80 dark:hover:border-gray-600"
       >
       {/* Full portrait screenshot — the visual majority of the card */}
       <div className="relative aspect-[9/16] overflow-hidden bg-zinc-950">
@@ -335,7 +347,7 @@ function MobileProjectCard({ project }: { project: Project }) {
       {/* Brief info below — name + main points only */}
       <div className="flex flex-1 flex-col p-5">
         <h3 className="text-lg font-bold leading-tight text-gray-900 dark:text-white">
-          {project.title}
+          <CaseStudyLink project={project} />
         </h3>
         <p className="mt-0.5 text-sm font-medium text-indigo-600 dark:text-indigo-400">
           {project.subtitle}
@@ -365,7 +377,6 @@ function MobileProjectCard({ project }: { project: Project }) {
         </div>
       </div>
     </m.div>
-    </Link>
   );
 }
 
@@ -376,12 +387,11 @@ function MobileProjectCard({ project }: { project: Project }) {
  */
 function DesktopAppCard({ project }: { project: Project }) {
   return (
-    <Link href={`/projects/${project.slug}`} onClick={() => trackEvent(AnalyticsEvents.PROJECT_CLICKED, { project: project.title })}>
-      <m.div
+    <m.div
         variants={itemVariants}
         whileHover={{ y: -4 }}
         transition={{ type: "spring", stiffness: 300 }}
-        className="group flex flex-col overflow-hidden rounded-2xl border border-white/30 bg-white/80 shadow-lg backdrop-blur-xl transition-all duration-300 hover:border-gray-300 hover:shadow-2xl dark:border-gray-700/40 dark:bg-gray-900/80 dark:hover:border-gray-600"
+        className="group relative flex flex-col overflow-hidden rounded-2xl border border-white/30 bg-white/80 shadow-lg backdrop-blur-xl transition-all duration-300 hover:border-gray-300 hover:shadow-2xl dark:border-gray-700/40 dark:bg-gray-900/80 dark:hover:border-gray-600"
       >
       {/* Window chrome + the app's own screenshot */}
       <div className="relative bg-gray-200 dark:bg-gray-800">
@@ -415,7 +425,9 @@ function DesktopAppCard({ project }: { project: Project }) {
       </div>
 
       <div className="flex flex-1 flex-col p-5">
-        <h3 className="text-lg font-bold leading-tight text-gray-900 dark:text-white">{project.title}</h3>
+        <h3 className="text-lg font-bold leading-tight text-gray-900 dark:text-white">
+          <CaseStudyLink project={project} />
+        </h3>
         <p className="mt-0.5 text-sm font-medium text-indigo-600 dark:text-indigo-400">{project.subtitle}</p>
         <p className="mt-2 text-sm leading-relaxed text-gray-600 line-clamp-3 dark:text-gray-300">
           {project.description}
@@ -451,7 +463,6 @@ function DesktopAppCard({ project }: { project: Project }) {
         </div>
       </div>
     </m.div>
-    </Link>
   );
 }
 
