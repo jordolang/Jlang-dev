@@ -402,18 +402,33 @@ export default function BlogListView({ posts }: { posts: BlogPost[] }) {
 
                     {/* Content */}
                     <div className="p-6 flex-1 flex flex-col">
-                      {/* Date and Tags */}
+                      {/* Date, Category, and Tags */}
                       <div className="flex flex-wrap items-center gap-2 mb-3">
                         <span className="text-sm text-gray-500 dark:text-gray-400">
                           {formatDate(post.date)}
                         </span>
-                        {post.tags.slice(0, 2).map((tag) => (
+                        {/* category badge with color */}
+                        {post.category && (
                           <span
-                            key={tag.slug}
-                            className="px-2 py-1 text-xs font-medium bg-indigo-100 dark:bg-indigo-900/30 text-indigo-600 dark:text-indigo-400 rounded-full"
+                            className="px-2 py-1 text-xs font-medium text-white rounded-full"
+                            style={{ backgroundColor: post.category.color || '#6366f1' }}
                           >
-                            {tag.name}
+                            {post.category.name}
                           </span>
+                        )}
+                        {post.tags.slice(0, 2).map((tag) => (
+                          <button
+                            key={tag.slug}
+                            onClick={(e) => {
+                              e.preventDefault();
+                              e.stopPropagation();
+                              setSelectedTag(tag.slug);
+                            }}
+                            className="px-2 py-1 text-xs font-medium bg-indigo-100 dark:bg-indigo-900/30 text-indigo-600 dark:text-indigo-400 rounded-full hover:bg-indigo-200 dark:hover:bg-indigo-900/50 transition-colors"
+                            title={`Filter by ${tag.name}`}
+                          >
+                            #{tag.name}
+                          </button>
                         ))}
                       </div>
 
