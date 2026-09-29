@@ -15,7 +15,7 @@ import path from "node:path";
 import { createClient } from "@sanity/client";
 import matter from "gray-matter";
 
-import { projects } from "../src/components/portfolio/ProjectsSection";
+import { projects } from "../src/lib/fallbackProjects";
 import { experience } from "../src/components/portfolio/ExperienceSection";
 import { techStackData } from "../src/components/portfolio/TechStackSection";
 import { pricingPackages, faqs } from "../src/components/portfolio/ServicesSection";
