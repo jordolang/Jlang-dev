@@ -47,8 +47,17 @@ export const locations: DocumentLocationResolvers = {
     locations: [{ title: "Promo", href: "/promo" }],
   }),
 
+  project: defineLocations({
+    select: { title: "title", slug: "slug.current" },
+    resolve: (doc) => ({
+      locations: [
+        ...(doc?.slug ? [{ title: doc.title || "Untitled project", href: `/projects/${doc.slug}` }] : []),
+        { title: "Home", href: "/" },
+      ],
+    }),
+  }),
+
   aboutContent: homePage("About / overview"),
-  project: homePage("Projects"),
   experience: homePage("Experience"),
   techItem: homePage("Tech stack"),
   testimonial: homePage("Testimonials"),
