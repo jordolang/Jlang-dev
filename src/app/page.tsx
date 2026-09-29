@@ -67,7 +67,7 @@ export default async function Portfolio() {
       <HeroSection content={settings ?? undefined} />
       <ScrollStory />
 
-      <div className="max-w-6xl mx-auto px-6">
+      <div id="main-content" className="max-w-6xl mx-auto px-6">
         <CapabilitiesSection />
         <OverviewSection
           content={about ?? undefined}
