@@ -7,11 +7,14 @@ export default defineConfig({
     globals: true,
     setupFiles: ['./tests/setup.ts'],
     include: ['**/*.{test,spec}.{ts,tsx}'],
-    exclude: ['node_modules', '.next', 'out', 'dist'],
+    // Playwright owns tests/e2e
+    exclude: ['node_modules', '.next', 'out', 'dist', '.auto-claude', 'tests/e2e/**'],
   },
   resolve: {
-    alias: {
-      '@': path.resolve(__dirname, './src'),
-    },
+    // Most specific first: '@/tests' must win over the '@' -> src mapping
+    alias: [
+      { find: /^@\/tests\//, replacement: path.resolve(__dirname, './tests') + '/' },
+      { find: /^@\//, replacement: path.resolve(__dirname, './src') + '/' },
+    ],
   },
 })

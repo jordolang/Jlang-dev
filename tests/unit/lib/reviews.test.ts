@@ -1,31 +1,29 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest'
 import { createMockTestimonial, createMockReviewRequest } from '@/tests/utils/sanity-mocks'
 
-// Mock Sanity client
+// Mock Sanity client; sanityIsConfigured is a getter so tests can toggle it
+const sanityState = vi.hoisted(() => ({ configured: true }))
+
 vi.mock('@/sanity/lib/client', () => ({
   sanityClient: {
     fetch: vi.fn(),
   },
-  sanityIsConfigured: true,
+  get sanityIsConfigured() {
+    return sanityState.configured
+  },
 }))
 
 describe('Reviews Library', () => {
   beforeEach(() => {
     vi.clearAllMocks()
+    sanityState.configured = true
   })
 
   describe('getApprovedTestimonials', () => {
     it('should return empty array when Sanity is not configured', async () => {
-      // Re-mock with sanityIsConfigured = false
-      vi.doMock('@/sanity/lib/client', () => ({
-        sanityClient: {
-          fetch: vi.fn(),
-        },
-        sanityIsConfigured: false,
-      }))
+      sanityState.configured = false
 
-      // Dynamically import to get the new mock
-      const reviews = await import('@/lib/reviews?t=' + Date.now())
+      const reviews = await import('@/lib/reviews')
       const result = await reviews.getApprovedTestimonials()
 
       expect(result).toEqual([])
@@ -37,7 +35,7 @@ describe('Reviews Library', () => {
         createMockTestimonial(),
         createMockTestimonial({ _id: 'testimonial-2', author: 'Jane Doe' }),
       ]
-      vi.mocked(sanityClient.fetch).mockResolvedValue(mockTestimonials)
+      vi.mocked(sanityClient.fetch).mockResolvedValue(mockTestimonials as never)
 
       const { getApprovedTestimonials } = await import('@/lib/reviews')
       const result = await getApprovedTestimonials()
@@ -53,7 +51,7 @@ describe('Reviews Library', () => {
 
     it('should return empty array when no testimonials exist', async () => {
       const { sanityClient } = await import('@/sanity/lib/client')
-      vi.mocked(sanityClient.fetch).mockResolvedValue([])
+      vi.mocked(sanityClient.fetch).mockResolvedValue([] as never)
 
       const { getApprovedTestimonials } = await import('@/lib/reviews')
       const result = await getApprovedTestimonials()
@@ -63,7 +61,7 @@ describe('Reviews Library', () => {
 
     it('should query for approved testimonials only', async () => {
       const { sanityClient } = await import('@/sanity/lib/client')
-      vi.mocked(sanityClient.fetch).mockResolvedValue([createMockTestimonial()])
+      vi.mocked(sanityClient.fetch).mockResolvedValue([createMockTestimonial()] as never)
 
       const { getApprovedTestimonials } = await import('@/lib/reviews')
       await getApprovedTestimonials()
@@ -75,7 +73,7 @@ describe('Reviews Library', () => {
 
     it('should include all required fields in query', async () => {
       const { sanityClient } = await import('@/sanity/lib/client')
-      vi.mocked(sanityClient.fetch).mockResolvedValue([createMockTestimonial()])
+      vi.mocked(sanityClient.fetch).mockResolvedValue([createMockTestimonial()] as never)
 
       const { getApprovedTestimonials } = await import('@/lib/reviews')
       await getApprovedTestimonials()
@@ -96,7 +94,7 @@ describe('Reviews Library', () => {
         createMockTestimonial({ featured: true, author: 'Featured Author' }),
         createMockTestimonial({ featured: false, author: 'Regular Author' }),
       ]
-      vi.mocked(sanityClient.fetch).mockResolvedValue(mockTestimonials)
+      vi.mocked(sanityClient.fetch).mockResolvedValue(mockTestimonials as never)
 
       const { getApprovedTestimonials } = await import('@/lib/reviews')
       const result = await getApprovedTestimonials()
@@ -108,16 +106,9 @@ describe('Reviews Library', () => {
 
   describe('getReviewRequest', () => {
     it('should return null when Sanity is not configured', async () => {
-      // Re-mock with sanityIsConfigured = false
-      vi.doMock('@/sanity/lib/client', () => ({
-        sanityClient: {
-          fetch: vi.fn(),
-        },
-        sanityIsConfigured: false,
-      }))
+      sanityState.configured = false
 
-      // Dynamically import to get the new mock
-      const reviews = await import('@/lib/reviews?t=' + Date.now())
+      const reviews = await import('@/lib/reviews')
       const result = await reviews.getReviewRequest('test-token')
 
       expect(result).toBeNull()
@@ -133,7 +124,7 @@ describe('Reviews Library', () => {
     it('should fetch review request successfully with valid token', async () => {
       const { sanityClient } = await import('@/sanity/lib/client')
       const mockReviewRequest = createMockReviewRequest()
-      vi.mocked(sanityClient.fetch).mockResolvedValue(mockReviewRequest)
+      vi.mocked(sanityClient.fetch).mockResolvedValue(mockReviewRequest as never)
 
       const { getReviewRequest } = await import('@/lib/reviews')
       const result = await getReviewRequest('valid-token-123')
@@ -147,7 +138,7 @@ describe('Reviews Library', () => {
 
     it('should return null when no review request matches the token', async () => {
       const { sanityClient } = await import('@/sanity/lib/client')
-      vi.mocked(sanityClient.fetch).mockResolvedValue(null)
+      vi.mocked(sanityClient.fetch).mockResolvedValue(null as never)
 
       const { getReviewRequest } = await import('@/lib/reviews')
       const result = await getReviewRequest('invalid-token')
@@ -157,7 +148,7 @@ describe('Reviews Library', () => {
 
     it('should query for review request with exact token match', async () => {
       const { sanityClient } = await import('@/sanity/lib/client')
-      vi.mocked(sanityClient.fetch).mockResolvedValue(createMockReviewRequest())
+      vi.mocked(sanityClient.fetch).mockResolvedValue(createMockReviewRequest() as never)
 
       const { getReviewRequest } = await import('@/lib/reviews')
       await getReviewRequest('test-token')
@@ -169,7 +160,7 @@ describe('Reviews Library', () => {
 
     it('should include all required fields in query', async () => {
       const { sanityClient } = await import('@/sanity/lib/client')
-      vi.mocked(sanityClient.fetch).mockResolvedValue(createMockReviewRequest())
+      vi.mocked(sanityClient.fetch).mockResolvedValue(createMockReviewRequest() as never)
 
       const { getReviewRequest } = await import('@/lib/reviews')
       await getReviewRequest('test-token')
@@ -189,7 +180,7 @@ describe('Reviews Library', () => {
       for (const status of statuses) {
         vi.clearAllMocks()
         const mockReviewRequest = createMockReviewRequest({ status })
-        vi.mocked(sanityClient.fetch).mockResolvedValue(mockReviewRequest)
+        vi.mocked(sanityClient.fetch).mockResolvedValue(mockReviewRequest as never)
 
         const { getReviewRequest } = await import('@/lib/reviews')
         const result = await getReviewRequest('test-token')
@@ -203,7 +194,7 @@ describe('Reviews Library', () => {
     it('should return SiteTestimonial type from getApprovedTestimonials', async () => {
       const { sanityClient } = await import('@/sanity/lib/client')
       const mockTestimonial = createMockTestimonial()
-      vi.mocked(sanityClient.fetch).mockResolvedValue([mockTestimonial])
+      vi.mocked(sanityClient.fetch).mockResolvedValue([mockTestimonial] as never)
 
       const { getApprovedTestimonials } = await import('@/lib/reviews')
       const result = await getApprovedTestimonials()
@@ -221,7 +212,7 @@ describe('Reviews Library', () => {
     it('should return ReviewRequest type from getReviewRequest', async () => {
       const { sanityClient } = await import('@/sanity/lib/client')
       const mockReviewRequest = createMockReviewRequest()
-      vi.mocked(sanityClient.fetch).mockResolvedValue(mockReviewRequest)
+      vi.mocked(sanityClient.fetch).mockResolvedValue(mockReviewRequest as never)
 
       const { getReviewRequest } = await import('@/lib/reviews')
       const result = await getReviewRequest('test-token')

@@ -116,7 +116,7 @@ export function mockFetch(
   responses: Record<string, { data?: unknown; status?: number; statusText?: string }>,
 ): Mock {
   const mockFn = createMockFetch(responses)
-  global.fetch = mockFn as any
+  global.fetch = mockFn as unknown as typeof fetch
   return mockFn
 }
 
@@ -143,7 +143,7 @@ export function mockNextCache() {
   const revalidateTag = vi.fn()
   const unstable_cache = vi.fn((fn) => fn)
 
-  vi.mock('next/cache', () => ({
+  vi.doMock('next/cache', () => ({
     revalidatePath,
     revalidateTag,
     unstable_cache,
@@ -232,7 +232,7 @@ export function mockNextHeaders(options: {
   const cookiesMock = createMockCookies(options.cookies)
   const draftModeMock = vi.fn(() => Promise.resolve(options.draftMode ?? { isEnabled: false }))
 
-  vi.mock('next/headers', () => ({
+  vi.doMock('next/headers', () => ({
     headers: vi.fn(() => headersMock),
     cookies: vi.fn(() => cookiesMock),
     draftMode: draftModeMock,
@@ -303,7 +303,7 @@ export function mockNextNavigation(options: {
   const redirectMock = vi.fn()
   const notFoundMock = vi.fn()
 
-  vi.mock('next/navigation', () => ({
+  vi.doMock('next/navigation', () => ({
     useRouter: vi.fn(() => routerMock),
     usePathname: pathnameMock,
     useSearchParams: searchParamsMock,
@@ -594,8 +594,8 @@ export function assertDefined<T>(
  * }))
  * ```
  */
-export function createMock<T extends (...args: any[]) => any>(
+export function createMock<T extends (...args: never[]) => unknown>(
   implementation: T,
-): Mock<Parameters<T>, ReturnType<T>> {
+): Mock<T> {
   return vi.fn(implementation)
 }

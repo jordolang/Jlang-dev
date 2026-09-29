@@ -22,7 +22,6 @@ process.env.NEXT_PUBLIC_SANITY_DATASET = 'test'
 process.env.NEXT_PUBLIC_SANITY_API_VERSION = '2026-01-01'
 process.env.NEXT_PUBLIC_POSTHOG_KEY = 'test-posthog-key'
 process.env.NEXT_PUBLIC_POSTHOG_HOST = 'https://test.posthog.com'
-process.env.NODE_ENV = 'test'
 
 // ============================================================================
 // Browser API Mocks
@@ -112,7 +111,7 @@ global.IntersectionObserver = class IntersectionObserver {
     return []
   }
   unobserve() {}
-} as any
+} as never
 
 // Mock ResizeObserver
 global.ResizeObserver = class ResizeObserver {
@@ -120,7 +119,7 @@ global.ResizeObserver = class ResizeObserver {
   disconnect() {}
   observe() {}
   unobserve() {}
-} as any
+} as never
 
 // ============================================================================
 // PostHog Mock
@@ -134,6 +133,7 @@ vi.mock('posthog-js', () => ({
     identify: vi.fn(),
     reset: vi.fn(),
     get_distinct_id: vi.fn(() => 'test-distinct-id'),
+    get_session_id: vi.fn(() => 'test-session-id'),
     isFeatureEnabled: vi.fn(() => false),
   },
 }))
@@ -151,6 +151,9 @@ vi.mock('posthog-js/react', () => ({
 // ============================================================================
 // Next.js Server Function Mocks
 // ============================================================================
+
+// `server-only` throws outside a React Server Components build; tests run server modules directly
+vi.mock('server-only', () => ({}))
 
 // Mock next/headers
 vi.mock('next/headers', () => ({

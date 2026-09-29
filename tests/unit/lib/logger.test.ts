@@ -1,14 +1,10 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest'
 
 describe('Logger', () => {
-  let originalNodeEnv: string | undefined
   let consoleErrorSpy: ReturnType<typeof vi.spyOn>
   let consoleWarnSpy: ReturnType<typeof vi.spyOn>
 
   beforeEach(() => {
-    // Store original NODE_ENV
-    originalNodeEnv = process.env.NODE_ENV
-
     // Spy on console methods
     consoleErrorSpy = vi.spyOn(console, 'error').mockImplementation(() => {})
     consoleWarnSpy = vi.spyOn(console, 'warn').mockImplementation(() => {})
@@ -18,12 +14,7 @@ describe('Logger', () => {
   })
 
   afterEach(() => {
-    // Restore original NODE_ENV
-    if (originalNodeEnv !== undefined) {
-      process.env.NODE_ENV = originalNodeEnv
-    } else {
-      delete process.env.NODE_ENV
-    }
+    vi.unstubAllEnvs()
 
     // Restore console methods
     consoleErrorSpy.mockRestore()
@@ -32,7 +23,7 @@ describe('Logger', () => {
 
   describe('logger.error', () => {
     it('should log to console.error in development mode', async () => {
-      process.env.NODE_ENV = 'development'
+      vi.stubEnv('NODE_ENV', 'development')
       const { logger } = await import('@/lib/logger')
 
       logger.error('Test error message')
@@ -42,7 +33,7 @@ describe('Logger', () => {
     })
 
     it('should log to console.error with context in development mode', async () => {
-      process.env.NODE_ENV = 'development'
+      vi.stubEnv('NODE_ENV', 'development')
       const { logger } = await import('@/lib/logger')
 
       const context = { userId: '123', action: 'submit' }
@@ -53,7 +44,7 @@ describe('Logger', () => {
     })
 
     it('should log to console.error with multiple context arguments in development mode', async () => {
-      process.env.NODE_ENV = 'development'
+      vi.stubEnv('NODE_ENV', 'development')
       const { logger } = await import('@/lib/logger')
 
       logger.error('Test error', 'context1', 'context2', { data: 'value' })
@@ -63,7 +54,7 @@ describe('Logger', () => {
     })
 
     it('should not log to console.error in production mode', async () => {
-      process.env.NODE_ENV = 'production'
+      vi.stubEnv('NODE_ENV', 'production')
       const { logger } = await import('@/lib/logger')
 
       logger.error('Test error message')
@@ -72,7 +63,7 @@ describe('Logger', () => {
     })
 
     it('should not log to console.error with context in production mode', async () => {
-      process.env.NODE_ENV = 'production'
+      vi.stubEnv('NODE_ENV', 'production')
       const { logger } = await import('@/lib/logger')
 
       const context = { userId: '123', action: 'submit' }
@@ -82,7 +73,7 @@ describe('Logger', () => {
     })
 
     it('should log in test environment (not production)', async () => {
-      process.env.NODE_ENV = 'test'
+      vi.stubEnv('NODE_ENV', 'test')
       const { logger } = await import('@/lib/logger')
 
       logger.error('Test error message')
@@ -94,7 +85,7 @@ describe('Logger', () => {
 
   describe('logger.warn', () => {
     it('should log to console.warn in development mode', async () => {
-      process.env.NODE_ENV = 'development'
+      vi.stubEnv('NODE_ENV', 'development')
       const { logger } = await import('@/lib/logger')
 
       logger.warn('Test warning message')
@@ -104,7 +95,7 @@ describe('Logger', () => {
     })
 
     it('should log to console.warn with context in development mode', async () => {
-      process.env.NODE_ENV = 'development'
+      vi.stubEnv('NODE_ENV', 'development')
       const { logger } = await import('@/lib/logger')
 
       const context = { feature: 'analytics', deprecation: true }
@@ -115,7 +106,7 @@ describe('Logger', () => {
     })
 
     it('should log to console.warn with multiple context arguments in development mode', async () => {
-      process.env.NODE_ENV = 'development'
+      vi.stubEnv('NODE_ENV', 'development')
       const { logger } = await import('@/lib/logger')
 
       logger.warn('Test warning', 'context1', 'context2', { data: 'value' })
@@ -125,7 +116,7 @@ describe('Logger', () => {
     })
 
     it('should not log to console.warn in production mode', async () => {
-      process.env.NODE_ENV = 'production'
+      vi.stubEnv('NODE_ENV', 'production')
       const { logger } = await import('@/lib/logger')
 
       logger.warn('Test warning message')
@@ -134,7 +125,7 @@ describe('Logger', () => {
     })
 
     it('should not log to console.warn with context in production mode', async () => {
-      process.env.NODE_ENV = 'production'
+      vi.stubEnv('NODE_ENV', 'production')
       const { logger } = await import('@/lib/logger')
 
       const context = { feature: 'analytics', deprecation: true }
@@ -144,7 +135,7 @@ describe('Logger', () => {
     })
 
     it('should log in test environment (not production)', async () => {
-      process.env.NODE_ENV = 'test'
+      vi.stubEnv('NODE_ENV', 'test')
       const { logger } = await import('@/lib/logger')
 
       logger.warn('Test warning message')
@@ -156,7 +147,7 @@ describe('Logger', () => {
 
   describe('Production silence', () => {
     it('should remain completely silent in production regardless of multiple calls', async () => {
-      process.env.NODE_ENV = 'production'
+      vi.stubEnv('NODE_ENV', 'production')
       const { logger } = await import('@/lib/logger')
 
       logger.error('Error 1')

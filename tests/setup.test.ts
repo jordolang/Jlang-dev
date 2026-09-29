@@ -7,7 +7,9 @@ describe('Test Setup', () => {
   it('should have @testing-library/jest-dom matchers available', () => {
     const element = document.createElement('div')
     element.textContent = 'test'
+    document.body.appendChild(element)
     expect(element).toBeInTheDocument()
+    element.remove()
   })
 
   it('should have environment variables configured', () => {

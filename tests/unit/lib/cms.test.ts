@@ -18,10 +18,14 @@ vi.mock('next/headers', () => ({
   draftMode: vi.fn(),
 }))
 
-// Mock Sanity client
+// Mock Sanity client; sanityIsConfigured is a getter so tests can toggle it
+const sanityState = vi.hoisted(() => ({ configured: true }))
+
 vi.mock('@/sanity/lib/client', () => ({
   getSanityClient: vi.fn(),
-  sanityIsConfigured: true,
+  get sanityIsConfigured() {
+    return sanityState.configured
+  },
 }))
 
 // Mock Sanity image utilities
@@ -33,12 +37,13 @@ vi.mock('@/sanity/lib/image', () => ({
 describe('CMS Library', () => {
   beforeEach(() => {
     vi.clearAllMocks()
+    sanityState.configured = true
   })
 
   describe('isDraftMode', () => {
     it('should return true when draft mode is enabled', async () => {
       const { draftMode } = await import('next/headers')
-      vi.mocked(draftMode).mockResolvedValue({ isEnabled: true })
+      vi.mocked(draftMode).mockResolvedValue({ isEnabled: true } as never)
 
       const { isDraftMode } = await import('@/lib/cms')
       const result = await isDraftMode()
@@ -48,7 +53,7 @@ describe('CMS Library', () => {
 
     it('should return false when draft mode is disabled', async () => {
       const { draftMode } = await import('next/headers')
-      vi.mocked(draftMode).mockResolvedValue({ isEnabled: false })
+      vi.mocked(draftMode).mockResolvedValue({ isEnabled: false } as never)
 
       const { isDraftMode } = await import('@/lib/cms')
       const result = await isDraftMode()
@@ -72,10 +77,10 @@ describe('CMS Library', () => {
       const { draftMode } = await import('next/headers')
       const { urlForImage, dimensionsForImage } = await import('@/sanity/lib/image')
 
-      vi.mocked(draftMode).mockResolvedValue({ isEnabled: false })
+      vi.mocked(draftMode).mockResolvedValue({ isEnabled: false } as never)
       vi.mocked(urlForImage).mockImplementation((image) => {
         if (!image?.asset) return null
-        return image.asset.url ?? 'https://cdn.sanity.io/images/test/default.jpg'
+        return (image.asset as { url?: string }).url ?? 'https://cdn.sanity.io/images/test/default.jpg'
       })
       vi.mocked(dimensionsForImage).mockImplementation((image) => {
         const dims = image?.asset?.metadata?.dimensions
@@ -206,7 +211,7 @@ describe('CMS Library', () => {
   describe('getExperience', () => {
     beforeEach(async () => {
       const { draftMode } = await import('next/headers')
-      vi.mocked(draftMode).mockResolvedValue({ isEnabled: false })
+      vi.mocked(draftMode).mockResolvedValue({ isEnabled: false } as never)
     })
 
     it('should fetch experience items', async () => {
@@ -245,7 +250,7 @@ describe('CMS Library', () => {
   describe('getTechStack', () => {
     beforeEach(async () => {
       const { draftMode } = await import('next/headers')
-      vi.mocked(draftMode).mockResolvedValue({ isEnabled: false })
+      vi.mocked(draftMode).mockResolvedValue({ isEnabled: false } as never)
     })
 
     it('should fetch and group tech items by category', async () => {
@@ -285,7 +290,7 @@ describe('CMS Library', () => {
   describe('getServicePackages', () => {
     beforeEach(async () => {
       const { draftMode } = await import('next/headers')
-      vi.mocked(draftMode).mockResolvedValue({ isEnabled: false })
+      vi.mocked(draftMode).mockResolvedValue({ isEnabled: false } as never)
     })
 
     it('should fetch and transform service packages', async () => {
@@ -377,7 +382,7 @@ describe('CMS Library', () => {
   describe('getAddonFeatures', () => {
     beforeEach(async () => {
       const { draftMode } = await import('next/headers')
-      vi.mocked(draftMode).mockResolvedValue({ isEnabled: false })
+      vi.mocked(draftMode).mockResolvedValue({ isEnabled: false } as never)
     })
 
     it('should fetch addon features', async () => {
@@ -416,7 +421,7 @@ describe('CMS Library', () => {
   describe('getFaqs', () => {
     beforeEach(async () => {
       const { draftMode } = await import('next/headers')
-      vi.mocked(draftMode).mockResolvedValue({ isEnabled: false })
+      vi.mocked(draftMode).mockResolvedValue({ isEnabled: false } as never)
     })
 
     it('should fetch FAQs', async () => {
@@ -453,7 +458,7 @@ describe('CMS Library', () => {
   describe('getSectionHeadings', () => {
     beforeEach(async () => {
       const { draftMode } = await import('next/headers')
-      vi.mocked(draftMode).mockResolvedValue({ isEnabled: false })
+      vi.mocked(draftMode).mockResolvedValue({ isEnabled: false } as never)
     })
 
     it('should fetch and transform section headings to record', async () => {
@@ -496,10 +501,10 @@ describe('CMS Library', () => {
       const { draftMode } = await import('next/headers')
       const { urlForImage } = await import('@/sanity/lib/image')
 
-      vi.mocked(draftMode).mockResolvedValue({ isEnabled: false })
+      vi.mocked(draftMode).mockResolvedValue({ isEnabled: false } as never)
       vi.mocked(urlForImage).mockImplementation((image) => {
         if (!image?.asset) return null
-        return image.asset.url ?? 'https://cdn.sanity.io/images/test/default.jpg'
+        return (image.asset as { url?: string }).url ?? 'https://cdn.sanity.io/images/test/default.jpg'
       })
     })
 
@@ -545,7 +550,7 @@ describe('CMS Library', () => {
   describe('getAboutContent', () => {
     beforeEach(async () => {
       const { draftMode } = await import('next/headers')
-      vi.mocked(draftMode).mockResolvedValue({ isEnabled: false })
+      vi.mocked(draftMode).mockResolvedValue({ isEnabled: false } as never)
     })
 
     it('should fetch about content', async () => {
@@ -584,7 +589,7 @@ describe('CMS Library', () => {
   describe('getPromoContent', () => {
     beforeEach(async () => {
       const { draftMode } = await import('next/headers')
-      vi.mocked(draftMode).mockResolvedValue({ isEnabled: false })
+      vi.mocked(draftMode).mockResolvedValue({ isEnabled: false } as never)
     })
 
     it('should fetch promo content', async () => {
@@ -621,18 +626,13 @@ describe('CMS Library', () => {
   describe('Error Handling', () => {
     beforeEach(async () => {
       const { draftMode } = await import('next/headers')
-      vi.mocked(draftMode).mockResolvedValue({ isEnabled: false })
+      vi.mocked(draftMode).mockResolvedValue({ isEnabled: false } as never)
     })
 
     it('should return null when Sanity is not configured', async () => {
-      // Re-mock with sanityIsConfigured = false
-      vi.doMock('@/sanity/lib/client', () => ({
-        getSanityClient: vi.fn(),
-        sanityIsConfigured: false,
-      }))
+      sanityState.configured = false
 
-      // Dynamically import to get the new mock
-      const cms = await import('@/lib/cms?t=' + Date.now())
+      const cms = await import('@/lib/cms')
       const result = await cms.getProjects()
 
       expect(result).toBeNull()
@@ -661,7 +661,7 @@ describe('CMS Library', () => {
   describe('Cache Strategy', () => {
     beforeEach(async () => {
       const { draftMode } = await import('next/headers')
-      vi.mocked(draftMode).mockResolvedValue({ isEnabled: false })
+      vi.mocked(draftMode).mockResolvedValue({ isEnabled: false } as never)
     })
 
     it('should use cache with revalidation in production mode', async () => {
@@ -686,7 +686,7 @@ describe('CMS Library', () => {
       const { draftMode } = await import('next/headers')
       const { getSanityClient } = await import('@/sanity/lib/client')
 
-      vi.mocked(draftMode).mockResolvedValue({ isEnabled: true })
+      vi.mocked(draftMode).mockResolvedValue({ isEnabled: true } as never)
 
       const mockFetch = vi.fn().mockResolvedValue([createMockProject()])
       const mockClient = {

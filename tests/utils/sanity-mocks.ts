@@ -369,7 +369,7 @@ export function createMockSanityClient(mockResponses: Record<string, unknown> = 
 export function mockSanityClient(mockResponses: Record<string, unknown> = {}) {
   const client = createMockSanityClient(mockResponses)
 
-  vi.mock('@/sanity/lib/client', () => ({
+  vi.doMock('@/sanity/lib/client', () => ({
     sanityClient: client,
     previewClient: client,
     getSanityClient: vi.fn(() => client),
@@ -407,7 +407,7 @@ export function mockCmsFunctions(mocks: Partial<{
   getAboutContent: ReturnType<typeof vi.fn>
   getPromoContent: ReturnType<typeof vi.fn>
 }> = {}) {
-  vi.mock('@/lib/cms', () => ({
+  vi.doMock('@/lib/cms', () => ({
     isDraftMode: mocks.isDraftMode ?? vi.fn(async () => false),
     getProjects: mocks.getProjects ?? vi.fn(async () => [createMockProject()]),
     getExperience: mocks.getExperience ?? vi.fn(async () => [createMockExperience()]),
@@ -427,7 +427,7 @@ export function mockCmsFunctions(mocks: Partial<{
  * Use this when testing components that use urlForImage or dimensionsForImage.
  */
 export function mockSanityImageUtils() {
-  vi.mock('@/sanity/lib/image', () => ({
+  vi.doMock('@/sanity/lib/image', () => ({
     urlForImage: vi.fn((image: SanityImageRef | null | undefined) => {
       if (!image?.asset) return null
       return image.asset.url ?? 'https://cdn.sanity.io/images/test/default.jpg'

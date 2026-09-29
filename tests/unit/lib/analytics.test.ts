@@ -8,9 +8,30 @@ vi.mock('@/lib/logger', () => ({
   },
 }))
 
+// posthog-js default export is a getter so tests can simulate an uninitialized client
+const posthogState = vi.hoisted(() => ({ initialized: true }))
+
+vi.mock('posthog-js', () => {
+  const client = {
+    init: vi.fn(),
+    capture: vi.fn(),
+    identify: vi.fn(),
+    reset: vi.fn(),
+    get_distinct_id: vi.fn(() => 'test-distinct-id'),
+    get_session_id: vi.fn(() => 'test-session-id'),
+    isFeatureEnabled: vi.fn(() => false),
+  }
+  return {
+    get default() {
+      return posthogState.initialized ? client : null
+    },
+  }
+})
+
 describe('Analytics Library', () => {
   beforeEach(() => {
     vi.clearAllMocks()
+    posthogState.initialized = true
     localStorage.clear()
   })
 
@@ -45,7 +66,7 @@ describe('Analytics Library', () => {
       // @ts-expect-error - Testing server-side behavior
       delete global.window
 
-      const { generateVisitorId } = await import('@/lib/analytics?t=' + Date.now())
+      const { generateVisitorId } = await import('@/lib/analytics')
       const visitorId = generateVisitorId()
 
       expect(visitorId).toBe('')
@@ -57,7 +78,7 @@ describe('Analytics Library', () => {
 
   describe('initializeVisitorTracking', () => {
     it('should generate and set visitor ID in PostHog', async () => {
-      vi.mocked(posthog.get_distinct_id).mockReturnValue(null as any)
+      vi.mocked(posthog.get_distinct_id).mockReturnValue(null as never)
 
       const { initializeVisitorTracking } = await import('@/lib/analytics')
       initializeVisitorTracking()
@@ -85,7 +106,7 @@ describe('Analytics Library', () => {
       // @ts-expect-error - Testing server-side behavior
       delete global.window
 
-      const { initializeVisitorTracking } = await import('@/lib/analytics?t=' + Date.now())
+      const { initializeVisitorTracking } = await import('@/lib/analytics')
       initializeVisitorTracking()
 
       expect(posthog.identify).not.toHaveBeenCalled()
@@ -142,13 +163,10 @@ describe('Analytics Library', () => {
     })
 
     it('should warn and return early if PostHog is not initialized', async () => {
-      // Mock posthog as null/undefined
-      vi.doMock('posthog-js', () => ({
-        default: null,
-      }))
+      posthogState.initialized = false
 
       const { logger } = await import('@/lib/logger')
-      const { identifyUser } = await import('@/lib/analytics?t=' + Date.now())
+      const { identifyUser } = await import('@/lib/analytics')
 
       identifyUser('test@example.com', 'Test User')
 
@@ -197,13 +215,10 @@ describe('Analytics Library', () => {
     })
 
     it('should warn and return early if PostHog is not initialized', async () => {
-      // Mock posthog as null/undefined
-      vi.doMock('posthog-js', () => ({
-        default: null,
-      }))
+      posthogState.initialized = false
 
       const { logger } = await import('@/lib/logger')
-      const { trackEvent } = await import('@/lib/analytics?t=' + Date.now())
+      const { trackEvent } = await import('@/lib/analytics')
 
       trackEvent('test_event')
 
@@ -216,7 +231,7 @@ describe('Analytics Library', () => {
       const existingId = 'visitor_1234567890_abc123'
       localStorage.setItem('portfolio_visitor_id', existingId)
 
-      vi.mocked(posthog.get_distinct_id).mockReturnValue(null as any)
+      vi.mocked(posthog.get_distinct_id).mockReturnValue(null as never)
 
       const { resetIdentification } = await import('@/lib/analytics')
       resetIdentification()
@@ -227,13 +242,10 @@ describe('Analytics Library', () => {
     })
 
     it('should warn and return early if PostHog is not initialized', async () => {
-      // Mock posthog as null/undefined
-      vi.doMock('posthog-js', () => ({
-        default: null,
-      }))
+      posthogState.initialized = false
 
       const { logger } = await import('@/lib/logger')
-      const { resetIdentification } = await import('@/lib/analytics?t=' + Date.now())
+      const { resetIdentification } = await import('@/lib/analytics')
 
       resetIdentification()
 
@@ -260,12 +272,9 @@ describe('Analytics Library', () => {
     })
 
     it('should return null if PostHog is not initialized', async () => {
-      // Mock posthog as null/undefined
-      vi.doMock('posthog-js', () => ({
-        default: null,
-      }))
+      posthogState.initialized = false
 
-      const { getCurrentUserProperties } = await import('@/lib/analytics?t=' + Date.now())
+      const { getCurrentUserProperties } = await import('@/lib/analytics')
       const properties = getCurrentUserProperties()
 
       expect(properties).toBeNull()
@@ -310,7 +319,7 @@ describe('Analytics Library', () => {
 
   describe('Integration Tests', () => {
     it('should handle complete user journey', async () => {
-      vi.mocked(posthog.get_distinct_id).mockReturnValue(null as any)
+      vi.mocked(posthog.get_distinct_id).mockReturnValue(null as never)
 
       const {
         initializeVisitorTracking,
@@ -350,7 +359,7 @@ describe('Analytics Library', () => {
       expect(properties?.distinct_id).toBe('user@example.com')
 
       // Step 5: Reset identification
-      vi.mocked(posthog.get_distinct_id).mockReturnValue(null as any)
+      vi.mocked(posthog.get_distinct_id).mockReturnValue(null as never)
       resetIdentification()
       expect(posthog.reset).toHaveBeenCalled()
     })
@@ -370,7 +379,7 @@ describe('Analytics Library', () => {
       expect(visitorId2).toBe(visitorId1)
 
       // Initialize tracking should use same ID
-      vi.mocked(posthog.get_distinct_id).mockReturnValue(null as any)
+      vi.mocked(posthog.get_distinct_id).mockReturnValue(null as never)
       initializeVisitorTracking()
       expect(posthog.identify).toHaveBeenCalledWith(visitorId1)
     })

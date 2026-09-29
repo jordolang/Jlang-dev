@@ -1,4 +1,4 @@
-import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest'
+import { describe, it, expect, vi, beforeEach } from 'vitest'
 import type { PortableTextBlock } from '@portabletext/react'
 
 // Mock fs module
@@ -25,10 +25,14 @@ vi.mock('next/headers', () => ({
   draftMode: vi.fn(),
 }))
 
-// Mock Sanity client
+// Mock Sanity client; sanityIsConfigured is a getter so tests can toggle it
+const sanityState = vi.hoisted(() => ({ configured: true }))
+
 vi.mock('@/sanity/lib/client', () => ({
   getSanityClient: vi.fn(),
-  sanityIsConfigured: true,
+  get sanityIsConfigured() {
+    return sanityState.configured
+  },
 }))
 
 // Mock Sanity image utilities
@@ -50,7 +54,9 @@ vi.mock('@/lib/logger', () => ({
 
 describe('Blog Library', () => {
   beforeEach(() => {
-    vi.clearAllMocks()
+    // Reset implementations too, not just calls, so per-test mocks don't leak
+    vi.resetAllMocks()
+    sanityState.configured = true
   })
 
   describe('getMdxBlogPosts', () => {
@@ -148,7 +154,7 @@ describe('Blog Library', () => {
         ]
         return {
           data: {
-            ...posts[callCount],
+            ...posts[callCount++],
             excerpt: 'Test',
           },
           content: 'Content',
@@ -310,14 +316,11 @@ describe('Blog Library', () => {
     it('should return empty array when Sanity is not configured', async () => {
       const fs = await import('fs')
 
-      vi.doMock('@/sanity/lib/client', () => ({
-        getSanityClient: vi.fn(),
-        sanityIsConfigured: false,
-      }))
+      sanityState.configured = false
 
       vi.mocked(fs.default.existsSync).mockReturnValue(false)
 
-      const blog = await import('@/lib/blog?t=' + Date.now())
+      const blog = await import('@/lib/blog')
       const result = await blog.getAllBlogPosts()
 
       expect(result).toEqual([])
