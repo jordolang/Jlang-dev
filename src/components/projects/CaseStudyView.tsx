@@ -125,19 +125,29 @@ export default function CaseStudyView({ project }: CaseStudyViewProps) {
 
           {/* Technologies */}
           {project.tech && project.tech.length > 0 && (
-            <div className="mb-8 pb-8 border-b border-gray-200 dark:border-gray-800">
+            <m.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-100px" }}
+              transition={{ duration: 0.6 }}
+              className="mb-8 pb-8 border-b border-gray-200 dark:border-gray-800"
+            >
               <h2 className="text-2xl font-bold mb-4 text-gray-900 dark:text-white">Technologies</h2>
               <div className="flex flex-wrap gap-2">
-                {project.tech.map((tech) => (
-                  <span
+                {project.tech.map((tech, idx) => (
+                  <m.span
                     key={tech}
+                    initial={{ opacity: 0, scale: 0.8 }}
+                    whileInView={{ opacity: 1, scale: 1 }}
+                    viewport={{ once: true, margin: "-50px" }}
+                    transition={{ duration: 0.3, delay: idx * 0.05 }}
                     className="px-3 py-1.5 text-sm font-medium bg-indigo-100 dark:bg-indigo-900/30 text-indigo-600 dark:text-indigo-400 rounded-full hover:bg-indigo-200 dark:hover:bg-indigo-900/50 transition-colors"
                   >
                     {tech}
-                  </span>
+                  </m.span>
                 ))}
               </div>
-            </div>
+            </m.div>
           )}
 
           {/* Case Study Sections */}
@@ -172,37 +182,69 @@ export default function CaseStudyView({ project }: CaseStudyViewProps) {
 
           {/* Features Section */}
           {project.features && project.features.length > 0 && (
-            <section className="mb-12 pb-12 border-b border-gray-200 dark:border-gray-800">
+            <m.section
+              initial={{ opacity: 0, y: 40 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-100px" }}
+              transition={{ duration: 0.7, ease: [0.25, 0.46, 0.45, 0.94] }}
+              className="mb-12 pb-12 border-b border-gray-200 dark:border-gray-800"
+            >
               <h2 className="text-3xl font-bold mb-6 text-gray-900 dark:text-white">Key Features</h2>
               <ul className="space-y-3">
                 {project.features.map((feature, idx) => (
-                  <li key={idx} className="flex items-start gap-3">
+                  <m.li
+                    key={idx}
+                    initial={{ opacity: 0, x: -20 }}
+                    whileInView={{ opacity: 1, x: 0 }}
+                    viewport={{ once: true, margin: "-50px" }}
+                    transition={{ duration: 0.5, delay: idx * 0.1 }}
+                    className="flex items-start gap-3"
+                  >
                     <Icon icon="solar:check-circle-bold" width={24} height={24} className="text-indigo-600 dark:text-indigo-400 flex-shrink-0 mt-1" />
                     <span className="text-gray-700 dark:text-gray-300 text-lg">{feature}</span>
-                  </li>
+                  </m.li>
                 ))}
               </ul>
-            </section>
+            </m.section>
           )}
 
           {/* Deliverables Section */}
           {project.deliverables && project.deliverables.length > 0 && (
-            <section className="mb-12 pb-12 border-b border-gray-200 dark:border-gray-800">
+            <m.section
+              initial={{ opacity: 0, y: 40 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-100px" }}
+              transition={{ duration: 0.7, ease: [0.25, 0.46, 0.45, 0.94] }}
+              className="mb-12 pb-12 border-b border-gray-200 dark:border-gray-800"
+            >
               <h2 className="text-3xl font-bold mb-6 text-gray-900 dark:text-white">Deliverables</h2>
               <ul className="space-y-3">
                 {project.deliverables.map((deliverable, idx) => (
-                  <li key={idx} className="flex items-start gap-3">
+                  <m.li
+                    key={idx}
+                    initial={{ opacity: 0, x: -20 }}
+                    whileInView={{ opacity: 1, x: 0 }}
+                    viewport={{ once: true, margin: "-50px" }}
+                    transition={{ duration: 0.5, delay: idx * 0.1 }}
+                    className="flex items-start gap-3"
+                  >
                     <Icon icon="solar:box-bold" width={24} height={24} className="text-purple-600 dark:text-purple-400 flex-shrink-0 mt-1" />
                     <span className="text-gray-700 dark:text-gray-300 text-lg">{deliverable}</span>
-                  </li>
+                  </m.li>
                 ))}
               </ul>
-            </section>
+            </m.section>
           )}
 
           {/* Testimonial Section */}
           {project.testimonial && (
-            <section className="mb-12">
+            <m.section
+              initial={{ opacity: 0, y: 40, scale: 0.97 }}
+              whileInView={{ opacity: 1, y: 0, scale: 1 }}
+              viewport={{ once: true, margin: "-100px" }}
+              transition={{ duration: 0.7, ease: [0.25, 0.46, 0.45, 0.94] }}
+              className="mb-12"
+            >
               <div className="relative rounded-2xl bg-gradient-to-br from-indigo-50 to-purple-50 dark:from-indigo-950/30 dark:to-purple-950/30 p-8 md:p-12 border border-indigo-100 dark:border-indigo-900/30 shadow-xl">
                 <div className="absolute -top-6 left-8">
                   <div className="w-12 h-12 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-full flex items-center justify-center shadow-lg">
@@ -239,7 +281,7 @@ export default function CaseStudyView({ project }: CaseStudyViewProps) {
                   )}
                 </footer>
               </div>
-            </section>
+            </m.section>
           )}
 
           {/* Project Links */}
