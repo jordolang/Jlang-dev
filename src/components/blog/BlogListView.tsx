@@ -91,7 +91,17 @@ function SearchParamSync({ onQueryChange }: { onQueryChange: (query: string) => 
   return null;
 }
 
-export default function BlogListView({ posts, filterByCategory }: { posts: BlogPost[]; filterByCategory?: string }) {
+export default function BlogListView({
+  posts,
+  filterByCategory,
+  title = "Blog Posts",
+  description = "Thoughts on web development, self-hosting, mobile apps, and technology trends"
+}: {
+  posts: BlogPost[];
+  filterByCategory?: string;
+  title?: string;
+  description?: string;
+}) {
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCategory, setSelectedCategory] = useState<string | null>(filterByCategory ?? null);
   const [selectedTag, setSelectedTag] = useState<string | null>(null);
@@ -197,10 +207,10 @@ export default function BlogListView({ posts, filterByCategory }: { posts: BlogP
             <span className="font-medium">Back to Portfolio</span>
           </Link>
           <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-4 bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 bg-clip-text text-transparent">
-            Blog Posts
+            {title}
           </h1>
           <p className="text-gray-600 dark:text-gray-400 text-lg mb-8">
-            Thoughts on web development, self-hosting, mobile apps, and technology trends
+            {description}
           </p>
 
           {/* Search Bar */}

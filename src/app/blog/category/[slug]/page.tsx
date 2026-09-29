@@ -65,5 +65,12 @@ export default async function CategoryPage({ params }: { params: Promise<{ slug:
     readTime: post.readTime,
   }));
 
-  return <BlogListView posts={mappedPosts} />;
+  return (
+    <BlogListView
+      posts={mappedPosts}
+      filterByCategory={category.slug}
+      title={`${category.name} Articles`}
+      description={category.description || `Browse all blog posts in the ${category.name} category`}
+    />
+  );
 }

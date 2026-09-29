@@ -65,5 +65,11 @@ export default async function TagPage({ params }: { params: Promise<{ slug: stri
     readTime: post.readTime,
   }));
 
-  return <BlogListView posts={mappedPosts} />;
+  return (
+    <BlogListView
+      posts={mappedPosts}
+      title={`#${tag.name}`}
+      description={tag.description || `Browse all blog posts tagged with ${tag.name}`}
+    />
+  );
 }
