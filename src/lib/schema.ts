@@ -11,7 +11,7 @@
  * @see https://search.google.com/test/rich-results
  */
 
-export const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://jordanlang.dev";
+export const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://jlang.dev";
 
 /**
  * Default image dimensions for rich results.
