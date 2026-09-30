@@ -159,6 +159,36 @@ export const pricingPackages: PricingPackage[] = [
     addonsNote: "Everything included — fully bespoke",
     popular: false,
   },
+  {
+    name: "App Development",
+    price: "Starting at $1,250",
+    description: "Custom mobile & desktop apps for iOS, Android, Mac, Windows & Linux",
+    gradient: "from-emerald-600 to-teal-600",
+    highlights: [
+      "Apps for iOS, Android, Mac, Windows & Linux",
+      "Mobile-first design with managed updates",
+      "In-app purchases & paid downloads",
+      "Custom workflows & configurations",
+      "Turn any phone or tablet into a POS",
+    ],
+    features: [
+      "📱 Design & Development",
+      "Custom app built for iOS, Android, macOS, Windows & Linux",
+      "Mobile-first design tailored to your brand",
+      "Integrated workflows & custom configurations",
+      "",
+      "💰 Revenue & Payments",
+      "In-app purchases & App Store billing",
+      "Paid-download pricing — earn on every install",
+      "Custom mobile POS for phones & tablets",
+      "",
+      "🔄 Support & Updates",
+      "Regular managed updates & bug fixes",
+    ],
+    addons: [{ label: "Admin panel", price: 499, feature: "Admin Panel" }],
+    addonsNote: "Optional upgrades",
+    popular: false,
+  },
 ];
 
 export const faqs = [
@@ -380,7 +410,8 @@ export default function ServicesSection({ packages, faqs: cmsFaqs, heading }: Se
       </m.div>
 
       {/* Pricing Cards — short highlights + Choose / details, add-ons on cheaper tiers */}
-      <div className="mb-14 grid items-stretch gap-8 md:grid-cols-3">
+      {/* Flex-wrap (not grid) so a 4th package centers on its own row beneath the first three */}
+      <div className="mb-14 flex flex-wrap items-stretch justify-center gap-8">
         {packageList.map((pkg, index) => (
           <m.div
             key={pkg.name}
@@ -388,7 +419,7 @@ export default function ServicesSection({ packages, faqs: cmsFaqs, heading }: Se
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.15 + index * 0.1 }}
             viewport={{ once: true }}
-            className="relative"
+            className="relative w-full md:w-[calc((100%-4rem)/3)]"
           >
             {pkg.popular && (
               <div className="absolute -top-4 left-1/2 z-20 -translate-x-1/2">
