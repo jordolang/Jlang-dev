@@ -58,14 +58,14 @@ const POST_PROJECTION = `{
   "slug": slug.current,
   title, date, excerpt, author, readTime, body,
   image { asset->{ _id, url } },
-  category->{ slug, name, color, description },
-  "tags": tags[]->{ slug, name, description }
+  category->{ "slug": slug.current, name, color, description },
+  "tags": tags[]->{ "slug": slug.current, name, description }
 }`;
 
 interface RawSanityPost extends Omit<BlogPost, 'image' | 'content' | 'category' | 'tags'> {
   image: SanityImageRef | null;
   category?: Category | null;
-  tags?: Tag[] | null;
+  tags?: (Tag | null)[] | null;
 }
 
 /** Rough reading time from the plain text inside a Portable Text body. */
@@ -91,7 +91,7 @@ function normalizeSanityPost(post: RawSanityPost): BlogPost {
     excerpt: post.excerpt,
     image: urlForImage(post.image) ?? '/images/blog/default.svg',
     category: post.category ?? undefined,
-    tags: post.tags ?? [],
+    tags: (post.tags ?? []).filter((tag): tag is Tag => Boolean(tag?.slug && tag?.name)),
     author: post.author || 'Jordan Lang',
     readTime: post.readTime || estimateReadTime(post.body),
     content: '',
