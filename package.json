@@ -33,6 +33,7 @@
 		"@sanity/assist": "^5.0.4",
 		"@sanity/image-url": "^2.1.1",
 		"@sanity/vision": "^3.99.0",
+		"@stripe/stripe-js": "^4.15.0",
 		"@types/mdx": "^2.0.13",
 		"@types/react-syntax-highlighter": "^15.5.13",
 		"class-variance-authority": "^0.7.1",
@@ -59,6 +60,7 @@
 		"sanity": "^3.99.0",
 		"sanity-plugin-media": "^4.3.6",
 		"server-only": "^0.0.1",
+		"stripe": "^17.6.0",
 		"styled-components": "^6.4.3",
 		"tailwind-merge": "^3.3.0"
 	},
