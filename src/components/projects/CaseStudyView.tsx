@@ -9,6 +9,7 @@ import type { PortableTextBlock } from "@portabletext/react";
 import { AnalyticsEvents, trackEvent } from "@/lib/analytics";
 import CaseStudySection from "@/components/projects/CaseStudySection";
 import { CodeShowcase } from "@/components/showcase/CodeShowcase";
+import { LazyOnScroll } from "@/components/LazyOnScroll";
 
 export interface CaseStudyViewProject {
   slug: string;
@@ -205,22 +206,28 @@ export default function CaseStudyView({ project }: CaseStudyViewProps) {
               </div>
               <div className="space-y-8">
                 {project.codeExamples.map((example, idx) => (
-                  <m.div
+                  <LazyOnScroll
                     key={idx}
-                    initial={{ opacity: 0, y: 20 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true, margin: "-50px" }}
-                    transition={{ duration: 0.5, delay: idx * 0.1 }}
+                    id={`code-example-${idx}`}
+                    minHeight={600}
+                    rootMargin="800px"
                   >
-                    <CodeShowcase
-                      title={example.title}
-                      description={example.description}
-                      code={example.code}
-                      language={example.language}
-                      defaultView="code"
-                      showCopy={true}
-                    />
-                  </m.div>
+                    <m.div
+                      initial={{ opacity: 0, y: 20 }}
+                      whileInView={{ opacity: 1, y: 0 }}
+                      viewport={{ once: true, margin: "-50px" }}
+                      transition={{ duration: 0.5, delay: idx * 0.1 }}
+                    >
+                      <CodeShowcase
+                        title={example.title}
+                        description={example.description}
+                        code={example.code}
+                        language={example.language}
+                        defaultView="code"
+                        showCopy={true}
+                      />
+                    </m.div>
+                  </LazyOnScroll>
                 ))}
               </div>
             </m.section>
