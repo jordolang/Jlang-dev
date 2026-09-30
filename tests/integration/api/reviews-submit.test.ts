@@ -184,7 +184,7 @@ describe('POST /api/reviews/submit', () => {
     const { getReviewRequest } = await import('@/lib/reviews')
     vi.mocked(getReviewRequest).mockResolvedValue({
       ...mockReviewRequest,
-      status: 'completed',
+      status: 'submitted',
     })
 
     const { POST } = await import('@/app/api/reviews/submit/route')

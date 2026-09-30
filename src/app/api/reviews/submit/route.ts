@@ -14,7 +14,7 @@ export async function POST(request: Request) {
   const rating = Number(body.rating);
   const reviewRequest = await getReviewRequest(token);
 
-  if (!reviewRequest || reviewRequest.status === "completed") {
+  if (!reviewRequest || reviewRequest.status === "submitted") {
     return NextResponse.json({ error: "This review link is invalid or has already been used." }, { status: 400 });
   }
   if (content.length < 10 || content.length > 3000 || !Number.isInteger(rating) || rating < 1 || rating > 5) {
@@ -38,7 +38,7 @@ export async function POST(request: Request) {
       requestId: reviewRequest._id,
       submittedAt: now,
     })
-    .patch(reviewRequest._id, (patch) => patch.set({ status: "completed", completedAt: now }))
+    .patch(reviewRequest._id, (patch) => patch.set({ status: "submitted", completedAt: now }))
     .commit();
 
   revalidateTag("testimonials");
