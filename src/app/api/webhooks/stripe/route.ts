@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { getStripe } from "@/lib/stripe";
 import { generateDownloadToken } from "@/lib/download-tokens";
+import { getResend } from "@/lib/resend";
 import Stripe from "stripe";
 
 export async function POST(request: Request) {
@@ -55,17 +56,51 @@ export async function POST(request: Request) {
       // Generate download token
       const downloadToken = generateDownloadToken(productId, customerEmail);
 
-      // TODO: Send confirmation email with download link in phase 5
-      // For now, just log the token (will be used in subtask-5-1)
-      console.log(`Download token generated for ${customerEmail}: ${downloadToken}`);
+      // Send purchase confirmation email with download link
+      const siteUrl = (process.env.NEXT_PUBLIC_SITE_URL || "https://jlang.dev").replace(/\/$/, "");
+      const downloadUrl = `${siteUrl}/download/${encodeURIComponent(downloadToken)}`;
 
-      return NextResponse.json({
-        ok: true,
-        sessionId: session.id,
-        customerEmail,
-        productId,
-        downloadToken,
-      });
+      try {
+        const { error } = await getResend().emails.send({
+          from: process.env.PURCHASE_EMAIL_FROM || "JLang Development <orders@jlang.dev>",
+          to: customerEmail,
+          subject: "Your purchase is ready - Download now",
+          html: `
+            <div style="font-family:Arial,sans-serif;max-width:600px;margin:auto;color:#172033;line-height:1.65">
+              <h1 style="font-size:28px">Thank you for your purchase!</h1>
+              <p>Your digital product is ready to download.</p>
+              <p><a href="${downloadUrl}" style="display:inline-block;background:#4f46e5;color:white;padding:13px 22px;border-radius:10px;text-decoration:none;font-weight:700">Download Now</a></p>
+              <p style="font-size:13px;color:#667085">This download link is unique to you and can be used to access your purchase.</p>
+              <hr style="border:none;border-top:1px solid #e5e7eb;margin:24px 0">
+              <p style="font-size:13px;color:#667085">Order ID: ${escapeHtml(session.id)}<br>Product ID: ${escapeHtml(productId)}</p>
+            </div>`,
+        });
+
+        if (error) {
+          throw new Error(error.message);
+        }
+
+        return NextResponse.json({
+          ok: true,
+          sessionId: session.id,
+          customerEmail,
+          productId,
+          downloadToken,
+          emailSent: true,
+        });
+      } catch (emailError) {
+        // Log email error but don't fail the webhook - payment was successful
+        console.error("Failed to send purchase confirmation email:", emailError);
+        return NextResponse.json({
+          ok: true,
+          sessionId: session.id,
+          customerEmail,
+          productId,
+          downloadToken,
+          emailSent: false,
+          emailError: emailError instanceof Error ? emailError.message : "Email failed",
+        });
+      }
     }
 
     // Ignore other event types
@@ -77,4 +112,8 @@ export async function POST(request: Request) {
       { status: 500 }
     );
   }
+}
+
+function escapeHtml(value: string) {
+  return value.replace(/[&<>'"]/g, (character) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", "'": "&#39;", '"': "&quot;" })[character] || character);
 }
