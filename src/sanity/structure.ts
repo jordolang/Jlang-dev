@@ -1,4 +1,5 @@
 import type { StructureResolver } from "sanity/structure";
+import { ContentCalendar } from "./views/ContentCalendar";
 
 /**
  * Studio navigation. Singletons open straight into their one document rather than
@@ -20,6 +21,13 @@ export const structure: StructureResolver = (S) =>
         .title("Promo page")
         .id("promoContent")
         .child(S.document().schemaType("promoContent").documentId("promoContent").title("Promo page")),
+
+      S.divider(),
+
+      S.listItem()
+        .title("Content Calendar")
+        .id("contentCalendar")
+        .child(S.component(ContentCalendar).title("Content Calendar")),
 
       S.divider(),
 
