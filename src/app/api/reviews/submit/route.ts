@@ -1,6 +1,7 @@
 import { revalidatePath, revalidateTag } from "next/cache";
 import { NextResponse } from "next/server";
 import { getReviewRequest } from "@/lib/reviews";
+import { getResend } from "@/lib/resend";
 import { sanityClient, sanityIsConfigured } from "@/sanity/lib/client";
 
 export async function POST(request: Request) {
@@ -41,7 +42,39 @@ export async function POST(request: Request) {
     .patch(reviewRequest._id, (patch) => patch.set({ status: "submitted", completedAt: now }))
     .commit();
 
+  // Send notification email to Jordan
+  try {
+    const notificationEmail = process.env.REVIEW_NOTIFICATION_EMAIL;
+    if (notificationEmail) {
+      const stars = "⭐".repeat(rating);
+      const contentPreview = content.length > 200 ? content.slice(0, 200) + "..." : content;
+      await getResend().emails.send({
+        from: process.env.REVIEW_EMAIL_FROM || "JLang Development <reviews@jlang.dev>",
+        to: notificationEmail,
+        subject: `New ${rating}-star review from ${reviewRequest.clientName}`,
+        html: `
+          <div style="font-family:Arial,sans-serif;max-width:600px;margin:auto;color:#172033;line-height:1.65">
+            <h1 style="font-size:28px">New Review Submitted</h1>
+            <p><strong>Client:</strong> ${escapeHtml(reviewRequest.clientName)}</p>
+            <p><strong>Company:</strong> ${escapeHtml(reviewRequest.company)}</p>
+            <p><strong>Role:</strong> ${escapeHtml(reviewRequest.role)}</p>
+            <p><strong>Rating:</strong> ${stars} (${rating}/5)</p>
+            <h2 style="font-size:20px;margin-top:24px">Review Content</h2>
+            <p style="background:#f9fafb;padding:16px;border-radius:8px;border-left:4px solid #4f46e5">${escapeHtml(contentPreview)}</p>
+            <p style="font-size:13px;color:#667085;margin-top:24px">Submitted at ${new Date(now).toLocaleString()}</p>
+          </div>`,
+      });
+    }
+  } catch (error) {
+    // Log error but don't fail the request since the review was already saved
+    console.error("Failed to send notification email:", error);
+  }
+
   revalidateTag("testimonials");
   revalidatePath("/");
   return NextResponse.json({ ok: true, googleReviewUrl: process.env.NEXT_PUBLIC_GOOGLE_REVIEW_URL || "" });
+}
+
+function escapeHtml(value: string) {
+  return value.replace(/[&<>'"]/g, (character) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", "'": "&#39;", '"': "&quot;" })[character] || character);
 }
