@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { getReviewRequest } from "@/lib/reviews";
 import ReviewForm from "./ReviewForm";
+import ViewTracker from "./ViewTracker";
 
 export const metadata: Metadata = { title: "Client Review | JLang Development", robots: { index: false, follow: false } };
 export const dynamic = "force-dynamic";
@@ -21,7 +22,10 @@ export default async function ReviewPage({ params }: { params: Promise<{ token: 
             <p className="mt-3 text-gray-600 dark:text-gray-300">It may have already been used, expired, or the review service still needs to be configured.</p>
           </div>
         ) : (
-          <ReviewForm token={token} clientName={request.clientName} company={request.company} role={request.role} />
+          <>
+            <ViewTracker token={token} />
+            <ReviewForm token={token} clientName={request.clientName} company={request.company} role={request.role} />
+          </>
         )}
       </div>
     </main>

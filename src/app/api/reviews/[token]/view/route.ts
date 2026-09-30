@@ -2,12 +2,12 @@ import { NextResponse } from "next/server";
 import { getReviewRequest } from "@/lib/reviews";
 import { sanityClient, sanityIsConfigured } from "@/sanity/lib/client";
 
-export async function POST(request: Request, { params }: { params: { token: string } }) {
+export async function POST(request: Request, { params }: { params: Promise<{ token: string }> }) {
   if (!sanityIsConfigured || !process.env.SANITY_API_WRITE_TOKEN) {
     return NextResponse.json({ error: "Review service is not configured." }, { status: 503 });
   }
 
-  const token = String(params.token || "");
+  const { token } = await params;
   const reviewRequest = await getReviewRequest(token);
 
   if (!reviewRequest) {
