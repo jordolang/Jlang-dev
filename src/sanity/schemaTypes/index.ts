@@ -4,6 +4,7 @@ import { blockContentType } from "./blockContent";
 import { blogPostType } from "./blogPost";
 import { categoryType } from "./category";
 import { comparisonPageType } from "./comparisonPage";
+import { digitalProductType } from "./digitalProduct";
 import { experienceType } from "./experience";
 import { faqType } from "./faq";
 import { projectType } from "./project";
@@ -36,6 +37,7 @@ export const schemaTypes = [
   testimonialType,
   sectionContentType,
   reviewRequestType,
+  digitalProductType,
 
   // Object types
   blockContentType,
