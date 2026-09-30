@@ -3,6 +3,8 @@ import { notFound } from "next/navigation";
 import type { PortableTextBlock } from "@portabletext/react";
 import BlogPostView from "@/components/blog/BlogPostView";
 import { getAdjacentPosts, getAllBlogPosts, getBlogPost } from "@/lib/blog";
+import { JsonLd } from "@/components/JsonLd";
+import { generateBlogPostingSchema } from "@/lib/schema";
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://jlang.dev";
 
@@ -78,7 +80,27 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
 
   if (!post) notFound();
 
+  // Generate BlogPosting schema for SEO
+  const blogPostingSchema = generateBlogPostingSchema({
+    headline: post.title,
+    description: post.excerpt,
+    slug: post.slug,
+    datePublished: post.date,
+    author: {
+      name: post.author,
+      url: SITE_URL,
+    },
+    image: post.image,
+    tags: post.tags.map(tag => tag.name),
+    publisher: {
+      name: "Jordan Lang",
+      logo: `${SITE_URL}/JLang-Development.png`,
+    },
+  });
+
   return (
+    <>
+      <JsonLd data={blogPostingSchema} />
     <BlogPostView
       post={{
         ...post,
@@ -92,5 +114,6 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
       nextPost={adjacent.next ? { slug: adjacent.next.slug, title: adjacent.next.title } : undefined}
       tocSource={tocSourceFor(post.content, post.body)}
     />
+    </>
   );
 }
