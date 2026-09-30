@@ -402,3 +402,76 @@ export async function getPromoContent(): Promise<CmsPromoContent | null> {
     ["promoContent"],
   );
 }
+
+// ---------------------------------------------------------------------------
+// Comparison page
+// ---------------------------------------------------------------------------
+
+export interface CmsPainPoint {
+  issue: string;
+  source?: string;
+}
+
+export interface CmsCompetitor {
+  name: string;
+  logo?: string;
+  tagline?: string;
+  monthlyCost?: string;
+  performanceScore?: number;
+  seoCapabilities?: string;
+  customization?: string;
+  ownership?: string;
+  support?: string;
+  painPoints?: CmsPainPoint[];
+  isCustom?: boolean;
+}
+
+export interface CmsComparisonCategory {
+  category: string;
+  icon?: string;
+  description?: string;
+}
+
+export interface CmsCta {
+  text?: string;
+  url?: string;
+}
+
+export interface CmsComparisonPage {
+  title: string;
+  description: string;
+  seo?: {
+    metaTitle?: string;
+    metaDescription?: string;
+    keywords?: string[];
+  };
+  competitors: CmsCompetitor[];
+  comparisonCategories?: CmsComparisonCategory[];
+  ctaHeading?: string;
+  ctaDescription?: string;
+  ctaPrimary?: CmsCta;
+  ctaSecondary?: CmsCta;
+}
+
+export async function getComparisonPage(): Promise<CmsComparisonPage | null> {
+  const raw = await query<CmsComparisonPage | null>(
+    `*[_type == "comparisonPage"][0] {
+      title,
+      description,
+      seo { metaTitle, metaDescription, keywords },
+      "competitors": coalesce(competitors[]{
+        name, logo, tagline, monthlyCost, performanceScore,
+        seoCapabilities, customization, ownership, support,
+        painPoints[]{ issue, source },
+        isCustom
+      }, []),
+      "comparisonCategories": coalesce(comparisonCategories[]{ category, icon, description }, []),
+      ctaHeading,
+      ctaDescription,
+      ctaPrimary { text, url },
+      ctaSecondary { text, url }
+    }`,
+    ["comparisonPage"],
+  );
+  return raw;
+}

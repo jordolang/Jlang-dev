@@ -14,6 +14,7 @@ export enum AnalyticsEvents {
   SOCIAL_LINK_CLICKED = "social_link_clicked",
   SECTION_TIME_SPENT = "section_time_spent",
   SCROLL_DEPTH = "scroll_depth",
+  CTA_CLICKED = "cta_clicked",
   PRICING_CTA_CLICKED = "pricing_cta_clicked",
   FAQ_TOGGLED = "faq_toggled",
   PACKAGE_SELECTED = "package_selected",

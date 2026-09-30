@@ -3,6 +3,7 @@ import { addonFeatureType } from "./addonFeature";
 import { blockContentType } from "./blockContent";
 import { blogPostType } from "./blogPost";
 import { categoryType } from "./category";
+import { comparisonPageType } from "./comparisonPage";
 import { experienceType } from "./experience";
 import { faqType } from "./faq";
 import { projectType } from "./project";
@@ -20,6 +21,7 @@ export const schemaTypes = [
   siteSettingsType,
   aboutContentType,
   promoContentType,
+  comparisonPageType,
 
   // Collections
   projectType,
@@ -40,4 +42,4 @@ export const schemaTypes = [
 ];
 
 /** Document types that should only ever have one instance, stored under a fixed document id. */
-export const SINGLETON_TYPES = ["siteSettings", "aboutContent", "promoContent"] as const;
+export const SINGLETON_TYPES = ["siteSettings", "aboutContent", "promoContent", "comparisonPage"] as const;

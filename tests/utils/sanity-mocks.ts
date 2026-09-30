@@ -11,6 +11,11 @@ import type {
   CmsSiteSettings,
   CmsAboutContent,
   CmsPromoContent,
+  CmsComparisonPage,
+  CmsCompetitor,
+  CmsComparisonCategory,
+  CmsCta,
+  CmsPainPoint,
 } from '@/lib/cms'
 import type { SanityImageRef } from '@/sanity/lib/image'
 import type { SiteTestimonial, ReviewRequest } from '@/lib/reviews'
@@ -268,6 +273,88 @@ export function createMockPromoContent(overrides: Partial<CmsPromoContent> = {})
 }
 
 /**
+ * Creates a mock CMS pain point with optional custom properties.
+ */
+export function createMockPainPoint(overrides: Partial<CmsPainPoint> = {}): CmsPainPoint {
+  return {
+    issue: 'High monthly costs',
+    source: 'Customer Reviews',
+    ...overrides,
+  }
+}
+
+/**
+ * Creates a mock CMS CTA with optional custom properties.
+ */
+export function createMockCta(overrides: Partial<CmsCta> = {}): CmsCta {
+  return {
+    text: 'Get Started',
+    url: '/contact',
+    ...overrides,
+  }
+}
+
+/**
+ * Creates a mock CMS comparison category with optional custom properties.
+ */
+export function createMockComparisonCategory(overrides: Partial<CmsComparisonCategory> = {}): CmsComparisonCategory {
+  return {
+    category: 'Performance',
+    icon: 'Zap',
+    description: 'Speed and optimization metrics',
+    ...overrides,
+  }
+}
+
+/**
+ * Creates a mock CMS competitor with optional custom properties.
+ */
+export function createMockCompetitor(overrides: Partial<CmsCompetitor> = {}): CmsCompetitor {
+  return {
+    name: 'WordPress',
+    logo: 'wordpress',
+    tagline: 'Open source CMS',
+    monthlyCost: '$35-500/mo',
+    performanceScore: 65,
+    seoCapabilities: 'Good with plugins',
+    customization: 'Theme-dependent',
+    ownership: 'You own content',
+    support: 'Community forums',
+    painPoints: [
+      createMockPainPoint({ issue: 'Plugin conflicts', source: 'User Reports' }),
+      createMockPainPoint({ issue: 'Security vulnerabilities', source: 'Industry Data' }),
+    ],
+    isCustom: false,
+    ...overrides,
+  }
+}
+
+/**
+ * Creates a mock CMS comparison page with optional custom properties.
+ */
+export function createMockComparisonPage(overrides: Partial<CmsComparisonPage> = {}): CmsComparisonPage {
+  return {
+    title: 'Custom Development vs. Website Builders',
+    description: 'See how custom development compares to popular website builders',
+    competitors: [
+      createMockCompetitor({ name: 'WordPress' }),
+      createMockCompetitor({ name: 'Wix', logo: 'wix', monthlyCost: '$16-159/mo' }),
+      createMockCompetitor({ name: 'Squarespace', logo: 'squarespace', monthlyCost: '$16-65/mo' }),
+    ],
+    comparisonCategories: [
+      createMockComparisonCategory({ category: 'Performance', icon: 'Zap' }),
+      createMockComparisonCategory({ category: 'Customization', icon: 'Palette' }),
+      createMockComparisonCategory({ category: 'Ownership', icon: 'Shield' }),
+    ],
+    ctaHeading: 'Ready to build something amazing?',
+    ctaDescription: 'Get a custom solution built for your needs',
+    ctaPrimary: createMockCta({ text: 'Start Your Project', url: '/contact' }),
+    ctaSecondary: createMockCta({ text: 'View Pricing', url: '/services' }),
+    ...overrides,
+  }
+}
+
+/**
  * Creates a mock testimonial with optional custom properties.
  */
 export function createMockTestimonial(overrides: Partial<SiteTestimonial> = {}): SiteTestimonial {
@@ -344,6 +431,9 @@ export function createMockSanityClient(mockResponses: Record<string, unknown> = 
       if (query.includes('_type == "reviewRequest"')) {
         return mockResponses.reviewRequest ?? createMockReviewRequest()
       }
+      if (query.includes('_type == "comparisonPage"')) {
+        return mockResponses.comparisonPage ?? createMockComparisonPage()
+      }
       return null
     }),
     withConfig: vi.fn(function (this: unknown) {
@@ -407,6 +497,7 @@ export function mockCmsFunctions(mocks: Partial<{
   getSiteSettings: ReturnType<typeof vi.fn>
   getAboutContent: ReturnType<typeof vi.fn>
   getPromoContent: ReturnType<typeof vi.fn>
+  getComparisonPage: ReturnType<typeof vi.fn>
 }> = {}) {
   vi.doMock('@/lib/cms', () => ({
     isDraftMode: mocks.isDraftMode ?? vi.fn(async () => false),
@@ -420,6 +511,7 @@ export function mockCmsFunctions(mocks: Partial<{
     getSiteSettings: mocks.getSiteSettings ?? vi.fn(async () => createMockSiteSettings()),
     getAboutContent: mocks.getAboutContent ?? vi.fn(async () => createMockAboutContent()),
     getPromoContent: mocks.getPromoContent ?? vi.fn(async () => createMockPromoContent()),
+    getComparisonPage: mocks.getComparisonPage ?? vi.fn(async () => createMockComparisonPage()),
   }))
 }
 
