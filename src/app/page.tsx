@@ -28,7 +28,7 @@ import {
 import { getLatestBlogPosts } from "@/lib/blog";
 import { getApprovedTestimonials } from "@/lib/reviews";
 import { JsonLd } from "@/components/JsonLd";
-import { generatePersonSchema, generateFAQPageSchema } from "@/lib/schema";
+import { generatePersonSchema, generateFAQPageSchema, SITE_URL } from "@/lib/schema";
 
 export default async function Portfolio() {
   // One server-side pass for the whole page. Anything the CMS doesn't have comes back
@@ -61,9 +61,9 @@ export default async function Portfolio() {
   const personSchema = generatePersonSchema({
     name: settings?.name || "Jordan Lang",
     jobTitle: "Web Developer & IT Specialist",
-    url: process.env.NEXT_PUBLIC_SITE_URL || "https://jordanlang.dev",
+    url: SITE_URL,
     email: settings?.publicEmail,
-    image: settings?.ogImage || "/og-jlang.jpg",
+    image: settings?.ogImage || `${SITE_URL}/og-jlang.jpg`,
     sameAs: settings?.socials?.map((social) => social.href).filter(Boolean),
   });
 

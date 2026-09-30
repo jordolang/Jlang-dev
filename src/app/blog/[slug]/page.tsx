@@ -4,9 +4,7 @@ import type { PortableTextBlock } from "@portabletext/react";
 import BlogPostView from "@/components/blog/BlogPostView";
 import { getAdjacentPosts, getAllBlogPosts, getBlogPost } from "@/lib/blog";
 import { JsonLd } from "@/components/JsonLd";
-import { generateBlogPostingSchema } from "@/lib/schema";
-
-const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://jlang.dev";
+import { generateBlogPostingSchema, SITE_URL } from "@/lib/schema";
 
 export const revalidate = 60;
 
