@@ -67,7 +67,7 @@ export function generateRssFeed(posts: BlogPost[], siteUrl: string = SITE_URL): 
       <description>${escapeXml(post.excerpt)}</description>
       <pubDate>${pubDate}</pubDate>
       <dc:creator>${escapeXml(post.author)}</dc:creator>
-      ${post.tags.map((tag) => `<category>${escapeXml(tag)}</category>`).join('\n      ')}
+      ${post.tags.map((tag) => `<category>${escapeXml(tag.name)}</category>`).join('\n      ')}
     </item>`;
     })
     .join('\n');
@@ -113,7 +113,7 @@ export function generateAtomFeed(posts: BlogPost[], siteUrl: string = SITE_URL):
     <author>
       <name>${escapeXml(post.author)}</name>
     </author>
-    ${post.tags.map((tag) => `<category term="${escapeXml(tag)}"/>`).join('\n    ')}
+    ${post.tags.map((tag) => `<category term="${escapeXml(tag.name)}"/>`).join('\n    ')}
   </entry>`;
     })
     .join('\n');
