@@ -28,6 +28,14 @@ interface PricingPackage {
   popular: boolean;
 }
 
+/** Distinct on-brand gradient per tier: platinum → gold → bronze → champagne. */
+const BRAND_GRADIENTS: Record<string, string> = {
+  Launchpad: "from-silver-400 via-silver-600 to-silver-800",
+  Professional: "from-gold-300 via-gold-500 to-gold-700",
+  Enterprise: "from-gold-900 via-gold-700 to-gold-500 dark:from-gold-500 dark:via-gold-600 dark:to-gold-800",
+  "App Development": "from-gold-300 via-silver-400 to-silver-700",
+};
+
 export const pricingPackages: PricingPackage[] = [
   {
     name: "Launchpad",
@@ -163,7 +171,7 @@ export const pricingPackages: PricingPackage[] = [
     name: "App Development",
     price: "Starting at $1,250",
     description: "Custom mobile & desktop apps for iOS, Android, Mac, Windows & Linux",
-    gradient: "from-emerald-600 to-teal-600",
+    gradient: "from-gold-300 via-silver-400 to-silver-700",
     highlights: [
       "Apps for iOS, Android, Mac, Windows & Linux",
       "Mobile-first design with managed updates",
@@ -340,7 +348,11 @@ export default function ServicesSection({ packages, faqs: cmsFaqs, heading }: Se
   const [expandedFaq, setExpandedFaq] = useState<number | null>(null);
   const [detailsPackage, setDetailsPackage] = useState<PricingPackage | null>(null);
 
-  const packageList = packages?.length ? packages : pricingPackages;
+  // Brand gradients override the CMS field so each tier gets its own gold/silver shade.
+  const packageList = (packages?.length ? packages : pricingPackages).map((pkg) => ({
+    ...pkg,
+    gradient: BRAND_GRADIENTS[pkg.name] ?? pkg.gradient,
+  }));
   const faqList = cmsFaqs?.length ? cmsFaqs : faqs;
 
   const toggleFaq = (index: number) => {
@@ -425,8 +437,8 @@ export default function ServicesSection({ packages, faqs: cmsFaqs, heading }: Se
             {pkg.popular && (
               <div className="absolute -top-4 left-1/2 z-20 -translate-x-1/2">
                 <div className="relative">
-                  <span className="absolute inset-0 animate-ping rounded-full bg-pink-500/40 motion-reduce:animate-none" />
-                  <div className="relative flex items-center gap-1 rounded-full bg-gradient-to-r from-purple-600 via-pink-500 to-orange-400 px-4 py-1 text-xs font-bold text-white shadow-lg shadow-pink-500/40">
+                  <span className="absolute inset-0 animate-ping rounded-full bg-gold-400/40 motion-reduce:animate-none" />
+                  <div className="relative flex items-center gap-1 rounded-full bg-gradient-to-r from-gold-700 via-gold-400 to-gold-700 px-4 py-1 text-xs font-bold text-white shadow-lg shadow-gold-500/40">
                     <Icon icon="solar:star-bold" width={12} height={12} />
                     BEST VALUE
                   </div>
@@ -465,7 +477,7 @@ export default function ServicesSection({ packages, faqs: cmsFaqs, heading }: Se
               <div
                 aria-hidden
                 className="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-300 group-hover:opacity-100"
-                style={{ background: "radial-gradient(350px circle at var(--x, 50%) var(--y, 0%), rgba(168,85,247,0.15), transparent 70%)" }}
+                style={{ background: "radial-gradient(350px circle at var(--x, 50%) var(--y, 0%), rgba(212,172,95,0.18), transparent 70%)" }}
               />
               <div aria-hidden className={`pointer-events-none absolute -right-12 -top-12 h-40 w-40 rounded-full bg-gradient-to-br ${pkg.gradient} opacity-20 blur-2xl transition-transform duration-700 group-hover:scale-150`} />
 

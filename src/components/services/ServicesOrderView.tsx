@@ -116,7 +116,7 @@ const defaultPackages: Record<string, Package> = {
     name: "App Development",
     price: "Starting at $1,250",
     basePrice: 1250,
-    gradient: "from-emerald-600 to-teal-600",
+    gradient: "from-gold-300 via-silver-400 to-silver-700",
     features: [
       "📱 Design & Development",
       "Custom app built for iOS, Android, macOS, Windows & Linux",
