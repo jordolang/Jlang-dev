@@ -24,9 +24,15 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   return {
     title: `${post.title} | Jordan Lang`,
     description: post.excerpt,
-    keywords: post.tags?.join(", "),
+    keywords: post.tags?.map(t => t.name).join(", "),
     authors: [{ name: post.author }],
-    alternates: { canonical: `/blog/${post.slug}` },
+    alternates: {
+      canonical: `/blog/${post.slug}`,
+      types: {
+        "application/rss+xml": "/blog/rss.xml",
+        "application/atom+xml": "/blog/feed.xml",
+      },
+    },
     openGraph: {
       title: post.title,
       description: post.excerpt,
@@ -34,7 +40,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
       url,
       publishedTime: post.date,
       authors: [post.author],
-      tags: post.tags,
+      tags: post.tags?.map(t => t.name),
       images: post.image ? [{ url: post.image, alt: post.title }] : undefined,
     },
     twitter: {
@@ -85,7 +91,7 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
       url: SITE_URL,
     },
     image: post.image,
-    tags: post.tags,
+    tags: post.tags.map(tag => tag.name),
     publisher: {
       name: "Jordan Lang",
       logo: `${SITE_URL}/logo.png`,
@@ -95,13 +101,19 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
   return (
     <>
       <JsonLd data={blogPostingSchema} />
-      <BlogPostView
-        post={post}
-        allPosts={allPosts}
-        previousPost={adjacent.previous ? { slug: adjacent.previous.slug, title: adjacent.previous.title } : undefined}
-        nextPost={adjacent.next ? { slug: adjacent.next.slug, title: adjacent.next.title } : undefined}
-        tocSource={tocSourceFor(post.content, post.body)}
-      />
+    <BlogPostView
+      post={{
+        ...post,
+        tags: post.tags.map(t => t.name)
+      }}
+      allPosts={allPosts.map(p => ({
+        ...p,
+        tags: p.tags.map(t => t.name)
+      }))}
+      previousPost={adjacent.previous ? { slug: adjacent.previous.slug, title: adjacent.previous.title } : undefined}
+      nextPost={adjacent.next ? { slug: adjacent.next.slug, title: adjacent.next.title } : undefined}
+      tocSource={tocSourceFor(post.content, post.body)}
+    />
     </>
   );
 }

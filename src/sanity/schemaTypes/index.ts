@@ -2,6 +2,7 @@ import { aboutContentType } from "./aboutContent";
 import { addonFeatureType } from "./addonFeature";
 import { blockContentType } from "./blockContent";
 import { blogPostType } from "./blogPost";
+import { categoryType } from "./category";
 import { experienceType } from "./experience";
 import { faqType } from "./faq";
 import { projectType } from "./project";
@@ -10,6 +11,7 @@ import { reviewRequestType } from "./reviewRequest";
 import { sectionContentType } from "./sectionContent";
 import { servicePackageType } from "./servicePackage";
 import { siteSettingsType } from "./siteSettings";
+import { tagType } from "./tag";
 import { techItemType } from "./techItem";
 import { testimonialType } from "./testimonial";
 
@@ -27,6 +29,8 @@ export const schemaTypes = [
   addonFeatureType,
   faqType,
   blogPostType,
+  categoryType,
+  tagType,
   testimonialType,
   sectionContentType,
   reviewRequestType,
