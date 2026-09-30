@@ -334,7 +334,7 @@ export default function BlogListView({
       </header>
 
       {/* Blog Posts Grid */}
-      <main className="max-w-7xl mx-auto px-4 py-12">
+      <main id="main-content" className="max-w-7xl mx-auto px-4 py-12">
         {filteredPosts.length === 0 ? (
           <m.div 
             initial={{ opacity: 0 }}

@@ -80,53 +80,60 @@ export default async function Portfolio() {
       {/* Background (static, server) */}
       <Background />
 
-      {/* Navigation */}
+      {/* Navigation landmark */}
       <Navigation items={settings?.navItems} />
 
-      {/* Full-bleed cinematic opening: video hero, then the pinned scroll story */}
-      <HeroSection content={settings ?? undefined} />
-      <ScrollStory />
+      {/* Main content landmark */}
+      <main id="main-content">
+        {/* Full-bleed cinematic opening: video hero, then the pinned scroll story */}
+        <HeroSection content={settings ?? undefined} />
+        <ScrollStory />
 
+        <div className="max-w-6xl mx-auto px-6">
+          <CapabilitiesSection />
+          <OverviewSection
+            content={about ?? undefined}
+            contact={settings ?? undefined}
+            heading={headings?.overview}
+          />
+
+          {/* Below the fold — interactive sections lazy-mount on scroll;
+              Experience + Footer are static server components rendered directly. */}
+          <LazyBlogSection
+            posts={posts.map(post => ({
+              ...post,
+              tags: post.tags.map(t => t.name)
+            }))}
+            heading={headings?.blog}
+          />
+          <LazyTechStackSection stack={techStack ?? undefined} heading={headings?.stack} />
+          <ExperienceSection
+            items={experience ?? undefined}
+            stats={about?.stats ?? undefined}
+            heading={headings?.experience}
+          />
+          <LazyProjectsSection projects={projects ?? undefined} heading={headings?.projects} />
+          <LazyServicesSection
+            packages={packages ?? undefined}
+            faqs={faqs ?? undefined}
+            heading={headings?.services}
+          />
+          <LazyTestimonialsSection testimonials={testimonials} heading={headings?.testimonials} />
+        </div>
+
+        <CtaBand />
+
+        <div className="max-w-6xl mx-auto px-6 pt-20">
+          <LazyContactSection
+            email={settings?.email}
+            publicEmail={settings?.publicEmail}
+            heading={headings?.contact}
+          />
+        </div>
+      </main>
+
+      {/* Footer contentinfo landmark */}
       <div className="max-w-6xl mx-auto px-6">
-        <CapabilitiesSection />
-        <OverviewSection
-          content={about ?? undefined}
-          contact={settings ?? undefined}
-          heading={headings?.overview}
-        />
-
-        {/* Below the fold — interactive sections lazy-mount on scroll;
-            Experience + Footer are static server components rendered directly. */}
-        <LazyBlogSection
-          posts={posts.map(post => ({
-            ...post,
-            tags: post.tags.map(t => t.name)
-          }))}
-          heading={headings?.blog}
-        />
-        <LazyTechStackSection stack={techStack ?? undefined} heading={headings?.stack} />
-        <ExperienceSection
-          items={experience ?? undefined}
-          stats={about?.stats ?? undefined}
-          heading={headings?.experience}
-        />
-        <LazyProjectsSection projects={projects ?? undefined} heading={headings?.projects} />
-        <LazyServicesSection
-          packages={packages ?? undefined}
-          faqs={faqs ?? undefined}
-          heading={headings?.services}
-        />
-        <LazyTestimonialsSection testimonials={testimonials} heading={headings?.testimonials} />
-      </div>
-
-      <CtaBand />
-
-      <div className="max-w-6xl mx-auto px-6 pt-20">
-        <LazyContactSection
-          email={settings?.email}
-          publicEmail={settings?.publicEmail}
-          heading={headings?.contact}
-        />
         <Footer text={settings?.footerText} />
       </div>
     </div>

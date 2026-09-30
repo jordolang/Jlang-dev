@@ -55,7 +55,7 @@ export default function ComparisonView({ data }: ComparisonViewProps) {
       <Background />
       <Navigation />
 
-      <main className="relative min-h-screen pb-20">
+      <main id="main-content" className="relative min-h-screen pb-20">
         <div className="container mx-auto px-4 pt-24 md:pt-32">
 
           {/* Hero Section */}

@@ -80,16 +80,18 @@ export default function Navigation({ items }: NavigationProps) {
   };
 
   return (
-    <nav className="fixed top-0 md:top-4 w-full z-50 ">
+    <nav aria-label="Main navigation" className="fixed top-0 md:top-4 w-full z-50 ">
       <div className="md:max-w-fit md:border-2 md:rounded-full mx-auto px-7 py-2 bg-white/85 dark:bg-black/70 md:border-gold-400/25 backdrop-blur-3xl shadow-lg shadow-black/10">
         <div className="flex justify-between items-center gap-10">
-          <m.div
+          <m.a
+            href="/"
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
-            className="flex items-center"
+            className="flex items-center focus:outline-none focus-visible:ring-2 focus-visible:ring-gold-400 focus-visible:ring-offset-2 rounded"
+            aria-label="Home"
           >
             <Image src="/favicon.png" alt="JL Logo" width={32} height={32} className="h-8 w-8" />
-          </m.div>
+          </m.a>
           <div className="flex items-center space-x-8">
             <div className="hidden md:flex items-center space-x-8">
               {navItems.map((item, index) => (
@@ -100,7 +102,7 @@ export default function Navigation({ items }: NavigationProps) {
                   initial={{ opacity: 0, y: -20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: index * 0.1 }}
-                  className="text-gray-600 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white transition-colors duration-300 text-sm font-medium"
+                  className="text-gray-600 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white transition-colors duration-300 text-sm font-medium focus:outline-none focus-visible:ring-2 focus-visible:ring-gold-400 focus-visible:ring-offset-2 rounded px-1"
                 >
                   {item.label}
                 </m.a>
@@ -113,7 +115,7 @@ export default function Navigation({ items }: NavigationProps) {
               whileHover={{ scale: 1.1 }}
               whileTap={{ scale: 0.9 }}
               onClick={toggleTheme}
-              className="p-2 rounded-full bg-gray-200 hover:bg-gray-300 dark:bg-gray-800 dark:hover:bg-gray-700 border border-gray-300 dark:border-gray-600 transition-all duration-300"
+              className="p-2 rounded-full bg-gray-200 hover:bg-gray-300 dark:bg-gray-800 dark:hover:bg-gray-700 border border-gray-300 dark:border-gray-600 transition-all duration-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-gold-400 focus-visible:ring-offset-2"
               aria-label="Toggle theme"
             >
               {theme === "dark" ? (

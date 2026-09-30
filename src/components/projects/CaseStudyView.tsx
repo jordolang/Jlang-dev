@@ -81,7 +81,7 @@ export default function CaseStudyView({ project }: CaseStudyViewProps) {
               <div className={`absolute inset-0 ${project.gradient || 'bg-gradient-to-br from-indigo-500/20 to-purple-500/20'}`} />
               <Image
                 src={project.image}
-                alt={project.title}
+                alt={`${project.title} project hero image showcasing ${project.subtitle}`}
                 fill
                 className="object-cover"
                 priority

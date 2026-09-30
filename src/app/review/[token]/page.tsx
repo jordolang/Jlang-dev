@@ -12,7 +12,7 @@ export default async function ReviewPage({ params }: { params: Promise<{ token: 
   const unavailable = !request || request.status === "completed";
 
   return (
-    <main className="flex min-h-screen items-center justify-center bg-gradient-to-br from-slate-100 via-blue-50 to-purple-100 px-5 py-16 text-gray-900 dark:from-gray-950 dark:via-slate-950 dark:to-indigo-950 dark:text-white">
+    <main id="main-content" className="flex min-h-screen items-center justify-center bg-gradient-to-br from-slate-100 via-blue-50 to-purple-100 px-5 py-16 text-gray-900 dark:from-gray-950 dark:via-slate-950 dark:to-indigo-950 dark:text-white">
       <div className="w-full max-w-3xl">
         <Link href="/" className="mb-7 inline-flex items-center gap-2 font-semibold text-indigo-600 dark:text-indigo-400">← JLang Development</Link>
         {unavailable ? (

@@ -2,6 +2,7 @@ import { PostHogProvider } from "@/components/PostHogProvider";
 import { ThemeProvider } from "@/components/ThemeProvider";
 import { MotionProvider } from "@/components/MotionProvider";
 import { DisableDraftMode } from "@/components/DisableDraftMode";
+import { SkipToContent } from "@/components/SkipToContent";
 import type { Metadata } from "next";
 import { draftMode } from "next/headers";
 import { VisualEditing } from "next-sanity";
@@ -73,6 +74,7 @@ export default async function RootLayout({
         <link rel="icon" type="image/png" href="/favicon.png" />
       </head>
       <body className="font-sans">
+        <SkipToContent />
         <PostHogProvider>
           <ThemeProvider>
             <MotionProvider>

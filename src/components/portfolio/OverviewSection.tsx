@@ -249,10 +249,10 @@ export default function OverviewSection({ content, contact, heading }: OverviewS
           <m.div variants={itemVariants} className="lg:col-span-4 space-y-6 mt-6 lg:mt-0">
             {/* Contact Card */}
             <div className="p-6 rounded-2xl bg-gradient-to-br from-purple-50/90 to-pink-50/90 dark:from-purple-950/30 dark:to-pink-950/30 backdrop-blur-sm border border-white/30 dark:border-gray-700/40 shadow-xl">
-              <h4 className="font-bold text-gray-900 dark:text-white mb-6 flex items-center gap-2">
+              <h3 className="font-bold text-gray-900 dark:text-white mb-6 flex items-center gap-2">
                 <Icon icon="solar:chat-round-dots-bold" className="text-purple-500 w-5 h-5" width={20} height={20} />
                 Let&apos;s Connect
-              </h4>
+              </h3>
               <div className="space-y-3">
                 <m.a
                   href={`mailto:${email}`}
@@ -296,10 +296,10 @@ export default function OverviewSection({ content, contact, heading }: OverviewS
 
             {/* Achievement Highlights */}
             <div className="p-6 rounded-2xl bg-gradient-to-br from-amber-50/90 to-yellow-50/90 dark:from-amber-950/30 dark:to-yellow-950/30 backdrop-blur-sm border border-white/30 dark:border-gray-700/40 shadow-xl">
-              <h4 className="font-bold text-gray-900 dark:text-white mb-6 flex items-center gap-2">
+              <h3 className="font-bold text-gray-900 dark:text-white mb-6 flex items-center gap-2">
                 <Icon icon="solar:cup-star-bold" className="text-amber-600 w-5 h-5" width={20} height={20} />
                 Achievements
-              </h4>
+              </h3>
               <div className="space-y-4">
                 {achievements.map((achievement, index) => (
                   <m.div
@@ -318,10 +318,10 @@ export default function OverviewSection({ content, contact, heading }: OverviewS
 
             {/* Available for Hire */}
             <div className="p-6 rounded-2xl bg-gradient-to-br from-emerald-50/90 to-cyan-50/90 dark:from-emerald-950/30 dark:to-cyan-950/30 backdrop-blur-sm border border-white/30 dark:border-gray-700/40 shadow-xl">
-              <h4 className="font-bold text-gray-900 dark:text-white mb-6 flex items-center gap-2">
+              <h3 className="font-bold text-gray-900 dark:text-white mb-6 flex items-center gap-2">
                 <Icon icon="solar:rocket-bold" className="text-emerald-600 w-5 h-5" width={20} height={20} />
                 Available for Hire
-              </h4>
+              </h3>
               <div className="space-y-3.5">
                 {availability.map((item, index) => (
                   <m.div
@@ -359,7 +359,7 @@ export default function OverviewSection({ content, contact, heading }: OverviewS
                 <Icon icon="solar:laptop-bold" className="text-white w-5 md:w-6 h-5 md:h-6" width={24} height={24} />
               </div>
               <div>
-                <h4 className="font-bold text-gray-900 dark:text-white text-base md:text-lg">{roleCard.title}</h4>
+                <h3 className="font-bold text-gray-900 dark:text-white text-base md:text-lg">{roleCard.title}</h3>
                 <p className="text-green-600 dark:text-green-400 font-medium text-sm md:text-base">{roleCard.subtitle}</p>
                 <p className="text-xs md:text-sm text-gray-600 dark:text-gray-400 mt-1">{roleCard.period}</p>
               </div>
