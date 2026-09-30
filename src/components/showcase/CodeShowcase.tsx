@@ -2,6 +2,7 @@
 
 import React, { ReactNode, useState } from 'react';
 import { Icon } from '@iconify/react';
+import { m } from 'framer-motion';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { vscDarkPlus } from 'react-syntax-highlighter/dist/cjs/styles/prism';
 
@@ -51,7 +52,13 @@ export function CodeShowcase({
   const showPreview = (activeView === 'split' || activeView === 'preview') && preview;
 
   return (
-    <div className="my-8 space-y-4">
+    <m.div
+      initial={{ opacity: 0, y: 20 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: "-100px" }}
+      transition={{ duration: 0.6, ease: [0.25, 0.46, 0.45, 0.94] }}
+      className="my-8 space-y-4"
+    >
       {/* Header */}
       {(title || description) && (
         <div className="space-y-2">
@@ -182,6 +189,6 @@ export function CodeShowcase({
           </div>
         )}
       </div>
-    </div>
+    </m.div>
   );
 }

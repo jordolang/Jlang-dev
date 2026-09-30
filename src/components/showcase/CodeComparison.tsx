@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { Icon } from '@iconify/react';
+import { m } from 'framer-motion';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { vscDarkPlus } from 'react-syntax-highlighter/dist/cjs/styles/prism';
 
@@ -92,9 +93,21 @@ export function CodeComparison({
   };
 
   return (
-    <div className="my-8 grid grid-cols-1 lg:grid-cols-2 gap-4">
+    <m.div
+      initial={{ opacity: 0, y: 20 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: "-100px" }}
+      transition={{ duration: 0.6, ease: [0.25, 0.46, 0.45, 0.94] }}
+      className="my-8 grid grid-cols-1 lg:grid-cols-2 gap-4"
+    >
       {/* Before Panel */}
-      <div className="rounded-xl overflow-hidden border border-gray-200 dark:border-gray-800 shadow-lg">
+      <m.div
+        initial={{ opacity: 0, x: -20 }}
+        whileInView={{ opacity: 1, x: 0 }}
+        viewport={{ once: true, margin: "-100px" }}
+        transition={{ duration: 0.5, delay: 0.1, ease: [0.25, 0.46, 0.45, 0.94] }}
+        className="rounded-xl overflow-hidden border border-gray-200 dark:border-gray-800 shadow-lg"
+      >
         <div className="bg-gray-800 px-4 py-2 flex items-center justify-between">
           <div className="flex items-center gap-2">
             <Icon icon="solar:arrow-left-outline" width={16} height={16} className="text-red-400" />
@@ -128,10 +141,16 @@ export function CodeComparison({
         >
           {before.replace(/\n$/, '')}
         </SyntaxHighlighter>
-      </div>
+      </m.div>
 
       {/* After Panel */}
-      <div className="rounded-xl overflow-hidden border border-gray-200 dark:border-gray-800 shadow-lg">
+      <m.div
+        initial={{ opacity: 0, x: 20 }}
+        whileInView={{ opacity: 1, x: 0 }}
+        viewport={{ once: true, margin: "-100px" }}
+        transition={{ duration: 0.5, delay: 0.2, ease: [0.25, 0.46, 0.45, 0.94] }}
+        className="rounded-xl overflow-hidden border border-gray-200 dark:border-gray-800 shadow-lg"
+      >
         <div className="bg-gray-800 px-4 py-2 flex items-center justify-between">
           <div className="flex items-center gap-2">
             <Icon icon="solar:arrow-right-outline" width={16} height={16} className="text-green-400" />
@@ -165,7 +184,7 @@ export function CodeComparison({
         >
           {after.replace(/\n$/, '')}
         </SyntaxHighlighter>
-      </div>
-    </div>
+      </m.div>
+    </m.div>
   );
 }
