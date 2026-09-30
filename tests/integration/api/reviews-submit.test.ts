@@ -30,7 +30,7 @@ describe('POST /api/reviews/submit', () => {
     clientName: 'John Doe',
     company: 'Test Company',
     role: 'CEO',
-    status: 'pending',
+    status: 'sent',
   }
 
   beforeEach(async () => {
