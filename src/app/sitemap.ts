@@ -1,6 +1,7 @@
 import type { MetadataRoute } from "next";
 import { getAllBlogPosts, getAllCategories, getAllTags } from "@/lib/blog";
 import { getAllProjects } from "@/lib/projects";
+import { getAllProducts } from "@/lib/products";
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://jlang.dev";
 
@@ -21,13 +22,19 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       changeFrequency: "monthly",
       priority: 0.7,
     },
+    {
+      url: `${SITE_URL}/products`,
+      changeFrequency: "weekly",
+      priority: 0.8,
+    },
   ];
 
-  const [posts, projects, categories, tags] = await Promise.all([
+  const [posts, projects, categories, tags, products] = await Promise.all([
     getAllBlogPosts(),
     getAllProjects(),
     getAllCategories(),
     getAllTags(),
+    getAllProducts(),
   ]);
 
   const blogRoutes: MetadataRoute.Sitemap = posts.map((post) => ({
@@ -55,5 +62,11 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     priority: 0.7,
   }));
 
-  return [...staticRoutes, ...blogRoutes, ...projectRoutes, ...categoryRoutes, ...tagRoutes];
+  const productRoutes: MetadataRoute.Sitemap = products.map((product) => ({
+    url: `${SITE_URL}/products/${product.slug}`,
+    changeFrequency: "monthly",
+    priority: 0.6,
+  }));
+
+  return [...staticRoutes, ...blogRoutes, ...projectRoutes, ...categoryRoutes, ...tagRoutes, ...productRoutes];
 }
