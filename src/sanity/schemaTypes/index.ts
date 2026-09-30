@@ -3,9 +3,14 @@ import { addonFeatureType } from "./addonFeature";
 import { blockContentType } from "./blockContent";
 import { blogPostType } from "./blogPost";
 import { categoryType } from "./category";
+import { clientProjectType } from "./clientProject";
+import { clientType } from "./client";
 import { comparisonPageType } from "./comparisonPage";
 import { experienceType } from "./experience";
 import { faqType } from "./faq";
+import { magicLinkTokenType } from "./magicLinkToken";
+import { portalDeliverableType } from "./portalDeliverable";
+import { portalMessageType } from "./portalMessage";
 import { projectType } from "./project";
 import { promoContentType } from "./promoContent";
 import { reviewRequestType } from "./reviewRequest";
@@ -36,6 +41,11 @@ export const schemaTypes = [
   testimonialType,
   sectionContentType,
   reviewRequestType,
+  clientType,
+  clientProjectType,
+  magicLinkTokenType,
+  portalMessageType,
+  portalDeliverableType,
 
   // Object types
   blockContentType,
