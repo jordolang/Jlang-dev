@@ -54,6 +54,8 @@ interface ProductDetailProps {
 export default function ProductDetail({ product, relatedProducts = [] }: ProductDetailProps) {
   const [productUrl, setProductUrl] = useState("");
   const [selectedImageIndex, setSelectedImageIndex] = useState(0);
+  const [isProcessing, setIsProcessing] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     if (typeof window !== "undefined") setProductUrl(window.location.href);
@@ -70,16 +72,59 @@ export default function ProductDetail({ product, relatedProducts = [] }: Product
     ...(product.gallery || [])
   ].filter(img => img?.url);
 
-  const handlePurchase = () => {
+  const handlePurchase = async () => {
     trackEvent(AnalyticsEvents.PROJECT_CLICKED, {
       project: `Product Purchase: ${product.name}`,
       action: 'purchase_clicked'
     });
 
+    // For free products, handle downloads directly
+    if (isFree && product.downloadUrl) {
+      window.location.href = product.downloadUrl;
+      return;
+    }
+
+    // For products with external purchase URLs, open them
     if (product.purchaseUrl) {
       window.open(product.purchaseUrl, '_blank');
-    } else if (product.downloadUrl) {
-      window.location.href = product.downloadUrl;
+      return;
+    }
+
+    // For paid products, create Stripe Checkout session
+    setIsProcessing(true);
+    setError(null);
+
+    try {
+      const response = await fetch('/api/checkout', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          productSlug: product.slug,
+          productName: product.name,
+          price: product.basePrice,
+          successUrl: `${window.location.origin}/products/${product.slug}?success=true`,
+          cancelUrl: `${window.location.origin}/products/${product.slug}?canceled=true`,
+        }),
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json().catch(() => ({ error: 'Failed to create checkout session' }));
+        throw new Error(errorData.error || 'Failed to create checkout session');
+      }
+
+      const { url } = await response.json();
+
+      if (url) {
+        // Redirect to Stripe Checkout
+        window.location.href = url;
+      } else {
+        throw new Error('No checkout URL returned');
+      }
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'An error occurred during checkout');
+      setIsProcessing(false);
     }
   };
 
@@ -189,11 +234,30 @@ export default function ProductDetail({ product, relatedProducts = [] }: Product
             <div className="space-y-3">
               <button
                 onClick={handlePurchase}
-                className="w-full px-8 py-4 bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 text-white font-bold rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 flex items-center justify-center gap-2"
+                disabled={isProcessing}
+                className="w-full px-8 py-4 bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 disabled:from-gray-400 disabled:to-gray-500 disabled:cursor-not-allowed text-white font-bold rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 flex items-center justify-center gap-2"
               >
-                <Icon icon={isFree ? "solar:download-bold" : "solar:bag-4-bold"} width={24} height={24} />
-                <span>{isFree ? 'Download Now' : 'Purchase Now'}</span>
+                {isProcessing ? (
+                  <>
+                    <Icon icon="solar:restart-bold" width={24} height={24} className="animate-spin" />
+                    <span>Processing...</span>
+                  </>
+                ) : (
+                  <>
+                    <Icon icon={isFree ? "solar:download-bold" : "solar:bag-4-bold"} width={24} height={24} />
+                    <span>{isFree ? 'Download Now' : 'Purchase Now'}</span>
+                  </>
+                )}
               </button>
+
+              {error && (
+                <div className="p-3 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg">
+                  <p className="text-sm text-red-600 dark:text-red-400 flex items-center gap-2">
+                    <Icon icon="solar:danger-circle-bold" width={16} height={16} />
+                    {error}
+                  </p>
+                </div>
+              )}
 
               <div className="flex items-center justify-center gap-2 text-sm text-gray-600 dark:text-gray-400">
                 <Icon icon="solar:shield-check-bold" width={16} height={16} className="text-green-500" />
@@ -398,10 +462,20 @@ export default function ProductDetail({ product, relatedProducts = [] }: Product
           </p>
           <button
             onClick={handlePurchase}
-            className="px-10 py-4 bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 text-white font-bold rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 inline-flex items-center gap-2"
+            disabled={isProcessing}
+            className="px-10 py-4 bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 disabled:from-gray-400 disabled:to-gray-500 disabled:cursor-not-allowed text-white font-bold rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 inline-flex items-center gap-2"
           >
-            <Icon icon={isFree ? "solar:download-bold" : "solar:bag-4-bold"} width={24} height={24} />
-            <span>{isFree ? 'Download Now' : `Get it for ${product.price}`}</span>
+            {isProcessing ? (
+              <>
+                <Icon icon="solar:restart-bold" width={24} height={24} className="animate-spin" />
+                <span>Processing...</span>
+              </>
+            ) : (
+              <>
+                <Icon icon={isFree ? "solar:download-bold" : "solar:bag-4-bold"} width={24} height={24} />
+                <span>{isFree ? 'Download Now' : `Get it for ${product.price}`}</span>
+              </>
+            )}
           </button>
         </m.div>
 
