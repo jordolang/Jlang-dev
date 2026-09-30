@@ -24,7 +24,7 @@ export default async function ReviewPage({ params }: { params: Promise<{ token: 
         ) : (
           <>
             <ViewTracker token={token} />
-            <ReviewForm token={token} clientName={request.clientName} company={request.company} role={request.role} />
+            <ReviewForm token={token} clientName={request.clientName} company={request.company} role={request.role} status={request.status} interactions={request.interactions} />
           </>
         )}
       </div>
