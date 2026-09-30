@@ -24,7 +24,13 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
     description: post.excerpt,
     keywords: post.tags?.map(t => t.name).join(", "),
     authors: [{ name: post.author }],
-    alternates: { canonical: `/blog/${post.slug}` },
+    alternates: {
+      canonical: `/blog/${post.slug}`,
+      types: {
+        "application/rss+xml": "/blog/rss.xml",
+        "application/atom+xml": "/blog/feed.xml",
+      },
+    },
     openGraph: {
       title: post.title,
       description: post.excerpt,
