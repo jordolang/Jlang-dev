@@ -3,8 +3,8 @@ import { notFound } from "next/navigation";
 import type { PortableTextBlock } from "@portabletext/react";
 import BlogPostView from "@/components/blog/BlogPostView";
 import { getAdjacentPosts, getAllBlogPosts, getBlogPost } from "@/lib/blog";
-
-const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://jlang.dev";
+import { JsonLd } from "@/components/JsonLd";
+import { generateBlogPostingSchema, SITE_URL } from "@/lib/schema";
 
 export const revalidate = 60;
 
@@ -22,9 +22,15 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   return {
     title: `${post.title} | Jordan Lang`,
     description: post.excerpt,
-    keywords: post.tags?.join(", "),
+    keywords: post.tags?.map(t => t.name).join(", "),
     authors: [{ name: post.author }],
-    alternates: { canonical: `/blog/${post.slug}` },
+    alternates: {
+      canonical: `/blog/${post.slug}`,
+      types: {
+        "application/rss+xml": "/blog/rss.xml",
+        "application/atom+xml": "/blog/feed.xml",
+      },
+    },
     openGraph: {
       title: post.title,
       description: post.excerpt,
@@ -32,7 +38,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
       url,
       publishedTime: post.date,
       authors: [post.author],
-      tags: post.tags,
+      tags: post.tags?.map(t => t.name),
       images: post.image ? [{ url: post.image, alt: post.title }] : undefined,
     },
     twitter: {
@@ -72,13 +78,40 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
 
   if (!post) notFound();
 
+  // Generate BlogPosting schema for SEO
+  const blogPostingSchema = generateBlogPostingSchema({
+    headline: post.title,
+    description: post.excerpt,
+    slug: post.slug,
+    datePublished: post.date,
+    author: {
+      name: post.author,
+      url: SITE_URL,
+    },
+    image: post.image,
+    tags: post.tags.map(tag => tag.name),
+    publisher: {
+      name: "Jordan Lang",
+      logo: `${SITE_URL}/JLang-Development.png`,
+    },
+  });
+
   return (
+    <>
+      <JsonLd data={blogPostingSchema} />
     <BlogPostView
-      post={post}
-      allPosts={allPosts}
+      post={{
+        ...post,
+        tags: post.tags.map(t => t.name)
+      }}
+      allPosts={allPosts.map(p => ({
+        ...p,
+        tags: p.tags.map(t => t.name)
+      }))}
       previousPost={adjacent.previous ? { slug: adjacent.previous.slug, title: adjacent.previous.title } : undefined}
       nextPost={adjacent.next ? { slug: adjacent.next.slug, title: adjacent.next.title } : undefined}
       tocSource={tocSourceFor(post.content, post.body)}
     />
+    </>
   );
 }

@@ -17,7 +17,20 @@ export const blogPostType = defineType({
     defineField({ name: "date", title: "Publish date", type: "date", validation: (rule) => rule.required() }),
     defineField({ name: "excerpt", title: "Excerpt", type: "text", rows: 3, validation: (rule) => rule.required() }),
     defineField({ name: "image", title: "Cover image", type: "image", options: { hotspot: true } }),
-    defineField({ name: "tags", title: "Tags", type: "array", of: [{ type: "string" }], options: { layout: "tags" } }),
+    defineField({
+      name: "category",
+      title: "Category",
+      type: "reference",
+      to: [{ type: "category" }],
+      description: "Primary category for this blog post.",
+    }),
+    defineField({
+      name: "tags",
+      title: "Tags",
+      type: "array",
+      of: [{ type: "reference", to: [{ type: "tag" }] }],
+      options: { layout: "tags" },
+    }),
     defineField({ name: "author", title: "Author", type: "string", initialValue: "Jordan Lang" }),
     defineField({
       name: "readTime",
