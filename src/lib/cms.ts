@@ -440,6 +440,11 @@ export interface CmsCta {
 export interface CmsComparisonPage {
   title: string;
   description: string;
+  seo?: {
+    metaTitle?: string;
+    metaDescription?: string;
+    keywords?: string[];
+  };
   competitors: CmsCompetitor[];
   comparisonCategories?: CmsComparisonCategory[];
   ctaHeading?: string;
@@ -453,6 +458,7 @@ export async function getComparisonPage(): Promise<CmsComparisonPage | null> {
     `*[_type == "comparisonPage"][0] {
       title,
       description,
+      seo { metaTitle, metaDescription, keywords },
       "competitors": coalesce(competitors[]{
         name, logo, tagline, monthlyCost, performanceScore,
         seoCapabilities, customization, ownership, support,

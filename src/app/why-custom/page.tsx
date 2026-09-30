@@ -4,16 +4,25 @@ import { getComparisonPage } from "@/lib/cms";
 
 export const revalidate = 60;
 
-export const metadata: Metadata = {
-  title: "Custom Website vs Squarespace, Webflow & WordPress | Jordan Lang",
-  description: "Compare custom-built Next.js websites against Squarespace, Webflow, and WordPress. See real performance scores, pricing, SEO capabilities, and long-term costs. Make an informed decision for your business.",
-  alternates: { canonical: "/why-custom" },
-  openGraph: {
-    title: "Custom Website vs Squarespace, Webflow & WordPress | Jordan Lang",
-    description: "Compare custom-built Next.js websites against Squarespace, Webflow, and WordPress. See real performance scores, pricing, SEO capabilities, and long-term costs.",
-    type: "website",
-  },
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const pageData = await getComparisonPage();
+
+  // Fallback values when CMS data is not available
+  const defaultTitle = "Custom Website vs Squarespace, Webflow & WordPress | Jordan Lang";
+  const defaultDescription = "Compare custom-built Next.js websites against Squarespace, Webflow, and WordPress. See real performance scores, pricing, SEO capabilities, and long-term costs. Make an informed decision for your business.";
+
+  return {
+    title: pageData?.seo?.metaTitle || defaultTitle,
+    description: pageData?.seo?.metaDescription || defaultDescription,
+    keywords: pageData?.seo?.keywords,
+    alternates: { canonical: "/why-custom" },
+    openGraph: {
+      title: pageData?.seo?.metaTitle || defaultTitle,
+      description: pageData?.seo?.metaDescription || defaultDescription,
+      type: "website",
+    },
+  };
+}
 
 export default async function WhyCustomPage() {
   const pageData = await getComparisonPage();

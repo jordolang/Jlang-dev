@@ -2,6 +2,7 @@
 
 import { Icon } from "@iconify/react";
 import { m } from "framer-motion";
+import Image from "next/image";
 
 interface PainPoint {
   issue: string;
@@ -70,7 +71,13 @@ export default function CompetitorCard({
           {logo && (
             <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-muted text-2xl">
               {logo.startsWith("http") ? (
-                <img src={logo} alt={name} className="h-full w-full rounded-lg object-contain" />
+                <Image
+                  src={logo}
+                  alt={name}
+                  width={48}
+                  height={48}
+                  className="rounded-lg object-contain"
+                />
               ) : (
                 <span>{logo}</span>
               )}
