@@ -28,7 +28,7 @@ import {
 import { getLatestBlogPosts } from "@/lib/blog";
 import { getApprovedTestimonials } from "@/lib/reviews";
 import { JsonLd } from "@/components/JsonLd";
-import { generatePersonSchema, generateLocalBusinessSchema, generateReviewSchema } from "@/lib/schema";
+import { generatePersonSchema, generateFAQPageSchema } from "@/lib/schema";
 
 export default async function Portfolio() {
   // One server-side pass for the whole page. Anything the CMS doesn't have comes back
@@ -67,43 +67,15 @@ export default async function Portfolio() {
     sameAs: settings?.socials?.map((social) => social.href).filter(Boolean),
   });
 
-  const localBusinessSchema = generateLocalBusinessSchema({
-    name: settings?.name || "Jordan Lang",
-    description: settings?.seoDescription || "Web Developer & IT Specialist specializing in contract web design and IT projects",
-    url: process.env.NEXT_PUBLIC_SITE_URL || "https://jordanlang.dev",
-    email: settings?.publicEmail,
-    image: settings?.ogImage || "/og-jlang.jpg",
-    sameAs: settings?.socials?.map((social) => social.href).filter(Boolean),
-    areaServed: "Global",
-  });
-
-  // Generate Review schemas for testimonials
-  const reviewSchemas = testimonials.map((testimonial) =>
-    generateReviewSchema({
-      itemReviewed: {
-        "@type": "LocalBusiness",
-        name: settings?.name || "Jordan Lang",
-      },
-      author: {
-        name: testimonial.author,
-      },
-      reviewRating: {
-        ratingValue: testimonial.rating,
-        bestRating: 5,
-        worstRating: 1,
-      },
-      reviewBody: testimonial.content,
-    })
-  );
+  const faqSchema = faqs?.length
+    ? generateFAQPageSchema({ questions: faqs })
+    : null;
 
   return (
     <div className="min-h-screen text-gray-900 dark:text-white relative">
       {/* Structured data for SEO */}
       <JsonLd data={personSchema} id="person-schema" />
-      <JsonLd data={localBusinessSchema} id="local-business-schema" />
-      {reviewSchemas.map((schema, index) => (
-        <JsonLd key={`review-${index}`} data={schema} id={`review-schema-${index}`} />
-      ))}
+      {faqSchema && <JsonLd data={faqSchema} id="faq-schema" />}
 
       {/* Background (static, server) */}
       <Background />

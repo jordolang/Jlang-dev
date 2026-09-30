@@ -1014,15 +1014,11 @@ describe('Schema Generators', () => {
       expect(result).toContain('"name": "John Doe"')
     })
 
-    it('should escape script tags to prevent XSS', () => {
-      const data = {
-        malicious: '</script><script>alert("XSS")</script>',
-      }
-
+    it.each(['</script>', '</SCRIPT>', '</script >', '</ScRiPt\t>', '<!--'])('safely embeds %s in HTML', (terminator) => {
+      const data = { malicious: `${terminator}<script>alert("XSS")</script>` }
       const result = stringifyJsonLd(data)
-
-      expect(result).toContain('<\\/script>')
-      expect(result).not.toContain('</script>')
+      expect(result).not.toContain('<')
+      expect(JSON.parse(result)).toEqual(data)
     })
 
     it('should format with indentation', () => {

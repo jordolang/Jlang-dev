@@ -94,7 +94,7 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
     tags: post.tags.map(tag => tag.name),
     publisher: {
       name: "Jordan Lang",
-      logo: `${SITE_URL}/logo.png`,
+      logo: `${SITE_URL}/JLang-Development.png`,
     },
   });
 

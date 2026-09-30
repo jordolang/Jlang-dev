@@ -11,7 +11,7 @@
  * @see https://search.google.com/test/rich-results
  */
 
-const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://jordanlang.dev";
+export const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://jordanlang.dev";
 
 /**
  * Default image dimensions for rich results.
@@ -805,10 +805,10 @@ export function generateWebSiteSchema(props: WebSiteSchemaProps): WebSiteSchema 
 
 /**
  * Safely stringify JSON-LD object for embedding in HTML.
- * Escapes </script> tags to prevent XSS.
+ * Escapes every less-than character so HTML cannot terminate the script element.
  */
 export function stringifyJsonLd(data: unknown): string {
-  return JSON.stringify(data, null, 2).replace(/<\/script>/g, "<\\/script>");
+  return JSON.stringify(data, null, 2).replace(/</g, "\\u003c");
 }
 
 /**
