@@ -12,13 +12,27 @@ import { isDraftMode } from './cms';
 import { urlForImage, type SanityImageRef } from '@/sanity/lib/image';
 import { logger } from './logger';
 
+export interface Category {
+  slug: string;
+  name: string;
+  description?: string;
+  color?: string;
+}
+
+export interface Tag {
+  slug: string;
+  name: string;
+  description?: string;
+}
+
 export interface BlogPost {
   slug: string;
   title: string;
   date: string;
   excerpt: string;
   image: string;
-  tags: string[];
+  category?: Category;
+  tags: Tag[];
   author: string;
   readTime: string;
   /** Raw MDX source. Only present for posts still living in content/blog. */
@@ -32,6 +46,7 @@ export interface BlogFrontmatter {
   date: string;
   excerpt: string;
   image: string;
+  category?: string;
   tags: string[];
   author: string;
   readTime: string;
@@ -41,12 +56,16 @@ const BLOG_DIRECTORY = path.join(process.cwd(), 'content/blog');
 
 const POST_PROJECTION = `{
   "slug": slug.current,
-  title, date, excerpt, tags, author, readTime, body,
-  image { asset->{ _id, url } }
+  title, date, excerpt, author, readTime, body,
+  image { asset->{ _id, url } },
+  category->{ "slug": slug.current, name, color, description },
+  "tags": tags[]->{ "slug": slug.current, name, description }
 }`;
 
-interface RawSanityPost extends Omit<BlogPost, 'image' | 'content'> {
+interface RawSanityPost extends Omit<BlogPost, 'image' | 'content' | 'category' | 'tags'> {
   image: SanityImageRef | null;
+  category?: Category | null;
+  tags?: (Tag | null)[] | null;
 }
 
 /** Rough reading time from the plain text inside a Portable Text body. */
@@ -71,7 +90,8 @@ function normalizeSanityPost(post: RawSanityPost): BlogPost {
     date: post.date,
     excerpt: post.excerpt,
     image: urlForImage(post.image) ?? '/images/blog/default.svg',
-    tags: post.tags ?? [],
+    category: post.category ?? undefined,
+    tags: (post.tags ?? []).filter((tag): tag is Tag => Boolean(tag?.slug && tag?.name)),
     author: post.author || 'Jordan Lang',
     readTime: post.readTime || estimateReadTime(post.body),
     content: '',
@@ -114,13 +134,28 @@ export function getMdxBlogPosts(): BlogPost[] {
         const { data, content } = matter(fileContents);
         const frontmatter = data as BlogFrontmatter;
 
+        // Convert string tags to Tag objects for MDX posts
+        const tags: Tag[] = (frontmatter.tags || []).map((tagName) => ({
+          slug: tagName.toLowerCase().replace(/\s+/g, '-'),
+          name: tagName,
+        }));
+
+        // Convert category string to Category object for MDX posts
+        const category: Category | undefined = frontmatter.category
+          ? {
+              slug: frontmatter.category.toLowerCase().replace(/\s+/g, '-'),
+              name: frontmatter.category,
+            }
+          : undefined;
+
         return {
           slug,
           title: frontmatter.title,
           date: frontmatter.date,
           excerpt: frontmatter.excerpt,
           image: frontmatter.image || '/images/blog/default.svg',
-          tags: frontmatter.tags || [],
+          category,
+          tags,
           author: frontmatter.author || 'Jordan Lang',
           readTime: frontmatter.readTime || '5 min read',
           content,
@@ -177,6 +212,46 @@ export async function getAdjacentPosts(currentSlug: string) {
     previous: currentIndex > 0 ? allPosts[currentIndex - 1] : null,
     next: currentIndex >= 0 && currentIndex < allPosts.length - 1 ? allPosts[currentIndex + 1] : null,
   };
+}
+
+/** Get all unique categories from blog posts. */
+export async function getAllCategories(): Promise<Category[]> {
+  const posts = await getAllBlogPosts();
+  const categoryMap = new Map<string, Category>();
+
+  posts.forEach((post) => {
+    if (post.category) {
+      categoryMap.set(post.category.slug, post.category);
+    }
+  });
+
+  return Array.from(categoryMap.values());
+}
+
+/** Get all unique tags from blog posts. */
+export async function getAllTags(): Promise<Tag[]> {
+  const posts = await getAllBlogPosts();
+  const tagMap = new Map<string, Tag>();
+
+  posts.forEach((post) => {
+    post.tags.forEach((tag) => {
+      tagMap.set(tag.slug, tag);
+    });
+  });
+
+  return Array.from(tagMap.values());
+}
+
+/** Get all posts in a specific category. */
+export async function getPostsByCategory(slug: string): Promise<BlogPost[]> {
+  const posts = await getAllBlogPosts();
+  return posts.filter((post) => post.category?.slug === slug);
+}
+
+/** Get all posts with a specific tag. */
+export async function getPostsByTag(slug: string): Promise<BlogPost[]> {
+  const posts = await getAllBlogPosts();
+  return posts.filter((post) => post.tags.some((tag) => tag.slug === slug));
 }
 
 export function formatDate(dateString: string): string {

@@ -29,7 +29,10 @@ describe('GET /api/blog', () => {
         date: '2024-01-01',
         excerpt: 'This is a test post',
         image: '/images/blog/test.jpg',
-        tags: ['test', 'blog'],
+        tags: [
+          { slug: 'test', name: 'Test' },
+          { slug: 'blog', name: 'Blog' }
+        ],
         author: 'Test Author',
         readTime: '5 min read',
         content: 'Test content',
@@ -40,7 +43,9 @@ describe('GET /api/blog', () => {
         date: '2024-01-02',
         excerpt: 'This is another test post',
         image: '/images/blog/test2.jpg',
-        tags: ['test'],
+        tags: [
+          { slug: 'test', name: 'Test' }
+        ],
         author: 'Test Author',
         readTime: '3 min read',
         content: 'Test content 2',
@@ -120,7 +125,9 @@ describe('GET /api/blog', () => {
         date: '2024-01-01',
         excerpt: 'Test excerpt',
         image: '/images/blog/test.jpg',
-        tags: ['test'],
+        tags: [
+          { slug: 'test', name: 'Test' }
+        ],
         author: 'Test Author',
         readTime: '5 min read',
         content: 'Test content',

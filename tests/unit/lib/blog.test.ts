@@ -59,6 +59,23 @@ describe('Blog Library', () => {
     sanityState.configured = true
   })
 
+  it('loads scalar taxonomy slugs and ignores missing tag references', async () => {
+    const { getSanityClient } = await import('@/sanity/lib/client')
+    const fetch = vi.fn().mockResolvedValue([{
+      slug: 'post', title: 'Post', date: '2026-09-29', excerpt: '', image: null,
+      category: { slug: 'development', name: 'Development' },
+      tags: [null, { slug: 'typescript', name: 'TypeScript' }],
+    }])
+    vi.mocked(getSanityClient).mockReturnValue({ fetch } as never)
+    const { getPostsByCategory, getPostsByTag } = await import('@/lib/blog')
+    expect(await getPostsByCategory('development')).toHaveLength(1)
+    const posts = await getPostsByTag('typescript')
+    expect(posts).toHaveLength(1)
+    expect(posts[0].tags).toEqual([{ slug: 'typescript', name: 'TypeScript' }])
+    expect(fetch.mock.calls[0][0]).toContain('category->{ "slug": slug.current')
+    expect(fetch.mock.calls[0][0]).toContain('tags[]->{ "slug": slug.current')
+  })
+
   describe('getMdxBlogPosts', () => {
     it('should return empty array when blog directory does not exist', async () => {
       const fs = await import('fs')

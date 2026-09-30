@@ -27,6 +27,8 @@ import {
 } from "@/lib/cms";
 import { getLatestBlogPosts } from "@/lib/blog";
 import { getApprovedTestimonials } from "@/lib/reviews";
+import { JsonLd } from "@/components/JsonLd";
+import { generatePersonSchema, generateFAQPageSchema, SITE_URL } from "@/lib/schema";
 
 export default async function Portfolio() {
   // One server-side pass for the whole page. Anything the CMS doesn't have comes back
@@ -55,8 +57,26 @@ export default async function Portfolio() {
     getApprovedTestimonials(),
   ]);
 
+  // Generate structured data for SEO
+  const personSchema = generatePersonSchema({
+    name: settings?.name || "Jordan Lang",
+    jobTitle: "Web Developer & IT Specialist",
+    url: SITE_URL,
+    email: settings?.publicEmail,
+    image: settings?.ogImage || `${SITE_URL}/og-jlang.jpg`,
+    sameAs: settings?.socials?.map((social) => social.href).filter(Boolean),
+  });
+
+  const faqSchema = faqs?.length
+    ? generateFAQPageSchema({ questions: faqs })
+    : null;
+
   return (
     <div className="min-h-screen text-gray-900 dark:text-white relative">
+      {/* Structured data for SEO */}
+      <JsonLd data={personSchema} id="person-schema" />
+      {faqSchema && <JsonLd data={faqSchema} id="faq-schema" />}
+
       {/* Background (static, server) */}
       <Background />
 
@@ -79,7 +99,13 @@ export default async function Portfolio() {
 
           {/* Below the fold — interactive sections lazy-mount on scroll;
               Experience + Footer are static server components rendered directly. */}
-          <LazyBlogSection posts={posts} heading={headings?.blog} />
+          <LazyBlogSection
+            posts={posts.map(post => ({
+              ...post,
+              tags: post.tags.map(t => t.name)
+            }))}
+            heading={headings?.blog}
+          />
           <LazyTechStackSection stack={techStack ?? undefined} heading={headings?.stack} />
           <ExperienceSection
             items={experience ?? undefined}
