@@ -708,7 +708,6 @@ test.describe('Code Showcase Accessibility', () => {
 
         // Active button should have sufficient contrast
         const activeButtonContrast = await new AxeBuilder({ page })
-          .include(codeButton)
           .withRules(['color-contrast'])
           .analyze()
 
@@ -721,7 +720,6 @@ test.describe('Code Showcase Accessibility', () => {
 
           // Inactive button should also have sufficient contrast
           const inactiveButtonContrast = await new AxeBuilder({ page })
-            .include(codeButton)
             .withRules(['color-contrast'])
             .analyze()
 

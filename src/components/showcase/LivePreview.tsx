@@ -1,6 +1,6 @@
 "use client";
 
-import { ReactNode, useState, useEffect, Component, ErrorInfo } from 'react';
+import { ReactNode, useState, Component, ErrorInfo } from 'react';
 import { Icon } from '@iconify/react';
 
 interface LivePreviewProps {
