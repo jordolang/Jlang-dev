@@ -8,6 +8,7 @@ import Image from "next/image";
 import type { PortableTextBlock } from "@portabletext/react";
 import { AnalyticsEvents, trackEvent } from "@/lib/analytics";
 import CaseStudySection from "@/components/projects/CaseStudySection";
+import { CodeShowcase } from "@/components/showcase/CodeShowcase";
 
 export interface CaseStudyViewProject {
   slug: string;
@@ -40,6 +41,13 @@ export interface CaseStudyViewProject {
     content: string;
     rating?: number;
   } | null;
+  // Code showcase examples
+  codeExamples?: Array<{
+    title: string;
+    description: string;
+    code: string;
+    language: string;
+  }>;
 }
 
 interface CaseStudyViewProps {
@@ -178,6 +186,44 @@ export default function CaseStudyView({ project }: CaseStudyViewProps) {
                 content={project.results ?? []}
               />
             </div>
+          )}
+
+          {/* Code Examples Section */}
+          {project.codeExamples && project.codeExamples.length > 0 && (
+            <m.section
+              initial={{ opacity: 0, y: 40 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-100px" }}
+              transition={{ duration: 0.7, ease: [0.25, 0.46, 0.45, 0.94] }}
+              className="mb-12 pb-12 border-b border-gray-200 dark:border-gray-800"
+            >
+              <div className="flex items-center gap-3 mb-8">
+                <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center shadow-lg">
+                  <Icon icon="solar:code-square-bold" width={24} height={24} className="text-white" />
+                </div>
+                <h2 className="text-3xl font-bold text-gray-900 dark:text-white">Code Examples</h2>
+              </div>
+              <div className="space-y-8">
+                {project.codeExamples.map((example, idx) => (
+                  <m.div
+                    key={idx}
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true, margin: "-50px" }}
+                    transition={{ duration: 0.5, delay: idx * 0.1 }}
+                  >
+                    <CodeShowcase
+                      title={example.title}
+                      description={example.description}
+                      code={example.code}
+                      language={example.language}
+                      defaultView="code"
+                      showCopy={true}
+                    />
+                  </m.div>
+                ))}
+              </div>
+            </m.section>
           )}
 
           {/* Features Section */}

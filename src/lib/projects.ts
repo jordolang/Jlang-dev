@@ -60,6 +60,13 @@ export interface Project {
   solution?: PortableTextBlock[];
   results?: PortableTextBlock[];
   testimonial?: CaseStudyTestimonial | null;
+  // Code showcase examples
+  codeExamples?: Array<{
+    title: string;
+    description: string;
+    code: string;
+    language: string;
+  }>;
 }
 
 interface RawProject

@@ -26,6 +26,13 @@ export interface Project {
   /** Intrinsic size of `image`. Required for full-page captures so the scroll container renders them at true aspect ratio. */
   imageWidth?: number;
   imageHeight?: number;
+  /** Code showcase examples */
+  codeExamples?: Array<{
+    title: string;
+    description: string;
+    code: string;
+    language: string;
+  }>;
 }
 
 export const projects: Project[] = [
@@ -153,6 +160,96 @@ export const projects: Project[] = [
     highlight: "New",
     timeline: "2026",
     clientType: "Health & Information",
+    codeExamples: [
+      {
+        title: "Real-Time Search Implementation",
+        description: "Instant medication search with debouncing to minimize API calls while providing a responsive user experience.",
+        code: `import { useState, useEffect, useMemo } from 'react';
+import { Icon } from '@iconify/react';
+
+interface Medication {
+  id: string;
+  name: string;
+  genericName: string;
+  description: string;
+}
+
+export function MedicationSearch() {
+  const [query, setQuery] = useState('');
+  const [results, setResults] = useState<Medication[]>([]);
+  const [loading, setLoading] = useState(false);
+
+  // Debounced search effect
+  useEffect(() => {
+    if (!query.trim()) {
+      setResults([]);
+      return;
+    }
+
+    setLoading(true);
+    const timeoutId = setTimeout(async () => {
+      try {
+        const response = await fetch(\`/api/search?q=\${encodeURIComponent(query)}\`);
+        const data = await response.json();
+        setResults(data.results);
+      } catch (error) {
+        console.error('Search failed:', error);
+      } finally {
+        setLoading(false);
+      }
+    }, 300); // 300ms debounce
+
+    return () => clearTimeout(timeoutId);
+  }, [query]);
+
+  return (
+    <div className="max-w-2xl mx-auto p-6">
+      <div className="relative">
+        <input
+          type="text"
+          value={query}
+          onChange={(e) => setQuery(e.target.value)}
+          placeholder="Search medications..."
+          className="w-full px-4 py-3 pl-12 rounded-lg border border-gray-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all"
+        />
+        <Icon
+          icon="solar:magnifier-outline"
+          width={20}
+          height={20}
+          className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400"
+        />
+        {loading && (
+          <div className="absolute right-4 top-1/2 -translate-y-1/2">
+            <Icon
+              icon="solar:spinner-outline"
+              width={20}
+              height={20}
+              className="animate-spin text-blue-500"
+            />
+          </div>
+        )}
+      </div>
+
+      {results.length > 0 && (
+        <div className="mt-4 space-y-2">
+          {results.map((med) => (
+            <div
+              key={med.id}
+              className="p-4 bg-white rounded-lg border border-gray-200 hover:border-blue-500 transition-colors cursor-pointer"
+            >
+              <h3 className="font-semibold text-gray-900">{med.name}</h3>
+              <p className="text-sm text-gray-600">{med.genericName}</p>
+              <p className="text-sm text-gray-500 mt-1">{med.description}</p>
+            </div>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}`,
+        language: "typescript",
+      },
+    ],
   },
   {
     slug: "roam",
