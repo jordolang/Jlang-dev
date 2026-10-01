@@ -12,6 +12,7 @@ import { reviewRequestType } from "./reviewRequest";
 import { sectionContentType } from "./sectionContent";
 import { servicePackageType } from "./servicePackage";
 import { siteSettingsType } from "./siteSettings";
+import { socialPostType } from "./socialPost";
 import { tagType } from "./tag";
 import { techItemType } from "./techItem";
 import { testimonialType } from "./testimonial";
@@ -36,6 +37,7 @@ export const schemaTypes = [
   testimonialType,
   sectionContentType,
   reviewRequestType,
+  socialPostType,
 
   // Object types
   blockContentType,

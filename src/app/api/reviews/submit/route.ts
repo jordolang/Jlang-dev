@@ -1,6 +1,7 @@
 import { revalidatePath, revalidateTag } from "next/cache";
 import { NextResponse } from "next/server";
 import { getReviewRequest } from "@/lib/reviews";
+import { getResend } from "@/lib/resend";
 import { sanityClient, sanityIsConfigured } from "@/sanity/lib/client";
 
 export async function POST(request: Request) {
@@ -14,7 +15,7 @@ export async function POST(request: Request) {
   const rating = Number(body.rating);
   const reviewRequest = await getReviewRequest(token);
 
-  if (!reviewRequest || reviewRequest.status === "completed") {
+  if (!reviewRequest || ["submitted", "published", "completed"].includes(reviewRequest.status)) {
     return NextResponse.json({ error: "This review link is invalid or has already been used." }, { status: 400 });
   }
   if (content.length < 10 || content.length > 3000 || !Number.isInteger(rating) || rating < 1 || rating > 5) {
@@ -22,10 +23,12 @@ export async function POST(request: Request) {
   }
 
   const now = new Date().toISOString();
-  const testimonialId = `testimonial-${reviewRequest._id.replace(/^drafts\./, "")}`;
+  const publishedRequestId = reviewRequest._id.replace(/^drafts\./, "");
+  const testimonialId = `testimonial-${publishedRequestId}`;
   await sanityClient
     .transaction()
-    .createIfNotExists({
+    // Replace rather than create-if-missing so a resubmission after a revision request updates the content.
+    .createOrReplace({
       _id: testimonialId,
       _type: "testimonial",
       content,
@@ -33,15 +36,48 @@ export async function POST(request: Request) {
       author: reviewRequest.clientName,
       company: reviewRequest.company,
       role: reviewRequest.role,
-      approved: true,
+      approved: false,
       featured: false,
-      requestId: reviewRequest._id,
+      reviewRequest: { _type: "reference", _ref: publishedRequestId },
       submittedAt: now,
     })
-    .patch(reviewRequest._id, (patch) => patch.set({ status: "completed", completedAt: now }))
+    .patch(reviewRequest._id, (patch) => patch.set({ status: "submitted", submittedAt: now }))
     .commit();
+
+  // Send notification email to Jordan
+  try {
+    const notificationEmail = process.env.REVIEW_NOTIFICATION_EMAIL;
+    if (notificationEmail) {
+      const stars = "⭐".repeat(rating);
+      const contentPreview = content.length > 200 ? content.slice(0, 200) + "..." : content;
+      const { error } = await getResend().emails.send({
+        from: process.env.REVIEW_EMAIL_FROM || "JLang Development <reviews@jlang.dev>",
+        to: notificationEmail,
+        subject: `New ${rating}-star review from ${reviewRequest.clientName}`,
+        html: `
+          <div style="font-family:Arial,sans-serif;max-width:600px;margin:auto;color:#172033;line-height:1.65">
+            <h1 style="font-size:28px">New Review Submitted</h1>
+            <p><strong>Client:</strong> ${escapeHtml(reviewRequest.clientName)}</p>
+            <p><strong>Company:</strong> ${escapeHtml(reviewRequest.company)}</p>
+            <p><strong>Role:</strong> ${escapeHtml(reviewRequest.role)}</p>
+            <p><strong>Rating:</strong> ${stars} (${rating}/5)</p>
+            <h2 style="font-size:20px;margin-top:24px">Review Content</h2>
+            <p style="background:#f9fafb;padding:16px;border-radius:8px;border-left:4px solid #4f46e5">${escapeHtml(contentPreview)}</p>
+            <p style="font-size:13px;color:#667085;margin-top:24px">Submitted at ${new Date(now).toLocaleString()}</p>
+          </div>`,
+      });
+      if (error) throw new Error(error.message);
+    }
+  } catch (error) {
+    // Log error but don't fail the request since the review was already saved
+    console.error("Failed to send notification email:", error);
+  }
 
   revalidateTag("testimonials");
   revalidatePath("/");
   return NextResponse.json({ ok: true, googleReviewUrl: process.env.NEXT_PUBLIC_GOOGLE_REVIEW_URL || "" });
+}
+
+function escapeHtml(value: string) {
+  return value.replace(/[&<>'"]/g, (character) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", "'": "&#39;", '"': "&quot;" })[character] || character);
 }

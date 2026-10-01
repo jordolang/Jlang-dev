@@ -35,4 +35,5 @@ export const ADDON_FEATURES: AddonFeature[] = [
   { icon: "solar:box-bold", name: "Inventory Management", desc: "Track products & stock", price: 199 },
   { icon: "solar:hashtag-bold", name: "Forum/Community", desc: "User discussion platform", price: 49 },
   { icon: "solar:ticket-bold", name: "Event Ticketing", desc: "Sell & manage event tickets", price: 199 },
+  { icon: "solar:settings-bold", name: "Admin Panel", desc: "Custom dashboard to manage your content — no WordPress needed", price: 499 },
 ];

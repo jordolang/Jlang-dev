@@ -1,4 +1,6 @@
 import type { StructureResolver } from "sanity/structure";
+import { ContentCalendar } from "./views/ContentCalendar";
+import { ReviewDashboard } from "./components/ReviewDashboard";
 
 /**
  * Studio navigation. Singletons open straight into their one document rather than
@@ -8,6 +10,13 @@ export const structure: StructureResolver = (S) =>
   S.list()
     .title("Content")
     .items([
+      S.listItem()
+        .title("Review Dashboard")
+        .id("reviewDashboard")
+        .child(S.component(ReviewDashboard).title("Review Dashboard")),
+
+      S.divider(),
+
       S.listItem()
         .title("Site settings")
         .id("siteSettings")
@@ -23,7 +32,15 @@ export const structure: StructureResolver = (S) =>
 
       S.divider(),
 
+      S.listItem()
+        .title("Content Calendar")
+        .id("contentCalendar")
+        .child(S.component(ContentCalendar).title("Content Calendar")),
+
+      S.divider(),
+
       S.documentTypeListItem("blogPost").title("Blog posts"),
+      S.documentTypeListItem("socialPost").title("Social posts"),
       S.documentTypeListItem("project").title("Projects"),
       S.documentTypeListItem("experience").title("Experience"),
       S.documentTypeListItem("techItem").title("Tech stack"),

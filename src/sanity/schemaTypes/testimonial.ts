@@ -13,7 +13,13 @@ export const testimonialType = defineType({
     defineField({ name: "approved", title: "Show on website", type: "boolean", initialValue: true }),
     defineField({ name: "featured", title: "Featured review", type: "boolean", initialValue: false }),
     defineField({ name: "submittedAt", title: "Submitted at", type: "datetime", readOnly: true }),
-    defineField({ name: "requestId", title: "Review request ID", type: "string", readOnly: true, hidden: true }),
+    defineField({
+      name: "reviewRequest",
+      title: "Review Request",
+      type: "reference",
+      to: [{ type: "reviewRequest" }],
+      readOnly: true,
+    }),
   ],
   preview: {
     select: { title: "author", subtitle: "company", rating: "rating" },

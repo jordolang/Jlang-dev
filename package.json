@@ -10,6 +10,7 @@
 		"start": "next start",
 		"lint": "next lint",
 		"seed-categories": "npx tsx scripts/seed-blog-categories.ts",
+		"verify:workflow": "npx tsx scripts/verify-review-workflow.ts",
 		"test": "vitest run",
 		"test:watch": "vitest",
 		"test:unit": "vitest tests/unit",
