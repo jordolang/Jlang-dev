@@ -16,6 +16,18 @@ export interface ReviewRequest {
   company: string;
   role: string;
   status: string;
+  viewedAt?: string;
+  submittedAt?: string;
+  publishedAt?: string;
+  interactions?: Array<{
+    type: string;
+    timestamp: string;
+    metadata?: {
+      author?: string;
+      message?: string;
+      action?: string;
+    };
+  }>;
 }
 
 export async function getApprovedTestimonials(): Promise<SiteTestimonial[]> {
@@ -31,7 +43,17 @@ export async function getApprovedTestimonials(): Promise<SiteTestimonial[]> {
 
 export async function getReviewRequest(token: string) {
   if (!sanityIsConfigured || !token) return null;
-  const query: string = `*[_type == "reviewRequest" && token == $token][0]{_id, clientName, company, role, status}`;
+  const query: string = `*[_type == "reviewRequest" && token == $token][0]{
+    _id,
+    clientName,
+    company,
+    role,
+    status,
+    viewedAt,
+    submittedAt,
+    publishedAt,
+    interactions
+  }`;
   const params: Record<string, unknown> = { token };
   return sanityClient.fetch<ReviewRequest | null>(query, params);
 }

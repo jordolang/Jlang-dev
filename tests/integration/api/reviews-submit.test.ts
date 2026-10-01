@@ -10,7 +10,7 @@ vi.mock('@/lib/reviews', () => ({
 vi.mock('@/sanity/lib/client', () => ({
   sanityClient: {
     transaction: vi.fn(() => ({
-      createIfNotExists: vi.fn(function(this: any) { return this }),
+      createOrReplace: vi.fn(function(this: any) { return this }),
       patch: vi.fn(function(this: any) { return this }),
       commit: vi.fn(() => Promise.resolve({})),
     })),
@@ -30,7 +30,7 @@ describe('POST /api/reviews/submit', () => {
     clientName: 'John Doe',
     company: 'Test Company',
     role: 'CEO',
-    status: 'pending',
+    status: 'sent',
   }
 
   beforeEach(async () => {
@@ -184,7 +184,7 @@ describe('POST /api/reviews/submit', () => {
     const { getReviewRequest } = await import('@/lib/reviews')
     vi.mocked(getReviewRequest).mockResolvedValue({
       ...mockReviewRequest,
-      status: 'completed',
+      status: 'submitted',
     })
 
     const { POST } = await import('@/app/api/reviews/submit/route')

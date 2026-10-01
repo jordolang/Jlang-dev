@@ -171,11 +171,15 @@ describe('Reviews Library', () => {
       expect(query).toContain('company')
       expect(query).toContain('role')
       expect(query).toContain('status')
+      expect(query).toContain('viewedAt')
+      expect(query).toContain('submittedAt')
+      expect(query).toContain('publishedAt')
+      expect(query).toContain('interactions')
     })
 
     it('should handle different review request statuses', async () => {
       const { sanityClient } = await import('@/sanity/lib/client')
-      const statuses = ['pending', 'completed', 'expired']
+      const statuses = ['sent', 'viewed', 'submitted', 'published']
 
       for (const status of statuses) {
         vi.clearAllMocks()
@@ -187,6 +191,49 @@ describe('Reviews Library', () => {
 
         expect(result?.status).toBe(status)
       }
+    })
+
+    it('should include timestamp fields when present', async () => {
+      const { sanityClient } = await import('@/sanity/lib/client')
+      const mockReviewRequest = createMockReviewRequest({
+        viewedAt: '2026-09-30T12:00:00Z',
+        submittedAt: '2026-09-30T12:30:00Z',
+        publishedAt: '2026-09-30T13:00:00Z',
+      })
+      vi.mocked(sanityClient.fetch).mockResolvedValue(mockReviewRequest as never)
+
+      const { getReviewRequest } = await import('@/lib/reviews')
+      const result = await getReviewRequest('test-token')
+
+      expect(result?.viewedAt).toBe('2026-09-30T12:00:00Z')
+      expect(result?.submittedAt).toBe('2026-09-30T12:30:00Z')
+      expect(result?.publishedAt).toBe('2026-09-30T13:00:00Z')
+    })
+
+    it('should include interactions array when present', async () => {
+      const { sanityClient } = await import('@/sanity/lib/client')
+      const mockInteractions = [
+        {
+          type: 'response',
+          timestamp: '2026-09-30T12:00:00Z',
+          metadata: {
+            author: 'jordan',
+            message: 'Thank you!',
+            action: 'publish',
+          },
+        },
+      ]
+      const mockReviewRequest = createMockReviewRequest({
+        interactions: mockInteractions,
+      })
+      vi.mocked(sanityClient.fetch).mockResolvedValue(mockReviewRequest as never)
+
+      const { getReviewRequest } = await import('@/lib/reviews')
+      const result = await getReviewRequest('test-token')
+
+      expect(result?.interactions).toEqual(mockInteractions)
+      expect(result?.interactions?.[0].type).toBe('response')
+      expect(result?.interactions?.[0].metadata?.author).toBe('jordan')
     })
   })
 

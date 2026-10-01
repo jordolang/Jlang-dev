@@ -379,7 +379,11 @@ export function createMockReviewRequest(overrides: Partial<ReviewRequest> = {}):
     clientName: 'Jane Smith',
     company: 'Test Corporation',
     role: 'CTO',
-    status: 'pending',
+    status: 'sent',
+    viewedAt: undefined,
+    submittedAt: undefined,
+    publishedAt: undefined,
+    interactions: undefined,
     ...overrides,
   }
 }

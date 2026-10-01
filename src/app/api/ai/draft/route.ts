@@ -1,29 +1,9 @@
 import Anthropic from "@anthropic-ai/sdk";
 import { NextResponse } from "next/server";
-import { apiVersion, projectId } from "@/sanity/env";
+import { authenticatedSanityUser } from "@/sanity/lib/auth";
 
 /** Drafting a full post takes a while; give it more than the default budget. */
 export const maxDuration = 120;
-
-/**
- * The Studio runs in the browser, so this route is publicly reachable and would otherwise be a free
- * Claude endpoint for anyone who finds it. The Studio sends the signed-in user's own Sanity token;
- * we hand it straight back to Sanity on a project-scoped host, which 401s unless the token belongs
- * to a real member of *this* project. No shared secret to leak into the client bundle.
- */
-async function authenticatedSanityUser(request: Request): Promise<string | null> {
-  const token = request.headers.get("authorization")?.replace(/^Bearer\s+/i, "");
-  if (!token) return null;
-
-  const response = await fetch(`https://${projectId}.api.sanity.io/v${apiVersion}/users/me`, {
-    headers: { Authorization: `Bearer ${token}` },
-    cache: "no-store",
-  });
-  if (!response.ok) return null;
-
-  const user = (await response.json()) as { id?: string };
-  return user?.id ?? null;
-}
 
 const BODY_SCHEMA = {
   type: "object",
