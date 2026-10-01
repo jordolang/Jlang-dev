@@ -56,7 +56,7 @@ const BLOG_DIRECTORY = path.join(process.cwd(), 'content/blog');
 
 const POST_PROJECTION = `{
   "slug": slug.current,
-  title, date, excerpt, author, readTime, body,
+  title, date, excerpt, author, readTime, body, scheduledPublishDate,
   image { asset->{ _id, url } },
   category->{ "slug": slug.current, name, color, description },
   "tags": tags[]->{ "slug": slug.current, name, description }
@@ -66,6 +66,7 @@ interface RawSanityPost extends Omit<BlogPost, 'image' | 'content' | 'category' 
   image: SanityImageRef | null;
   category?: Category | null;
   tags?: (Tag | null)[] | null;
+  scheduledPublishDate?: string | null;
 }
 
 /** Rough reading time from the plain text inside a Portable Text body. */
@@ -99,8 +100,9 @@ function normalizeSanityPost(post: RawSanityPost): BlogPost {
   };
 }
 
-async function getSanityBlogPosts(): Promise<BlogPost[]> {
-  if (!sanityIsConfigured) return [];
+/** Returns null when the CMS has no posts at all (or can't be reached), so callers can fall back to MDX. */
+async function getSanityBlogPosts(): Promise<BlogPost[] | null> {
+  if (!sanityIsConfigured) return null;
   const draft = await isDraftMode();
   // In Presentation, an unpublished post is exactly the thing the editor wants to look at, so the
   // `published` gate only applies to the live site.
@@ -113,10 +115,16 @@ async function getSanityBlogPosts(): Promise<BlogPost[]> {
       {},
       draft ? { cache: 'no-store' } : { next: { revalidate: 60, tags: ['blogPosts'] } },
     );
-    return (posts ?? []).map(normalizeSanityPost);
+    if (!posts?.length) return null;
+    // Future-scheduled posts are hidden here rather than in GROQ, so a CMS whose posts are all
+    // scheduled still counts as "has posts" and doesn't resurrect the MDX fallback.
+    const now = Date.now();
+    return posts
+      .filter((post) => draft || !post.scheduledPublishDate || Date.parse(post.scheduledPublishDate) <= now)
+      .map(normalizeSanityPost);
   } catch (error) {
     logger.error('Error fetching blog posts from Sanity:', error);
-    return [];
+    return null;
   }
 }
 
@@ -170,8 +178,7 @@ export function getMdxBlogPosts(): BlogPost[] {
 
 /** Sanity is the source of truth; the MDX files stand in only while the CMS has no posts. */
 export async function getAllBlogPosts(): Promise<BlogPost[]> {
-  const fromSanity = await getSanityBlogPosts();
-  return fromSanity.length > 0 ? fromSanity : getMdxBlogPosts();
+  return (await getSanityBlogPosts()) ?? getMdxBlogPosts();
 }
 
 export async function getBlogPost(slug: string): Promise<BlogPost | null> {

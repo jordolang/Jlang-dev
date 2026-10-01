@@ -159,6 +159,36 @@ export const pricingPackages: PricingPackage[] = [
     addonsNote: "Everything included — fully bespoke",
     popular: false,
   },
+  {
+    name: "App Development",
+    price: "Starting at $1,250",
+    description: "Custom mobile & desktop apps for iOS, Android, Mac, Windows & Linux",
+    gradient: "from-emerald-600 to-teal-600",
+    highlights: [
+      "Apps for iOS, Android, Mac, Windows & Linux",
+      "Mobile-first design with managed updates",
+      "In-app purchases & paid downloads",
+      "Custom workflows & configurations",
+      "Turn any phone or tablet into a POS",
+    ],
+    features: [
+      "📱 Design & Development",
+      "Custom app built for iOS, Android, macOS, Windows & Linux",
+      "Mobile-first design tailored to your brand",
+      "Integrated workflows & custom configurations",
+      "",
+      "💰 Revenue & Payments",
+      "In-app purchases & App Store billing",
+      "Paid-download pricing — earn on every install",
+      "Custom mobile POS for phones & tablets",
+      "",
+      "🔄 Support & Updates",
+      "Regular managed updates & bug fixes",
+    ],
+    addons: [{ label: "Admin panel", price: 499, feature: "Admin Panel" }],
+    addonsNote: "Optional upgrades",
+    popular: false,
+  },
 ];
 
 export const faqs = [
@@ -380,7 +410,8 @@ export default function ServicesSection({ packages, faqs: cmsFaqs, heading }: Se
       </m.div>
 
       {/* Pricing Cards — short highlights + Choose / details, add-ons on cheaper tiers */}
-      <div className="mb-14 grid items-stretch gap-8 md:grid-cols-3">
+      {/* Flex-wrap (not grid) so a 4th package centers on its own row beneath the first three */}
+      <div className="mb-14 flex flex-wrap items-stretch justify-center gap-8">
         {packageList.map((pkg, index) => (
           <m.div
             key={pkg.name}
@@ -388,41 +419,74 @@ export default function ServicesSection({ packages, faqs: cmsFaqs, heading }: Se
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.15 + index * 0.1 }}
             viewport={{ once: true }}
-            className="relative"
+            whileHover={{ y: -8 }}
+            className="group relative w-full md:w-[calc((100%-4rem)/3)]"
           >
             {pkg.popular && (
               <div className="absolute -top-4 left-1/2 z-20 -translate-x-1/2">
-                <div className="rounded-full bg-gradient-to-r from-purple-600 to-pink-600 px-4 py-1 text-xs font-bold text-white shadow-lg">
-                  BEST VALUE
+                <div className="relative">
+                  <span className="absolute inset-0 animate-ping rounded-full bg-pink-500/40 motion-reduce:animate-none" />
+                  <div className="relative flex items-center gap-1 rounded-full bg-gradient-to-r from-purple-600 via-pink-500 to-orange-400 px-4 py-1 text-xs font-bold text-white shadow-lg shadow-pink-500/40">
+                    <Icon icon="solar:star-bold" width={12} height={12} />
+                    BEST VALUE
+                  </div>
                 </div>
               </div>
             )}
 
+            {/* Colored glow behind the card, brightens on hover */}
             <div
-              className={`flex h-full flex-col rounded-2xl bg-white p-7 transition-all duration-300 dark:bg-gray-800 ${
-                pkg.popular
-                  ? "border-2 border-purple-500 shadow-xl shadow-purple-500/20 dark:border-purple-600"
-                  : "border-2 border-gray-200 hover:border-gray-300 dark:border-gray-700 dark:hover:border-gray-600"
+              aria-hidden
+              className={`absolute -inset-1 rounded-3xl bg-gradient-to-r ${pkg.gradient} blur-xl transition-opacity duration-500 ${
+                pkg.popular ? "opacity-40 group-hover:opacity-70" : "opacity-0 group-hover:opacity-50"
+              }`}
+            />
+
+            {/* Gradient border: 2px of gradient showing around the inner card */}
+            <div
+              className={`relative h-full rounded-2xl p-[2px] transition-colors duration-300 ${
+                pkg.popular ? `bg-gradient-to-br ${pkg.gradient}` : `bg-gray-200 dark:bg-gray-700`
               }`}
             >
-              <div className={`mb-5 inline-block self-start rounded-xl bg-gradient-to-r ${pkg.gradient} px-4 py-2`}>
+              <div
+                aria-hidden
+                className={`absolute inset-0 rounded-2xl bg-gradient-to-br ${pkg.gradient} opacity-0 transition-opacity duration-300 group-hover:opacity-100`}
+              />
+            <div
+              onMouseMove={(e) => {
+                const r = e.currentTarget.getBoundingClientRect();
+                e.currentTarget.style.setProperty("--x", `${e.clientX - r.left}px`);
+                e.currentTarget.style.setProperty("--y", `${e.clientY - r.top}px`);
+              }}
+              className="relative flex h-full flex-col overflow-hidden rounded-[14px] bg-white p-7 dark:bg-gray-800"
+            >
+              {/* Package-tinted wash + cursor spotlight */}
+              <div aria-hidden className={`pointer-events-none absolute inset-0 bg-gradient-to-br ${pkg.gradient} opacity-[0.06] dark:opacity-[0.12]`} />
+              <div
+                aria-hidden
+                className="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-300 group-hover:opacity-100"
+                style={{ background: "radial-gradient(350px circle at var(--x, 50%) var(--y, 0%), rgba(168,85,247,0.15), transparent 70%)" }}
+              />
+              <div aria-hidden className={`pointer-events-none absolute -right-12 -top-12 h-40 w-40 rounded-full bg-gradient-to-br ${pkg.gradient} opacity-20 blur-2xl transition-transform duration-700 group-hover:scale-150`} />
+
+              <div className={`relative mb-5 inline-block self-start rounded-xl bg-gradient-to-r ${pkg.gradient} px-4 py-2 shadow-lg transition-transform duration-300 group-hover:-rotate-2 group-hover:scale-105`}>
                 <h3 className="text-xl font-bold text-white">{pkg.name}</h3>
               </div>
 
-              <div className="mb-5">
-                <div className="text-3xl font-bold text-gray-900 dark:text-white">{pkg.price}</div>
+              <div className="relative mb-5">
+                <div className={`bg-gradient-to-r ${pkg.gradient} bg-clip-text text-3xl font-extrabold text-transparent`}>{pkg.price}</div>
                 <p className="mt-1 text-sm text-gray-600 dark:text-gray-400">{pkg.description}</p>
               </div>
 
-              <ul className="mb-5 space-y-2.5">
+              <ul className="relative mb-5 space-y-2.5">
                 {pkg.highlights.map((item) => (
-                  <li key={item} className="flex items-start gap-2.5 text-sm text-gray-700 dark:text-gray-300">
-                    <Icon
-                      icon="solar:check-circle-bold"
-                      className={`mt-0.5 flex-shrink-0 bg-gradient-to-r ${pkg.gradient} bg-clip-text text-transparent`}
-                      width={18}
-                      height={18}
-                    />
+                  <li
+                    key={item}
+                    className="flex items-start gap-2.5 text-sm text-gray-700 transition-transform duration-200 hover:translate-x-1 dark:text-gray-300"
+                  >
+                    <span className={`mt-0.5 flex h-[18px] w-[18px] flex-shrink-0 items-center justify-center rounded-full bg-gradient-to-br ${pkg.gradient} text-white shadow-sm`}>
+                      <Icon icon="solar:check-read-linear" width={12} height={12} />
+                    </span>
                     <span>{item}</span>
                   </li>
                 ))}
@@ -431,25 +495,29 @@ export default function ServicesSection({ packages, faqs: cmsFaqs, heading }: Se
               <button
                 type="button"
                 onClick={() => openDetails(pkg)}
-                className="mb-4 inline-flex items-center gap-1.5 self-start text-sm font-semibold text-indigo-600 transition-colors hover:text-indigo-700 dark:text-indigo-400 dark:hover:text-indigo-300"
+                className="relative mb-4 inline-flex items-center gap-1.5 self-start text-sm font-semibold text-indigo-600 transition-colors hover:text-indigo-700 dark:text-indigo-400 dark:hover:text-indigo-300"
               >
                 <Icon icon="solar:list-check-bold" width={16} height={16} />
                 View full details
               </button>
 
-              <div className="mt-auto">
+              <div className="relative mt-auto">
                 <Link href={orderHref(pkg)}>
                   <m.span
                     whileHover={{ scale: 1.03 }}
                     whileTap={{ scale: 0.97 }}
                     onClick={() => trackEvent(AnalyticsEvents.PRICING_CTA_CLICKED, { package: pkg.name.toLowerCase(), location: "pricing_card" })}
-                    className={`flex w-full items-center justify-center gap-2 rounded-xl py-3 font-semibold transition-all duration-300 ${
-                      pkg.popular
-                        ? `bg-gradient-to-r ${pkg.gradient} text-white shadow-lg shadow-purple-500/30`
-                        : "border-2 border-gray-300 text-gray-700 hover:bg-gray-50 dark:border-gray-600 dark:text-gray-300 dark:hover:bg-gray-700"
+                    className={`group/cta relative flex w-full items-center justify-center gap-2 overflow-hidden rounded-xl bg-gradient-to-r ${pkg.gradient} py-3 font-semibold text-white shadow-lg transition-shadow duration-300 hover:shadow-xl ${
+                      pkg.popular ? "shadow-purple-500/40" : "shadow-black/10"
                     }`}
                   >
-                    Choose {pkg.name}
+                    {/* Shine sweep on hover */}
+                    <span
+                      aria-hidden
+                      className="absolute inset-y-0 -left-1/2 w-1/2 -skew-x-12 bg-gradient-to-r from-transparent via-white/40 to-transparent transition-transform duration-700 group-hover/cta:translate-x-[300%] motion-reduce:hidden"
+                    />
+                    <span className="relative">Choose {pkg.name}</span>
+                    <Icon icon="solar:arrow-right-bold" width={16} height={16} className="relative transition-transform duration-300 group-hover/cta:translate-x-1" />
                   </m.span>
                 </Link>
 
@@ -473,7 +541,7 @@ export default function ServicesSection({ packages, faqs: cmsFaqs, heading }: Se
                                 key={addon.label}
                                 href={`/services?package=${pkg.name.toLowerCase()}&feature=${encodeURIComponent(feature)}`}
                                 onClick={() => trackEvent(AnalyticsEvents.FEATURE_CLICKED, { feature_name: feature, feature_price: addon.price ?? 0 })}
-                                className={`${chip} transition-colors hover:border-blue-400 hover:text-blue-600 dark:hover:border-blue-500 dark:hover:text-blue-400`}
+                                className={`${chip} transition-all hover:-translate-y-0.5 hover:border-transparent hover:bg-indigo-600 hover:text-white dark:hover:bg-indigo-500 hover:shadow-md`}
                               >
                                 {label}
                               </Link>
@@ -491,6 +559,7 @@ export default function ServicesSection({ packages, faqs: cmsFaqs, heading }: Se
                   </div>
                 )}
               </div>
+            </div>
             </div>
           </m.div>
         ))}

@@ -26,6 +26,13 @@ export interface Project {
   /** Intrinsic size of `image`. Required for full-page captures so the scroll container renders them at true aspect ratio. */
   imageWidth?: number;
   imageHeight?: number;
+  /** Code showcase examples */
+  codeExamples?: Array<{
+    title: string;
+    description: string;
+    code: string;
+    language: string;
+  }>;
 }
 
 export const projects: Project[] = [
@@ -153,6 +160,96 @@ export const projects: Project[] = [
     highlight: "New",
     timeline: "2026",
     clientType: "Health & Information",
+    codeExamples: [
+      {
+        title: "Real-Time Search Implementation",
+        description: "Instant medication search with debouncing to minimize API calls while providing a responsive user experience.",
+        code: `import { useState, useEffect, useMemo } from 'react';
+import { Icon } from '@iconify/react';
+
+interface Medication {
+  id: string;
+  name: string;
+  genericName: string;
+  description: string;
+}
+
+export function MedicationSearch() {
+  const [query, setQuery] = useState('');
+  const [results, setResults] = useState<Medication[]>([]);
+  const [loading, setLoading] = useState(false);
+
+  // Debounced search effect
+  useEffect(() => {
+    if (!query.trim()) {
+      setResults([]);
+      return;
+    }
+
+    setLoading(true);
+    const timeoutId = setTimeout(async () => {
+      try {
+        const response = await fetch(\`/api/search?q=\${encodeURIComponent(query)}\`);
+        const data = await response.json();
+        setResults(data.results);
+      } catch (error) {
+        console.error('Search failed:', error);
+      } finally {
+        setLoading(false);
+      }
+    }, 300); // 300ms debounce
+
+    return () => clearTimeout(timeoutId);
+  }, [query]);
+
+  return (
+    <div className="max-w-2xl mx-auto p-6">
+      <div className="relative">
+        <input
+          type="text"
+          value={query}
+          onChange={(e) => setQuery(e.target.value)}
+          placeholder="Search medications..."
+          className="w-full px-4 py-3 pl-12 rounded-lg border border-gray-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all"
+        />
+        <Icon
+          icon="solar:magnifier-outline"
+          width={20}
+          height={20}
+          className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400"
+        />
+        {loading && (
+          <div className="absolute right-4 top-1/2 -translate-y-1/2">
+            <Icon
+              icon="solar:spinner-outline"
+              width={20}
+              height={20}
+              className="animate-spin text-blue-500"
+            />
+          </div>
+        )}
+      </div>
+
+      {results.length > 0 && (
+        <div className="mt-4 space-y-2">
+          {results.map((med) => (
+            <div
+              key={med.id}
+              className="p-4 bg-white rounded-lg border border-gray-200 hover:border-blue-500 transition-colors cursor-pointer"
+            >
+              <h3 className="font-semibold text-gray-900">{med.name}</h3>
+              <p className="text-sm text-gray-600">{med.genericName}</p>
+              <p className="text-sm text-gray-500 mt-1">{med.description}</p>
+            </div>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}`,
+        language: "typescript",
+      },
+    ],
   },
   {
     slug: "roam",
@@ -735,6 +832,60 @@ export const projects: Project[] = [
     status: "Live",
     category: "Desktop App",
     highlight: "Windows & macOS",
+    timeline: "2026",
+    clientType: "Food Manufacturer",
+    group: "desktopApp",
+  },
+  {
+    slug: "jose-madrid-macos-desktop",
+    title: "Jose Madrid Salsa for Mac",
+    subtitle: "Native macOS Business Management App",
+    description:
+      "Run the entire business without ever leaving your desktop. A native macOS app that carries Jose Madrid Salsa's whole admin panel — manage orders, manage content, and run fundraisers, events, wholesale, finances and marketing from one keyboard-driven window. It reads the same live database as the website, so every new admin feature lands on the desktop the day it ships.",
+    image: "/images/projects/desktop/jose-madrid-macos.webp",
+    imageWidth: 1600,
+    imageHeight: 1088,
+    features: [
+      "Orders — every order with channel, status and totals, plus returns & RMAs and shipping labels",
+      "Content & Blog — blog posts, pages, banners, FAQs, redirects and SEO",
+      "Dashboard — today's revenue and orders, live fundraisers, jars on hand, reorder alerts, and the next shows",
+      "Products — the full catalog with retail price, unit cost and margin",
+      "Inventory — on hand, reserved, available and reorder points, flagged when stock runs low",
+      "Customers — ranked by lifetime value, with order counts and acquisition source",
+      "Purchase Orders — inbound supply by supplier, with goods, freight and what is still outstanding",
+      "Invoices — accounts receivable, with open and past-due balances",
+      "Fundraisers — every campaign and participant, sales, group share, and the Battle Arena",
+      "Events & Shows — a month calendar of every show with booth fees, takings and packing manifests",
+      "Wholesale — trade accounts with discounts, minimums, terms and approval, plus the store locator",
+      "Financials — the general ledger and reconciliation, with QuickBooks export state",
+      "Email Marketing — campaigns, templates, automations, lists & subscribers, suppressions, send log and brand kit",
+      "Social — scheduled and published posts, connected accounts, product feeds and reach",
+      "Lead Generation — the prospecting pipeline and lead campaigns, with Google ratings behind each lead",
+      "Reviews — moderation queue with average rating, plus customer forms",
+      "Analytics — year-over-year revenue, channel mix, top products, retention, margin and attribution",
+      "Media & Docs — media library, documents archive, mileage log and show archive",
+      "Messages — one inbox for support, the contact form and live chat, plus notifications",
+      "Users & Roles — staff accounts with role, two-factor state and last sign-in, plus the encrypted credential vault",
+      "Audit Logs — who did what, most recent first",
+      "Settings — store identity, checkout, payments, shipping and integrations",
+      "Database Console — live row counts for the core tables",
+      "⌘K command palette to jump to any of 58 pages by name, J/K keyboard navigation, table filtering and a detail inspector",
+      "Resizable table columns remembered per window, light and dark appearance, native menus, real printing and save dialogs for every export",
+      "Role-based access — each person only sees the sections their permissions allow",
+    ],
+    deliverables: [
+      "Native SwiftUI application for macOS (Intel and Apple silicon)",
+      "Full admin panel parity over the live production database",
+      "Keyboard-first navigation with a ⌘K command palette",
+      "Role-based access, persistent sign-in and audit logging",
+    ],
+    tech: ["SwiftUI", "macOS", "Swift", "Next.js", "Prisma", "PostgreSQL"],
+    github: "",
+    live: "",
+    gradient: "from-red-600 to-orange-500",
+    status: "Live",
+    category: "Desktop App",
+    highlight: "macOS",
     timeline: "2026",
     clientType: "Food Manufacturer",
     group: "desktopApp",

@@ -15,6 +15,12 @@ export const blogPostType = defineType({
       validation: (rule) => rule.required(),
     }),
     defineField({ name: "date", title: "Publish date", type: "date", validation: (rule) => rule.required() }),
+    defineField({
+      name: "scheduledPublishDate",
+      title: "Scheduled Publish Date",
+      type: "datetime",
+      description: "Optional: Schedule this post to be published at a specific date and time.",
+    }),
     defineField({ name: "excerpt", title: "Excerpt", type: "text", rows: 3, validation: (rule) => rule.required() }),
     defineField({ name: "image", title: "Cover image", type: "image", options: { hotspot: true } }),
     defineField({
