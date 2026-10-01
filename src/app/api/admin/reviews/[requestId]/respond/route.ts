@@ -58,7 +58,7 @@ export async function POST(request: Request, { params }: RouteParams) {
   };
 
   if (action === "publish") {
-    updates.status = "completed";
+    updates.status = "published";
     updates.publishedAt = now;
 
     const testimonialId = `testimonial-${requestId.replace(/^drafts\./, "")}`;

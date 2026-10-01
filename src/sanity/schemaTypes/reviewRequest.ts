@@ -16,7 +16,7 @@ export const reviewRequestType = defineType({
       type: "string",
       readOnly: true,
       initialValue: "draft",
-      options: { list: ["draft", "queued", "sent", "completed", "failed"] },
+      options: { list: ["draft", "queued", "sent", "viewed", "submitted", "awaiting_response", "published", "completed", "failed"] },
     }),
     defineField({ name: "sentAt", title: "Sent at", type: "datetime", readOnly: true }),
     defineField({ name: "viewedAt", title: "Viewed at", type: "datetime", readOnly: true }),

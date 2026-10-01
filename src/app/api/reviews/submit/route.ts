@@ -34,12 +34,12 @@ export async function POST(request: Request) {
       author: reviewRequest.clientName,
       company: reviewRequest.company,
       role: reviewRequest.role,
-      approved: true,
+      approved: false,
       featured: false,
       requestId: reviewRequest._id,
       submittedAt: now,
     })
-    .patch(reviewRequest._id, (patch) => patch.set({ status: "submitted", completedAt: now }))
+    .patch(reviewRequest._id, (patch) => patch.set({ status: "submitted", submittedAt: now }))
     .commit();
 
   // Send notification email to Jordan
