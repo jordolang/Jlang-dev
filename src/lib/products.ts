@@ -15,6 +15,7 @@ export interface DigitalProduct {
   };
   category: string;
   features?: string[];
+  downloadUrl?: string;
 }
 
 const PRODUCT_PROJECTION = `{
@@ -25,7 +26,9 @@ const PRODUCT_PROJECTION = `{
   basePrice,
   previewImage { asset->{ _id, url }, alt },
   category,
-  features
+  features,
+  // Only free products expose their file; paid downloads go through signed tokens.
+  "downloadUrl": select(basePrice == 0 => downloadUrl)
 }`;
 
 interface RawSanityProduct extends Omit<DigitalProduct, 'previewImage'> {
@@ -45,6 +48,7 @@ function normalizeSanityProduct(product: RawSanityProduct): DigitalProduct {
     },
     category: product.category,
     features: product.features,
+    downloadUrl: product.downloadUrl ?? undefined,
   };
 }
 

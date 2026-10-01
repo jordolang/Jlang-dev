@@ -38,9 +38,17 @@ export async function POST(request: Request) {
       );
     }
 
-    // Handle checkout.session.completed event
-    if (event.type === "checkout.session.completed") {
+    // Fulfill on completion, or later for delayed payment methods once the payment clears
+    if (
+      event.type === "checkout.session.completed" ||
+      event.type === "checkout.session.async_payment_succeeded"
+    ) {
       const session = event.data.object as Stripe.Checkout.Session;
+
+      if (session.payment_status !== "paid") {
+        // Delayed payment still pending; async_payment_succeeded will follow if it clears.
+        return NextResponse.json({ ok: true, pending: true, sessionId: session.id });
+      }
 
       // Extract customer email and product metadata
       const customerEmail = session.customer_details?.email;
@@ -58,7 +66,7 @@ export async function POST(request: Request) {
 
       // Send purchase confirmation email with download link
       const siteUrl = (process.env.NEXT_PUBLIC_SITE_URL || "https://jlang.dev").replace(/\/$/, "");
-      const downloadUrl = `${siteUrl}/download/${encodeURIComponent(downloadToken)}`;
+      const downloadUrl = `${siteUrl}/api/download/${encodeURIComponent(downloadToken)}`;
 
       try {
         const { error } = await getResend().emails.send({
@@ -80,26 +88,14 @@ export async function POST(request: Request) {
           throw new Error(error.message);
         }
 
-        return NextResponse.json({
-          ok: true,
-          sessionId: session.id,
-          customerEmail,
-          productId,
-          downloadToken,
-          emailSent: true,
-        });
+        return NextResponse.json({ ok: true, sessionId: session.id, emailSent: true });
       } catch (emailError) {
-        // Log email error but don't fail the webhook - payment was successful
+        // The email is the only delivery channel, so fail the webhook and let Stripe retry.
         console.error("Failed to send purchase confirmation email:", emailError);
-        return NextResponse.json({
-          ok: true,
-          sessionId: session.id,
-          customerEmail,
-          productId,
-          downloadToken,
-          emailSent: false,
-          emailError: emailError instanceof Error ? emailError.message : "Email failed",
-        });
+        return NextResponse.json(
+          { error: "Failed to send purchase confirmation email", sessionId: session.id },
+          { status: 500 }
+        );
       }
     }
 

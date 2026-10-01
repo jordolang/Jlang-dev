@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { Icon } from "@iconify/react";
 import { getStripe } from "@/lib/stripe";
+import StripSessionId from "./StripSessionId";
 
 export const metadata: Metadata = {
   title: "Purchase Successful | JLang Development",
@@ -37,6 +38,7 @@ export default async function SuccessPage({ searchParams }: PageProps) {
       id="main-content"
       className="flex min-h-screen items-center justify-center bg-gradient-to-br from-slate-100 via-blue-50 to-purple-100 px-5 py-16 text-gray-900 dark:from-gray-950 dark:via-slate-950 dark:to-indigo-950 dark:text-white"
     >
+      <StripSessionId />
       <div className="w-full max-w-3xl">
         <Link
           href="/products"

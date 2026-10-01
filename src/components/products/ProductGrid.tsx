@@ -87,6 +87,13 @@ export default function ProductGrid({
   const searchInputRef = useRef<HTMLInputElement>(null);
   // Last query reflected in the URL, so our own URL writes aren't echoed back into the input
   const urlQueryRef = useRef('');
+  // Only write the URL once the user has changed the query; until then the URL is the source of truth,
+  // so the initial empty state can't wipe a shared /products?q=... before it is adopted.
+  const userEditedRef = useRef(false);
+  const updateSearchQuery = (query: string) => {
+    userEditedRef.current = true;
+    setSearchQuery(query);
+  };
 
   // Debounce search query to reduce re-renders and URL updates
   const debouncedSearchQuery = useDebounce(searchQuery, 200);
@@ -102,7 +109,7 @@ export default function ProductGrid({
 
   // Update the URL from the debounced query. Uses the History API so typing doesn't trigger router navigations.
   useEffect(() => {
-    if (normalizedQuery === urlQueryRef.current) return;
+    if (!userEditedRef.current || normalizedQuery === urlQueryRef.current) return;
     urlQueryRef.current = normalizedQuery;
 
     const params = new URLSearchParams(window.location.search);
@@ -191,12 +198,12 @@ export default function ProductGrid({
                 type="text"
                 placeholder="Search products... (Press '/' to focus)"
                 value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
+                onChange={(e) => updateSearchQuery(e.target.value)}
                 className="w-full pl-12 pr-4 py-3 rounded-lg border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:focus:ring-indigo-400"
               />
               {searchQuery && (
                 <button
-                  onClick={() => setSearchQuery('')}
+                  onClick={() => updateSearchQuery('')}
                   className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300"
                   aria-label="Clear search"
                 >
@@ -298,7 +305,7 @@ export default function ProductGrid({
           {(normalizedQuery || selectedCategory || priceFilter !== 'all') && (
             <button
               onClick={() => {
-                setSearchQuery('');
+                updateSearchQuery('');
                 setSelectedCategory(null);
                 setPriceFilter('all');
               }}
@@ -329,7 +336,7 @@ export default function ProductGrid({
             </p>
             <button
               onClick={() => {
-                setSearchQuery('');
+                updateSearchQuery('');
                 setSelectedCategory(null);
                 setPriceFilter('all');
               }}

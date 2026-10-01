@@ -61,10 +61,6 @@ export default function ProductDetail({ product, relatedProducts = [] }: Product
     if (typeof window !== "undefined") setProductUrl(window.location.href);
   }, []);
 
-  useEffect(() => {
-    trackEvent(AnalyticsEvents.PROJECT_CLICKED, { project: `Product: ${product.name}` });
-  }, [product.name]);
-
   const isFree = product.basePrice === 0;
 
   const allImages = [
@@ -100,13 +96,7 @@ export default function ProductDetail({ product, relatedProducts = [] }: Product
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({
-          productSlug: product.slug,
-          productName: product.name,
-          price: product.basePrice,
-          successUrl: `${window.location.origin}/products/${product.slug}?success=true`,
-          cancelUrl: `${window.location.origin}/products/${product.slug}?canceled=true`,
-        }),
+        body: JSON.stringify({ productSlug: product.slug }),
       });
 
       if (!response.ok) {
