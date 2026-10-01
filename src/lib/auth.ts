@@ -68,8 +68,8 @@ export async function verifyToken(token: string): Promise<{ valid: boolean; emai
   }
 
   try {
-    const query = `*[_type == "magicLinkToken" && token == $token][0]{_id, email, expiresAt, used}`;
-    const result = await sanityClient.fetch<MagicLinkToken | null>(query, { token });
+    const query = `*[_type == "magicLinkToken" && token == $magicToken][0]{_id, email, expiresAt, used}`;
+    const result = await sanityClient.fetch<MagicLinkToken | null>(query, { magicToken: token });
 
     if (!result) {
       return { valid: false, error: "Token not found" };

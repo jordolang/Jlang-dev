@@ -52,7 +52,7 @@ export default function DashboardView({ session, projects }: DashboardViewProps)
             Welcome back, {session.name.split(" ")[0]}!
           </h1>
           <p className="text-lg text-gray-600 dark:text-gray-300">
-            Here's an overview of your projects with JLang Development
+            Here&apos;s an overview of your projects with JLang Development
           </p>
         </m.div>
 
@@ -111,7 +111,7 @@ export default function DashboardView({ session, projects }: DashboardViewProps)
             <Icon icon="mdi:briefcase-outline" width={64} height={64} className="mx-auto mb-4 text-gray-400" />
             <h2 className="mb-2 text-2xl font-bold text-gray-900 dark:text-white">No Projects Yet</h2>
             <p className="text-gray-600 dark:text-gray-400">
-              Your projects will appear here once they're created
+              Your projects will appear here once they&apos;re created
             </p>
           </m.div>
         ) : (

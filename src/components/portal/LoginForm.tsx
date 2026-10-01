@@ -35,7 +35,7 @@ export default function LoginForm() {
         <div className="mx-auto mb-5 flex h-16 w-16 items-center justify-center rounded-full bg-emerald-100 text-3xl text-emerald-700">✓</div>
         <h1 className="text-3xl font-bold">Check your email!</h1>
         <p className="mx-auto mt-3 max-w-lg text-gray-600 dark:text-gray-300">
-          We've sent a magic link to <strong>{email}</strong>. Click the link in the email to access your client portal.
+          We&apos;ve sent a magic link to <strong>{email}</strong>. Click the link in the email to access your client portal.
         </p>
         <p className="mt-5 text-sm text-gray-500">The link will expire in 15 minutes.</p>
       </div>
@@ -50,7 +50,7 @@ export default function LoginForm() {
       <p className="text-sm font-semibold uppercase tracking-[0.2em] text-indigo-600">Client portal</p>
       <h1 className="mt-3 text-3xl font-bold sm:text-4xl">Sign in to your portal</h1>
       <p id="form-description" className="mt-3 text-gray-600 dark:text-gray-300">
-        Enter your email address and we'll send you a secure magic link to access your client portal.
+        Enter your email address and we&apos;ll send you a secure magic link to access your client portal.
       </p>
 
       <label htmlFor="email" className="mt-7 block text-sm font-semibold">Email address</label>
