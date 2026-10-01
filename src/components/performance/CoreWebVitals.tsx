@@ -23,23 +23,54 @@ const VITALS_CONFIG: VitalMetric[] = [
     icon: "mdi:speedometer",
     key: "lcp",
     description: "Largest Contentful Paint",
-    threshold: "< 2.5s",
+    threshold: "≤ 2.5s",
   },
   {
     name: "FID",
     icon: "mdi:cursor-default-click",
     key: "fid",
     description: "First Input Delay",
-    threshold: "< 100ms",
+    threshold: "≤ 100ms",
   },
   {
     name: "CLS",
     icon: "mdi:page-layout-body",
     key: "cls",
     description: "Cumulative Layout Shift",
-    threshold: "< 0.1",
+    threshold: "≤ 0.1",
   },
 ];
+
+// `pass` is null when the metric has no data (e.g. FID without field data).
+function statusStyles(pass: boolean | null) {
+  if (pass === null) {
+    return {
+      card: "border-border bg-muted/30",
+      icon: "text-muted-foreground",
+      value: "text-muted-foreground",
+      badge: "bg-gray-500 text-white",
+      badgeIcon: "mdi:help-circle",
+      label: "No data",
+    };
+  }
+  return pass
+    ? {
+        card: "border-green-500/30 bg-green-50 dark:bg-green-950/20",
+        icon: "text-green-600 dark:text-green-400",
+        value: "text-green-700 dark:text-green-300",
+        badge: "bg-green-600 text-white dark:bg-green-500",
+        badgeIcon: "mdi:check-circle",
+        label: "Pass",
+      }
+    : {
+        card: "border-red-500/30 bg-red-50 dark:bg-red-950/20",
+        icon: "text-red-600 dark:text-red-400",
+        value: "text-red-700 dark:text-red-300",
+        badge: "bg-red-600 text-white dark:bg-red-500",
+        badgeIcon: "mdi:alert-circle",
+        label: "Fail",
+      };
+}
 
 export default function CoreWebVitals({
   vitals,
@@ -59,7 +90,7 @@ export default function CoreWebVitals({
       <div className="hidden grid-cols-3 gap-6 lg:grid">
         {VITALS_CONFIG.map((metric, index) => {
           const vital = vitals[metric.key];
-          const isPassing = vital.pass;
+          const s = statusStyles(vital.pass);
 
           return (
             <m.div
@@ -67,22 +98,14 @@ export default function CoreWebVitals({
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.4, delay: index * 0.1 }}
-              className={`rounded-lg border p-6 shadow-md transition-all hover:shadow-lg ${
-                isPassing
-                  ? "border-green-500/30 bg-green-50 dark:bg-green-950/20"
-                  : "border-red-500/30 bg-red-50 dark:bg-red-950/20"
-              }`}
+              className={`rounded-lg border p-6 shadow-md transition-all hover:shadow-lg ${s.card}`}
             >
               {/* Header */}
               <div className="mb-4 flex items-center justify-between">
                 <div className="flex items-center gap-3">
                   <Icon
                     icon={metric.icon}
-                    className={`h-8 w-8 ${
-                      isPassing
-                        ? "text-green-600 dark:text-green-400"
-                        : "text-red-600 dark:text-red-400"
-                    }`}
+                    className={`h-8 w-8 ${s.icon}`}
                   />
                   <div>
                     <h3 className="text-lg font-bold">{metric.name}</h3>
@@ -95,13 +118,7 @@ export default function CoreWebVitals({
 
               {/* Value */}
               <div className="mb-3">
-                <div
-                  className={`text-3xl font-bold ${
-                    isPassing
-                      ? "text-green-700 dark:text-green-300"
-                      : "text-red-700 dark:text-red-300"
-                  }`}
-                >
+                <div className={`text-3xl font-bold ${s.value}`}>
                   {vital.displayValue}
                 </div>
               </div>
@@ -112,17 +129,10 @@ export default function CoreWebVitals({
                   Target: {metric.threshold}
                 </span>
                 <div
-                  className={`flex items-center gap-1 rounded-full px-3 py-1 text-xs font-semibold ${
-                    isPassing
-                      ? "bg-green-600 text-white dark:bg-green-500"
-                      : "bg-red-600 text-white dark:bg-red-500"
-                  }`}
+                  className={`flex items-center gap-1 rounded-full px-3 py-1 text-xs font-semibold ${s.badge}`}
                 >
-                  <Icon
-                    icon={isPassing ? "mdi:check-circle" : "mdi:alert-circle"}
-                    className="h-4 w-4"
-                  />
-                  {isPassing ? "Pass" : "Fail"}
+                  <Icon icon={s.badgeIcon} className="h-4 w-4" />
+                  {s.label}
                 </div>
               </div>
             </m.div>
@@ -134,7 +144,7 @@ export default function CoreWebVitals({
       <div className="space-y-4 lg:hidden">
         {VITALS_CONFIG.map((metric, index) => {
           const vital = vitals[metric.key];
-          const isPassing = vital.pass;
+          const s = statusStyles(vital.pass);
 
           return (
             <m.div
@@ -142,22 +152,14 @@ export default function CoreWebVitals({
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.4, delay: index * 0.1 }}
-              className={`rounded-lg border p-5 shadow-md ${
-                isPassing
-                  ? "border-green-500/30 bg-green-50 dark:bg-green-950/20"
-                  : "border-red-500/30 bg-red-50 dark:bg-red-950/20"
-              }`}
+              className={`rounded-lg border p-5 shadow-md ${s.card}`}
             >
               {/* Header Row */}
               <div className="mb-4 flex items-center justify-between">
                 <div className="flex items-center gap-3">
                   <Icon
                     icon={metric.icon}
-                    className={`h-7 w-7 ${
-                      isPassing
-                        ? "text-green-600 dark:text-green-400"
-                        : "text-red-600 dark:text-red-400"
-                    }`}
+                    className={`h-7 w-7 ${s.icon}`}
                   />
                   <div>
                     <h3 className="font-bold">{metric.name}</h3>
@@ -167,29 +169,16 @@ export default function CoreWebVitals({
                   </div>
                 </div>
                 <div
-                  className={`flex items-center gap-1 rounded-full px-2.5 py-1 text-xs font-semibold ${
-                    isPassing
-                      ? "bg-green-600 text-white dark:bg-green-500"
-                      : "bg-red-600 text-white dark:bg-red-500"
-                  }`}
+                  className={`flex items-center gap-1 rounded-full px-2.5 py-1 text-xs font-semibold ${s.badge}`}
                 >
-                  <Icon
-                    icon={isPassing ? "mdi:check-circle" : "mdi:alert-circle"}
-                    className="h-3.5 w-3.5"
-                  />
-                  {isPassing ? "Pass" : "Fail"}
+                  <Icon icon={s.badgeIcon} className="h-3.5 w-3.5" />
+                  {s.label}
                 </div>
               </div>
 
               {/* Value and Threshold */}
               <div className="flex items-end justify-between">
-                <div
-                  className={`text-2xl font-bold ${
-                    isPassing
-                      ? "text-green-700 dark:text-green-300"
-                      : "text-red-700 dark:text-red-300"
-                  }`}
-                >
+                <div className={`text-2xl font-bold ${s.value}`}>
                   {vital.displayValue}
                 </div>
                 <span className="text-sm text-muted-foreground">

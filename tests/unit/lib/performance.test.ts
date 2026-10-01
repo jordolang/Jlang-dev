@@ -28,7 +28,9 @@ describe('Performance Library', () => {
 
   describe('fetchLighthouseScores', () => {
     const mockPageSpeedResponse = {
+      loadingExperience: { metrics: { FIRST_INPUT_DELAY_MS: { percentile: 50 } } },
       lighthouseResult: {
+        fetchTime: '2026-01-15T12:00:00.000Z',
         categories: {
           performance: { score: 0.95 },
           accessibility: { score: 0.98 },
@@ -39,10 +41,6 @@ describe('Performance Library', () => {
           'largest-contentful-paint': {
             displayValue: '1.8 s',
             numericValue: 1800,
-          },
-          'first-input-delay': {
-            displayValue: '50 ms',
-            numericValue: 50,
           },
           'cumulative-layout-shift': {
             displayValue: '0.05',
@@ -74,7 +72,7 @@ describe('Performance Library', () => {
         bestPractices: 92,
         seo: 100,
       })
-      expect(result?.fetchedAt).toMatch(/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}/)
+      expect(result?.fetchedAt).toBe('2026-01-15T12:00:00.000Z')
 
       // Verify both mobile and desktop calls were made
       expect(mockFetch).toHaveBeenCalledTimes(2)
@@ -108,7 +106,9 @@ describe('Performance Library', () => {
 
     it('should handle failing Core Web Vitals thresholds', async () => {
       const badVitalsResponse = {
+        loadingExperience: { metrics: { FIRST_INPUT_DELAY_MS: { percentile: 150 } } }, // > 100ms (fail)
         lighthouseResult: {
+          fetchTime: '2026-01-15T12:00:00.000Z',
           categories: {
             performance: { score: 0.5 },
             accessibility: { score: 0.8 },
@@ -119,10 +119,6 @@ describe('Performance Library', () => {
             'largest-contentful-paint': {
               displayValue: '4.5 s',
               numericValue: 4500, // > 2500ms (fail)
-            },
-            'first-input-delay': {
-              displayValue: '150 ms',
-              numericValue: 150, // > 100ms (fail)
             },
             'cumulative-layout-shift': {
               displayValue: '0.25',
@@ -148,6 +144,7 @@ describe('Performance Library', () => {
     it('should handle missing first-input-delay audit gracefully', async () => {
       const noFidResponse = {
         lighthouseResult: {
+          fetchTime: '2026-01-15T12:00:00.000Z',
           categories: {
             performance: { score: 0.95 },
             accessibility: { score: 0.98 },
@@ -179,7 +176,7 @@ describe('Performance Library', () => {
       expect(result?.mobile.vitals.fid).toEqual({
         value: 0,
         displayValue: 'N/A',
-        pass: true, // 0 < 100ms
+        pass: null, // no field data
       })
     })
 
@@ -319,7 +316,7 @@ describe('Performance Library', () => {
       expect(firstCall).toContain('url=https%3A%2F%2Fexample.com')
       expect(firstCall).toContain('key=test-api-key')
       expect(firstCall).toContain('strategy=mobile')
-      expect(firstCall).toContain('category=performance%2Caccessibility%2Cbest-practices%2Cseo')
+      expect(firstCall).toContain('category=performance&category=accessibility&category=best-practices&category=seo')
 
       // Check second call (desktop)
       const secondCall = mockFetch.mock.calls[1][0] as string

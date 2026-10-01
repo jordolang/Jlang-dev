@@ -11,11 +11,14 @@ import ComparisonRow, { type BenchmarkComparison } from "./ComparisonRow";
 
 interface PerformanceMetricsProps {
   data: PerformanceMetricsType;
+  /** True when `data` is placeholder data because the live API was unavailable */
+  isSample?: boolean;
 }
 
 type Strategy = "mobile" | "desktop";
 
-// Benchmark data for comparison (average scores for Squarespace and WordPress)
+// Single combined benchmark (approximate average of typical Squarespace and WordPress
+// portfolio sites) — not separate per-platform figures.
 const BENCHMARK_DATA = {
   performance: 65,
   accessibility: 80,
@@ -46,7 +49,7 @@ const SCORE_CATEGORIES = [
   },
 ] as const;
 
-export default function PerformanceMetrics({ data }: PerformanceMetricsProps) {
+export default function PerformanceMetrics({ data, isSample = false }: PerformanceMetricsProps) {
   const [activeStrategy, setActiveStrategy] = useState<Strategy>("mobile");
 
   const handleStrategyChange = (strategy: Strategy) => {
@@ -57,7 +60,7 @@ export default function PerformanceMetrics({ data }: PerformanceMetricsProps) {
     });
   };
 
-  const handleShareClick = () => {
+  const handleShareClick = async () => {
     trackEvent(AnalyticsEvents.CTA_CLICKED, {
       cta_location: "performance_metrics",
       cta_text: "Share Scores",
@@ -75,8 +78,13 @@ export default function PerformanceMetrics({ data }: PerformanceMetricsProps) {
     } else {
       // Fallback: Copy to clipboard
       const shareText = `Performance Metrics:\nPerformance: ${currentScores.performance}\nAccessibility: ${currentScores.accessibility}\nBest Practices: ${currentScores.bestPractices}\nSEO: ${currentScores.seo}`;
-      navigator.clipboard.writeText(shareText);
-      alert("Scores copied to clipboard!");
+      try {
+        await navigator.clipboard.writeText(shareText);
+        alert("Scores copied to clipboard!");
+      } catch (err) {
+        console.error("Error copying to clipboard:", err);
+        alert("Couldn't copy scores to the clipboard.");
+      }
     }
   };
 
@@ -86,28 +94,24 @@ export default function PerformanceMetrics({ data }: PerformanceMetricsProps) {
       cta_text: "Download Badge",
     });
 
-    // Simple download implementation - create a text file with the scores
-    const scores = `Performance Metrics Badge
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-Strategy: ${activeStrategy}
-Performance: ${currentScores.performance}/100
-Accessibility: ${currentScores.accessibility}/100
-Best Practices: ${currentScores.bestPractices}/100
-SEO: ${currentScores.seo}/100
+    // Render the badge as an SVG image so it can be dropped into proposals/docs
+    const cells = SCORE_CATEGORIES.map(
+      (category, i) =>
+        `<text x="${70 + i * 140}" y="92" font-size="34" font-weight="700" text-anchor="middle" fill="${currentScores[category.key] >= 90 ? "#16a34a" : currentScores[category.key] >= 50 ? "#d97706" : "#dc2626"}">${currentScores[category.key]}</text>` +
+        `<text x="${70 + i * 140}" y="118" font-size="13" text-anchor="middle" fill="#475569">${category.label}</text>`,
+    ).join("");
+    const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="560" height="160" font-family="system-ui, sans-serif">
+<rect width="560" height="160" rx="12" fill="#ffffff" stroke="#e2e8f0"/>
+<text x="20" y="36" font-size="16" font-weight="700" fill="#0f172a">Lighthouse Scores (${activeStrategy})</text>
+${cells}
+<text x="20" y="146" font-size="11" fill="#64748b">${isSample ? "Sample data" : `Measured ${fetchedDate}`} · PageSpeed Insights</text>
+</svg>`;
 
-Core Web Vitals:
-LCP: ${currentVitals.lcp.displayValue} (${currentVitals.lcp.pass ? "Pass" : "Fail"})
-FID: ${currentVitals.fid.displayValue} (${currentVitals.fid.pass ? "Pass" : "Fail"})
-CLS: ${currentVitals.cls.displayValue} (${currentVitals.cls.pass ? "Pass" : "Fail"})
-
-Generated: ${new Date(data.fetchedAt).toLocaleDateString()}
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━`;
-
-    const blob = new Blob([scores], { type: "text/plain" });
+    const blob = new Blob([svg], { type: "image/svg+xml" });
     const url = URL.createObjectURL(blob);
     const a = document.createElement("a");
     a.href = url;
-    a.download = `performance-badge-${activeStrategy}-${Date.now()}.txt`;
+    a.download = `performance-badge-${activeStrategy}.svg`;
     document.body.appendChild(a);
     a.click();
     document.body.removeChild(a);
@@ -128,10 +132,12 @@ Generated: ${new Date(data.fetchedAt).toLocaleDateString()}
     lowerIsBetter: false, // Higher scores are better
   }));
 
+  // Fixed timezone so server and client render the same date (no hydration mismatch)
   const fetchedDate = new Date(data.fetchedAt).toLocaleDateString("en-US", {
     month: "short",
     day: "numeric",
     year: "numeric",
+    timeZone: "UTC",
   });
 
   return (
@@ -168,9 +174,15 @@ Generated: ${new Date(data.fetchedAt).toLocaleDateString()}
           </button>
         </div>
 
-        <p className="text-sm text-muted-foreground">
-          Last updated: {fetchedDate}
-        </p>
+        {isSample ? (
+          <p role="status" className="rounded-md border border-amber-500/40 bg-amber-50 px-4 py-2 text-center text-sm text-amber-800 dark:bg-amber-950/30 dark:text-amber-300">
+            Live PageSpeed data is temporarily unavailable. Showing representative sample scores, not a live measurement.
+          </p>
+        ) : (
+          <p className="text-sm text-muted-foreground">
+            Last updated: {fetchedDate} (UTC)
+          </p>
+        )}
       </m.div>
 
       {/* Lighthouse Scores */}
@@ -223,7 +235,8 @@ Generated: ${new Date(data.fetchedAt).toLocaleDateString()}
           Benchmark Comparison
         </h2>
         <p className="mb-8 text-center text-muted-foreground">
-          How this site compares to average Squarespace/WordPress portfolio sites
+          How this site compares to a combined baseline: the approximate average
+          of typical Squarespace and WordPress portfolio sites
         </p>
         <div className="mx-auto max-w-4xl space-y-4">
           {comparisons.map((comparison, index) => (
@@ -290,8 +303,9 @@ Generated: ${new Date(data.fetchedAt).toLocaleDateString()}
               and visual stability.
             </p>
             <p>
-              Benchmark data represents average scores from typical Squarespace
-              and WordPress portfolio sites. Custom-built sites with modern
+              The baseline is a single combined estimate of average scores for
+              typical Squarespace and WordPress portfolio sites, not separate
+              per-platform measurements. Custom-built sites with modern
               frameworks like Next.js can achieve significantly better performance.
             </p>
           </div>

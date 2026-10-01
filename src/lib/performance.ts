@@ -28,7 +28,8 @@ export interface CoreWebVitals {
   fid: {
     value: number;
     displayValue: string;
-    pass: boolean;
+    /** null when PageSpeed has no field data for FID */
+    pass: boolean | null;
   };
   cls: {
     value: number;
@@ -50,7 +51,13 @@ export interface PerformanceMetrics {
 }
 
 interface PageSpeedResponse {
+  loadingExperience?: {
+    metrics?: {
+      FIRST_INPUT_DELAY_MS?: { percentile: number };
+    };
+  };
   lighthouseResult: {
+    fetchTime: string;
     categories: {
       performance: { score: number };
       accessibility: { score: number };
@@ -59,10 +66,6 @@ interface PageSpeedResponse {
     };
     audits: {
       "largest-contentful-paint": {
-        displayValue: string;
-        numericValue: number;
-      };
-      "first-input-delay": {
         displayValue: string;
         numericValue: number;
       };
@@ -90,9 +93,9 @@ function getApiKey(): string | null {
 // ---------------------------------------------------------------------------
 
 const THRESHOLDS = {
-  lcp: 2500, // ms - good < 2.5s
-  fid: 100,  // ms - good < 100ms
-  cls: 0.1,  // score - good < 0.1
+  lcp: 2500, // ms - good <= 2.5s
+  fid: 100,  // ms - good <= 100ms
+  cls: 0.1,  // score - good <= 0.1
 };
 
 // ---------------------------------------------------------------------------
@@ -109,12 +112,11 @@ async function fetchPageSpeedData(
     return null;
   }
 
-  const params = new URLSearchParams({
-    url,
-    key: apiKey,
-    strategy,
-    category: ["performance", "accessibility", "best-practices", "seo"].join(","),
-  });
+  const params = new URLSearchParams({ url, key: apiKey, strategy });
+  // `category` is a repeated query parameter, not a comma-separated list.
+  for (const category of ["performance", "accessibility", "best-practices", "seo"]) {
+    params.append("category", category);
+  }
 
   try {
     const response = await fetch(`${PAGESPEED_API_URL}?${params}`, {
@@ -147,24 +149,24 @@ function parseVitals(data: PageSpeedResponse): CoreWebVitals {
   const audits = data.lighthouseResult.audits;
 
   const lcp = audits["largest-contentful-paint"];
-  const fid = audits["first-input-delay"] || { displayValue: "N/A", numericValue: 0 };
   const cls = audits["cumulative-layout-shift"];
+  // FID is field-only (and retired from CrUX), so Lighthouse lab data never has it.
+  const fidMs = data.loadingExperience?.metrics?.FIRST_INPUT_DELAY_MS?.percentile;
 
   return {
     lcp: {
       value: lcp.numericValue,
       displayValue: lcp.displayValue,
-      pass: lcp.numericValue < THRESHOLDS.lcp,
+      pass: lcp.numericValue <= THRESHOLDS.lcp,
     },
-    fid: {
-      value: fid.numericValue,
-      displayValue: fid.displayValue,
-      pass: fid.numericValue < THRESHOLDS.fid,
-    },
+    fid:
+      fidMs === undefined
+        ? { value: 0, displayValue: "N/A", pass: null }
+        : { value: fidMs, displayValue: `${fidMs} ms`, pass: fidMs <= THRESHOLDS.fid },
     cls: {
       value: cls.numericValue,
       displayValue: cls.displayValue,
-      pass: cls.numericValue < THRESHOLDS.cls,
+      pass: cls.numericValue <= THRESHOLDS.cls,
     },
   };
 }
@@ -205,7 +207,8 @@ export async function fetchLighthouseScores(url: string): Promise<PerformanceMet
         scores: parseScores(desktopData),
         vitals: parseVitals(desktopData),
       },
-      fetchedAt: new Date().toISOString(),
+      // Use PageSpeed's own measurement time so cached responses aren't reported as fresh.
+      fetchedAt: mobileData.lighthouseResult.fetchTime,
     };
   } catch (error) {
     console.error("[performance] fetchLighthouseScores failed:", error);

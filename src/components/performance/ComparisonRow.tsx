@@ -40,8 +40,10 @@ export default function ComparisonRow({
   // Determine display values
   const getDisplayIcon = () => {
     if (!hasChange) return "mdi:minus";
-    return isImprovement ? "mdi:trending-down" : "mdi:trending-up";
+    return percentDiff > 0 ? "mdi:trending-up" : "mdi:trending-down";
   };
+  // Sign follows the actual direction of change; color (isImprovement) says whether it's good.
+  const sign = percentDiff > 0 ? "+" : "-";
 
   const getColorClasses = () => {
     if (!hasChange) {
@@ -118,7 +120,7 @@ export default function ComparisonRow({
               <Icon icon={trendIcon} className="h-4 w-4" />
               {hasChange ? (
                 <span>
-                  {isImprovement ? "-" : "+"}
+                  {sign}
                   {Math.abs(percentDiff).toFixed(1)}%
                 </span>
               ) : (
@@ -147,7 +149,7 @@ export default function ComparisonRow({
               <Icon icon={trendIcon} className="h-3.5 w-3.5" />
               {hasChange ? (
                 <span>
-                  {isImprovement ? "-" : "+"}
+                  {sign}
                   {Math.abs(percentDiff).toFixed(1)}%
                 </span>
               ) : (

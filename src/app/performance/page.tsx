@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import PerformanceMetrics from "@/components/performance/PerformanceMetrics";
 import { fetchLighthouseScores } from "@/lib/performance";
 import { JsonLd } from "@/components/JsonLd";
+import Navigation from "@/components/portfolio/Navigation";
 import { SITE_URL } from "@/lib/schema";
 
 export const revalidate = 604800; // Cache for 1 week (same as API)
@@ -49,9 +50,10 @@ const FALLBACK_METRICS = {
 };
 
 export default async function PerformancePage() {
-  // Fetch live performance metrics or use fallback
+  // Fetch live performance metrics or use fallback (disclosed as sample data in the UI)
   const metrics = await fetchLighthouseScores(SITE_URL);
   const data = metrics ?? FALLBACK_METRICS;
+  const isSample = metrics === null;
 
   // Generate WebPage schema with performance context
   const webPageSchema = {
@@ -77,7 +79,8 @@ export default async function PerformancePage() {
   return (
     <>
       <JsonLd data={webPageSchema} />
-      <main className="container mx-auto px-4 py-12 md:py-16 lg:py-20">
+      <Navigation />
+      <main id="main-content" className="container mx-auto px-4 pb-12 pt-32 md:pb-16 lg:pb-20">
         <div className="mb-12 text-center">
           <h1 className="mb-4 text-4xl font-bold tracking-tight md:text-5xl lg:text-6xl">
             Performance Metrics
@@ -88,7 +91,7 @@ export default async function PerformancePage() {
             Squarespace.
           </p>
         </div>
-        <PerformanceMetrics data={data} />
+        <PerformanceMetrics data={data} isSample={isSample} />
       </main>
     </>
   );
