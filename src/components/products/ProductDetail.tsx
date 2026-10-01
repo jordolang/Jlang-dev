@@ -293,7 +293,7 @@ export default function ProductDetail({ product, relatedProducts = [] }: Product
               <div className="bg-gray-50 dark:bg-gray-900/50 rounded-xl p-6">
                 <h3 className="text-lg font-bold mb-4 flex items-center gap-2">
                   <Icon icon="solar:box-bold" width={20} height={20} className="text-indigo-600 dark:text-indigo-400" />
-                  What's Included
+                  What&apos;s Included
                 </h3>
                 <ul className="space-y-2">
                   {product.whatsIncluded.map((item, idx) => (

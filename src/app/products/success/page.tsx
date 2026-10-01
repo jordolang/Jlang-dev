@@ -32,8 +32,6 @@ export default async function SuccessPage({ searchParams }: PageProps) {
     }
   }
 
-  const unavailable = !sessionId || !session || error;
-
   return (
     <main
       id="main-content"
@@ -48,7 +46,7 @@ export default async function SuccessPage({ searchParams }: PageProps) {
           Back to Products
         </Link>
 
-        {unavailable ? (
+        {!session || error ? (
           <div className="rounded-3xl bg-white p-10 text-center shadow-xl dark:bg-gray-900">
             <div className="mb-6 flex justify-center">
               <div className="flex h-20 w-20 items-center justify-center rounded-full bg-red-100 dark:bg-red-900/30">
@@ -110,9 +108,9 @@ export default async function SuccessPage({ searchParams }: PageProps) {
               </div>
 
               {/* Line Items */}
-              {session.line_items?.data.map((item: any, idx: number) => {
+              {session.line_items?.data.map((item, idx) => {
                 const product = typeof item.price?.product === "object" ? item.price.product : null;
-                const productName = product?.name || session.metadata?.productName || "Digital Product";
+                const productName = (product && !product.deleted ? product.name : null) || session.metadata?.productName || "Digital Product";
                 const amount = item.amount_total ? (item.amount_total / 100).toFixed(2) : "0.00";
 
                 return (
@@ -163,7 +161,7 @@ export default async function SuccessPage({ searchParams }: PageProps) {
             <div className="bg-gradient-to-r from-indigo-50 to-purple-50 dark:from-indigo-950/30 dark:to-purple-950/30 border border-indigo-200 dark:border-indigo-800/50 rounded-xl p-6 mb-6">
               <h3 className="font-bold text-gray-900 dark:text-white mb-3 flex items-center gap-2">
                 <Icon icon="solar:list-check-bold" className="text-indigo-600 dark:text-indigo-400" width={20} height={20} />
-                What's Next?
+                What&apos;s Next?
               </h3>
               <ul className="space-y-2 text-sm text-gray-700 dark:text-gray-300">
                 <li className="flex items-start gap-2">

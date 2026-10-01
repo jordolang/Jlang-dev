@@ -33,7 +33,6 @@
 		"@sanity/assist": "^5.0.4",
 		"@sanity/image-url": "^2.1.1",
 		"@sanity/vision": "^3.99.0",
-		"@stripe/stripe-js": "^4.15.0",
 		"@types/mdx": "^2.0.13",
 		"@types/react-syntax-highlighter": "^15.5.13",
 		"class-variance-authority": "^0.7.1",
