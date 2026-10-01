@@ -110,3 +110,26 @@ export async function getProjectDeliverables(clientProjectId: string): Promise<P
     return [];
   }
 }
+
+export async function getClientProject(clientProjectId: string): Promise<ClientProject | null> {
+  if (!sanityIsConfigured || !clientProjectId) return null;
+  const query = `*[_type == "clientProject" && _id == $clientProjectId][0] {
+    _id,
+    "clientId": client._ref,
+    "projectId": project._ref,
+    "projectTitle": project->title,
+    "projectSlug": project->slug.current,
+    status,
+    startDate,
+    endDate,
+    notes
+  }`;
+  const params: Record<string, unknown> = { clientProjectId };
+  try {
+    return await sanityClient.fetch<ClientProject | null>(query, params, {
+      next: { revalidate: 60, tags: ["clientProjects"] },
+    });
+  } catch (error) {
+    return null;
+  }
+}
