@@ -6,6 +6,7 @@ import { categoryType } from "./category";
 import { clientProjectType } from "./clientProject";
 import { clientType } from "./client";
 import { comparisonPageType } from "./comparisonPage";
+import { digitalProductType } from "./digitalProduct";
 import { experienceType } from "./experience";
 import { faqType } from "./faq";
 import { magicLinkTokenType } from "./magicLinkToken";
@@ -17,6 +18,7 @@ import { reviewRequestType } from "./reviewRequest";
 import { sectionContentType } from "./sectionContent";
 import { servicePackageType } from "./servicePackage";
 import { siteSettingsType } from "./siteSettings";
+import { socialPostType } from "./socialPost";
 import { tagType } from "./tag";
 import { techItemType } from "./techItem";
 import { testimonialType } from "./testimonial";
@@ -46,6 +48,8 @@ export const schemaTypes = [
   magicLinkTokenType,
   portalMessageType,
   portalDeliverableType,
+  digitalProductType,
+  socialPostType,
 
   // Object types
   blockContentType,

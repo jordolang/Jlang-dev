@@ -114,6 +114,23 @@ export const projectType = defineType({
       to: [{ type: "testimonial" }],
       description: "Link a client testimonial to display in this case study.",
     }),
+    defineField({
+      name: "codeExamples",
+      title: "Code examples",
+      type: "array",
+      description: "Code snippets shown in the case study's Code Examples section.",
+      of: [
+        {
+          type: "object",
+          fields: [
+            defineField({ name: "title", title: "Title", type: "string", validation: (rule) => rule.required() }),
+            defineField({ name: "description", title: "Description", type: "text", rows: 3 }),
+            defineField({ name: "code", title: "Code", type: "text", rows: 20, validation: (rule) => rule.required() }),
+            defineField({ name: "language", title: "Language", type: "string", initialValue: "typescript", description: 'e.g. "typescript", "tsx", "css".' }),
+          ],
+        },
+      ],
+    }),
   ],
   orderings: [{ title: "Display order", name: "orderAsc", by: [{ field: "order", direction: "asc" }] }],
   preview: {

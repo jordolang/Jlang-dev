@@ -11,6 +11,7 @@ import { structure } from "./src/sanity/structure";
 import { locations } from "./src/sanity/presentation/locations";
 import { SendReviewRequestAction } from "./src/sanity/actions/SendReviewRequestAction";
 import { DraftWithClaudeAction } from "./src/sanity/actions/DraftWithClaudeAction";
+import { GenerateSocialCopyAction } from "./src/sanity/actions/GenerateSocialCopyAction";
 import { dataset, projectId } from "./src/sanity/env";
 
 const singletons: readonly string[] = SINGLETON_TYPES;
@@ -68,7 +69,7 @@ export default defineConfig({
       // Studio shows only the first action as a button; the rest hide behind the chevron.
       // Put these first so they're visible — Publish stays available in the dropdown.
       if (context.schemaType === "reviewRequest") return [SendReviewRequestAction, ...previous];
-      if (context.schemaType === "blogPost") return [DraftWithClaudeAction, ...previous];
+      if (context.schemaType === "blogPost") return [DraftWithClaudeAction, GenerateSocialCopyAction, ...previous];
       return previous;
     },
   },

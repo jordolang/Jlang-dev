@@ -111,8 +111,31 @@ const defaultPackages: Record<string, Package> = {
       "Enterprise email: Up to 100+ custom email accounts unique to your domain",
       "Multi-language support for global reach"
     ]
+  },
+  "app-development": {
+    name: "App Development",
+    price: "Starting at $1,250",
+    basePrice: 1250,
+    gradient: "from-emerald-600 to-teal-600",
+    features: [
+      "📱 Design & Development",
+      "Custom app built for iOS, Android, macOS, Windows & Linux",
+      "Mobile-first design tailored to your brand",
+      "Integrated workflows & custom configurations",
+      "",
+      "💰 Revenue & Payments",
+      "In-app purchases & App Store billing",
+      "Paid-download pricing — earn on every install",
+      "Custom mobile POS for phones & tablets",
+      "",
+      "🔄 Support & Updates",
+      "Regular managed updates & bug fixes"
+    ]
   }
 };
+
+/** Packages priced as a base + à-la-carte add-ons; the others include most features already. */
+const ADDON_PACKAGES = ["launchpad", "app-development"];
 
 interface ServicesOrderViewProps {
   /** Packages and add-ons from Sanity; the constants above are the fallback. */
@@ -172,7 +195,7 @@ export default function ServicesOrderView({ packages: cmsPackages, addons: cmsAd
     trackEvent(AnalyticsEvents.PACKAGE_SELECTED, { package: newPackage });
     
     // Clear features if switching to Professional or Enterprise (they include most features)
-    if (newPackage !== 'launchpad') {
+    if (!ADDON_PACKAGES.includes(newPackage)) {
       setSelectedFeatures([]);
     }
   };
@@ -189,9 +212,11 @@ export default function ServicesOrderView({ packages: cmsPackages, addons: cmsAd
     });
   };
 
+  const supportsAddons = ADDON_PACKAGES.includes(selectedPackage);
+
   const calculateTotalPrice = () => {
     const pkg = packages[selectedPackage as keyof typeof packages];
-    if (!pkg.basePrice || selectedPackage !== 'launchpad') {
+    if (!pkg.basePrice || !supportsAddons) {
       return null; // Don't calculate for Professional/Enterprise
     }
     
@@ -451,9 +476,11 @@ ${formData.projectDescription}
                         onChange={handlePackageChange}
                         className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-xl focus:ring-2 focus:ring-purple-500 focus:border-transparent bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 transition-all duration-300"
                       >
-                        <option value="launchpad">Launchpad - $499</option>
-                        <option value="professional">Professional - Starting at $1,499+</option>
-                        <option value="enterprise">Enterprise - Custom Pricing</option>
+                        {Object.entries(packages).map(([slug, pkg]) => (
+                          <option key={slug} value={slug}>
+                            {pkg.name} - {pkg.price}
+                          </option>
+                        ))}
                       </select>
                     </div>
                   </div>
@@ -607,8 +634,8 @@ ${formData.projectDescription}
                   </div>
                 </div>
 
-                {/* Selected Features Display - Only for Launchpad */}
-                {selectedPackage === 'launchpad' && selectedFeatures.length > 0 && (
+                {/* Selected Features Display - Only for add-on packages */}
+                {supportsAddons && selectedFeatures.length > 0 && (
                   <div className="mt-6 bg-white dark:bg-gray-800 rounded-2xl border-2 border-blue-400 dark:border-blue-500 p-6">
                     <div className="flex items-center justify-between mb-4">
                       <h4 className="font-bold text-gray-900 dark:text-white">Additional Features</h4>
@@ -688,13 +715,13 @@ ${formData.projectDescription}
                 Additional Features Available
               </h2>
               <p className="text-gray-600 dark:text-gray-400 mb-2">
-                {selectedPackage === 'launchpad' 
+                {supportsAddons
                   ? 'Click features to add them to your package estimate'
                   : 'Most features are included in Professional and Enterprise packages at no extra cost'}
               </p>
-              {selectedPackage === 'launchpad' && (
+              {supportsAddons && (
                 <p className="text-sm text-blue-600 dark:text-blue-400">
-                  * Prices shown are one-time add-on costs for the Launchpad Package
+                  * Prices shown are one-time add-on costs for the {currentPackage.name} package
                 </p>
               )}
             </div>
@@ -702,7 +729,7 @@ ${formData.projectDescription}
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
               {additionalFeatures.map((feature, index) => {
                 const isSelected = selectedFeatures.includes(feature.name);
-                const isLaunchpad = selectedPackage === 'launchpad';
+                const canAddFeatures = supportsAddons;
                 
                 return (
                   <m.button
@@ -710,12 +737,12 @@ ${formData.projectDescription}
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.5, delay: 0.6 + index * 0.02 }}
-                    onClick={() => isLaunchpad && toggleFeature(feature.name)}
-                    disabled={!isLaunchpad}
-                    whileHover={isLaunchpad ? { scale: 1.03, y: -3 } : {}}
-                    whileTap={isLaunchpad ? { scale: 0.98 } : {}}
+                    onClick={() => canAddFeatures && toggleFeature(feature.name)}
+                    disabled={!canAddFeatures}
+                    whileHover={canAddFeatures ? { scale: 1.03, y: -3 } : {}}
+                    whileTap={canAddFeatures ? { scale: 0.98 } : {}}
                     className={`flex flex-col gap-3 p-4 rounded-xl bg-white dark:bg-gray-800 transition-all duration-300 text-left ${
-                      isLaunchpad
+                      canAddFeatures
                         ? `cursor-pointer ${
                             isSelected
                               ? 'border-2 border-blue-500 dark:border-blue-400 shadow-lg shadow-blue-500/20'
@@ -726,7 +753,7 @@ ${formData.projectDescription}
                   >
                     <div className="flex items-start gap-3">
                       <div className={`flex-shrink-0 p-2 rounded-lg transition-all ${
-                        isSelected && isLaunchpad
+                        isSelected && canAddFeatures
                           ? 'bg-gradient-to-br from-blue-600 to-cyan-600 scale-110'
                           : 'bg-gradient-to-br from-blue-600 to-cyan-600 opacity-70'
                       }`}>
@@ -735,7 +762,7 @@ ${formData.projectDescription}
                       <div className="flex-1 min-w-0">
                         <h4 className="font-semibold text-gray-900 dark:text-white mb-1 text-sm flex items-center gap-2">
                           {feature.name}
-                          {isSelected && isLaunchpad && (
+                          {isSelected && canAddFeatures && (
                             <Icon icon="solar:check-circle-bold" className="text-blue-600 dark:text-blue-400 flex-shrink-0" width={16} height={16} />
                           )}
                         </h4>
@@ -745,7 +772,7 @@ ${formData.projectDescription}
                       </div>
                     </div>
                     <div className="flex items-center justify-between pt-2 border-t border-gray-200 dark:border-gray-700">
-                      {isLaunchpad ? (
+                      {canAddFeatures ? (
                         <>
                           <span className="text-xs font-medium text-gray-500 dark:text-gray-400">
                             {isSelected ? 'Selected' : 'Click to add'}
@@ -775,7 +802,7 @@ ${formData.projectDescription}
               transition={{ duration: 0.6, delay: 1.1 }}
               className="text-center mt-8 space-y-3"
             >
-              {selectedPackage === 'launchpad' && selectedFeatures.length > 0 && (
+              {supportsAddons && selectedFeatures.length > 0 && (
                 <div className="p-4 rounded-xl bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800">
                   <p className="text-sm font-semibold text-gray-900 dark:text-white mb-1">
                     {selectedFeatures.length} feature{selectedFeatures.length !== 1 ? 's' : ''} selected
