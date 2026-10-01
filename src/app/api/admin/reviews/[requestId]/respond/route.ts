@@ -47,7 +47,7 @@ export async function POST(request: Request, { params }: RouteParams) {
     _key: `interaction-${Date.now()}`,
     type: action === "publish" ? "published" : "response",
     timestamp: now,
-    metadata: { message },
+    metadata: { message, author: "jordan" },
   };
 
   const existingInteractions = reviewRequest.interactions || [];
