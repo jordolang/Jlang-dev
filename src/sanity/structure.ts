@@ -1,4 +1,5 @@
 import type { StructureResolver } from "sanity/structure";
+import { ContentCalendar } from "./views/ContentCalendar";
 import { ReviewDashboard } from "./components/ReviewDashboard";
 
 /**
@@ -31,7 +32,15 @@ export const structure: StructureResolver = (S) =>
 
       S.divider(),
 
+      S.listItem()
+        .title("Content Calendar")
+        .id("contentCalendar")
+        .child(S.component(ContentCalendar).title("Content Calendar")),
+
+      S.divider(),
+
       S.documentTypeListItem("blogPost").title("Blog posts"),
+      S.documentTypeListItem("socialPost").title("Social posts"),
       S.documentTypeListItem("project").title("Projects"),
       S.documentTypeListItem("experience").title("Experience"),
       S.documentTypeListItem("techItem").title("Tech stack"),
