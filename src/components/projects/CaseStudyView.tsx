@@ -8,8 +8,14 @@ import Image from "next/image";
 import type { PortableTextBlock } from "@portabletext/react";
 import { AnalyticsEvents, trackEvent } from "@/lib/analytics";
 import CaseStudySection from "@/components/projects/CaseStudySection";
-import { CodeShowcase } from "@/components/showcase/CodeShowcase";
+import dynamic from "next/dynamic";
 import { LazyOnScroll } from "@/components/LazyOnScroll";
+
+// Keep the showcase and its Prism highlighter out of the route bundle; most projects have no examples.
+const CodeShowcase = dynamic(
+  () => import("@/components/showcase/CodeShowcase").then((mod) => mod.CodeShowcase),
+  { ssr: false, loading: () => <div style={{ minHeight: 600 }} aria-hidden /> },
+);
 
 export interface CaseStudyViewProject {
   slug: string;

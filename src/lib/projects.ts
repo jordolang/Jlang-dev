@@ -88,6 +88,7 @@ async function getSanityProjects(): Promise<Project[]> {
         title, subtitle, description, features, deliverables, tech, github, live,
         gradient, status, category, highlight, timeline, clientType, group,
         fullPagePreview, featured, challenge, approach, solution, results,
+        codeExamples[]{ title, description, code, language },
         image ${IMAGE_PROJECTION},
         "testimonialRef": *[_type == "testimonial" && _id == ^.testimonialRef._ref && approved == true][0]{ author, role, company, content, rating }
       }`,
@@ -124,6 +125,10 @@ async function getSanityProjects(): Promise<Project[]> {
         solution: project.solution,
         results: project.results,
         testimonial: project.testimonialRef ?? null,
+        // CMS examples win; otherwise keep the bundled ones for the same slug.
+        codeExamples: project.codeExamples?.length
+          ? project.codeExamples
+          : fallbackProjects.find((p) => p.slug === project.slug)?.codeExamples,
       };
     });
   } catch (error) {

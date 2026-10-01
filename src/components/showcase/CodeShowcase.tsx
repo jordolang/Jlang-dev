@@ -77,10 +77,11 @@ export function CodeShowcase({
 
       {/* View Toggle Controls */}
       <div className="flex items-center justify-between">
-        <div className="flex items-center gap-2 bg-gray-100 dark:bg-gray-800 rounded-lg p-1">
+        <div role="group" aria-label="View mode" className="flex items-center gap-2 bg-gray-100 dark:bg-gray-800 rounded-lg p-1">
           {preview && (
             <button
               onClick={() => setActiveView('preview')}
+              aria-pressed={activeView === 'preview'}
               className={`px-3 py-1.5 text-sm rounded-md transition-all flex items-center gap-1.5 ${
                 activeView === 'preview'
                   ? 'bg-white dark:bg-gray-700 text-gray-900 dark:text-white shadow-sm'
@@ -94,6 +95,7 @@ export function CodeShowcase({
           {preview && (
             <button
               onClick={() => setActiveView('split')}
+              aria-pressed={activeView === 'split'}
               className={`px-3 py-1.5 text-sm rounded-md transition-all flex items-center gap-1.5 ${
                 activeView === 'split'
                   ? 'bg-white dark:bg-gray-700 text-gray-900 dark:text-white shadow-sm'
@@ -106,6 +108,7 @@ export function CodeShowcase({
           )}
           <button
             onClick={() => setActiveView('code')}
+            aria-pressed={activeView === 'code'}
             className={`px-3 py-1.5 text-sm rounded-md transition-all flex items-center gap-1.5 ${
               activeView === 'code'
                 ? 'bg-white dark:bg-gray-700 text-gray-900 dark:text-white shadow-sm'

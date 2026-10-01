@@ -38,25 +38,19 @@ export function CodeComparison({
 
     const addedLines: number[] = [];
     const removedLines: number[] = [];
-    const changedLines: number[] = [];
 
+    // A replaced line counts as removed on the before side and added on the after side.
     for (let i = 0; i < maxLines; i++) {
       const beforeLine = beforeLines[i];
       const afterLine = afterLines[i];
 
       if (beforeLine !== afterLine) {
-        if (beforeLine === undefined) {
-          addedLines.push(i + 1);
-        } else if (afterLine === undefined) {
-          removedLines.push(i + 1);
-        } else {
-          changedLines.push(i + 1);
-          addedLines.push(i + 1);
-        }
+        if (beforeLine !== undefined) removedLines.push(i + 1);
+        if (afterLine !== undefined) addedLines.push(i + 1);
       }
     }
 
-    return { addedLines, removedLines, changedLines };
+    return { addedLines, removedLines };
   };
 
   const { addedLines, removedLines } = getDiffLines();
