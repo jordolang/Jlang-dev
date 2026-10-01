@@ -34,7 +34,16 @@ export const reviewRequestType = defineType({
           fields: [
             defineField({ name: "type", title: "Type", type: "string", validation: (rule) => rule.required() }),
             defineField({ name: "timestamp", title: "Timestamp", type: "datetime", validation: (rule) => rule.required() }),
-            defineField({ name: "metadata", title: "Metadata", type: "object", fields: [] }),
+            defineField({
+              name: "metadata",
+              title: "Metadata",
+              type: "object",
+              fields: [
+                defineField({ name: "author", title: "Author", type: "string" }),
+                defineField({ name: "message", title: "Message", type: "text" }),
+                defineField({ name: "action", title: "Action", type: "string" }),
+              ],
+            }),
           ],
         },
       ],
