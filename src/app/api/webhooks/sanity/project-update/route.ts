@@ -90,7 +90,7 @@ export async function POST(request: Request) {
             <p style="margin:0;font-size:14px;color:#6b7280">Current Status</p>
             <p style="margin:8px 0 0 0;font-size:20px;font-weight:700;color:#4f46e5">${escapeHtml(statusDisplay)}</p>
           </div>
-          ${document.endDate ? `<p style="color:#6b7280;font-size:14px">Expected completion: ${new Date(document.endDate).toLocaleDateString()}</p>` : ""}
+          ${document.endDate ? `<p style="color:#6b7280;font-size:14px">Expected completion: ${new Date(document.endDate).toLocaleDateString("en-US", { timeZone: "UTC" })}</p>` : ""}
           <p><a href="${portalUrl}" style="display:inline-block;background:#4f46e5;color:white;padding:13px 22px;border-radius:10px;text-decoration:none;font-weight:700">View Project Details</a></p>
           <p style="font-size:13px;color:#667085">Log in to your client portal to see the full project timeline and communicate with Jordan.</p>
         </div>`,

@@ -79,19 +79,6 @@ export default function DeliverablesList({ deliverables }: DeliverablesListProps
     return "mdi:file-outline";
   };
 
-  // Handle download with tracking
-  const handleDownload = async (deliverable: Deliverable) => {
-    try {
-      // Open file in new tab for download
-      window.open(deliverable.fileUrl, "_blank");
-
-      // TODO: Track download count via API endpoint
-      // This would increment downloadCount and update lastDownloadedAt in Sanity
-    } catch (error) {
-      console.error("Error downloading file:", error);
-    }
-  };
-
   return (
     <div className="my-8">
       <div className="flex items-center gap-3 mb-6">
@@ -200,14 +187,14 @@ export default function DeliverablesList({ deliverables }: DeliverablesListProps
                   </div>
 
                   {/* Download button */}
-                  <button
-                    onClick={() => handleDownload(deliverable)}
+                  <a
+                    href={`/api/portal/deliverables/${encodeURIComponent(deliverable._id)}/download`}
                     className="w-full flex items-center justify-center gap-2 rounded-lg bg-gradient-to-r from-indigo-600 to-purple-600 px-4 py-2.5 text-sm font-semibold text-white shadow-md transition-all hover:shadow-lg hover:from-indigo-700 hover:to-purple-700 active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2"
                     aria-label={`Download ${deliverable.title}`}
                   >
                     <Icon icon="mdi:download" width={18} height={18} aria-hidden="true" />
                     <span>Download</span>
-                  </button>
+                  </a>
                 </div>
 
                 {/* Gradient accent bar */}

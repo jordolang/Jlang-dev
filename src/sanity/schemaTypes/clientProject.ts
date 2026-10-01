@@ -53,7 +53,7 @@ export const clientProjectType = defineType({
       title: "Notes",
       type: "text",
       rows: 3,
-      description: "Internal notes about this client-project relationship.",
+      description: "Internal notes about this client-project relationship (never shown in the client portal).",
     }),
   ],
   preview: {

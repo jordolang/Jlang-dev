@@ -5,7 +5,15 @@ import LoginForm from "@/components/portal/LoginForm";
 export const metadata: Metadata = { title: "Client Portal Login | JLang Development", robots: { index: false, follow: false } };
 export const dynamic = "force-dynamic";
 
-export default function PortalLoginPage() {
+export default async function PortalLoginPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ token?: string; redirect?: string }>;
+}) {
+  const { token, redirect } = await searchParams;
+  // Only same-site portal paths, so the post-login redirect can't be turned into an open redirect
+  const next = redirect?.startsWith("/portal/") && !redirect.startsWith("//") ? redirect : "/portal/dashboard";
+
   return (
     <>
       <a
@@ -23,7 +31,7 @@ export default function PortalLoginPage() {
           >
             ← JLang Development
           </Link>
-          <LoginForm />
+          <LoginForm token={token} next={next} />
         </div>
       </main>
     </>

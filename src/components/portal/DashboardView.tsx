@@ -42,15 +42,18 @@ export default function DashboardView({ session, projects }: DashboardViewProps)
               <Icon icon="mdi:arrow-left" width={20} height={20} aria-hidden="true" />
               JLang Development
             </Link>
-          <m.button
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-            className="flex items-center gap-2 rounded-lg bg-white px-4 py-2 text-sm font-medium text-gray-700 shadow-md transition-colors hover:bg-gray-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 dark:bg-gray-800 dark:text-gray-300 dark:hover:bg-gray-700"
-            aria-label={`Account menu for ${session.name}`}
-          >
-            <Icon icon="mdi:account-circle" width={20} height={20} aria-hidden="true" />
-            {session.name}
-          </m.button>
+          <form action="/api/auth/logout" method="post">
+            <m.button
+              type="submit"
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              className="flex items-center gap-2 rounded-lg bg-white px-4 py-2 text-sm font-medium text-gray-700 shadow-md transition-colors hover:bg-gray-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 dark:bg-gray-800 dark:text-gray-300 dark:hover:bg-gray-700"
+              aria-label={`Sign out ${session.name}`}
+            >
+              <Icon icon="mdi:logout" width={20} height={20} aria-hidden="true" />
+              Sign out
+            </m.button>
+          </form>
         </div>
 
         {/* Welcome section */}
@@ -144,7 +147,6 @@ export default function DashboardView({ session, projects }: DashboardViewProps)
                         startDate: project.startDate,
                         endDate: project.endDate,
                       }}
-                      description={project.notes}
                     />
                   ))}
                 </div>
@@ -166,7 +168,6 @@ export default function DashboardView({ session, projects }: DashboardViewProps)
                         startDate: project.startDate,
                         endDate: project.endDate,
                       }}
-                      description={project.notes}
                     />
                   ))}
                 </div>
@@ -188,7 +189,6 @@ export default function DashboardView({ session, projects }: DashboardViewProps)
                         startDate: project.startDate,
                         endDate: project.endDate,
                       }}
-                      description={project.notes}
                     />
                   ))}
                 </div>

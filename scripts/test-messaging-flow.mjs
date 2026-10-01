@@ -299,6 +299,7 @@ async function runTests() {
   }
 
   log('For complete testing, follow: e2e-test-plan-messaging.md\n', 'blue');
+  if (passedTests !== totalTests) process.exitCode = 1;
 }
 
 // Run tests

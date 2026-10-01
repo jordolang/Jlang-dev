@@ -1,7 +1,9 @@
 import { NextResponse } from "next/server";
 import { getResend } from "@/lib/resend";
 import { sanityClient, sanityIsConfigured } from "@/sanity/lib/client";
-import { generateMagicLink } from "@/lib/auth";
+import { findLoginClient, generateMagicLink } from "@/lib/auth";
+
+const RATE_LIMIT_WINDOW = 60 * 1000;
 
 interface SendMagicLinkRequest {
   email: string;
@@ -32,11 +34,21 @@ export async function POST(request: Request) {
 
   try {
     // Check if client exists and has login enabled
-    const query = `*[_type == "client" && email == $email && loginEnabled == true][0]{_id, name, email}`;
-    const client = await sanityClient.fetch<{ _id: string; name: string; email: string } | null>(query, { email });
+    const client = await findLoginClient(email);
 
     if (!client) {
       // Return success even if client doesn't exist to prevent email enumeration
+      return NextResponse.json({ ok: true });
+    }
+
+    // Rate limit: at most one link per address per minute. State lives in Sanity, not memory, so it holds across serverless instances.
+    const since = new Date(Date.now() - RATE_LIMIT_WINDOW).toISOString();
+    const recent = await sanityClient.fetch<number>(
+      `count(*[_type == "magicLinkToken" && email == $email && createdAt > $since])`,
+      { email, since }
+    );
+    if (recent > 0) {
+      // Same response as success so the limiter doesn't reveal which addresses are clients
       return NextResponse.json({ ok: true });
     }
 

@@ -134,23 +134,28 @@ async function runTests() {
   totalTests++;
   const verifyToken = await testEndpoint(
     'Verify token endpoint',
-    `${BASE_URL}/api/auth/magic-link/verify?token=invalid-test-token`
+    `${BASE_URL}/api/auth/magic-link/verify`,
+    {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ token: 'invalid-test-token' }),
+    }
   );
 
   if (verifyToken.success) {
     // We expect this to fail with 400/401, not 404
     if (verifyToken.status === 404) {
-      logTest('GET /api/auth/magic-link/verify', 'fail', 'Endpoint not found (404)');
+      logTest('POST /api/auth/magic-link/verify', 'fail', 'Endpoint not found (404)');
     } else if (verifyToken.status === 400 || verifyToken.status === 401) {
-      logTest('GET /api/auth/magic-link/verify', 'pass', 'Endpoint exists and validates tokens');
+      logTest('POST /api/auth/magic-link/verify', 'pass', 'Endpoint exists and validates tokens');
       passedTests++;
     } else if (verifyToken.status === 200) {
-      logTest('GET /api/auth/magic-link/verify', 'warn', 'Unexpectedly succeeded with invalid token');
+      logTest('POST /api/auth/magic-link/verify', 'warn', 'Unexpectedly succeeded with invalid token');
     } else {
-      logTest('GET /api/auth/magic-link/verify', 'warn', `Status: ${verifyToken.status}`);
+      logTest('POST /api/auth/magic-link/verify', 'warn', `Status: ${verifyToken.status}`);
     }
   } else {
-    logTest('GET /api/auth/magic-link/verify', 'fail', `Error: ${verifyToken.error}`);
+    logTest('POST /api/auth/magic-link/verify', 'fail', `Error: ${verifyToken.error}`);
   }
 
   // Test 5: Protected route (dashboard) without session

@@ -58,7 +58,8 @@ export default function ProjectCard({ id, title, status, timeline, description }
   const formatDate = (dateString?: string) => {
     if (!dateString) return null;
     const date = new Date(dateString);
-    return date.toLocaleDateString("en-US", { month: "short", year: "numeric" });
+    // Sanity `date` values are midnight UTC; format in UTC so western time zones don't show the previous day/month
+    return date.toLocaleDateString("en-US", { month: "short", year: "numeric", timeZone: "UTC" });
   };
 
   const startDate = formatDate(timeline.startDate);

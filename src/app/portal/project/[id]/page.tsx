@@ -10,7 +10,7 @@ import ProjectDetailView from "@/components/portal/ProjectDetailView";
 
 export const metadata: Metadata = {
   title: "Project Details | Client Portal",
-  description: "View project timeline, messages, and deliverables",
+  description: "View project messages and deliverables",
   robots: { index: false, follow: false },
 };
 

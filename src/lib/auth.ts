@@ -1,11 +1,12 @@
 import { sanityClient, sanityIsConfigured } from "@/sanity/lib/client";
 import { cookies } from "next/headers";
-import { createHmac, randomBytes, timingSafeEqual } from "crypto";
+import { createHash, createHmac, randomBytes, timingSafeEqual } from "crypto";
 
 // Auth utilities: generateMagicLink, verifyToken, getSession
 
 export interface MagicLinkToken {
   _id: string;
+  _rev: string;
   token: string;
   email: string;
   expiresAt: string;
@@ -31,16 +32,19 @@ const sessionSecret = () => process.env.PORTAL_SESSION_SECRET || process.env.SAN
 
 const sign = (payload: string, secret: string) => createHmac("sha256", secret).update(payload).digest("base64url");
 
+/** Tokens are stored hashed so a leaked Sanity document can't be replayed as a login link. */
+const hashToken = (token: string) => createHash("sha256").update(token).digest("hex");
+
 /** Encode session data as `<base64url json>.<hmac>` so the cookie can't be forged client-side. */
 function encodeSession(data: Record<string, string>): string | null {
   const secret = sessionSecret();
   if (!secret) return null;
-  const payload = Buffer.from(JSON.stringify(data)).toString("base64url");
+  const payload = Buffer.from(JSON.stringify({ ...data, exp: Date.now() + SESSION_DURATION })).toString("base64url");
   return `${payload}.${sign(payload, secret)}`;
 }
 
-/** Returns the session payload only if the signature matches. */
-export function decodeSession(value: string): { clientId?: string } | null {
+/** Returns the session payload only if the signature matches and it hasn't expired. */
+export function decodeSession(value: string): { clientId?: string; exp?: number } | null {
   const secret = sessionSecret();
   const [payload, sig] = value.split(".");
   if (!secret || !payload || !sig) return null;
@@ -48,7 +52,8 @@ export function decodeSession(value: string): { clientId?: string } | null {
   const actual = Buffer.from(sig);
   if (expected.length !== actual.length || !timingSafeEqual(expected, actual)) return null;
   try {
-    return JSON.parse(Buffer.from(payload, "base64url").toString());
+    const data = JSON.parse(Buffer.from(payload, "base64url").toString());
+    return typeof data.exp === "number" && data.exp > Date.now() ? data : null;
   } catch {
     return null;
   }
@@ -73,7 +78,7 @@ export async function generateMagicLink(email: string): Promise<string | null> {
   try {
     await sanityClient.create({
       _type: "magicLinkToken",
-      token,
+      token: hashToken(token),
       email,
       expiresAt,
       createdAt: new Date().toISOString(),
@@ -96,8 +101,8 @@ export async function verifyToken(token: string): Promise<{ valid: boolean; emai
   }
 
   try {
-    const query = `*[_type == "magicLinkToken" && token == $magicToken][0]{_id, email, expiresAt, used}`;
-    const result = await sanityClient.fetch<MagicLinkToken | null>(query, { magicToken: token });
+    const query = `*[_type == "magicLinkToken" && token == $magicToken][0]{_id, _rev, email, expiresAt, used}`;
+    const result = await sanityClient.fetch<MagicLinkToken | null>(query, { magicToken: hashToken(token) });
 
     if (!result) {
       return { valid: false, error: "Token not found" };
@@ -113,8 +118,12 @@ export async function verifyToken(token: string): Promise<{ valid: boolean; emai
       return { valid: false, error: "Token expired" };
     }
 
-    // Mark token as used
-    await sanityClient.patch(result._id).set({ used: true, usedAt: now.toISOString() }).commit();
+    // Mark token as used; ifRevisionId makes a concurrent second consume fail instead of also succeeding
+    try {
+      await sanityClient.patch(result._id).ifRevisionId(result._rev).set({ used: true, usedAt: now.toISOString() }).commit();
+    } catch {
+      return { valid: false, error: "Token already used" };
+    }
 
     return { valid: true, email: result.email };
   } catch (error) {
@@ -124,15 +133,24 @@ export async function verifyToken(token: string): Promise<{ valid: boolean; emai
 }
 
 /**
+ * Resolve an email to exactly one login-enabled client. Duplicates are rejected rather than
+ * guessing, since picking one would hide (or expose) the wrong account's projects.
+ */
+export async function findLoginClient(email: string): Promise<ClientSession | null> {
+  const query = `*[_type == "client" && email == $email && loginEnabled == true]{_id, name, email, company, role}`;
+  const clients = await sanityClient.fetch<ClientSession[]>(query, { email });
+  if (clients.length > 1) console.error(`Portal login refused: ${clients.length} clients share one email`);
+  return clients.length === 1 ? clients[0] : null;
+}
+
+/**
  * Create a session for a client by email
  */
 export async function createSession(email: string): Promise<ClientSession | null> {
   if (!sanityIsConfigured || !email) return null;
 
   try {
-    // Fetch the client by email
-    const query = `*[_type == "client" && email == $email && loginEnabled == true][0]{_id, name, email, company, role}`;
-    const client = await sanityClient.fetch<ClientSession | null>(query, { email });
+    const client = await findLoginClient(email);
 
     if (!client) {
       return null;

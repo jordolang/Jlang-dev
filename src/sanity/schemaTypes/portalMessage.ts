@@ -61,6 +61,7 @@ export const portalMessageType = defineType({
       title: "Created at",
       type: "datetime",
       readOnly: true,
+      initialValue: () => new Date().toISOString(),
     }),
     defineField({
       name: "readAt",

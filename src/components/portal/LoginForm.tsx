@@ -1,11 +1,38 @@
 "use client";
 
-import { useState } from "react";
+import { useRouter } from "next/navigation";
+import { useEffect, useRef, useState } from "react";
 
-export default function LoginForm() {
+export default function LoginForm({ token, next = "/portal/dashboard" }: { token?: string; next?: string }) {
+  const router = useRouter();
   const [email, setEmail] = useState("");
-  const [status, setStatus] = useState<"idle" | "sending" | "complete" | "error">("idle");
+  const [status, setStatus] = useState<"idle" | "sending" | "complete" | "error" | "verifying">(token ? "verifying" : "idle");
   const [message, setMessage] = useState("");
+  const verified = useRef(false);
+
+  // Magic-link landing: exchange the one-time token for a session cookie
+  useEffect(() => {
+    if (!token || verified.current) return; // ref guard: tokens are single-use, so never POST twice
+    verified.current = true;
+    fetch("/api/auth/magic-link/verify", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ token }),
+    })
+      .then(async (response) => {
+        if (response.ok) {
+          router.replace(next);
+          return;
+        }
+        const result = await response.json().catch(() => null);
+        setStatus("error");
+        setMessage(`${result?.error || "This login link is invalid"}. Request a new link below.`);
+      })
+      .catch(() => {
+        setStatus("error");
+        setMessage("Could not verify your login link. Request a new link below.");
+      });
+  }, [token, next, router]);
 
   const submit = async (event: React.FormEvent) => {
     event.preventDefault();
@@ -15,12 +42,12 @@ export default function LoginForm() {
       return;
     }
     setStatus("sending");
-    const response = await fetch("/api/portal/login", {
+    const response = await fetch("/api/auth/magic-link/send", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ email }),
     });
-    const result = await response.json();
+    const result = await response.json().catch(() => ({}));
     if (!response.ok) {
       setStatus("error");
       setMessage(result.error || "Could not send magic link.");
@@ -28,6 +55,14 @@ export default function LoginForm() {
     }
     setStatus("complete");
   };
+
+  if (status === "verifying") {
+    return (
+      <div role="status" className="rounded-3xl border border-white/40 bg-white/90 p-8 text-center shadow-2xl dark:border-gray-700 dark:bg-gray-900/90">
+        <h1 className="text-3xl font-bold">Signing you in…</h1>
+      </div>
+    );
+  }
 
   if (status === "complete") {
     return (

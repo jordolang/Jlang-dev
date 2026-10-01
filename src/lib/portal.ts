@@ -13,7 +13,6 @@ export interface ClientProject {
   status: string;
   startDate?: string;
   endDate?: string;
-  notes?: string;
 }
 
 export interface ProjectMessage {
@@ -51,8 +50,7 @@ export async function getClientProjects(clientId: string): Promise<ClientProject
     "projectSlug": project->slug.current,
     status,
     startDate,
-    endDate,
-    notes
+    endDate
   }`;
   const params: Record<string, unknown> = { clientId };
   try {
@@ -66,13 +64,13 @@ export async function getClientProjects(clientId: string): Promise<ClientProject
 
 export async function getProjectMessages(clientProjectId: string): Promise<ProjectMessage[]> {
   if (!sanityIsConfigured || !clientProjectId) return [];
-  const query = `*[_type == "portalMessage" && clientProject._ref == $clientProjectId] | order(createdAt asc) {
+  const query = `*[_type == "portalMessage" && clientProject._ref == $clientProjectId] | order(coalesce(createdAt, _createdAt) asc) {
     _id,
     sender,
     recipient,
     message,
     isRead,
-    createdAt,
+    "createdAt": coalesce(createdAt, _createdAt),
     readAt
   }`;
   const params: Record<string, unknown> = { clientProjectId };
@@ -121,8 +119,7 @@ export async function getClientProject(clientProjectId: string): Promise<ClientP
     "projectSlug": project->slug.current,
     status,
     startDate,
-    endDate,
-    notes
+    endDate
   }`;
   const params: Record<string, unknown> = { clientProjectId };
   try {
