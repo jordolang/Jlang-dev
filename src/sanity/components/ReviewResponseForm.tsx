@@ -28,7 +28,7 @@ export function ReviewResponseForm({ requestId, clientName, onSuccess }: ReviewR
     setErrorMessage("");
 
     try {
-      const response = await fetch(`/api/reviews/${requestId}/respond`, {
+      const response = await fetch(`/api/admin/reviews/${requestId}/respond`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ message: message.trim(), action }),
