@@ -34,32 +34,19 @@ export const socialPostType = defineType({
       description: "The blog post this social content is based on.",
       validation: (rule) => rule.required(),
     }),
-    defineField({
-      name: "scheduledPublishDate",
-      title: "Scheduled Publish Date",
-      type: "datetime",
-      description: "Optional: Schedule this post to be published at a specific date and time.",
-    }),
+    // No social-platform integration exists, so posting is manual; status just tracks it.
     defineField({
       name: "status",
       title: "Status",
       type: "string",
-      readOnly: true,
       initialValue: "draft",
+      description: "Mark as Posted once you've shared it.",
       options: {
         list: [
           { title: "Draft", value: "draft" },
-          { title: "Scheduled", value: "scheduled" },
-          { title: "Published", value: "published" },
-          { title: "Failed", value: "failed" },
+          { title: "Posted", value: "published" },
         ],
       },
-    }),
-    defineField({
-      name: "publishedAt",
-      title: "Published At",
-      type: "datetime",
-      readOnly: true,
     }),
   ],
   orderings: [

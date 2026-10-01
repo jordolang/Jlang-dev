@@ -50,15 +50,15 @@ This document provides step-by-step instructions for verifying the complete cont
 
 **Option B: Manually trigger the cron job (development/testing)**
 
-1. **Get the CRON_SECRET from .env.local**
+1. **Load CRON_SECRET from .env.local into your shell** (never paste the value into docs or commands you share)
    ```bash
-   grep CRON_SECRET .env.local
+   export CRON_SECRET="$(grep '^CRON_SECRET=' .env.local | cut -d= -f2-)"
    ```
 
 2. **Trigger the publish endpoint**
    ```bash
    curl -X GET http://localhost:3000/api/cron/publish-scheduled \
-     -H "Authorization: Bearer YOUR_CRON_SECRET_HERE"
+     -H "Authorization: Bearer $CRON_SECRET"
    ```
 
 3. **Verify the response**
@@ -77,7 +77,7 @@ This document provides step-by-step instructions for verifying the complete cont
 
 4. **Verify in Sanity Studio**
    - Refresh the blog post in Studio
-   - **EXPECTED**: The `published` toggle should now be **ON** (true)
+   - **EXPECTED**: The draft has been published (no unpublished changes) and the `published` toggle is **ON** (true)
 
 5. **Verify on public blog page**
    - Navigate to: http://localhost:3000/blog
@@ -96,12 +96,12 @@ This document provides step-by-step instructions for verifying the complete cont
    - Click on the post you just published
 
 2. **Generate copy**
-   - Click the "Generate Copy" action button
+   - Click the "Generate Social Copy" action button
    - Wait for AI generation to complete
-   - **EXPECTED**: Toast notification showing "Created 2 posts!"
+   - **EXPECTED**: Toast notification "Social copy generated — Created 2 social posts"
 
 3. **Verify posts were created**
-   - Navigate to the posts section in Studio
+   - Navigate to "Social posts" in Studio
    - **EXPECTED**: You should see 2 new posts:
      - One for **Twitter** platform
      - One for **LinkedIn** platform
@@ -140,7 +140,7 @@ This document provides step-by-step instructions for verifying the complete cont
 - [ ] Post automatically set to `published=true` after scheduled time
 - [ ] Published post visible on /blog page
 - [ ] Post changes to green in Content Calendar after publishing
-- [ ] 'Generate Copy' action visible for published posts
+- [ ] 'Generate Social Copy' action visible for published posts
 - [ ] Twitter post created (max 280 chars)
 - [ ] LinkedIn post created
 - [ ] Posts reference the original blog post

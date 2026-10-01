@@ -1,8 +1,8 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useClient } from "sanity";
-import { Box, Card, Container, Flex, Grid, Heading, Spinner, Stack, Text } from "@sanity/ui";
+import { Box, Button, Card, Container, Flex, Grid, Heading, Spinner, Stack, Text } from "@sanity/ui";
 import { apiVersion } from "../env";
 
 interface BlogPost {
@@ -24,10 +24,14 @@ interface CalendarDay {
  * Posts are displayed on their scheduledPublishDate if set, otherwise on their publish date.
  */
 export function ContentCalendar() {
-  const client = useClient({ apiVersion });
+  const baseClient = useClient({ apiVersion });
+  // Drafts perspective so scheduled-but-unpublished posts show up too.
+  const client = useMemo(() => baseClient.withConfig({ perspective: "drafts" }), [baseClient]);
   const [posts, setPosts] = useState<BlogPost[]>([]);
   const [loading, setLoading] = useState(true);
-  const [currentDate] = useState(() => new Date());
+  const [currentDate, setCurrentDate] = useState(() => new Date());
+  const shiftMonth = (delta: number) =>
+    setCurrentDate((d) => new Date(d.getFullYear(), d.getMonth() + delta, 1));
   const [calendarDays, setCalendarDays] = useState<CalendarDay[]>([]);
 
   // Fetch blog posts
@@ -84,7 +88,8 @@ export function ContentCalendar() {
         const postDate = post.scheduledPublishDate || post.date;
         if (!postDate) return false;
 
-        const pd = new Date(postDate);
+        // A bare YYYY-MM-DD parses as UTC midnight (the day before, west of UTC); force local time.
+        const pd = new Date(postDate.length === 10 ? `${postDate}T00:00:00` : postDate);
         return (
           pd.getFullYear() === date.getFullYear() &&
           pd.getMonth() === date.getMonth() &&
@@ -120,9 +125,13 @@ export function ContentCalendar() {
 
         <Card padding={4} radius={2} shadow={1}>
           <Stack space={4}>
-            <Heading as="h2" size={2}>
-              {monthName}
-            </Heading>
+            <Flex align="center" justify="space-between">
+              <Button mode="ghost" text="‹ Prev" onClick={() => shiftMonth(-1)} />
+              <Heading as="h2" size={2}>
+                {monthName}
+              </Heading>
+              <Button mode="ghost" text="Next ›" onClick={() => shiftMonth(1)} />
+            </Flex>
 
             {/* Week day headers */}
             <Grid columns={7} gap={2}>

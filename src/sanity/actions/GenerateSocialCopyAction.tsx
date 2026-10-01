@@ -19,6 +19,8 @@ interface SocialPostResponse {
   };
 }
 
+const TWITTER_LIMIT = 280;
+
 /**
  * Generates platform-specific social media posts from a published blog post.
  * Creates separate socialPost documents for Twitter and LinkedIn variants.
@@ -28,7 +30,8 @@ export const GenerateSocialCopyAction: DocumentActionComponent = (props) => {
   const toast = useToast();
   const [working, setWorking] = useState(false);
 
-  const document = (props.draft ?? props.published) as Record<string, unknown> | null;
+  // Only the live version counts: unpublished draft edits shouldn't end up advertised on social.
+  const document = props.published as Record<string, unknown> | null;
   const title = typeof document?.title === "string" ? document.title : "";
   const excerpt = typeof document?.excerpt === "string" ? document.excerpt : "";
   const published = document?.published === true;
@@ -70,41 +73,54 @@ export const GenerateSocialCopyAction: DocumentActionComponent = (props) => {
 
         const result = payload as SocialPostResponse;
 
-        // Create socialPost documents for each platform
-        const createdPosts: string[] = [];
+        // Create every variant in one transaction so a partial failure can't leave orphans behind.
+        const tx = client.transaction();
+        let created = 0;
 
         if (result.platforms.twitter) {
           const { content, hashtags } = result.platforms.twitter;
-          const formattedContent = `${content}\n\n${hashtags.map((tag) => `#${tag}`).join(" ")}`;
+          const tags = hashtags.map((tag) => `#${tag.replace(/^#/, "")}`);
+          // Drop trailing hashtags until the whole tweet fits; the copy itself is never truncated.
+          let formattedContent = `${content}\n\n${tags.join(" ")}`.trim();
+          while (formattedContent.length > TWITTER_LIMIT && tags.length > 0) {
+            tags.pop();
+            formattedContent = `${content}\n\n${tags.join(" ")}`.trim();
+          }
+          if (formattedContent.length > TWITTER_LIMIT) {
+            throw new Error(`Generated tweet is ${formattedContent.length} characters (limit ${TWITTER_LIMIT}). Try again.`);
+          }
 
-          const twitterPost = await client.create({
+          tx.create({
             _type: "socialPost",
             platform: "twitter",
             content: formattedContent,
             blogPost: { _type: "reference", _ref: props.id },
             status: "draft",
           });
-          createdPosts.push(twitterPost._id);
+          created++;
         }
 
         if (result.platforms.linkedin) {
           const { content, hashtags } = result.platforms.linkedin;
-          const formattedContent = `${content}\n\n${hashtags.map((tag) => `#${tag}`).join(" ")}`;
+          const formattedContent = `${content}\n\n${hashtags.map((tag) => `#${tag.replace(/^#/, "")}`).join(" ")}`;
 
-          const linkedinPost = await client.create({
+          tx.create({
             _type: "socialPost",
             platform: "linkedin",
             content: formattedContent,
             blogPost: { _type: "reference", _ref: props.id },
             status: "draft",
           });
-          createdPosts.push(linkedinPost._id);
+          created++;
         }
+
+        if (created === 0) throw new Error("Claude returned no social copy.");
+        await tx.commit();
 
         toast.push({
           status: "success",
           title: "Social copy generated",
-          description: `Created ${createdPosts.length} social post${createdPosts.length > 1 ? "s" : ""}. Edit them before publishing.`,
+          description: `Created ${created} social post${created > 1 ? "s" : ""}. Edit them before publishing.`,
         });
         props.onComplete();
       } catch (error) {

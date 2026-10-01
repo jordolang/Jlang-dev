@@ -14,26 +14,41 @@ export async function GET(request: Request) {
   const now = new Date().toISOString();
 
   try {
-    // Query for posts that should be published
-    const postsToPublish = await sanityClient.fetch<Array<{ _id: string; title: string }>>(
-      `*[_type == "blogPost" && scheduledPublishDate <= $now && published == false] { _id, title }`,
-      { now }
+    // Raw perspective so Studio drafts (`drafts.<id>`) are visible — a scheduled post is usually
+    // still a draft. When a base id has both versions, the draft wins: it's what the editor scheduled.
+    const due = await sanityClient.fetch<Array<{ _id: string; title: string } & Record<string, unknown>>>(
+      `*[_type == "blogPost" && scheduledPublishDate <= $now && published == false]`,
+      { now },
+      { perspective: "raw" }
     );
+    const byBaseId = new Map<string, (typeof due)[number]>();
+    for (const doc of due) {
+      const baseId = doc._id.replace(/^drafts\./, "");
+      if (!byBaseId.has(baseId) || doc._id.startsWith("drafts.")) byBaseId.set(baseId, doc);
+    }
+    const postsToPublish = [...byBaseId.entries()];
 
     if (postsToPublish.length === 0) {
       return NextResponse.json({ published: 0, message: "No posts ready to publish" });
     }
 
-    // Publish each post
+    // Publish each post: promote a draft to the published id (and drop the draft), or flip the
+    // flag on an already-published document.
     const results = await Promise.all(
-      postsToPublish.map((post) =>
-        sanityClient
-          .patch(post._id)
-          .set({ published: true })
+      postsToPublish.map(([baseId, post]) => {
+        const tx = sanityClient.transaction();
+        if (post._id.startsWith("drafts.")) {
+          // eslint-disable-next-line @typescript-eslint/no-unused-vars
+          const { _rev, _createdAt, _updatedAt, ...fields } = post;
+          tx.createOrReplace({ ...fields, _id: baseId, _type: "blogPost", published: true }).delete(post._id);
+        } else {
+          tx.patch(baseId, (p) => p.set({ published: true }));
+        }
+        return tx
           .commit()
-          .then(() => ({ id: post._id, title: post.title, success: true }))
-          .catch((error) => ({ id: post._id, title: post.title, success: false, error: error.message }))
-      )
+          .then(() => ({ id: baseId, title: post.title, success: true }))
+          .catch((error) => ({ id: baseId, title: post.title, success: false, error: error.message }));
+      })
     );
 
     const successful = results.filter((r) => r.success);

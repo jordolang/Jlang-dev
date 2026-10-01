@@ -32,6 +32,7 @@ export const structure: StructureResolver = (S) =>
       S.divider(),
 
       S.documentTypeListItem("blogPost").title("Blog posts"),
+      S.documentTypeListItem("socialPost").title("Social posts"),
       S.documentTypeListItem("project").title("Projects"),
       S.documentTypeListItem("experience").title("Experience"),
       S.documentTypeListItem("techItem").title("Tech stack"),
