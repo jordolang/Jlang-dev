@@ -106,7 +106,7 @@ async function getSanityBlogPosts(): Promise<BlogPost[]> {
   // `published` gate only applies to the live site.
   const filter = draft
     ? `*[_type == "blogPost" && defined(slug.current)]`
-    : `*[_type == "blogPost" && published == true && defined(slug.current)]`;
+    : `*[_type == "blogPost" && published == true && defined(slug.current) && (!defined(scheduledPublishDate) || scheduledPublishDate <= now())]`;
   try {
     const posts = await getSanityClient(draft).fetch<RawSanityPost[]>(
       `${filter} | order(date desc) ${POST_PROJECTION}`,
