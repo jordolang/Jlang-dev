@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useClient } from "sanity";
 import { Card, Stack, Text, Box, Flex, Button, Heading, TextArea, Label, Radio } from "@sanity/ui";
 
 interface ReviewResponseFormProps {
@@ -10,6 +11,7 @@ interface ReviewResponseFormProps {
 }
 
 export function ReviewResponseForm({ requestId, clientName, onSuccess }: ReviewResponseFormProps) {
+  const client = useClient({ apiVersion: "2026-01-01" });
   const [message, setMessage] = useState("");
   const [action, setAction] = useState<"publish" | "request_revision">("publish");
   const [status, setStatus] = useState<"idle" | "sending" | "complete" | "error">("idle");
@@ -28,9 +30,13 @@ export function ReviewResponseForm({ requestId, clientName, onSuccess }: ReviewR
     setErrorMessage("");
 
     try {
+      // The route verifies the signed-in Studio user's token against Sanity.
+      const token = client.config().token;
+      if (!token) throw new Error("No Sanity session token available.");
+
       const response = await fetch(`/api/admin/reviews/${requestId}/respond`, {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
         body: JSON.stringify({ message: message.trim(), action }),
       });
 

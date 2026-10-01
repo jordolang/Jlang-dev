@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { useClient } from "sanity";
 import { Card, Stack, Heading, Text, Box, Flex, Badge, Spinner } from "@sanity/ui";
+import { ReviewResponseForm } from "./ReviewResponseForm";
 
 interface ReviewRequest {
   _id: string;
@@ -54,6 +55,7 @@ export function ReviewDashboard() {
   const [reviews, setReviews] = useState<ReviewRequest[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [reloadKey, setReloadKey] = useState(0);
 
   useEffect(() => {
     const fetchReviews = async () => {
@@ -84,7 +86,7 @@ export function ReviewDashboard() {
     };
 
     fetchReviews();
-  }, [client]);
+  }, [client, reloadKey]);
 
   if (loading) {
     return (
@@ -220,6 +222,14 @@ export function ReviewDashboard() {
                             <Text size={1} muted>
                               Draft - not yet sent
                             </Text>
+                          )}
+
+                          {review.status === "submitted" && (
+                            <ReviewResponseForm
+                              requestId={review._id}
+                              clientName={review.clientName}
+                              onSuccess={() => setReloadKey((key) => key + 1)}
+                            />
                           )}
                         </Stack>
                       </Card>

@@ -73,12 +73,46 @@ export default function ReviewForm({ token, clientName, company, role, status: r
 
   const statusConfig = getStatusConfig(reviewStatus);
 
+  const messages = jordanMessages.length > 0 && (
+    <div className="mt-5 space-y-3">
+      {jordanMessages.map((interaction, index) => (
+        <div key={index} className="rounded-xl border border-blue-200 bg-blue-50 p-4 dark:border-blue-900 dark:bg-blue-950/40">
+          <div className="flex items-start gap-3">
+            <div className="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full bg-blue-600 text-sm font-semibold text-white">JL</div>
+            <div className="flex-1">
+              <p className="text-sm font-semibold text-blue-900 dark:text-blue-100">Message from Jordan</p>
+              <p className="mt-1 text-sm text-blue-800 dark:text-blue-200">{interaction.metadata?.message}</p>
+              <p className="mt-2 text-xs text-blue-600 dark:text-blue-400">{new Date(interaction.timestamp).toLocaleString()}</p>
+            </div>
+          </div>
+        </div>
+      ))}
+    </div>
+  );
+
+  // Already submitted (and not reopened for revision): show status and Jordan's replies, not the form.
+  if (reviewStatus === "submitted" || reviewStatus === "published") {
+    return (
+      <div className="rounded-3xl border border-white/40 bg-white/90 p-6 shadow-2xl backdrop-blur-xl sm:p-10 dark:border-gray-700 dark:bg-gray-900/90">
+        <div className="mb-6 flex items-center justify-between">
+          <p className="text-sm font-semibold uppercase tracking-[0.2em] text-indigo-600">Client review</p>
+          <span className={`rounded-full px-3 py-1 text-xs font-semibold ${statusConfig.color}`}>{statusConfig.label}</span>
+        </div>
+        <h1 className="mt-3 text-3xl font-bold sm:text-4xl">Thank you, {clientName}!</h1>
+        <p className="mt-3 text-gray-600 dark:text-gray-300">
+          {reviewStatus === "published" ? "Your review has been published." : "Your review has been received and is awaiting approval."}
+        </p>
+        {messages}
+      </div>
+    );
+  }
+
   if (submitStatus === "complete") {
     return (
       <div className="rounded-3xl border border-emerald-200 bg-white p-8 text-center shadow-xl dark:border-emerald-900 dark:bg-gray-900">
         <div className="mx-auto mb-5 flex h-16 w-16 items-center justify-center rounded-full bg-emerald-100 text-3xl text-emerald-700">✓</div>
         <h1 className="text-3xl font-bold">Thank you, {clientName}!</h1>
-        <p className="mx-auto mt-3 max-w-lg text-gray-600 dark:text-gray-300">Your review is now part of the JLang Development testimonial score.</p>
+        <p className="mx-auto mt-3 max-w-lg text-gray-600 dark:text-gray-300">Your review has been received and will appear on the site once Jordan approves it.</p>
         {googleReviewUrl && (
           <a href={googleReviewUrl} target="_blank" rel="noopener noreferrer" className="mt-7 inline-flex rounded-xl bg-blue-600 px-6 py-3 font-semibold text-white hover:bg-blue-700">
             Also share your review on Google
@@ -103,22 +137,7 @@ export default function ReviewForm({ token, clientName, company, role, status: r
       <h1 className="mt-3 text-3xl font-bold sm:text-4xl">Share your experience</h1>
       <p id="form-description" className="mt-3 text-gray-600 dark:text-gray-300">Your details are already filled in. Just write your review and choose a rating.</p>
 
-      {jordanMessages.length > 0 && (
-        <div className="mt-5 space-y-3">
-          {jordanMessages.map((interaction, index) => (
-            <div key={index} className="rounded-xl border border-blue-200 bg-blue-50 p-4 dark:border-blue-900 dark:bg-blue-950/40">
-              <div className="flex items-start gap-3">
-                <div className="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full bg-blue-600 text-sm font-semibold text-white">JL</div>
-                <div className="flex-1">
-                  <p className="text-sm font-semibold text-blue-900 dark:text-blue-100">Message from Jordan</p>
-                  <p className="mt-1 text-sm text-blue-800 dark:text-blue-200">{interaction.metadata?.message}</p>
-                  <p className="mt-2 text-xs text-blue-600 dark:text-blue-400">{new Date(interaction.timestamp).toLocaleString()}</p>
-                </div>
-              </div>
-            </div>
-          ))}
-        </div>
-      )}
+      {messages}
 
       <div className="mt-7 grid gap-4 sm:grid-cols-3">
         {[['Name', clientName], ['Company', company], ['Role', role]].map(([label, value]) => (

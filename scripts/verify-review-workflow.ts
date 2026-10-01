@@ -65,6 +65,8 @@ async function makeApiRequest(endpoint: string, method: string = 'GET', body?: a
     method,
     headers: {
       'Content-Type': 'application/json',
+      // Admin routes verify this against Sanity's /users/me
+      Authorization: `Bearer ${process.env.SANITY_API_WRITE_TOKEN}`,
     },
   }
 
@@ -185,7 +187,7 @@ async function verifyE2EWorkflow() {
 
     // Step 5: Simulate Jordan responding with thank you message
     console.log('Step 5: Simulating Jordan responding to review...')
-    await makeApiRequest(`/api/reviews/${reviewRequestId}/respond`, 'POST', {
+    await makeApiRequest(`/api/admin/reviews/${reviewRequestId}/respond`, 'POST', {
       message: 'Thank you so much for your wonderful feedback! It was a pleasure working with you on this project.',
       action: 'respond',
     })
@@ -226,7 +228,7 @@ async function verifyE2EWorkflow() {
 
     // Step 7: Simulate Jordan publishing the review
     console.log('Step 7: Simulating Jordan publishing review...')
-    await makeApiRequest(`/api/reviews/${reviewRequestId}/respond`, 'POST', {
+    await makeApiRequest(`/api/admin/reviews/${reviewRequestId}/respond`, 'POST', {
       message: 'Published with gratitude!',
       action: 'publish',
     })

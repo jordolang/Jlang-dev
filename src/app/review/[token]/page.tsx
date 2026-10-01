@@ -10,7 +10,8 @@ export const dynamic = "force-dynamic";
 export default async function ReviewPage({ params }: { params: Promise<{ token: string }> }) {
   const { token } = await params;
   const request = await getReviewRequest(token);
-  const unavailable = !request || ["completed", "submitted", "published"].includes(request.status);
+  // Submitted/published requests stay reachable so the client can read Jordan's responses.
+  const unavailable = !request || request.status === "completed";
 
   return (
     <main id="main-content" className="flex min-h-screen items-center justify-center bg-gradient-to-br from-slate-100 via-blue-50 to-purple-100 px-5 py-16 text-gray-900 dark:from-gray-950 dark:via-slate-950 dark:to-indigo-950 dark:text-white">

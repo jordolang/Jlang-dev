@@ -10,7 +10,7 @@ vi.mock('@/lib/reviews', () => ({
 vi.mock('@/sanity/lib/client', () => ({
   sanityClient: {
     transaction: vi.fn(() => ({
-      createIfNotExists: vi.fn(function(this: any) { return this }),
+      createOrReplace: vi.fn(function(this: any) { return this }),
       patch: vi.fn(function(this: any) { return this }),
       commit: vi.fn(() => Promise.resolve({})),
     })),

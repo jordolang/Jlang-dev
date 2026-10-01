@@ -15,7 +15,7 @@ export async function POST(request: Request) {
   const rating = Number(body.rating);
   const reviewRequest = await getReviewRequest(token);
 
-  if (!reviewRequest || reviewRequest.status === "submitted") {
+  if (!reviewRequest || ["submitted", "published", "completed"].includes(reviewRequest.status)) {
     return NextResponse.json({ error: "This review link is invalid or has already been used." }, { status: 400 });
   }
   if (content.length < 10 || content.length > 3000 || !Number.isInteger(rating) || rating < 1 || rating > 5) {
@@ -23,10 +23,12 @@ export async function POST(request: Request) {
   }
 
   const now = new Date().toISOString();
-  const testimonialId = `testimonial-${reviewRequest._id.replace(/^drafts\./, "")}`;
+  const publishedRequestId = reviewRequest._id.replace(/^drafts\./, "");
+  const testimonialId = `testimonial-${publishedRequestId}`;
   await sanityClient
     .transaction()
-    .createIfNotExists({
+    // Replace rather than create-if-missing so a resubmission after a revision request updates the content.
+    .createOrReplace({
       _id: testimonialId,
       _type: "testimonial",
       content,
@@ -36,7 +38,7 @@ export async function POST(request: Request) {
       role: reviewRequest.role,
       approved: false,
       featured: false,
-      requestId: reviewRequest._id,
+      reviewRequest: { _type: "reference", _ref: publishedRequestId },
       submittedAt: now,
     })
     .patch(reviewRequest._id, (patch) => patch.set({ status: "submitted", submittedAt: now }))
@@ -48,7 +50,7 @@ export async function POST(request: Request) {
     if (notificationEmail) {
       const stars = "⭐".repeat(rating);
       const contentPreview = content.length > 200 ? content.slice(0, 200) + "..." : content;
-      await getResend().emails.send({
+      const { error } = await getResend().emails.send({
         from: process.env.REVIEW_EMAIL_FROM || "JLang Development <reviews@jlang.dev>",
         to: notificationEmail,
         subject: `New ${rating}-star review from ${reviewRequest.clientName}`,
@@ -64,6 +66,7 @@ export async function POST(request: Request) {
             <p style="font-size:13px;color:#667085;margin-top:24px">Submitted at ${new Date(now).toLocaleString()}</p>
           </div>`,
       });
+      if (error) throw new Error(error.message);
     }
   } catch (error) {
     // Log error but don't fail the request since the review was already saved

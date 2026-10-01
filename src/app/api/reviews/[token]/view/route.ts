@@ -18,14 +18,16 @@ export async function POST(request: Request, { params }: { params: Promise<{ tok
     return NextResponse.json({ ok: true });
   }
 
-  const now = new Date().toISOString();
-  const updates: Record<string, unknown> = { viewedAt: now };
+  // Keep the first view's timestamp; revisits shouldn't overwrite it.
+  const updates: Record<string, unknown> = reviewRequest.viewedAt ? {} : { viewedAt: new Date().toISOString() };
 
   if (reviewRequest.status === "sent") {
     updates.status = "viewed";
   }
 
-  await sanityClient.patch(reviewRequest._id).set(updates).commit();
+  if (Object.keys(updates).length > 0) {
+    await sanityClient.patch(reviewRequest._id).set(updates).commit();
+  }
 
   return NextResponse.json({ ok: true });
 }
