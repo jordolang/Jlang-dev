@@ -48,8 +48,9 @@ export default function MessageThread({ messages, clientName = "Client" }: Messa
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
           className="rounded-2xl border border-gray-200 bg-white p-12 text-center shadow-lg dark:border-gray-800 dark:bg-gray-900"
+          role="status"
         >
-          <Icon icon="mdi:message-outline" width={64} height={64} className="mx-auto mb-4 text-gray-400" />
+          <Icon icon="mdi:message-outline" width={64} height={64} className="mx-auto mb-4 text-gray-400" aria-hidden="true" />
           <h3 className="mb-2 text-xl font-bold text-gray-900 dark:text-white">No Messages Yet</h3>
           <p className="text-gray-600 dark:text-gray-400">
             Start a conversation with Jordan to discuss your project
@@ -79,12 +80,14 @@ export default function MessageThread({ messages, clientName = "Client" }: Messa
                         ? "bg-gradient-to-br from-indigo-500 to-purple-600"
                         : "bg-gradient-to-br from-blue-500 to-cyan-500"
                     } shadow-lg`}
+                    aria-hidden="true"
                   >
                     <Icon
                       icon={isJordan ? "mdi:account-tie" : "mdi:account"}
                       width={20}
                       height={20}
                       className="text-white"
+                      aria-hidden="true"
                     />
                   </div>
 
@@ -98,7 +101,7 @@ export default function MessageThread({ messages, clientName = "Client" }: Messa
                         {formatTimestamp(message.timestamp)}
                       </span>
                       {isClient && message.read && (
-                        <Icon icon="mdi:check-all" width={16} height={16} className="text-blue-600 dark:text-blue-400" />
+                        <Icon icon="mdi:check-all" width={16} height={16} className="text-blue-600 dark:text-blue-400" aria-label="Read" />
                       )}
                     </div>
 

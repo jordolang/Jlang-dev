@@ -72,7 +72,11 @@ export default function ProjectCard({ id, title, status, timeline, description }
       viewport={{ once: true, margin: "-50px" }}
       transition={{ duration: 0.5, ease: [0.25, 0.46, 0.45, 0.94] }}
     >
-      <Link href={`/portal/project/${id}`}>
+      <Link
+        href={`/portal/project/${id}`}
+        className="focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2 rounded-2xl"
+        aria-label={`View project: ${title}`}
+      >
         <m.article
           whileHover={{ y: -4, boxShadow: "0 20px 40px rgba(0,0,0,0.15)" }}
           transition={{ duration: 0.2 }}
@@ -86,8 +90,10 @@ export default function ProjectCard({ id, title, status, timeline, description }
               viewport={{ once: true }}
               transition={{ duration: 0.4, delay: 0.1 }}
               className={`flex items-center gap-2 rounded-full ${config.bgColor} px-3 py-1.5`}
+              role="status"
+              aria-label={`Project status: ${config.label}`}
             >
-              <Icon icon={config.icon} width={16} height={16} className={config.textColor} />
+              <Icon icon={config.icon} width={16} height={16} className={config.textColor} aria-hidden="true" />
               <span className={`text-sm font-semibold ${config.textColor}`}>{config.label}</span>
             </m.div>
 
@@ -98,8 +104,9 @@ export default function ProjectCard({ id, title, status, timeline, description }
               viewport={{ once: true }}
               transition={{ duration: 0.4, delay: 0.2 }}
               className="text-gray-400 transition-colors group-hover:text-indigo-600 dark:group-hover:text-indigo-400"
+              aria-hidden="true"
             >
-              <Icon icon="mdi:arrow-right" width={24} height={24} />
+              <Icon icon="mdi:arrow-right" width={24} height={24} aria-hidden="true" />
             </m.div>
           </div>
 
@@ -117,7 +124,7 @@ export default function ProjectCard({ id, title, status, timeline, description }
 
           {/* Timeline */}
           <div className="flex items-center gap-2 text-gray-500 dark:text-gray-400">
-            <Icon icon="mdi:calendar-outline" width={16} height={16} />
+            <Icon icon="mdi:calendar-outline" width={16} height={16} aria-hidden="true" />
             <span className="text-sm">{timelineText}</span>
           </div>
 

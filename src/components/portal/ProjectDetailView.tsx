@@ -99,22 +99,30 @@ export default function ProjectDetailView({
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-100 via-blue-50 to-purple-100 px-5 py-8 text-gray-900 dark:from-gray-950 dark:via-slate-950 dark:to-indigo-950 dark:text-white">
-      <div className="mx-auto max-w-7xl">
-        {/* Header */}
-        <m.div
-          initial={{ opacity: 0, y: -20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-          className="mb-8"
-        >
-          <Link
-            href="/portal/dashboard"
-            className="mb-4 inline-flex items-center gap-2 font-semibold text-indigo-600 dark:text-indigo-400 hover:underline"
+    <>
+      <a
+        href="#main-content"
+        className="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-50 focus:rounded-lg focus:bg-indigo-600 focus:px-4 focus:py-2 focus:text-white focus:shadow-lg focus:outline-none focus:ring-2 focus:ring-white"
+      >
+        Skip to main content
+      </a>
+      <div id="main-content" className="min-h-screen bg-gradient-to-br from-slate-100 via-blue-50 to-purple-100 px-5 py-8 text-gray-900 dark:from-gray-950 dark:via-slate-950 dark:to-indigo-950 dark:text-white">
+        <div className="mx-auto max-w-7xl">
+          {/* Header */}
+          <m.div
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+            className="mb-8"
           >
-            <Icon icon="solar:arrow-left-outline" width={20} height={20} />
-            Back to Dashboard
-          </Link>
+            <Link
+              href="/portal/dashboard"
+              className="mb-4 inline-flex items-center gap-2 font-semibold text-indigo-600 transition-colors hover:text-indigo-700 hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:rounded dark:text-indigo-400 dark:hover:text-indigo-300"
+              aria-label="Return to dashboard"
+            >
+              <Icon icon="solar:arrow-left-outline" width={20} height={20} aria-hidden="true" />
+              Back to Dashboard
+            </Link>
 
           <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
             <div>
@@ -134,13 +142,13 @@ export default function ProjectDetailView({
           <div className="mt-4 flex flex-wrap gap-4 text-sm text-gray-600 dark:text-gray-400">
             {project.startDate && (
               <div className="flex items-center gap-1.5">
-                <Icon icon="solar:calendar-outline" width={16} height={16} />
+                <Icon icon="solar:calendar-outline" width={16} height={16} aria-hidden="true" />
                 <span>Started: {new Date(project.startDate).toLocaleDateString()}</span>
               </div>
             )}
             {project.endDate && (
               <div className="flex items-center gap-1.5">
-                <Icon icon="solar:calendar-check-outline" width={16} height={16} />
+                <Icon icon="solar:calendar-check-outline" width={16} height={16} aria-hidden="true" />
                 <span>
                   {project.status === "completed" ? "Completed" : "Due"}:{" "}
                   {new Date(project.endDate).toLocaleDateString()}
@@ -167,6 +175,7 @@ export default function ProjectDetailView({
                   width={28}
                   height={28}
                   className="text-indigo-600 dark:text-indigo-400"
+                  aria-hidden="true"
                 />
                 <h2 className="text-2xl font-bold text-gray-900 dark:text-white">
                   Project Timeline
@@ -188,6 +197,7 @@ export default function ProjectDetailView({
                   width={28}
                   height={28}
                   className="text-indigo-600 dark:text-indigo-400"
+                  aria-hidden="true"
                 />
                 <h2 className="text-2xl font-bold text-gray-900 dark:text-white">
                   Messages
@@ -211,5 +221,6 @@ export default function ProjectDetailView({
         </div>
       </div>
     </div>
+    </>
   );
 }

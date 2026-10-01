@@ -100,6 +100,7 @@ export default function DeliverablesList({ deliverables }: DeliverablesListProps
           width={28}
           height={28}
           className="text-indigo-600 dark:text-indigo-400"
+          aria-hidden="true"
         />
         <h2 className="text-2xl font-bold text-gray-900 dark:text-white">
           Deliverables
@@ -112,12 +113,14 @@ export default function DeliverablesList({ deliverables }: DeliverablesListProps
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
           className="rounded-2xl border border-gray-200 bg-white p-12 text-center shadow-lg dark:border-gray-800 dark:bg-gray-900"
+          role="status"
         >
           <Icon
             icon="mdi:folder-open-outline"
             width={64}
             height={64}
             className="mx-auto mb-4 text-gray-400"
+            aria-hidden="true"
           />
           <h3 className="mb-2 text-xl font-bold text-gray-900 dark:text-white">
             No Deliverables Yet
@@ -143,12 +146,13 @@ export default function DeliverablesList({ deliverables }: DeliverablesListProps
                 className="group relative overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-lg transition-all hover:border-indigo-300 hover:shadow-xl dark:border-gray-800 dark:bg-gray-900 dark:hover:border-indigo-700"
               >
                 {/* File icon header */}
-                <div className="relative h-24 bg-gradient-to-br from-indigo-500/20 to-purple-500/20 flex items-center justify-center">
+                <div className="relative h-24 bg-gradient-to-br from-indigo-500/20 to-purple-500/20 flex items-center justify-center" aria-hidden="true">
                   <Icon
                     icon={fileIcon}
                     width={48}
                     height={48}
                     className="text-indigo-600 dark:text-indigo-400"
+                    aria-hidden="true"
                   />
                   {deliverable.version && (
                     <div className="absolute top-3 right-3 px-2 py-1 bg-black/50 backdrop-blur-sm rounded-full">
@@ -174,8 +178,8 @@ export default function DeliverablesList({ deliverables }: DeliverablesListProps
                   {/* File metadata */}
                   <div className="flex items-center gap-2 mb-4 text-xs text-gray-500 dark:text-gray-400">
                     <div className="flex items-center gap-1">
-                      <Icon icon="mdi:file-outline" width={14} height={14} />
-                      <span className="truncate max-w-[120px]">{deliverable.fileName}</span>
+                      <Icon icon="mdi:file-outline" width={14} height={14} aria-hidden="true" />
+                      <span className="truncate max-w-[120px] sm:max-w-[160px]">{deliverable.fileName}</span>
                     </div>
                     <span>•</span>
                     <span>{formatFileSize(deliverable.fileSize)}</span>
@@ -185,12 +189,12 @@ export default function DeliverablesList({ deliverables }: DeliverablesListProps
                   <div className="flex items-center justify-between mb-4 text-xs text-gray-500 dark:text-gray-400">
                     {uploadDate && (
                       <div className="flex items-center gap-1">
-                        <Icon icon="mdi:calendar-outline" width={14} height={14} />
+                        <Icon icon="mdi:calendar-outline" width={14} height={14} aria-hidden="true" />
                         <span>{uploadDate}</span>
                       </div>
                     )}
                     <div className="flex items-center gap-1">
-                      <Icon icon="mdi:download-outline" width={14} height={14} />
+                      <Icon icon="mdi:download-outline" width={14} height={14} aria-hidden="true" />
                       <span>{deliverable.downloadCount} downloads</span>
                     </div>
                   </div>
@@ -198,9 +202,10 @@ export default function DeliverablesList({ deliverables }: DeliverablesListProps
                   {/* Download button */}
                   <button
                     onClick={() => handleDownload(deliverable)}
-                    className="w-full flex items-center justify-center gap-2 rounded-lg bg-gradient-to-r from-indigo-600 to-purple-600 px-4 py-2.5 text-sm font-semibold text-white shadow-md transition-all hover:shadow-lg hover:from-indigo-700 hover:to-purple-700 active:scale-95"
+                    className="w-full flex items-center justify-center gap-2 rounded-lg bg-gradient-to-r from-indigo-600 to-purple-600 px-4 py-2.5 text-sm font-semibold text-white shadow-md transition-all hover:shadow-lg hover:from-indigo-700 hover:to-purple-700 active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2"
+                    aria-label={`Download ${deliverable.title}`}
                   >
-                    <Icon icon="mdi:download" width={18} height={18} />
+                    <Icon icon="mdi:download" width={18} height={18} aria-hidden="true" />
                     <span>Download</span>
                   </button>
                 </div>

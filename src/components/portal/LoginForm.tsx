@@ -74,7 +74,8 @@ export default function LoginForm() {
       <button
         type="submit"
         disabled={status === "sending"}
-        className="mt-7 w-full rounded-xl bg-gradient-to-r from-blue-600 to-purple-600 px-6 py-3.5 font-bold text-white shadow-lg disabled:opacity-60"
+        aria-busy={status === "sending"}
+        className="mt-7 w-full rounded-xl bg-gradient-to-r from-blue-600 to-purple-600 px-6 py-3.5 font-bold text-white shadow-lg transition-opacity disabled:opacity-60 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2"
       >
         {status === "sending" ? "Sending magic link…" : "Send magic link"}
       </button>
