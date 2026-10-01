@@ -1,6 +1,6 @@
 import { sanityClient, sanityIsConfigured } from "@/sanity/lib/client";
 import { cookies } from "next/headers";
-import { randomBytes } from "crypto";
+import { createHmac, randomBytes, timingSafeEqual } from "crypto";
 
 // Auth utilities: generateMagicLink, verifyToken, getSession
 
@@ -25,6 +25,34 @@ export interface ClientSession {
 const SESSION_COOKIE_NAME = "client_session";
 const SESSION_DURATION = 30 * 24 * 60 * 60 * 1000; // 30 days in milliseconds
 const MAGIC_LINK_DURATION = 15 * 60 * 1000; // 15 minutes in milliseconds
+
+// ponytail: falls back to the Sanity write token so existing deploys keep working; set PORTAL_SESSION_SECRET to rotate sessions independently
+const sessionSecret = () => process.env.PORTAL_SESSION_SECRET || process.env.SANITY_API_WRITE_TOKEN;
+
+const sign = (payload: string, secret: string) => createHmac("sha256", secret).update(payload).digest("base64url");
+
+/** Encode session data as `<base64url json>.<hmac>` so the cookie can't be forged client-side. */
+function encodeSession(data: Record<string, string>): string | null {
+  const secret = sessionSecret();
+  if (!secret) return null;
+  const payload = Buffer.from(JSON.stringify(data)).toString("base64url");
+  return `${payload}.${sign(payload, secret)}`;
+}
+
+/** Returns the session payload only if the signature matches. */
+export function decodeSession(value: string): { clientId?: string } | null {
+  const secret = sessionSecret();
+  const [payload, sig] = value.split(".");
+  if (!secret || !payload || !sig) return null;
+  const expected = Buffer.from(sign(payload, secret));
+  const actual = Buffer.from(sig);
+  if (expected.length !== actual.length || !timingSafeEqual(expected, actual)) return null;
+  try {
+    return JSON.parse(Buffer.from(payload, "base64url").toString());
+  } catch {
+    return null;
+  }
+}
 
 /**
  * Generate a secure random token for magic links
@@ -115,11 +143,14 @@ export async function createSession(email: string): Promise<ClientSession | null
 
     // Set session cookie
     const cookieStore = await cookies();
-    const sessionData = JSON.stringify({
+    const sessionData = encodeSession({
       clientId: client._id,
       email: client.email,
       name: client.name,
     });
+    if (!sessionData) {
+      return null;
+    }
 
     cookieStore.set(SESSION_COOKIE_NAME, sessionData, {
       httpOnly: true,
@@ -148,8 +179,8 @@ export async function getSession(): Promise<ClientSession | null> {
       return null;
     }
 
-    const sessionData = JSON.parse(sessionCookie.value);
-    if (!sessionData.clientId || !sanityIsConfigured) {
+    const sessionData = decodeSession(sessionCookie.value);
+    if (!sessionData?.clientId || !sanityIsConfigured) {
       return null;
     }
 

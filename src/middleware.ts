@@ -28,24 +28,7 @@ export function middleware(request: NextRequest) {
     return NextResponse.redirect(loginUrl);
   }
 
-  // Validate session cookie format
-  try {
-    const sessionData = JSON.parse(sessionCookie.value);
-
-    if (!sessionData.clientId || !sessionData.email) {
-      // Invalid session format - redirect to login
-      const loginUrl = new URL("/portal/login", request.url);
-      loginUrl.searchParams.set("redirect", pathname);
-      return NextResponse.redirect(loginUrl);
-    }
-  } catch {
-    // Failed to parse session - redirect to login
-    const loginUrl = new URL("/portal/login", request.url);
-    loginUrl.searchParams.set("redirect", pathname);
-    return NextResponse.redirect(loginUrl);
-  }
-
-  // Valid session - allow request to continue
+  // Cookie present - the signature is verified by getSession() in each page/API route
   return NextResponse.next();
 }
 
