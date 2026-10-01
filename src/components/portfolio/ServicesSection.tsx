@@ -29,7 +29,7 @@ interface PricingPackage {
 }
 
 /** Distinct on-brand gradient per tier: platinum → gold → bronze → champagne. */
-const BRAND_GRADIENTS: Record<string, string> = {
+export const BRAND_GRADIENTS: Record<string, string> = {
   Launchpad: "from-silver-400 via-silver-600 to-silver-800",
   Professional: "from-gold-300 via-gold-500 to-gold-700",
   Enterprise: "from-gold-900 via-gold-700 to-gold-500 dark:from-gold-500 dark:via-gold-600 dark:to-gold-800",

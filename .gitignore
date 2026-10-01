@@ -54,3 +54,8 @@ next-env.d.ts
 .worktrees/
 .security-key
 logs/security/
+
+# Local test/tool artifacts
+logs/
+playwright-report/
+test-results/

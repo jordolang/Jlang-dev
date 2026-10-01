@@ -9,6 +9,7 @@ import emailjs from '@emailjs/browser';
 import { AnalyticsEvents, identifyUser, trackEvent } from '@/lib/analytics';
 import { logger } from '@/lib/logger';
 import { ADDON_FEATURES, type AddonFeature } from "@/lib/content/addons";
+import { BRAND_GRADIENTS } from "@/components/portfolio/ServicesSection";
 
 interface Package {
   name: string;
@@ -144,7 +145,13 @@ interface ServicesOrderViewProps {
 }
 
 export default function ServicesOrderView({ packages: cmsPackages, addons: cmsAddons }: ServicesOrderViewProps) {
-  const packages = cmsPackages && Object.keys(cmsPackages).length ? cmsPackages : defaultPackages;
+  // Brand gradients override the CMS field so each tier gets its own gold/silver shade.
+  const packages = Object.fromEntries(
+    Object.entries(cmsPackages && Object.keys(cmsPackages).length ? cmsPackages : defaultPackages).map(([slug, pkg]) => [
+      slug,
+      { ...pkg, gradient: BRAND_GRADIENTS[pkg.name] ?? pkg.gradient },
+    ]),
+  );
   const additionalFeatures = cmsAddons?.length ? cmsAddons : ADDON_FEATURES;
   const [selectedPackage, setSelectedPackage] = useState<string>("launchpad");
   const [selectedFeatures, setSelectedFeatures] = useState<string[]>([]);
