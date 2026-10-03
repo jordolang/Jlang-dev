@@ -27,7 +27,9 @@ export const projectType = defineType({
       name: "gallery",
       title: "Screenshot gallery",
       type: "array",
-      description: "Extra screenshots, opened from a \"View screenshots\" button on the card.",
+      description:
+        "Extra screenshots, shown on the project page and from a \"View screenshots\" button on the card. Drop several files here at once to add them all.",
+      options: { layout: "grid" },
       of: [
         {
           type: "image",
