@@ -31,7 +31,15 @@ export const projectType = defineType({
       of: [
         {
           type: "image",
-          fields: [defineField({ name: "caption", title: "Caption", type: "string" })],
+          fields: [
+            defineField({ name: "caption", title: "Caption", type: "string" }),
+            defineField({
+              name: "video",
+              title: "Video URL",
+              type: "string",
+              description: "Optional. Plays in the lightbox instead of the image, which becomes its poster.",
+            }),
+          ],
         },
       ],
     }),

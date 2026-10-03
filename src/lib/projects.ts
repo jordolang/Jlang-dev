@@ -54,7 +54,7 @@ export interface Project {
   imageWidth?: number;
   imageHeight?: number;
   featured?: boolean;
-  gallery?: Array<{ src: string; caption: string }>;
+  gallery?: Array<{ src: string; caption: string; video?: string }>;
   // Case study fields
   challenge?: PortableTextBlock[];
   approach?: PortableTextBlock[];
@@ -73,7 +73,7 @@ export interface Project {
 interface RawProject
   extends Omit<Project, 'image' | 'imageWidth' | 'imageHeight' | 'testimonial' | 'gallery'> {
   image: SanityImageRef | null;
-  gallery?: Array<SanityImageRef & { caption?: string }> | null;
+  gallery?: Array<SanityImageRef & { caption?: string; video?: string }> | null;
   testimonialRef?: CaseStudyTestimonial | null;
 }
 
@@ -92,7 +92,7 @@ async function getSanityProjects(): Promise<Project[]> {
         fullPagePreview, featured, challenge, approach, solution, results,
         codeExamples[]{ title, description, code, language },
         image ${IMAGE_PROJECTION},
-        gallery[]{ caption, asset->{ _id, url } },
+        gallery[]{ caption, video, asset->{ _id, url } },
         "testimonialRef": *[_type == "testimonial" && _id == ^.testimonialRef._ref && approved == true][0]{ author, role, company, content, rating }
       }`,
       {},
@@ -123,7 +123,7 @@ async function getSanityProjects(): Promise<Project[]> {
         featured: project.featured,
         gallery: project.gallery?.flatMap((shot) => {
           const src = urlForImage(shot);
-          return src ? [{ src, caption: shot.caption ?? '' }] : [];
+          return src ? [{ src, caption: shot.caption ?? '', ...(shot.video ? { video: shot.video } : {}) }] : [];
         }),
         imageWidth: dims?.width,
         imageHeight: dims?.height,

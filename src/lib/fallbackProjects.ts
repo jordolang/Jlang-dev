@@ -25,8 +25,8 @@ export interface Project {
   fullPagePreview?: boolean;
   /** Shown in the large hero slot at the top of the Projects section. */
   featured?: boolean;
-  /** Extra screenshots, opened from the card's "View screenshots" button. */
-  gallery?: Array<{ src: string; caption: string }>;
+  /** Extra screenshots, opened from the card's "View screenshots" button. With `video`, `src` is its poster. */
+  gallery?: Array<{ src: string; caption: string; video?: string }>;
   /** Intrinsic size of `image`. Required for full-page captures so the scroll container renders them at true aspect ratio. */
   imageWidth?: number;
   imageHeight?: number;
@@ -107,6 +107,39 @@ export const projects: Project[] = [
     highlight: "Latest Project",
     timeline: "2026",
     clientType: "Food Brand",
+  },
+  {
+    slug: "hey-babe",
+    title: "hey babe",
+    subtitle: "Permanent Jewelry Studio — CT, RI, MA & NY",
+    description:
+      "A soft, editorial website for hey babe, a custom permanent jewelry studio serving Connecticut, Rhode Island, Massachusetts and New York. Scroll-scrubbed video walks visitors through the weld, and every chain, charm, event format and FAQ lives in one data file the owner can edit.",
+    image: "/images/projects/heybabe.jpg",
+    imageWidth: 1440,
+    imageHeight: 17910,
+    fullPagePreview: true,
+    features: [
+      "Scroll-scrubbed video sections that follow the weld, frame by frame",
+      "Chain and charm menus with materials and pricing",
+      "Booking form for parties, pop-ups, weddings and corporate events",
+      "Live Instagram feed with a curated fallback gallery",
+      "Smooth scrolling and motion throughout",
+    ],
+    deliverables: [
+      "Brand-led website design",
+      "Responsive Next.js build",
+      "Booking endpoint and content-in-one-file editing",
+      "Vercel deployment",
+    ],
+    tech: ["Next.js", "React", "TypeScript", "Tailwind CSS", "Framer Motion", "Lenis", "Vercel"],
+    github: "",
+    live: "https://heybabe.vercel.app",
+    gradient: "from-rose-300 to-amber-200",
+    status: "Live",
+    category: "Web Design",
+    highlight: "New",
+    timeline: "2026",
+    clientType: "Permanent Jewelry",
   },
   {
     slug: "stuck-on-you",
@@ -1021,6 +1054,49 @@ export function MedicationSearch() {
     highlight: "Windows & macOS",
     timeline: "2026",
     clientType: "Event Vendors",
+    group: "desktopApp",
+  },
+  {
+    slug: "jose-madrid-salsa-kiosk",
+    title: "Salsa Kings Self-Order Kiosk",
+    subtitle: "Event Self-Service Kiosk for Jose Madrid Salsa",
+    description:
+      "A self-service till for Jose Madrid Salsa's expo and festival booth. Customers scan jars under a downward-facing barcode scanner or tap them on screen, the kiosk applies the booth's mix-and-match deals, they pay by tap on a Square reader, and a receipt prints. One tablet on a pole stand does the work of a cashier.",
+    image: "/images/projects/desktop/kiosk/02-menu.jpg",
+    gallery: [
+      { src: "/images/projects/desktop/kiosk/00-expo.jpg", video: "/videos/projects/kiosk-expo.mp4", caption: "Concept video — the pole-stand kiosk at an expo: scan, tap, done (AI-generated)" },
+      { src: "/images/projects/desktop/kiosk/01-splash.jpg", video: "/videos/projects/kiosk-walkthrough.mp4", caption: "Screen recording — a full order from splash screen to printed receipt" },
+      { src: "/images/projects/desktop/kiosk/01-splash.jpg", caption: "Attract screen with the booth price board" },
+      { src: "/images/projects/desktop/kiosk/02-menu.jpg", caption: "Menu — every flavor, filtered by heat or style" },
+      { src: "/images/projects/desktop/kiosk/03-order.jpg", caption: "Scanned jars land in the order; the next-deal hint nudges a bigger bundle" },
+      { src: "/images/projects/desktop/kiosk/04-pay.jpg", caption: "Payment — tap, insert or swipe on the Square reader" },
+      { src: "/images/projects/desktop/kiosk/05-receipt.jpg", caption: "Thank-you screen with the receipt and an automatic reset" },
+    ],
+    imageWidth: 1600,
+    imageHeight: 900,
+    features: [
+      "Scan jars with a hands-free USB barcode scanner, or tap them on screen",
+      "Booth deals (3 for $25, 4 for $32, 5 + chips for $40, case of 12) priced server-side",
+      "Card payments through Square Terminal or a Square Reader on the iPad",
+      "Thermal receipt printing and automatic reset between customers",
+      "Live stock from the store database, with sold-out flavors marked",
+      "Runs as a full-screen web app inside Android and iPad kiosk shells",
+    ],
+    deliverables: [
+      "Kiosk web app built into the Jose Madrid Salsa platform",
+      "Android and iPadOS kiosk shells with printer and reader bridges",
+      "Square payment flow shared with the point-of-sale",
+      "Hardware spec: tablet, pole stand, scanner, printer and card reader",
+    ],
+    tech: ["Next.js", "React", "TypeScript", "Square", "Swift", "Kotlin", "Prisma"],
+    github: "",
+    live: "",
+    gradient: "from-red-600 to-amber-500",
+    status: "In Development",
+    category: "Kiosk App",
+    highlight: "iPad & Android Kiosk",
+    timeline: "2026",
+    clientType: "Food Manufacturer",
     group: "desktopApp",
   },
 ];

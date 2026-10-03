@@ -392,6 +392,7 @@ function ScreenshotGallery({ project }: { project: Project }) {
   const [index, setIndex] = useState(0);
   if (!shots.length) return null;
 
+  const videos = shots.filter((s) => s.video).length;
   const step = (delta: number) => setIndex((i) => (i + delta + shots.length) % shots.length);
   const shot = shots[index];
 
@@ -406,8 +407,10 @@ function ScreenshotGallery({ project }: { project: Project }) {
         }}
         className="relative z-10 inline-flex w-full items-center justify-center gap-2 rounded-xl border border-indigo-500/30 bg-indigo-500/10 px-4 py-2.5 text-sm font-medium text-indigo-700 transition-all duration-300 hover:bg-indigo-500/20 active:scale-95 dark:text-indigo-300"
       >
-        <Icon icon="solar:gallery-wide-bold" width={18} height={18} />
-        View {shots.length} screenshots
+        <Icon icon={videos ? "solar:play-circle-bold" : "solar:gallery-wide-bold"} width={18} height={18} />
+        {videos
+          ? `Watch ${videos} video${videos > 1 ? "s" : ""} + ${shots.length - videos} screenshots`
+          : `View ${shots.length} screenshots`}
       </button>
 
       <dialog
@@ -437,7 +440,19 @@ function ScreenshotGallery({ project }: { project: Project }) {
           </button>
         </div>
         <div className="relative aspect-[16/10] w-full bg-black">
-          <Image key={shot.src} src={shot.src} alt={shot.caption} fill className="object-contain" sizes="(max-width: 1200px) 100vw, 1200px" />
+          {shot.video ? (
+            <video
+              key={shot.video}
+              src={shot.video}
+              poster={shot.src}
+              controls
+              playsInline
+              preload="none"
+              className="absolute inset-0 h-full w-full object-contain"
+            />
+          ) : (
+            <Image key={shot.src} src={shot.src} alt={shot.caption} fill className="object-contain" sizes="(max-width: 1200px) 100vw, 1200px" />
+          )}
           {shots.length > 1 && (
             <>
               <button
@@ -463,7 +478,7 @@ function ScreenshotGallery({ project }: { project: Project }) {
         <div className="flex gap-2 overflow-x-auto px-4 pb-4">
           {shots.map((s, i) => (
             <button
-              key={s.src}
+              key={s.video ?? s.src}
               type="button"
               onClick={() => setIndex(i)}
               aria-label={`Show screenshot ${i + 1}: ${s.caption}`}
@@ -649,7 +664,7 @@ export default function ProjectsSection({ projects: cmsProjects, heading }: Proj
           {desktopApps.length > 0 && (
             <>
               <h3 className="text-xl md:text-2xl font-bold text-gray-900 dark:text-white mt-12 md:mt-16 mb-6 md:mb-8">
-                Programs (Windows &amp; macOS)
+                Programs &amp; Kiosks
               </h3>
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
                 {desktopApps.map((project) => (

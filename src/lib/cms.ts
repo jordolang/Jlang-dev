@@ -73,12 +73,12 @@ export interface CmsProject {
   imageWidth?: number;
   imageHeight?: number;
   featured?: boolean;
-  gallery?: Array<{ src: string; caption: string }>;
+  gallery?: Array<{ src: string; caption: string; video?: string }>;
 }
 
 interface RawProject extends Omit<CmsProject, "image" | "imageWidth" | "imageHeight" | "gallery"> {
   image: SanityImageRef | null;
-  gallery?: Array<SanityImageRef & { caption?: string }> | null;
+  gallery?: Array<SanityImageRef & { caption?: string; video?: string }> | null;
 }
 
 export async function getProjects(): Promise<CmsProject[] | null> {
@@ -89,7 +89,7 @@ export async function getProjects(): Promise<CmsProject[] | null> {
       gradient, status, category, highlight, timeline, clientType, group,
       fullPagePreview, featured,
       image ${IMAGE_PROJECTION},
-      gallery[]{ caption, asset->{ _id, url } }
+      gallery[]{ caption, video, asset->{ _id, url } }
     }`,
     ["projects"],
   );
@@ -109,7 +109,7 @@ export async function getProjects(): Promise<CmsProject[] | null> {
       imageHeight: dims?.height,
       gallery: project.gallery?.flatMap((shot) => {
         const src = urlForImage(shot);
-        return src ? [{ src, caption: shot.caption ?? "" }] : [];
+        return src ? [{ src, caption: shot.caption ?? "", ...(shot.video ? { video: shot.video } : {}) }] : [];
       }),
     };
   });

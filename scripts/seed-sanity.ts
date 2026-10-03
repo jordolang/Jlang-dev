@@ -185,7 +185,14 @@ async function main() {
     const gallery = [];
     for (const shot of project.gallery ?? []) {
       const uploaded = await uploadImage(shot.src);
-      if (uploaded) gallery.push({ ...uploaded, _key: slugify(shot.src), caption: shot.caption });
+      if (uploaded) {
+        gallery.push({
+          ...uploaded,
+          _key: slugify(shot.video ?? shot.src),
+          caption: shot.caption,
+          ...(shot.video ? { video: shot.video } : {}),
+        });
+      }
     }
     projectDocs.push({
       _id: id("project", `${project.title}-${project.group ?? "desktop"}`),
