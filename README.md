@@ -1,338 +1,89 @@
-# 🚀 Jordan Lang - Portfolio
+# JLang Development
 
-A stunning, modern portfolio website built with cutting-edge technologies and beautiful animations inspired by Aceternity UI design principles.
+Source for [jlang.dev](https://jlang.dev), Jordan Lang's portfolio and services site: featured projects and case studies, a blog, service packages with an order flow, a digital products store, a private client portal, and a client review workflow, all managed from an embedded Sanity Studio.
 
-![Portfolio Preview](https://img.shields.io/badge/Portfolio-Live-brightgreen)
-![Next.js](https://img.shields.io/badge/Next.js-15.3-black)
-![TypeScript](https://img.shields.io/badge/TypeScript-5.0-blue)
-![Tailwind CSS](https://img.shields.io/badge/Tailwind%20CSS-3.0-38B2AC)
-![Framer Motion](https://img.shields.io/badge/Framer%20Motion-11.0-FF0055)
-![CI/CD](https://img.shields.io/github/workflow/status/jordolang/portfolio/CI)
+[![CI](https://github.com/jordolang/Jlang-dev/actions/workflows/ci.yml/badge.svg)](https://github.com/jordolang/Jlang-dev/actions/workflows/ci.yml)
 
-## ✨ Features
+## Stack
 
-### 🎨 **Stunning Visual Design**
+- **Next.js 15** (App Router) with **React 18** and **TypeScript**
+- **Tailwind CSS** and **Framer Motion**
+- **Sanity** for content, with Studio mounted at `/studio`
+- **Stripe** checkout, **Resend** email, **EmailJS** contact form, **PostHog** analytics
+- **Anthropic API** for Studio drafting and social copy
+- **Vitest** unit and integration tests, **Playwright** end-to-end tests
+- Deployed on **Vercel**
 
-- **Dark & Light Theme**: Modern dark & light themes with beautiful gradients
-- **Animated Background**: Floating particles and gradient effects
-- **Glass Morphism**: Beautiful glass effects and backdrop blur
-- **Gradient Text**: Eye-catching gradient text effects
-- **Custom Scrollbar**: Styled scrollbar with gradient colors
+## Getting started
 
-### 🎬 **Smooth Animations**
-
-- **Framer Motion**: Sophisticated animations powered by Framer Motion
-- **Scroll-triggered Animations**: Elements animate as they come into view
-- **Hover Effects**: Interactive hover animations throughout
-- **Loading Animations**: Beautiful loading and transition effects
-- **Typing Effects**: Dynamic typing animations
-
-### 📱 **Responsive Design**
-
-- **Mobile-First**: Fully responsive across all devices
-- **Touch-Friendly**: Optimized for touch interactions
-- **Fast Loading**: Optimized performance and fast loading times
-- **SEO Optimized**: Proper meta tags and structured data
-
-### 🧩 **Sections**
-
-1. **Hero Section**: Stunning animated introduction with floating particles
-2. **About Me**: Personal information with animated profile card
-3. **Projects**: Interactive project showcase with hover effects
-4. **Skills**: Animated skill bars with technology categories
-5. **Experience**: Professional timeline with achievements
-6. **Contact**: Call-to-action section with contact information
-
-## 🛠️ Tech Stack
-
-### **Frontend Framework**
-
-- **Next.js 15.3** - React framework with App Router
-- **TypeScript** - Type-safe development
-- **React 18** - Latest React features
-
-### **Styling & Animation**
-
-- **Tailwind CSS** - Utility-first CSS framework
-- **Framer Motion** - Advanced animations library
-- **CSS Custom Properties** - Dynamic theming
-- **Custom CSS Animations** - Hand-crafted effects
-
-### **Icons & Assets**
-
-- **Iconifyt** - Beautiful, customizable icons
-- **Google Fonts (Space Grotesk)** - Modern typography
-
-### **Development Tools**
-
-- **ESLint** - Code linting and formatting
-- **PostCSS** - CSS processing
-- **Autoprefixer** - CSS vendor prefixing
-
-## 🚀 Getting Started
-
-### Prerequisites
-
-- Node.js 18.0 or later
-- npm or yarn package manager
-
-### Installation
-
-1. **Clone the repository**
-
-   ```bash
-   git clone https://github.com/jordolang/portfolio.git
-   cd portfolio
-   ```
-
-2. **Install dependencies**
-
-   ```bash
-   npm install
-   # or
-   yarn install
-   ```
-
-3. **Run the development server**
-
-   ```bash
-   npm run dev
-   # or
-   yarn dev
-   ```
-
-4. **Open your browser**
-   Navigate to [http://localhost:3000](http://localhost:3000)
-
-### Build for Production
+Requires Node.js 20 or later.
 
 ```bash
-npm run build
-npm start
+npm ci
+cp env-example .env.local   # then fill in the values you need
+npm run dev
 ```
 
-## 🎨 Customization
+The site runs at http://localhost:3000 and Studio at http://localhost:3000/studio. Pages that read from Sanity fall back gracefully when it is not configured, so you only need the variables for the features you are working on.
 
-### **Personal Information**
+## Environment variables
 
-Update the following in `src/app/page.tsx`:
+Every variable the app reads is listed with a comment in [`env-example`](env-example). Set the same values in Vercel under Project Settings, Environment Variables. By feature:
 
-- Name and title in the navigation and hero section
-- Contact information (email, phone, location)
-- Social media links (GitHub, LinkedIn, etc.)
-- About me description and background
+| Feature | Variables |
+| --- | --- |
+| Content (all pages) | `NEXT_PUBLIC_SANITY_PROJECT_ID`, `NEXT_PUBLIC_SANITY_DATASET`, `NEXT_PUBLIC_SANITY_API_VERSION`, `SANITY_API_WRITE_TOKEN`, `NEXT_PUBLIC_SITE_URL` |
+| Contact form | `NEXT_PUBLIC_EMAILJS_*` |
+| Analytics | `NEXT_PUBLIC_POSTHOG_KEY`, `NEXT_PUBLIC_POSTHOG_HOST` |
+| Products store | `STRIPE_SECRET_KEY`, `STRIPE_WEBHOOK_SECRET`, `DOWNLOAD_TOKEN_SECRET`, `RESEND_API_KEY`, `PURCHASE_EMAIL_FROM` |
+| Client portal | `PORTAL_SESSION_SECRET`, `RESEND_API_KEY`, `PORTAL_EMAIL_FROM` |
+| Review workflow | `SANITY_WEBHOOK_SECRET`, `RESEND_API_KEY`, `REVIEW_EMAIL_FROM`, `REVIEW_NOTIFICATION_EMAIL`, `NEXT_PUBLIC_GOOGLE_REVIEW_URL` |
+| Scheduled blog posts | `CRON_SECRET` |
+| Studio AI tools | `ANTHROPIC_API_KEY` |
+| Performance page | `GOOGLE_PAGESPEED_API_KEY` |
 
-### **Projects**
+### Products store
 
-Modify the `projects` array in `src/components/portfolio/ProjectsSection.tsx`:
+1. In Stripe, create a webhook endpoint for `https://jlang.dev/api/webhooks/stripe` with the `checkout.session.completed` event and save its signing secret as `STRIPE_WEBHOOK_SECRET`. Locally, use `stripe listen --forward-to localhost:3000/api/webhooks/stripe`.
+2. Checkout charges each product's **Base price (number)** from Studio (0 means free), so no Stripe Price objects are needed.
+3. Mark products **Published** in Studio for them to appear at `/products`.
 
-```typescript
-{
-  title: "Your Project Title",
-  description: "Project description...",
-  image: "🎯", // Emoji or image URL
-  tech: ["React", "Node.js", "MongoDB"],
-  github: "https://github.com/username/repo",
-  live: "https://yourproject.com",
-  color: "from-blue-500 to-purple-500"
-}
-```
+### Review workflow
 
-### **Skills**
+See [docs/review-workflow.md](docs/review-workflow.md).
 
-Update skills in the skills section of `src/components/portfolio/TechStackSection.tsx`:
+### Scheduled publishing
 
-```typescript
-{
-  category: "Frontend",
-  skills: ["React", "Next.js", "TypeScript", "Tailwind CSS"]
-}
-```
+`vercel.json` runs `/api/cron/publish-scheduled` hourly. Vercel sends `CRON_SECRET` as a bearer token, so the variable must be set in the Vercel project for the cron to work.
 
-### **Experience**
+## Scripts
 
-Modify the experience array in `src/components/portfolio/ExperienceSection.tsx`:
+| Command | What it does |
+| --- | --- |
+| `npm run dev` | Dev server with Turbopack |
+| `npm run build` | Regenerates the icon bundle, then builds for production |
+| `npm run lint` | ESLint |
+| `npm run type-check` | TypeScript, no emit |
+| `npm test` | Vitest unit and integration tests |
+| `npm run test:e2e` | Playwright end-to-end tests |
+| `npm run icons` | Regenerates `src/lib/generatedIcons.ts` |
 
-```typescript
-{
-  role: "Your Role",
-  company: "Company Name",
-  period: "2023 - Present",
-  description: "Role description...",
-  achievements: ["Achievement 1", "Achievement 2"]
-}
-```
+## CI
 
-### **Styling**
+[`.github/workflows/ci.yml`](.github/workflows/ci.yml) runs lint, type check, tests and a production build on every push to `main` and every pull request. To stop failing changes from reaching `main`, make those checks required with a branch protection rule; see [docs/branch-protection.md](docs/branch-protection.md).
 
-- **Colors**: Update color schemes in `tailwind.config.js`
-- **Animations**: Customize animations in `src/app/globals.css`
-- **Components**: Modify components in the `src/components/` directory
-
-## 📂 Project Structure
+## Project layout
 
 ```
-portfolio/
-├── src/
-│   ├── app/
-│   │   ├── globals.css         # Global styles and animations
-│   │   ├── layout.tsx          # Root layout with metadata
-│   │   ├── page.tsx            # Main portfolio page
-│   │   ├── favicon.ico         # Site favicon
-│   │   └── favicon.png         # PNG favicon
-│   ├── components/
-│   │   ├── portfolio/          # Portfolio-specific components
-│   │   │   ├── AboutSection.tsx
-│   │   │   ├── Background.tsx
-│   │   │   ├── ContactSection.tsx
-│   │   │   ├── ExperienceSection.tsx
-│   │   │   ├── Footer.tsx
-│   │   │   ├── HeroSection.tsx
-│   │   │   ├── Navigation.tsx
-│   │   │   ├── OverviewSection.tsx
-│   │   │   ├── ProjectsSection.tsx
-│   │   │   ├── SectionHeader.tsx
-│   │   │   ├── TechStackSection.tsx
-│   │   │   ├── TestimonialsSection.tsx
-│   │   │   ├── TypewriterRole.tsx
-│   │   │   └── index.ts        # Component exports
-│   │   ├── AnimatedBackground.tsx
-│   │   ├── PostHogProvider.tsx # Analytics provider
-│   │   ├── SocketioIcon.tsx
-│   │   ├── ThemeProvider.tsx   # Theme context provider
-│   │   └── ThemeToggle.tsx     # Dark/light theme toggle
-├── lib/
-│   ├── posthog.ts             # PostHog analytics configuration
-│   └── utils.ts               # Utility functions
-├── public/
-│   ├── CV.pdf                # Resume/CV file
-│   ├── globe.svg             # SVG icons
-│   ├── next.svg
-│   ├── vercel.svg
-│   ├── window.svg
-│   └── file.svg
-├── .env                      # Environment variables
-├── .gitignore               # Git ignore rules
-├── eslint.config.mjs        # ESLint configuration
-├── next.config.ts           # Next.js configuration
-├── next-env.d.ts           # Next.js TypeScript declarations
-├── package.json            # Dependencies and scripts
-├── package-lock.json       # Locked dependency versions
-├── postcss.config.mjs      # PostCSS configuration
-├── tailwind.config.js      # Tailwind CSS configuration
-├── tsconfig.json          # TypeScript configuration
-└── README.md              # This file
+src/app/          Routes: home, blog, projects, services, products, portal, review, studio, api
+src/components/   UI, grouped by feature (portfolio, services, projects, portal, ...)
+src/lib/          Data access, auth, email, Stripe, SEO helpers
+src/sanity/       Studio schema types and Sanity client
+content/blog/     MDX blog posts
+scripts/          Icon generation and Sanity seed scripts
+tests/            unit, integration and e2e suites
 ```
 
-=
+## License
 
-## 📱 Browser Support
-
-- ✅ Chrome (Latest)
-- ✅ Firefox (Latest)
-- ✅ Safari (Latest)
-- ✅ Edge (Latest)
-- ✅ Mobile browsers
-
-## 🔧 Scripts
-
-- `npm run dev` - Start development server
-- `npm run build` - Build for production
-- `npm run start` - Start production server
-- `npm run lint` - Run ESLint
-
-## 🔄 CI/CD Pipeline
-
-This project uses GitHub Actions for continuous integration to ensure code quality and catch issues early.
-
-### **Workflow Overview**
-
-The CI pipeline runs automatically on:
-- Every push to the `main` branch
-- Every pull request targeting `main`
-
-### **Pipeline Jobs**
-
-The CI workflow includes parallel jobs that validate different aspects of the codebase:
-
-1. **Install Dependencies** 
-   - Sets up Node.js 20
-   - Caches and installs npm dependencies
-   - Verifies successful installation
-
-2. **Lint**
-   - Runs ESLint to check code quality and style
-   - Ensures consistent code formatting across the project
-
-3. **Type Check**
-   - Runs TypeScript compiler in check-only mode
-   - Validates type safety without emitting files
-
-4. **Test**
-   - Executes the test suite
-   - Ensures all functionality works as expected
-
-5. **Build**
-   - Builds the Next.js application for production
-   - Verifies the app compiles successfully
-
-### **Caching Strategy**
-
-The pipeline uses intelligent caching to speed up CI runs:
-
-- **Node Modules Cache**
-  - Key: `node-modules-{package-lock.json hash}`
-  - Restores cached dependencies when `package-lock.json` hasn't changed
-  - Dramatically reduces installation time on subsequent runs
-
-- **Next.js Build Cache**
-  - Key: `nextjs-{package-lock.json hash}-{source files hash}`
-  - Caches `.next/cache` directory
-  - Speeds up builds by reusing unchanged compiled pages and components
-
-### **Running Tests Locally**
-
-To run the same checks locally before pushing:
-
-```bash
-# Run all checks
-npm run lint        # ESLint code quality check
-npx tsc --noEmit    # TypeScript type checking
-npm test            # Run test suite
-npm run build       # Production build verification
-
-# Or run them all in sequence
-npm run lint && npx tsc --noEmit && npm test && npm run build
-```
-
-**Pro Tip**: Install dependencies with `npm ci` (like CI does) instead of `npm install` for a clean, reproducible install based on `package-lock.json`.
-
-## 📄 License
-
-This project is open source and available under the [MIT License](LICENSE).
-
-## 🤝 Contributing
-
-Contributions, issues, and feature requests are welcome! Feel free to check the [issues page](https://github.com/jordolang/portfolio/issues).
-
-## 👨‍💻 Author
-
-**Jordan Lang**
-
-- Portfolio: [https://jlang.dev](https://jlang.dev)
-- GitHub: [@jordolang](https://github.com/jordolang)
-- LinkedIn: [LinkedIn](https://linkedin.com/in/jordolang)
-- Email: jordan@jlang.dev
-
-## 🙏 Acknowledgments
-
-- **Framer Motion** - Amazing animation library
-- **Tailwind CSS** - Utility-first CSS framework
-- **Next.js Team** - Excellent React framework
-- **Iconify** - Beautiful icon library
-
----
-
-**Made with ❤️ and cutting-edge web technologies**
-
-_This portfolio demonstrates modern web development practices and showcases the beauty of well-crafted user interfaces._
+[MIT](LICENSE)

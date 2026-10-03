@@ -1,4 +1,0 @@
-# Nmap 7.97 scan initiated Sat Jun 21 11:30:48 2025 as: nmap -p- -sT -T4 -oA initial_scan 192.168.1.22
-Host: 192.168.1.22 ()	Status: Up
-Host: 192.168.1.22 ()	Ports: 21/open/tcp//ftp///, 22/open/tcp//ssh///, 80/open/tcp//http///, 111/open/tcp//rpcbind///, 139/open/tcp//netbios-ssn///, 445/open/tcp//microsoft-ds///, 2049/open/tcp//nfs///, 3389/open/tcp//ms-wbt-server///, 3483/open/tcp//slim-devices///, 7000/open/tcp//afs3-fileserver///, 8001/open/tcp//vcom-tunnel///, 8200/open/tcp//trivnet1///, 8765/open/tcp//ultraseek-http///, 8888/open/tcp//sun-answerbook///, 9000/open/tcp//cslistener///, 9090/open/tcp//zeus-admin///, 10000/open/tcp//snet-sensor-mgmt///, 34433/open/tcp/////, 37605/open/tcp/////, 39445/open/tcp/////, 46785/open/tcp/////, 55413/filtered/tcp/////, 55414/open/tcp/////, 55415/open/tcp/////, 60615/filtered/tcp/////	Ignored State: closed (65510)
-# Nmap done at Sat Jun 21 11:31:30 2025 -- 1 IP address (1 host up) scanned in 42.70 seconds
