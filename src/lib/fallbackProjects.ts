@@ -318,7 +318,7 @@ export function MedicationSearch() {
           className="w-full px-4 py-3 pl-12 rounded-lg border border-gray-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all"
         />
         <Icon
-          icon="solar:magnifier-outline"
+          icon="solar:magnifer-outline"
           width={20}
           height={20}
           className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400"
@@ -326,7 +326,7 @@ export function MedicationSearch() {
         {loading && (
           <div className="absolute right-4 top-1/2 -translate-y-1/2">
             <Icon
-              icon="solar:spinner-outline"
+              icon="solar:refresh-outline"
               width={20}
               height={20}
               className="animate-spin text-blue-500"

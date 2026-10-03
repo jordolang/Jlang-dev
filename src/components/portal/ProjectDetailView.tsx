@@ -142,7 +142,7 @@ export default function ProjectDetailView({
             )}
             {project.endDate && (
               <div className="flex items-center gap-1.5">
-                <Icon icon="solar:calendar-check-outline" width={16} height={16} aria-hidden="true" />
+                <Icon icon="solar:calendar-mark-outline" width={16} height={16} aria-hidden="true" />
                 <span>
                   {project.status === "completed" ? "Completed" : "Due"}:{" "}
                   {formatDate(project.endDate)}

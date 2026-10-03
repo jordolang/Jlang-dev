@@ -317,7 +317,7 @@ async function main() {
       skillsPreview: [
         { _key: "html", label: "HTML/CSS", icon: "skill-icons:html" },
         { _key: "wp", label: "WordPress", icon: "skill-icons:wordpress" },
-        { _key: "uiux", label: "UI/UX Design", icon: "vscode-icons:file-type-figma" },
+        { _key: "uiux", label: "UI/UX Design", icon: "logos:figma" },
         { _key: "responsive", label: "Responsive Design", icon: "material-symbols:responsive-layout" },
         { _key: "a11y", label: "Web Accessibility", icon: "mdi:web-check" },
       ],

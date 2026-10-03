@@ -307,7 +307,7 @@ export default function CaseStudyView({ project }: CaseStudyViewProps) {
               <div className="relative rounded-2xl bg-gradient-to-br from-indigo-50 to-purple-50 dark:from-indigo-950/30 dark:to-purple-950/30 p-8 md:p-12 border border-indigo-100 dark:border-indigo-900/30 shadow-xl">
                 <div className="absolute -top-6 left-8">
                   <div className="w-12 h-12 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-full flex items-center justify-center shadow-lg">
-                    <Icon icon="solar:chat-round-quote-bold" width={24} height={24} className="text-white" />
+                    <Icon icon="solar:chat-round-dots-bold" width={24} height={24} className="text-white" />
                   </div>
                 </div>
                 <blockquote className="text-xl md:text-2xl text-gray-800 dark:text-gray-200 leading-relaxed mb-6 italic">

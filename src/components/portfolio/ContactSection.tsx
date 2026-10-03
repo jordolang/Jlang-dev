@@ -241,7 +241,7 @@ const handleSubmit = async (e: React.FormEvent) => {
               >
                 {isSubmitting ? (
                   <>
-                    <Icon icon="solar:loading-outline" width={20} height={20} className="animate-spin" />
+                    <Icon icon="solar:refresh-outline" width={20} height={20} className="animate-spin" />
                     Sending...
                   </>
                 ) : (
