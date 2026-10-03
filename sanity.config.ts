@@ -42,8 +42,9 @@ export default defineConfig({
     visionTool(),
   ],
 
-  // Sanity's org-wide Media Library. Must also be enabled for the project in sanity.io/manage.
-  mediaLibrary: { enabled: true },
+  // Sanity's org-wide Media Library stays off: when enabled it becomes the *first* asset source, so every
+  // drag-and-drop and "Upload" goes to the org library instead of this dataset, and fails on plans
+  // without Media Library. Uploads land in the dataset; sanity-plugin-media above provides the browser.
 
   form: {
     // Offer the media browser everywhere an image or file is uploaded, alongside the default sources.
