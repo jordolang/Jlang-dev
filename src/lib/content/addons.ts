@@ -25,7 +25,7 @@ export const ADDON_FEATURES: AddonFeature[] = [
   { icon: "solar:video-frame-bold", name: "Video Background/Hero", desc: "Dynamic video presentation", price: 49 },
   { icon: "solar:graph-new-bold", name: "Analytics Dashboard", desc: "Custom reporting & insights", price: 99 },
   { icon: "solar:map-point-bold", name: "Interactive Maps", desc: "Location features & directions", price: 49 },
-  { icon: "solar:review-bold", name: "Review System", desc: "Customer reviews & ratings", price: 99 },
+  { icon: "solar:star-bold", name: "Review System", desc: "Customer reviews & ratings", price: 99 },
   { icon: "solar:bell-bold", name: "Push Notifications", desc: "Real-time user notifications", price: 199 },
   { icon: "solar:document-add-bold", name: "Advanced Forms", desc: "Custom forms & lead capture", price: 99 },
   { icon: "solar:chart-bold", name: "Data Visualization", desc: "Charts, graphs & metrics", price: 99 },

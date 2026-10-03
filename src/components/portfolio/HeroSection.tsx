@@ -35,7 +35,7 @@ const DEFAULT_SOCIALS = [
 const DEFAULT_SKILLS = [
   { icon: "skill-icons:html", label: "HTML/CSS" },
   { icon: "skill-icons:wordpress", label: "WordPress" },
-  { icon: "vscode-icons:file-type-figma", label: "UI/UX Design" },
+  { icon: "logos:figma", label: "UI/UX Design" },
   { icon: "material-symbols:responsive-layout", label: "Responsive Design" },
   { icon: "mdi:web-check", label: "Web Accessibility" },
 ];

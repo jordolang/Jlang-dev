@@ -1,6 +1,6 @@
 "use client";
 
-import emailjs from '@emailjs/browser';
+import { sendContactMessage } from '@/lib/contact';
 import { Icon } from "@iconify/react";
 import { m } from "framer-motion";
 import Link from "next/link";
@@ -61,25 +61,13 @@ const handleSubmit = async (e: React.FormEvent) => {
     setSubmitStatus('idle');
     setErrorMessage('');
 
-    // EmailJS configuration
-    const serviceId = process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID || 'YOUR_SERVICE_ID';
-    const templateId = process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID || 'YOUR_TEMPLATE_ID';
-    const publicKey = process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY || 'YOUR_PUBLIC_KEY';
-
     try {
 
-      // Send email using EmailJS
-      const result = await emailjs.send(
-        serviceId,
-        templateId,
-        {
-          from_name: formData.name,
-          from_email: formData.email,
-          message: formData.message,
-          to_email: recipient,
-        },
-        publicKey
-      );
+      await sendContactMessage({
+        name: formData.name,
+        email: formData.email,
+        message: formData.message,
+      });
 
       // Track successful form submission
       trackEvent(AnalyticsEvents.CONTACT_FORM_SUBMITTED, { status: 'success' });
@@ -88,7 +76,6 @@ const handleSubmit = async (e: React.FormEvent) => {
       identifyUser(formData.email, formData.name, {
         message_preview: formData.message.substring(0, 100), // First 100 chars for context
         contact_method: 'contact_form',
-        email_service_result: result.status,
       });
       
       setSubmitStatus('success');
@@ -241,7 +228,7 @@ const handleSubmit = async (e: React.FormEvent) => {
               >
                 {isSubmitting ? (
                   <>
-                    <Icon icon="solar:loading-outline" width={20} height={20} className="animate-spin" />
+                    <Icon icon="solar:refresh-outline" width={20} height={20} className="animate-spin" />
                     Sending...
                   </>
                 ) : (
