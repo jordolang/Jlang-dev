@@ -4,6 +4,7 @@ import { Icon } from "@iconify/react";
 import { m } from "framer-motion";
 import Link from "next/link";
 import Image from "next/image";
+import { useRef, useState } from "react";
 import { AnalyticsEvents, trackEvent } from "@/lib/analytics";
 import { projects, type Project } from "@/lib/fallbackProjects";
 import SectionHeader from "./SectionHeader";
@@ -381,6 +382,106 @@ function MobileProjectCard({ project }: { project: Project }) {
 }
 
 /**
+ * "View N screenshots" button plus a native <dialog> lightbox. The dialog gives
+ * focus trapping, Esc-to-close and the backdrop for free; arrow keys and the
+ * prev/next buttons step through the set.
+ */
+function ScreenshotGallery({ project }: { project: Project }) {
+  const shots = project.gallery ?? [];
+  const dialogRef = useRef<HTMLDialogElement>(null);
+  const [index, setIndex] = useState(0);
+  if (!shots.length) return null;
+
+  const step = (delta: number) => setIndex((i) => (i + delta + shots.length) % shots.length);
+  const shot = shots[index];
+
+  return (
+    <>
+      <button
+        type="button"
+        onClick={() => {
+          setIndex(0);
+          dialogRef.current?.showModal();
+          trackEvent(AnalyticsEvents.PROJECT_CLICKED, { project: project.title, action: "gallery" });
+        }}
+        className="relative z-10 inline-flex w-full items-center justify-center gap-2 rounded-xl border border-indigo-500/30 bg-indigo-500/10 px-4 py-2.5 text-sm font-medium text-indigo-700 transition-all duration-300 hover:bg-indigo-500/20 active:scale-95 dark:text-indigo-300"
+      >
+        <Icon icon="solar:gallery-wide-bold" width={18} height={18} />
+        View {shots.length} screenshots
+      </button>
+
+      <dialog
+        ref={dialogRef}
+        aria-label={`${project.title} screenshots`}
+        onClick={(e) => e.target === e.currentTarget && dialogRef.current?.close()}
+        onKeyDown={(e) => {
+          if (e.key === "ArrowRight") step(1);
+          if (e.key === "ArrowLeft") step(-1);
+        }}
+        className="m-auto w-[min(1200px,calc(100vw-2rem))] max-h-[calc(100dvh-2rem)] rounded-2xl bg-gray-950 p-0 text-white backdrop:bg-black/80 backdrop:backdrop-blur-sm"
+      >
+        <div className="flex items-center justify-between gap-3 px-4 py-3">
+          <p className="truncate text-sm font-semibold">
+            {project.title}
+            <span className="ml-2 font-normal text-gray-400">
+              {index + 1} / {shots.length}
+            </span>
+          </p>
+          <button
+            type="button"
+            onClick={() => dialogRef.current?.close()}
+            aria-label="Close screenshots"
+            className="rounded-lg p-1.5 text-gray-300 hover:bg-white/10 hover:text-white"
+          >
+            <Icon icon="solar:close-circle-bold" width={24} height={24} />
+          </button>
+        </div>
+        <div className="relative aspect-[16/10] w-full bg-black">
+          <Image key={shot.src} src={shot.src} alt={shot.caption} fill className="object-contain" sizes="(max-width: 1200px) 100vw, 1200px" />
+          {shots.length > 1 && (
+            <>
+              <button
+                type="button"
+                onClick={() => step(-1)}
+                aria-label="Previous screenshot"
+                className="absolute left-2 top-1/2 -translate-y-1/2 rounded-full bg-black/60 p-2 text-white backdrop-blur-sm hover:bg-black/80"
+              >
+                <Icon icon="solar:alt-arrow-left-linear" width={24} height={24} />
+              </button>
+              <button
+                type="button"
+                onClick={() => step(1)}
+                aria-label="Next screenshot"
+                className="absolute right-2 top-1/2 -translate-y-1/2 rounded-full bg-black/60 p-2 text-white backdrop-blur-sm hover:bg-black/80"
+              >
+                <Icon icon="solar:alt-arrow-right-linear" width={24} height={24} />
+              </button>
+            </>
+          )}
+        </div>
+        <p className="px-4 py-3 text-center text-sm text-gray-300">{shot.caption}</p>
+        <div className="flex gap-2 overflow-x-auto px-4 pb-4">
+          {shots.map((s, i) => (
+            <button
+              key={s.src}
+              type="button"
+              onClick={() => setIndex(i)}
+              aria-label={`Show screenshot ${i + 1}: ${s.caption}`}
+              aria-current={i === index}
+              className={`relative h-14 w-24 flex-shrink-0 overflow-hidden rounded-md border-2 transition ${
+                i === index ? "border-indigo-400" : "border-transparent opacity-60 hover:opacity-100"
+              }`}
+            >
+              <Image src={s.src} alt="" fill className="object-cover object-top" sizes="96px" />
+            </button>
+          ))}
+        </div>
+      </dialog>
+    </>
+  );
+}
+
+/**
  * Desktop app card — the app's own window fills the top of the card, framed by a
  * title bar so a screenshot of a native window reads as one rather than as a web
  * page. These ship as installers, so there is usually no live URL to link.
@@ -458,7 +559,8 @@ function DesktopAppCard({ project }: { project: Project }) {
           )}
         </div>
 
-        <div className="mt-auto pt-4">
+        <div className="mt-auto space-y-3 pt-4">
+          <ScreenshotGallery project={project} />
           <ProjectLinks project={project} />
         </div>
       </div>
@@ -473,7 +575,10 @@ export default function ProjectsSection({ projects: cmsProjects, heading }: Proj
   );
   const mobileProjects = allProjects.filter((project) => project.group === "mobile");
   const desktopApps = allProjects.filter((project) => project.group === "desktopApp");
-  const [featured, ...desktopRest] = desktopProjects;
+  // Every project flagged featured gets the hero slot; with none flagged, the first one does.
+  const flagged = desktopProjects.filter((project) => project.featured);
+  const featured = flagged.length ? flagged : desktopProjects.slice(0, 1);
+  const desktopRest = desktopProjects.filter((project) => !featured.includes(project));
 
   return (
     <m.section
@@ -509,8 +614,12 @@ export default function ProjectsSection({ projects: cmsProjects, heading }: Proj
         />
 
         <div className="max-w-7xl mx-auto px-3 md:px-4">
-          {/* Featured project */}
-          <FeaturedProject project={featured} />
+          {/* Featured projects */}
+          <div className="space-y-8 md:space-y-12">
+            {featured.map((project) => (
+              <FeaturedProject key={project.slug} project={project} />
+            ))}
+          </div>
 
           {/* Desktop Web Apps — 3 across */}
           <h3 className="text-xl md:text-2xl font-bold text-gray-900 dark:text-white mt-12 md:mt-16 mb-6 md:mb-8">
@@ -540,7 +649,7 @@ export default function ProjectsSection({ projects: cmsProjects, heading }: Proj
           {desktopApps.length > 0 && (
             <>
               <h3 className="text-xl md:text-2xl font-bold text-gray-900 dark:text-white mt-12 md:mt-16 mb-6 md:mb-8">
-                Desktop Applications (Windows &amp; macOS)
+                Programs (Windows &amp; macOS)
               </h3>
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
                 {desktopApps.map((project) => (

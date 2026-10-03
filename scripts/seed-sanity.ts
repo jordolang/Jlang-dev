@@ -182,6 +182,11 @@ async function main() {
   const projectDocs = [];
   for (const [index, project] of projects.entries()) {
     const image = await uploadImage(project.image);
+    const gallery = [];
+    for (const shot of project.gallery ?? []) {
+      const uploaded = await uploadImage(shot.src);
+      if (uploaded) gallery.push({ ...uploaded, _key: slugify(shot.src), caption: shot.caption });
+    }
     projectDocs.push({
       _id: id("project", `${project.title}-${project.group ?? "desktop"}`),
       _type: "project",
@@ -190,6 +195,7 @@ async function main() {
       subtitle: project.subtitle,
       description: project.description,
       ...(image ? { image } : {}),
+      ...(gallery.length ? { gallery } : {}),
       features: project.features,
       deliverables: project.deliverables,
       tech: project.tech,
@@ -203,7 +209,7 @@ async function main() {
       clientType: project.clientType,
       group: project.group ?? "desktop",
       fullPagePreview: project.fullPagePreview ?? false,
-      featured: index === 0,
+      featured: project.featured ?? false,
       order: index,
     });
   }

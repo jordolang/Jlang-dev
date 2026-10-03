@@ -73,10 +73,12 @@ export interface CmsProject {
   imageWidth?: number;
   imageHeight?: number;
   featured?: boolean;
+  gallery?: Array<{ src: string; caption: string }>;
 }
 
-interface RawProject extends Omit<CmsProject, "image" | "imageWidth" | "imageHeight"> {
+interface RawProject extends Omit<CmsProject, "image" | "imageWidth" | "imageHeight" | "gallery"> {
   image: SanityImageRef | null;
+  gallery?: Array<SanityImageRef & { caption?: string }> | null;
 }
 
 export async function getProjects(): Promise<CmsProject[] | null> {
@@ -86,7 +88,8 @@ export async function getProjects(): Promise<CmsProject[] | null> {
       title, subtitle, description, features, deliverables, tech, github, live,
       gradient, status, category, highlight, timeline, clientType, group,
       fullPagePreview, featured,
-      image ${IMAGE_PROJECTION}
+      image ${IMAGE_PROJECTION},
+      gallery[]{ caption, asset->{ _id, url } }
     }`,
     ["projects"],
   );
@@ -104,17 +107,14 @@ export async function getProjects(): Promise<CmsProject[] | null> {
       live: project.live ?? "",
       imageWidth: dims?.width,
       imageHeight: dims?.height,
+      gallery: project.gallery?.flatMap((shot) => {
+        const src = urlForImage(shot);
+        return src ? [{ src, caption: shot.caption ?? "" }] : [];
+      }),
     };
   });
 
-  // The section renders the first project as the big hero card, so hoist the featured one.
-  const featuredIndex = projects.findIndex(
-    (project) => project.featured && project.group !== "mobile" && project.group !== "desktopApp",
-  );
-  if (featuredIndex > 0) {
-    const [featured] = projects.splice(featuredIndex, 1);
-    projects.unshift(featured);
-  }
+  // ProjectsSection picks out the featured projects itself.
   return projects;
 }
 

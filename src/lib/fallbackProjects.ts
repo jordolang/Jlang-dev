@@ -23,6 +23,10 @@ export interface Project {
   clientType: string;
   group?: "desktop" | "mobile" | "desktopApp";
   fullPagePreview?: boolean;
+  /** Shown in the large hero slot at the top of the Projects section. */
+  featured?: boolean;
+  /** Extra screenshots, opened from the card's "View screenshots" button. */
+  gallery?: Array<{ src: string; caption: string }>;
   /** Intrinsic size of `image`. Required for full-page captures so the scroll container renders them at true aspect ratio. */
   imageWidth?: number;
   imageHeight?: number;
@@ -36,6 +40,74 @@ export interface Project {
 }
 
 export const projects: Project[] = [
+  {
+    slug: "the-leather-outlet",
+    title: "The Leather Outlet",
+    subtitle: "Leather & Outdoor Retailer — Lake George, NY",
+    description:
+      "A warm, image-led website for The Leather Outlet at the World Famous Tee Pee on Route 9: 30+ years of jackets, boots, handbags and name brands at outlet prices, plus the on-site gold mining sluice. Built to get people off the Northway and through the door.",
+    image: "/images/projects/leather-outlet.jpg",
+    imageWidth: 1440,
+    imageHeight: 14380,
+    fullPagePreview: true,
+    featured: true,
+    features: [
+      "Full-bleed hero with click-to-call and directions",
+      "Shop-by-category and brands-we-carry sections with a logo marquee",
+      "Mining sluice attraction with a three-step how-it-works",
+      "Store news, FAQ and contact page with hours and map",
+      "Scroll-triggered animations throughout",
+    ],
+    deliverables: [
+      "Brand-led website design",
+      "Responsive multi-page build",
+      "Local SEO structure for a destination retailer",
+      "Vercel deployment",
+    ],
+    tech: ["HTML5", "SCSS", "Bootstrap 5", "JavaScript", "Gulp", "Vercel"],
+    github: "",
+    live: "https://leather-outlet.vercel.app",
+    gradient: "from-amber-800 to-orange-700",
+    status: "Live",
+    category: "Web Design",
+    highlight: "Latest Project",
+    timeline: "2026",
+    clientType: "Retail",
+  },
+  {
+    slug: "black-label-barbecue",
+    title: "Black Label Barbecue",
+    subtitle: "Bold BBQ Sauce Storefront",
+    description:
+      "A dark, fire-lit storefront for Black Label Brand Barbecue. Five small-batch sauces, gallon jugs for crowds, recipes filtered by how you cook, and a custom-order page that hands off to BigCommerce checkout.",
+    image: "/images/projects/black-label-sauce.jpg",
+    imageWidth: 1440,
+    imageHeight: 10651,
+    fullPagePreview: true,
+    featured: true,
+    features: [
+      "Product lineup with bottle and gallon-jug sizes",
+      "Cook-by-fire guides: smoker, charcoal, gas, flat top, campfire, pellet",
+      "Recipe browser filtered by sauce and method",
+      "Custom order page with BigCommerce checkout hand-off",
+      "Wholesale enquiries, sitemap and robots for search",
+    ],
+    deliverables: [
+      "Brand storefront design and build",
+      "Recipe and product content structure",
+      "Checkout integration with BigCommerce",
+      "Vercel deployment",
+    ],
+    tech: ["Next.js", "React", "TypeScript", "BigCommerce", "Vercel"],
+    github: "",
+    live: "https://blacklabelsauce.vercel.app",
+    gradient: "from-neutral-900 to-red-700",
+    status: "Live",
+    category: "E-Commerce",
+    highlight: "Latest Project",
+    timeline: "2026",
+    clientType: "Food Brand",
+  },
   {
     slug: "stuck-on-you",
     title: "Stuck On You",
@@ -64,7 +136,7 @@ export const projects: Project[] = [
     gradient: "from-amber-700 to-yellow-600",
     status: "Live",
     category: "Web Design",
-    highlight: "Latest Project",
+    highlight: "Featured",
     timeline: "2026",
     clientType: "Permanent Jewelry",
   },
@@ -804,45 +876,22 @@ export function MedicationSearch() {
     group: "mobile",
   },
   {
-    slug: "jose-madrid-admin-panel",
-    title: "Jose Madrid Admin Panel",
-    subtitle: "Windows & macOS Desktop Admin",
-    description:
-      "The whole Jose Madrid Salsa business in a native window. A dense, keyboard-driven shell over 23 live sections — orders, products, inventory, customers, financials, fundraisers — with native menus, real printing, a save dialog on every export, and automatic updates.",
-    image: "/images/projects/desktop/jose-madrid-admin.png",
-    imageWidth: 1600,
-    imageHeight: 1000,
-    features: [
-      "23 live sections, from orders to the general ledger",
-      "Command palette and keyboard navigation throughout",
-      "Native menus, printing, and a save dialog on every export",
-      "Persistent signed-in session with an offline screen",
-      "Automatic updates on Windows; ships for Intel and Apple silicon",
-    ],
-    deliverables: [
-      "Electron shell for Windows 11 and a SwiftUI build for macOS",
-      "Desktop shell UI over the existing admin data layer",
-      "Role-based access and audit logging",
-      "Signed installers (NSIS .exe and .dmg) with an update channel",
-    ],
-    tech: ["Electron", "SwiftUI", "TypeScript", "Next.js", "Prisma", "PostgreSQL"],
-    github: "",
-    live: "",
-    gradient: "from-amber-700 to-yellow-600",
-    status: "Live",
-    category: "Desktop App",
-    highlight: "Windows & macOS",
-    timeline: "2026",
-    clientType: "Food Manufacturer",
-    group: "desktopApp",
-  },
-  {
     slug: "jose-madrid-macos-desktop",
     title: "Jose Madrid Salsa for Mac",
     subtitle: "Native macOS Business Management App",
     description:
       "Run the entire business without ever leaving your desktop. A native macOS app that carries Jose Madrid Salsa's whole admin panel — manage orders, manage content, and run fundraisers, events, wholesale, finances and marketing from one keyboard-driven window. It reads the same live database as the website, so every new admin feature lands on the desktop the day it ships.",
     image: "/images/projects/desktop/jose-madrid-macos.webp",
+    gallery: [
+      { src: "/images/projects/desktop/jms/01-dashboard.jpg", caption: "Dashboard — today’s revenue, orders, stock and the next shows" },
+      { src: "/images/projects/desktop/jms/02-products.jpg", caption: "Products — catalog with retail price, unit cost and margin" },
+      { src: "/images/projects/desktop/jms/03-inventory.jpg", caption: "Inventory — on hand, reserved, available and reorder points" },
+      { src: "/images/projects/desktop/jms/04-events.jpg", caption: "Events & Shows — month calendar of every show" },
+      { src: "/images/projects/desktop/jms/05-email-marketing.jpg", caption: "Email Marketing — campaigns with open and click rates" },
+      { src: "/images/projects/desktop/jms/06-lead-generation.jpg", caption: "Lead Generation — prospecting pipeline" },
+      { src: "/images/projects/desktop/jms/07-social.jpg", caption: "Social — scheduled and published posts" },
+      { src: "/images/projects/desktop/jms/08-command-palette.jpg", caption: "⌘K command palette — jump to any page by name" },
+    ],
     imageWidth: 1600,
     imageHeight: 1088,
     features: [
@@ -880,7 +929,7 @@ export function MedicationSearch() {
       "Role-based access, persistent sign-in and audit logging",
     ],
     tech: ["SwiftUI", "macOS", "Swift", "Next.js", "Prisma", "PostgreSQL"],
-    github: "",
+    github: "https://github.com/jordolang/josemadridsalsa/tree/main/apps/macos-admin",
     live: "",
     gradient: "from-red-600 to-orange-500",
     status: "Live",
@@ -897,6 +946,14 @@ export function MedicationSearch() {
     description:
       "A licensed Windows desktop app that turns a city and an industry into a worked lead list: scrape Google Maps listings, scan each site for contacts, compose and send personalised outreach, and work the follow-up calls from a prioritised cockpit.",
     image: "/images/projects/desktop/google-scraper.png",
+    gallery: [
+      { src: "/images/projects/desktop/lead-scraper/00-dashboard.jpg", caption: "Dashboard — scrape Google Maps listings by city and industry" },
+      { src: "/images/projects/desktop/lead-scraper/01-listings.jpg", caption: "Business Listings — results with phone, website and rating" },
+      { src: "/images/projects/desktop/lead-scraper/02-scraper.jpg", caption: "Website Scraper — crawl each site for emails and contacts" },
+      { src: "/images/projects/desktop/lead-scraper/03-outreach.jpg", caption: "Contacts & Outreach — campaigns and call queue" },
+      { src: "/images/projects/desktop/lead-scraper/04-licence-plans.jpg", caption: "Licence & Billing — trial, plans and feature tiers" },
+      { src: "/images/projects/desktop/lead-scraper/05-tools.jpg", caption: "Tools — phone lookup, package pricing and CSV import" },
+    ],
     imageWidth: 1600,
     imageHeight: 820,
     features: [
@@ -931,6 +988,15 @@ export function MedicationSearch() {
     description:
       "Finds the most profitable shows for the lowest out-of-pocket cost. It scans every upcoming weekend within driving distance, scores each expo, fair, and festival on what it should actually put in a vendor's pocket, and lays the results out as a table, a map, a calendar, and four charts.",
     image: "/images/projects/desktop/festivalnet-scraper.png",
+    gallery: [
+      { src: "/images/projects/desktop/festivalnet/01-overview-financials.jpg", caption: "Overview — ranked shows with a per-event money breakdown" },
+      { src: "/images/projects/desktop/festivalnet/02-scoring-notes.jpg", caption: "Scoring notes — why each show ranks where it does" },
+      { src: "/images/projects/desktop/festivalnet/03-table.jpg", caption: "Table — every column the scraper fills in" },
+      { src: "/images/projects/desktop/festivalnet/04-map.jpg", caption: "Map — every event within driving distance" },
+      { src: "/images/projects/desktop/festivalnet/05-calendar.jpg", caption: "Calendar — shows by weekend" },
+      { src: "/images/projects/desktop/festivalnet/06-charts.jpg", caption: "Charts — top shows, shows per month, by type and score spread" },
+      { src: "/images/projects/desktop/festivalnet/07-export.jpg", caption: "Export — CSV, Excel, Markdown and JSON" },
+    ],
     imageWidth: 1500,
     imageHeight: 968,
     features: [

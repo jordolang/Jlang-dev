@@ -23,6 +23,18 @@ export const projectType = defineType({
       options: { hotspot: true },
       description: "For a full-page preview, upload the tall top-to-bottom capture of the site.",
     }),
+    defineField({
+      name: "gallery",
+      title: "Screenshot gallery",
+      type: "array",
+      description: "Extra screenshots, opened from a \"View screenshots\" button on the card.",
+      of: [
+        {
+          type: "image",
+          fields: [defineField({ name: "caption", title: "Caption", type: "string" })],
+        },
+      ],
+    }),
     defineField({ name: "features", title: "Key features", type: "array", of: [{ type: "string" }] }),
     defineField({ name: "deliverables", title: "Deliverables", type: "array", of: [{ type: "string" }] }),
     defineField({ name: "tech", title: "Tech stack", type: "array", of: [{ type: "string" }], options: { layout: "tags" } }),
