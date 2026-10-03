@@ -126,7 +126,7 @@ describe('CMS Library', () => {
       expect(result).toBeNull()
     })
 
-    it('should hoist featured project to first position', async () => {
+    it('should keep CMS order for featured projects', async () => {
       const { getSanityClient } = await import('@/sanity/lib/client')
       const mockClient = {
         fetch: vi.fn().mockResolvedValue([
@@ -149,7 +149,8 @@ describe('CMS Library', () => {
       const { getProjects } = await import('@/lib/cms')
       const result = await getProjects()
 
-      expect(result?.[0].title).toBe('Featured Project')
+      // ProjectsSection picks out featured projects itself, so getProjects keeps CMS order.
+      expect(result?.map((p) => p.title)).toEqual(['Project 1', 'Project 2', 'Featured Project'])
     })
 
     it('should not hoist featured mobile or desktop app projects', async () => {
