@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Icon } from "@iconify/react";
 import { m } from "framer-motion";
 import Link from "next/link";
@@ -10,6 +10,7 @@ import { AnalyticsEvents, trackEvent } from "@/lib/analytics";
 import CaseStudySection from "@/components/projects/CaseStudySection";
 import dynamic from "next/dynamic";
 import { LazyOnScroll } from "@/components/LazyOnScroll";
+import { ScreenshotLightbox, type Screenshot } from "@/components/projects/ScreenshotLightbox";
 
 // Keep the showcase and its Prism highlighter out of the route bundle; most projects have no examples.
 const CodeShowcase = dynamic(
@@ -36,6 +37,7 @@ export interface CaseStudyViewProject {
   highlight: string;
   timeline: string;
   clientType: string;
+  gallery?: Screenshot[];
   // Case study fields
   challenge?: PortableTextBlock[];
   approach?: PortableTextBlock[];
@@ -164,6 +166,8 @@ export default function CaseStudyView({ project }: CaseStudyViewProps) {
               </div>
             </m.div>
           )}
+
+          <ScreenshotsSection title={project.title} shots={project.gallery ?? []} />
 
           {/* Case Study Sections */}
           {hasCaseStudy && (
@@ -384,5 +388,53 @@ export default function CaseStudyView({ project }: CaseStudyViewProps) {
         </m.article>
       </div>
     </div>
+  );
+}
+
+/** Grid of the project's gallery screenshots; each opens the lightbox at that shot. */
+function ScreenshotsSection({ title, shots }: { title: string; shots: Screenshot[] }) {
+  const dialogRef = useRef<HTMLDialogElement>(null);
+  const [index, setIndex] = useState(0);
+  if (!shots.length) return null;
+
+  return (
+    <m.section
+      initial={{ opacity: 0, y: 40 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: "-100px" }}
+      transition={{ duration: 0.7, ease: [0.25, 0.46, 0.45, 0.94] }}
+      className="mb-12 pb-12 border-b border-gray-200 dark:border-gray-800"
+    >
+      <h2 className="text-3xl font-bold mb-6 text-gray-900 dark:text-white">Screenshots</h2>
+      <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+        {shots.map((shot, idx) => (
+          <button
+            key={shot.video ?? shot.src}
+            type="button"
+            onClick={() => {
+              setIndex(idx);
+              dialogRef.current?.showModal();
+              trackEvent(AnalyticsEvents.PROJECT_CLICKED, { project: title, action: "gallery" });
+            }}
+            aria-label={`Open screenshot ${idx + 1}${shot.caption ? `: ${shot.caption}` : ""}`}
+            className="group relative aspect-[16/10] overflow-hidden rounded-xl border border-gray-200 dark:border-gray-800 bg-gray-100 dark:bg-gray-900 shadow-md hover:shadow-xl transition-shadow"
+          >
+            <Image
+              src={shot.src}
+              alt={shot.caption || `${title} screenshot ${idx + 1}`}
+              fill
+              className="object-cover object-top transition-transform duration-500 group-hover:scale-105"
+              sizes="(max-width: 768px) 50vw, 300px"
+            />
+            {shot.video && (
+              <span className="absolute inset-0 flex items-center justify-center bg-black/30">
+                <Icon icon="solar:play-circle-bold" width={48} height={48} className="text-white drop-shadow" />
+              </span>
+            )}
+          </button>
+        ))}
+      </div>
+      <ScreenshotLightbox ref={dialogRef} title={title} shots={shots} index={index} onIndexChange={setIndex} />
+    </m.section>
   );
 }
