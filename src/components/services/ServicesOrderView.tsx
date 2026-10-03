@@ -9,7 +9,7 @@ import { sendContactMessage } from '@/lib/contact';
 import { AnalyticsEvents, identifyUser, trackEvent } from '@/lib/analytics';
 import { logger } from '@/lib/logger';
 import { ADDON_FEATURES, type AddonFeature } from "@/lib/content/addons";
-import { BRAND_GRADIENTS } from "@/components/portfolio/ServicesSection";
+import { brandGradient } from "@/components/portfolio/ServicesSection";
 
 interface Package {
   name: string;
@@ -149,7 +149,7 @@ export default function ServicesOrderView({ packages: cmsPackages, addons: cmsAd
   const packages = Object.fromEntries(
     Object.entries(cmsPackages && Object.keys(cmsPackages).length ? cmsPackages : defaultPackages).map(([slug, pkg]) => [
       slug,
-      { ...pkg, gradient: BRAND_GRADIENTS[pkg.name] ?? pkg.gradient },
+      { ...pkg, gradient: brandGradient(pkg.name, pkg.gradient) },
     ]),
   );
   const additionalFeatures = cmsAddons?.length ? cmsAddons : ADDON_FEATURES;
