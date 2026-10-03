@@ -3,6 +3,7 @@
 import { Icon } from "@iconify/react";
 import { AnimatePresence, m } from "framer-motion";
 import Link from "next/link";
+import { stegaClean } from "next-sanity";
 import { useEffect, useState } from "react";
 import { AnalyticsEvents, trackEvent } from "@/lib/analytics";
 import SectionHeader from "./SectionHeader";
@@ -35,6 +36,23 @@ export const BRAND_GRADIENTS: Record<string, string> = {
   Enterprise: "from-gold-900 via-gold-700 to-gold-500 dark:from-gold-500 dark:via-gold-600 dark:to-gold-800",
   "App Development": "from-gold-300 via-silver-400 to-silver-700",
 };
+
+/**
+ * The brand gradient for a tier, falling back to the CMS value for tiers we don't know.
+ *
+ * In draft mode (Studio's Presentation tool) Sanity stega-encodes the package name with invisible
+ * characters, so a raw `BRAND_GRADIENTS[name]` lookup misses and the card falls back to the CMS
+ * gradient — whose classes may not exist in the compiled CSS, leaving the pill, price and button
+ * with no background at all. Clean the name before matching.
+ */
+export function brandGradient(name: string, fallback: string): string {
+  return BRAND_GRADIENTS[stegaClean(name).trim()] ?? fallback;
+}
+
+/** URL slug the order form uses as its package key, e.g. "App Development" → "app-development". */
+export function packageSlug(name: string): string {
+  return stegaClean(name).trim().toLowerCase().replace(/\s+/g, "-");
+}
 
 export const pricingPackages: PricingPackage[] = [
   {
@@ -238,7 +256,7 @@ function isCategoryHeader(feature: string): boolean {
 }
 
 function orderHref(pkg: PricingPackage): string {
-  return `/services?package=${pkg.name.toLowerCase()}`;
+  return `/services?package=${packageSlug(pkg.name)}`;
 }
 
 /** Full pricing breakdown in an accessible dialog — "exactly what you get for the cost". */
@@ -321,7 +339,7 @@ function PricingDialog({ pkg, onClose }: { pkg: PricingPackage; onClose: () => v
         </div>
 
         <div className="border-t border-gray-200 p-4 dark:border-gray-700">
-          <Link href={orderHref(pkg)} onClick={() => trackEvent(AnalyticsEvents.PRICING_CTA_CLICKED, { package: pkg.name.toLowerCase(), location: "pricing_dialog" })}>
+          <Link href={orderHref(pkg)} onClick={() => trackEvent(AnalyticsEvents.PRICING_CTA_CLICKED, { package: packageSlug(pkg.name), location: "pricing_dialog" })}>
             <m.span
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
@@ -351,7 +369,7 @@ export default function ServicesSection({ packages, faqs: cmsFaqs, heading }: Se
   // Brand gradients override the CMS field so each tier gets its own gold/silver shade.
   const packageList = (packages?.length ? packages : pricingPackages).map((pkg) => ({
     ...pkg,
-    gradient: BRAND_GRADIENTS[pkg.name] ?? pkg.gradient,
+    gradient: brandGradient(pkg.name, pkg.gradient),
   }));
   const faqList = cmsFaqs?.length ? cmsFaqs : faqs;
 
@@ -362,7 +380,7 @@ export default function ServicesSection({ packages, faqs: cmsFaqs, heading }: Se
 
   const openDetails = (pkg: PricingPackage) => {
     setDetailsPackage(pkg);
-    trackEvent(AnalyticsEvents.PRICING_CTA_CLICKED, { package: pkg.name.toLowerCase(), location: "view_details" });
+    trackEvent(AnalyticsEvents.PRICING_CTA_CLICKED, { package: packageSlug(pkg.name), location: "view_details" });
   };
 
   return (
@@ -518,7 +536,7 @@ export default function ServicesSection({ packages, faqs: cmsFaqs, heading }: Se
                   <m.span
                     whileHover={{ scale: 1.03 }}
                     whileTap={{ scale: 0.97 }}
-                    onClick={() => trackEvent(AnalyticsEvents.PRICING_CTA_CLICKED, { package: pkg.name.toLowerCase(), location: "pricing_card" })}
+                    onClick={() => trackEvent(AnalyticsEvents.PRICING_CTA_CLICKED, { package: packageSlug(pkg.name), location: "pricing_card" })}
                     className={`group/cta relative flex w-full items-center justify-center gap-2 overflow-hidden rounded-xl bg-gradient-to-r ${pkg.gradient} py-3 font-semibold text-white shadow-lg transition-shadow duration-300 hover:shadow-xl ${
                       pkg.popular ? "shadow-purple-500/40" : "shadow-black/10"
                     }`}
@@ -551,7 +569,7 @@ export default function ServicesSection({ packages, faqs: cmsFaqs, heading }: Se
                             return (
                               <Link
                                 key={addon.label}
-                                href={`/services?package=${pkg.name.toLowerCase()}&feature=${encodeURIComponent(feature)}`}
+                                href={`/services?package=${packageSlug(pkg.name)}&feature=${encodeURIComponent(feature)}`}
                                 onClick={() => trackEvent(AnalyticsEvents.FEATURE_CLICKED, { feature_name: feature, feature_price: addon.price ?? 0 })}
                                 className={`${chip} transition-all hover:-translate-y-0.5 hover:border-transparent hover:bg-indigo-600 hover:text-white dark:hover:bg-indigo-500 hover:shadow-md`}
                               >
