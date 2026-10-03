@@ -5,7 +5,7 @@ import { Icon } from "@iconify/react";
 import { m } from "framer-motion";
 import Link from "next/link";
 import { useState, useEffect } from "react";
-import emailjs from '@emailjs/browser';
+import { sendContactMessage } from '@/lib/contact';
 import { AnalyticsEvents, identifyUser, trackEvent } from '@/lib/analytics';
 import { logger } from '@/lib/logger';
 import { ADDON_FEATURES, type AddonFeature } from "@/lib/content/addons";
@@ -259,10 +259,6 @@ export default function ServicesOrderView({ packages: cmsPackages, addons: cmsAd
     setIsSubmitting(true);
     setSubmitStatus('idle');
 
-    const serviceId = process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID || 'YOUR_SERVICE_ID';
-    const templateId = process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID || 'YOUR_TEMPLATE_ID';
-    const publicKey = process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY || 'YOUR_PUBLIC_KEY';
-
     // Prepare package info outside try block for error logging
     const packageInfo = packages[selectedPackage as keyof typeof packages];
     const totalPrice = calculateTotalPrice();
@@ -292,18 +288,13 @@ ${formData.projectDescription}
 
 💰 Budget: ${formData.budget || 'Not specified'}
 ⏱️ Timeline: ${formData.timeline || 'Not specified'}`;
-      
-      await emailjs.send(
-        serviceId,
-        templateId,
-        {
-          from_name: formData.contactName,
-          from_email: formData.email,
-          message: serviceMessage,
-          to_email: 'jordan@jlang.dev',
-        },
-        publicKey
-      );
+
+      await sendContactMessage({
+        name: formData.contactName,
+        email: formData.email,
+        subject: `Service order: ${packageInfo.name} for ${formData.businessName}`,
+        message: serviceMessage,
+      });
 
       trackEvent(AnalyticsEvents.SERVICE_ORDER_SUBMITTED, {
         package: selectedPackage,

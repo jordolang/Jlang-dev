@@ -9,7 +9,7 @@ Source for [jlang.dev](https://jlang.dev), Jordan Lang's portfolio and services 
 - **Next.js 15** (App Router) with **React 18** and **TypeScript**
 - **Tailwind CSS** and **Framer Motion**
 - **Sanity** for content, with Studio mounted at `/studio`
-- **Stripe** checkout, **Resend** email, **EmailJS** contact form, **PostHog** analytics
+- **Stripe** checkout, **Resend** email, **PostHog** analytics
 - **Anthropic API** for Studio drafting and social copy
 - **Vitest** unit and integration tests, **Playwright** end-to-end tests
 - Deployed on **Vercel**
@@ -33,7 +33,7 @@ Every variable the app reads is listed with a comment in [`env-example`](env-exa
 | Feature | Variables |
 | --- | --- |
 | Content (all pages) | `NEXT_PUBLIC_SANITY_PROJECT_ID`, `NEXT_PUBLIC_SANITY_DATASET`, `NEXT_PUBLIC_SANITY_API_VERSION`, `SANITY_API_WRITE_TOKEN`, `NEXT_PUBLIC_SITE_URL` |
-| Contact form | `NEXT_PUBLIC_EMAILJS_*` |
+| Contact and order forms | `RESEND_API_KEY`, optional `CONTACT_EMAIL`, `CONTACT_EMAIL_FROM` |
 | Analytics | `NEXT_PUBLIC_POSTHOG_KEY`, `NEXT_PUBLIC_POSTHOG_HOST` |
 | Products store | `STRIPE_SECRET_KEY`, `STRIPE_WEBHOOK_SECRET`, `DOWNLOAD_TOKEN_SECRET`, `RESEND_API_KEY`, `PURCHASE_EMAIL_FROM` |
 | Client portal | `PORTAL_SESSION_SECRET`, `RESEND_API_KEY`, `PORTAL_EMAIL_FROM` |
