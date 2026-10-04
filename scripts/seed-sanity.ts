@@ -370,7 +370,7 @@ async function main() {
       coreCompetenciesLabel: "Core Competencies (10+ Years Experience)",
       coreCompetencies: [
         "Adobe Creative Suite", "HTML/CSS", "Javascript", "Full Stack Development", "Brand Identity",
-        "Small-Business Marketing", "Digital Media (TV/Radio/Print)", "Responsive Design", "User Experience", "WordPress",
+        "Small-Business Marketing", "Digital Media (TV/Radio/Print)", "Responsive Design", "User Experience",
       ],
       emergingSectorsLabel: "Emerging Sectors of Focus (Less than 5 Years Experience or Education)",
       emergingSectors: [

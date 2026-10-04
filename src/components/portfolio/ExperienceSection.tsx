@@ -17,7 +17,7 @@ export const experience = [
       "Enhanced contact forms and quote request system",
       "Improved mobile responsiveness and site navigation"
     ],
-    technologies: ["HTML5", "CSS3", "JavaScript", "WordPress", "Bootstrap", "Adobe Photoshop", "SEO Optimization"]
+    technologies: ["HTML5", "CSS3", "JavaScript", "Bootstrap", "Adobe Photoshop", "SEO Optimization"]
   },
   {
     role: "Freelance Web Designer",
@@ -33,7 +33,7 @@ export const experience = [
       "Maintained ongoing client relationships with regular updates",
       "Achieved 100% client satisfaction with repeat business referrals"
     ],
-    technologies: ["HTML5", "CSS3", "JavaScript", "WordPress", "Wix", "Squarespace", "Google Analytics", "Local SEO"]
+    technologies: ["HTML5", "CSS3", "JavaScript", "Wix", "Squarespace", "Google Analytics", "Local SEO"]
   },
   {
     role: "Web Designer",
@@ -49,7 +49,7 @@ export const experience = [
       "Created responsive design accessible across all devices",
       "Established social media integration and newsletter signup"
     ],
-    technologies: ["HTML5", "CSS3", "JavaScript", "WordPress", "MySQL", "PayPal Integration", "Accessibility Standards"]
+    technologies: ["HTML5", "CSS3", "JavaScript", "MySQL", "PayPal Integration", "Accessibility Standards"]
   },
   {
     role: "Lead Sales, Finance, and Marketing Manager",

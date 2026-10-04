@@ -38,7 +38,7 @@ const DEFAULT_BIO = [
 
 const DEFAULT_COMPETENCIES = [
   "Adobe Creative Suite", "HTML/CSS", "Javascript", "Full Stack Development", "Brand Identity",
-  "Small-Business Marketing", "Digital Media (TV/Radio/Print)", "Responsive Design", "User Experience", "WordPress",
+  "Small-Business Marketing", "Digital Media (TV/Radio/Print)", "Responsive Design", "User Experience",
 ];
 
 const DEFAULT_EMERGING = [
