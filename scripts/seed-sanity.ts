@@ -316,7 +316,7 @@ async function main() {
       availabilityBanner: "Available for contract web design & App Development & Various IT projects",
       skillsPreview: [
         { _key: "html", label: "HTML/CSS", icon: "skill-icons:html" },
-        { _key: "wp", label: "WordPress", icon: "skill-icons:wordpress" },
+        { _key: "nextjs", label: "Next.js", icon: "skill-icons:nextjs-dark" },
         { _key: "uiux", label: "UI/UX Design", icon: "logos:figma" },
         { _key: "responsive", label: "Responsive Design", icon: "material-symbols:responsive-layout" },
         { _key: "a11y", label: "Web Accessibility", icon: "mdi:web-check" },
