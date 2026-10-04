@@ -312,7 +312,7 @@ async function main() {
       ...(logoLight ? { logoLight } : {}),
       ...(logoDark ? { logoDark } : {}),
       tagline: "Creating beautiful, accessible websites that engage users and drive results",
-      typewriterRoles: ["Web Designer", "UI/UX Designer", "WordPress Developer", "Digital Creative"],
+      typewriterRoles: ["Web Designer", "UI/UX Designer", "Custom Web Design", "Digital Creative"],
       availabilityBanner: "Available for contract web design & App Development & Various IT projects",
       skillsPreview: [
         { _key: "html", label: "HTML/CSS", icon: "skill-icons:html" },

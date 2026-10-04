@@ -26,6 +26,7 @@ export interface CaseStudyViewProject {
   image: string;
   imageWidth?: number;
   imageHeight?: number;
+  fullPagePreview?: boolean;
   features: string[];
   deliverables: string[];
   tech: string[];
@@ -93,7 +94,20 @@ export default function CaseStudyView({ project }: CaseStudyViewProps) {
           className="max-w-4xl mx-auto"
         >
           {/* Hero Image */}
-          {project.image && (
+          {project.image && project.fullPagePreview ? (
+            // Full top-to-bottom site screenshot: scroll inside the frame instead of cropping it
+            <div className="relative h-[500px] md:h-[640px] rounded-2xl overflow-y-auto overscroll-contain mb-8 shadow-2xl bg-gray-100 dark:bg-gray-900">
+              <Image
+                src={project.image}
+                alt={`${project.title} – full page screenshot`}
+                width={project.imageWidth ?? 1440}
+                height={project.imageHeight ?? 9000}
+                className="w-full h-auto"
+                priority
+                sizes="(max-width: 768px) 100vw, 896px"
+              />
+            </div>
+          ) : project.image && (
             <div className="relative h-[400px] rounded-2xl overflow-hidden mb-8 shadow-2xl">
               <div className={`absolute inset-0 ${project.gradient || 'bg-gradient-to-br from-indigo-500/20 to-purple-500/20'}`} />
               <Image

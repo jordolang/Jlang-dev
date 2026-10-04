@@ -33,6 +33,10 @@ const nextConfig: NextConfig = {
         destination: "/api/resume",
       },
       {
+        source: "/api/resume/launch.sh",
+        destination: "/api/resume",
+      },
+      {
         source: "/resume/portfolio.py",
         destination: "/api/resume/portfolio.py",
       },

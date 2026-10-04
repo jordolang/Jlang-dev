@@ -5,29 +5,524 @@ excerpt: "Learn how to build scalable, modern web applications using Next.js 15,
 image: "/images/blog/nextjs-typescript.webp"
 tags: ["Next.js", "TypeScript", "React", "Web Development"]
 author: "Jordan Lang"
-readTime: "5 min read"
+readTime: "14 min read"
 ---
 
 # Building Modern Web Applications with Next.js and TypeScript
 
-In today's rapidly evolving web development landscape, choosing the right tools and frameworks is crucial for building maintainable, scalable applications. In this post, I'll share insights from my experience building modern web applications using Next.js and TypeScript.
+Choosing a framework is the easy part of building a modern web application. The harder work starts when you need to decide where data should live, which code belongs in the browser, how to handle failures, and what happens when a prototype becomes a product people depend on.
+
+Next.js and TypeScript make a strong foundation for that work. Next.js provides routing, server rendering, and asset optimizations on top of React. TypeScript helps make the relationships between your data, components, and application logic explicit. Together, they reduce a lot of incidental complexity—but they do not make architectural decisions for you.
+
+This guide walks through those decisions using a small project dashboard as a running example. The goal is not to introduce every feature in the framework. It is to build a practical mental model for applications that remain fast, understandable, and maintainable as they grow.
+
+The examples use the App Router and Next.js 15 conventions. Caching behavior and framework APIs can change between major versions, so check the documentation for the version installed in your project before adopting an example wholesale.
 
 ## Why Next.js and TypeScript?
 
-Next.js provides an excellent foundation for React applications with built-in optimizations, while TypeScript adds type safety that becomes invaluable as your application grows.
+React is excellent at describing interfaces, but a production application needs more than a component tree. It needs navigation, data access, metadata, loading states, error handling, and a deployment strategy.
 
-### Key Benefits
+Next.js brings many of those concerns into one framework. File-based routes make navigation structure visible. Server Components let you render content without shipping all of its implementation to the browser. Built-in image and font tooling helps avoid common performance mistakes.
 
-- **Performance**: Built-in optimizations and automatic code splitting
-- **Type Safety**: Catch errors at compile time rather than runtime
-- **Developer Experience**: Excellent tooling and IntelliSense support
-- **SEO**: Server-side rendering capabilities
+TypeScript complements those features by making contracts visible while you work. If a project card expects a project with a name, status, and update timestamp, the compiler can help keep every caller aligned with that expectation.
 
-## Best Practices I've Learned
+### The benefits that matter in practice
 
-1. **Start with strict TypeScript configuration**
-2. **Use App Router for new projects**
-3. **Implement proper error boundaries**
-4. **Optimize images and assets from day one**
+- **Less browser JavaScript:** Server-rendered components can handle work that does not require browser interactivity.
+- **Clearer contracts:** Types communicate what a function accepts, what it returns, and which states are valid.
+- **Predictable navigation:** Routes, nested layouts, and route-level loading states follow a shared structure.
+- **Better foundations for discoverability:** Server-rendered content and route metadata make public pages easier to understand for search engines and link previews.
+- **Safer refactoring:** Changing a domain model exposes affected call sites before the application reaches production.
 
-Building modern web applications is an exciting journey, and these tools make it both powerful and enjoyable.
+None of these benefits is automatic. A page can still fetch data inefficiently, expose sensitive information, or send a huge bundle to the client. The framework gives you useful defaults and tools; good engineering determines how well you use them.
+
+## Start with the Application's Constraints
+
+Before organizing folders or choosing a state library, write down what the application actually needs to do.
+
+For a project dashboard, those requirements might include:
+
+- Visitors can read public project descriptions.
+- Signed-in users can view their organization's private projects.
+- Authorized members can rename or archive a project.
+- Project lists support filtering and pagination.
+- Slow data sources should not block the entire interface.
+- Failures should provide a useful recovery path.
+
+These requirements immediately reveal different kinds of data. Public descriptions might tolerate caching. Membership information needs a fresh authorization check. A filter belongs in the URL if users should be able to bookmark or share it.
+
+This is a more useful starting point than deciding that every page needs client-side fetching or that all state belongs in one global store.
+
+## Organize Around Routes and Features
+
+A small application does not need an elaborate architecture. It does need a place for each kind of responsibility.
+
+```text
+src/
+  app/
+    layout.tsx
+    page.tsx
+    projects/
+      page.tsx
+      loading.tsx
+      error.tsx
+      [projectId]/
+        page.tsx
+  components/
+    ui/
+      button.tsx
+      input.tsx
+  features/
+    projects/
+      components/
+        project-card.tsx
+        project-filters.tsx
+      queries.ts
+      types.ts
+  lib/
+    auth.ts
+    db.ts
+```
+
+The `app` directory describes the route tree. Shared interface primitives live in `components/ui`. Project-specific components and data access live together under `features/projects`. Infrastructure such as database connections belongs in `lib`.
+
+Treat this as a starting point, not a rulebook. If a component is only used by one route, keeping it beside that route may be clearer than promoting it into a shared folder. Move code when reuse becomes real, not because it might become reusable someday.
+
+The most important boundary is between presentation, domain behavior, and infrastructure. A card should not need to know how your database authenticates a connection. A database query should not need to know which CSS classes the card uses.
+
+## Make TypeScript Strict—and Keep It Honest
+
+Strict TypeScript settings are most valuable at the beginning of a project, before loosely typed assumptions spread through the codebase.
+
+Keep the framework-generated configuration and enable strict checking rather than replacing the entire file with a generic configuration:
+
+```json
+{
+  "compilerOptions": {
+    "strict": true,
+    "noUncheckedIndexedAccess": true
+  }
+}
+```
+
+`strict` catches issues such as nullable values being used without checks. `noUncheckedIndexedAccess` makes indexed access more realistic: looking up an array element or dictionary key can return `undefined`.
+
+### Model meaningful states
+
+A project's status should not be an arbitrary string if the application only supports three values:
+
+```ts
+type ProjectStatus = "active" | "paused" | "archived";
+
+type ProjectSummary = {
+  id: string;
+  name: string;
+  status: ProjectStatus;
+  updatedAt: string;
+};
+```
+
+This catches misspelled statuses and makes exhaustive handling possible. It also gives a reviewer a concise description of the data a component actually needs.
+
+For operations that can succeed or fail, a discriminated union is often clearer than an object with several optional fields:
+
+```ts
+type RenameProjectResult =
+  | { ok: true; project: ProjectSummary }
+  | { ok: false; error: "invalid-name" | "not-authorized" };
+
+function describeResult(result: RenameProjectResult) {
+  if (!result.ok) {
+    return result.error === "invalid-name"
+      ? "Enter a project name between 1 and 100 characters."
+      : "You do not have permission to rename this project.";
+  }
+
+  return `Renamed project to ${result.project.name}.`;
+}
+```
+
+The relationship between `ok` and the remaining fields is part of the type. You do not have to guess whether an error and a project can both be present.
+
+### Runtime validation is a separate responsibility
+
+TypeScript does not validate an API response, a form submission, or an environment variable at runtime. A type assertion such as `response.json() as ProjectSummary` only tells the compiler to trust you.
+
+Treat external data as untrusted until it has been checked. Use a runtime schema library if your application already has one, or write a small validator for simple boundaries. Validate required fields, allowed values, and length limits before the data enters your domain logic.
+
+Use assertions sparingly. When an assertion appears at an external boundary, ask whether it is documenting a verified fact or hiding an assumption.
+
+## Understand the Server and Client Boundary
+
+In the App Router, components are Server Components by default. They can access server-side resources and render content without adding their component implementation to the browser bundle.
+
+Client Components are for browser interactivity: state, event handlers, effects, and browser APIs. The `"use client"` directive establishes that boundary.
+
+A common mistake is adding `"use client"` to an entire page because one small control needs an event handler. Instead, keep the page on the server and isolate the interactive control.
+
+```tsx
+// features/projects/components/project-filters.tsx
+"use client";
+
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
+
+type FilterStatus = "all" | "active" | "paused" | "archived";
+
+export function ProjectFilters({ status }: { status: FilterStatus }) {
+  const router = useRouter();
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
+
+  return (
+    <label>
+      Project status
+      <select
+        value={status}
+        onChange={(event) => {
+          const params = new URLSearchParams(searchParams.toString());
+          params.set("status", event.target.value);
+          params.delete("page");
+          router.push(`${pathname}?${params.toString()}`);
+        }}
+      >
+        <option value="all">All projects</option>
+        <option value="active">Active</option>
+        <option value="paused">Paused</option>
+        <option value="archived">Archived</option>
+      </select>
+    </label>
+  );
+}
+```
+
+Here, the browser handles the selection while the URL records the selected filter. The server-rendered page can validate that query parameter and use it to load the appropriate projects. Resetting pagination when the filter changes prevents a user from landing on an empty page deep into a new result set.
+
+In Next.js 15, page `params` and `searchParams` use asynchronous APIs. Await them in the page before deriving query inputs. If a statically rendered route uses `useSearchParams`, place the relevant Client Component behind an appropriate Suspense boundary.
+
+Keep props passed to Client Components small and explicit. A project card rarely needs the complete database record, internal audit fields, or membership details. Pass a summary tailored to the interface instead.
+
+## Fetch Data Without Creating Waterfalls
+
+Where you fetch data matters as much as how you fetch it.
+
+If a Server Component needs database data, it can usually call a server-side query directly. Calling your own Route Handler from the server adds an unnecessary HTTP hop unless there is a specific reason to go through that interface.
+
+Keep query modules server-only so they cannot accidentally be imported into a client bundle:
+
+```ts
+// features/projects/queries.ts
+import "server-only";
+
+// Database queries and authorization-aware data access belong here.
+```
+
+### Run independent work concurrently
+
+Suppose a dashboard needs both a project list and an account summary. If the requests do not depend on each other, avoid making the second request wait for the first:
+
+```ts
+const [projects, accountSummary] = await Promise.all([
+  getProjectsForUser(user.id),
+  getAccountSummary(user.id),
+]);
+```
+
+The functions here represent application-specific queries. Both should enforce their own data-access requirements, and both depend on an already authenticated user.
+
+Parallelism is not a license to ignore dependencies. If you need a project's organization ID before checking membership, that sequence is real. The optimization is to remove accidental waiting, not necessary validation.
+
+Also consider failure behavior. `Promise.all` rejects when one operation rejects. If a secondary widget can fail without taking down the main view, give it its own rendering boundary or handle its failure separately.
+
+### Stream independently useful sections
+
+Suspense lets a page show its shell while a slower section is still loading:
+
+```tsx
+import { Suspense } from "react";
+import { ProjectList } from "@/features/projects/components/project-list";
+import { ProjectListSkeleton } from "@/features/projects/components/project-list-skeleton";
+
+export default function ProjectsPage() {
+  return (
+    <main>
+      <h1>Your projects</h1>
+      <Suspense fallback={<ProjectListSkeleton />}>
+        <ProjectList />
+      </Suspense>
+    </main>
+  );
+}
+```
+
+In this example, `ProjectList` is an application-specific async Server Component that performs its data access internally. If the page awaited the same slow query before returning JSX, the boundary would not provide the intended early shell.
+
+Choose boundaries around meaningful sections rather than every tiny component. A useful loading state should resemble the final layout enough to avoid large visual jumps.
+
+## Treat Caching as a Product Decision
+
+Caching is not simply a performance switch. It determines how long users may see old information and who may share the same result.
+
+For each data source, ask:
+
+1. Is the data public or user-specific?
+2. How quickly can it change?
+3. How stale can it be before the interface becomes misleading?
+4. What event should invalidate it?
+
+A public project directory might tolerate a short revalidation interval:
+
+```ts
+const response = await fetch("https://example.com/api/public-projects", {
+  next: { revalidate: 300 },
+});
+
+if (!response.ok) {
+  throw new Error("Unable to load the public project directory.");
+}
+```
+
+The URL is illustrative; use your actual upstream service. For data that must be fetched freshly, make that intent explicit with `cache: "no-store"` instead.
+
+Next.js 15 does not cache `fetch` requests by default. Avoid relying on a caching explanation written for a different version of the framework, and remember that data caching, route rendering, and client navigation caches are distinct mechanisms.
+
+Do not place user-specific responses into a shared cache without a deliberate isolation strategy. Authorization must still be enforced, even when data is already available in a cache.
+
+After a mutation, invalidate the relevant cached data or route using the APIs appropriate to your framework version. A successful save followed by an unchanged screen feels broken even when the database update worked perfectly.
+
+## Put Security at Every Mutation Boundary
+
+A hidden button is not an authorization check. Neither is a protected layout.
+
+Server Actions and Route Handlers are request boundaries. Authenticate the caller, validate the input, and check permissions inside the operation itself. A user who can view a project may not be allowed to rename it, archive it, or invite other members.
+
+A reliable mutation flow looks like this:
+
+1. Resolve the current user from a trusted session.
+2. Parse and validate the submitted input.
+3. Load the resource within the caller's allowed scope.
+4. Check permission for the specific operation.
+5. Perform the update, using a transaction when multiple writes must succeed together.
+6. Invalidate affected views and return a safe result.
+
+For important updates, consider concurrency too. If two people edit the same project, should the last write win, or should the application detect that the record changed? A version field or update timestamp can support optimistic concurrency checks.
+
+Keep secrets on the server. Environment variables prefixed with `NEXT_PUBLIC_` are intended to be exposed to the browser, so they are not an appropriate place for database credentials or private API tokens.
+
+Finally, avoid returning raw database errors to users. Log enough detail on the server to investigate the issue, and give the interface a concise message with a recovery path.
+
+## Choose the Smallest Useful State Model
+
+Not all state belongs in React, and not all React state belongs in a global store.
+
+A useful distinction is:
+
+- **URL state:** Filters, sorting, pagination, and selected views that should survive navigation or be shareable.
+- **Local interface state:** An open menu, an expanded accordion, or an unsaved input value.
+- **Server state:** Projects, memberships, and other records owned by the backend.
+- **Shared client state:** A genuinely cross-cutting browser interaction that several distant components need.
+
+Start with local state and composition. Add context or a dedicated state library when the sharing requirements justify it.
+
+Avoid storing values that can be derived cheaply from existing state. If you already have a list of projects and a selected status, the filtered list is usually a calculation, not a second piece of state that must be synchronized with an effect.
+
+For frequently refreshed client-side data, a library such as SWR or TanStack Query can help with request deduplication, retries, and cache coordination. That does not mean every server-rendered page needs a client-side data layer. Choose it for the interaction pattern you actually have.
+
+## Design Loading, Empty, and Error States Together
+
+A screen is not complete when its successful response looks good. It is complete when the other states make sense too.
+
+For a project list, distinguish between:
+
+- Loading projects for the first time.
+- Refreshing an existing list.
+- Having no projects yet.
+- Having projects, but none matching the current filters.
+- Being unable to load projects.
+- Being signed out or lacking access.
+
+An empty account might need a “Create your first project” action. An empty filtered result needs a “Clear filters” action. Those are different problems, even if both render zero cards.
+
+The App Router provides `loading.tsx` for route-level pending UI and `error.tsx` for uncaught errors in the relevant route subtree. Error boundary components are Client Components so they can offer interactive recovery.
+
+Use those boundaries for unexpected failures. Handle expected outcomes—such as invalid form input or insufficient permissions—with explicit results and appropriate interface feedback.
+
+Be careful about retry actions. Retrying a read is usually straightforward. Retrying a payment or resource-creation request may require an idempotency mechanism to prevent duplicate work.
+
+## Build Accessibility into the Default Experience
+
+Accessibility is easier to maintain when it is part of your component conventions rather than a final audit.
+
+Start with semantic HTML. A real button provides keyboard behavior that a clickable `div` does not. A form label makes an input understandable to assistive technology and easier to use with a pointer.
+
+For the dashboard example:
+
+- Give every filter and form field a visible label.
+- Keep focus indicators visible.
+- Ensure status is communicated with text, not color alone.
+- Associate validation messages with their fields.
+- Make dialog focus behavior predictable, including returning focus when a dialog closes.
+- Announce important asynchronous results without overwhelming users with constant announcements.
+- Respect reduced-motion preferences for decorative animations.
+
+Test the main workflow with only a keyboard. If you cannot reach a control, understand its focus state, or dismiss an overlay, the implementation needs attention regardless of how polished it looks with a mouse.
+
+Accessibility and performance often reinforce one another. Clear structure, stable layouts, and simple controls tend to work better for everyone.
+
+## Optimize Performance Where It Matters
+
+The biggest wins usually come from reducing unnecessary work: fewer blocking requests, less client JavaScript, smaller images, and less third-party code.
+
+### Use images intentionally
+
+Use `next/image` where it fits the asset and delivery model. Provide dimensions to reserve layout space, or use `fill` with a correctly sized parent. For responsive images, provide a `sizes` value that reflects the actual layout so the browser can choose an appropriate resource.
+
+In Next.js 15, reserve the `priority` prop for an image that is genuinely important to the initial viewport, such as the likely Largest Contentful Paint image. Marking every image as high priority defeats the purpose.
+
+Write meaningful alternative text for informative images. Decorative images should have empty alternative text rather than repeating nearby content.
+
+### Keep heavy features out of the initial bundle
+
+An editor, charting library, or export tool may not need to load before the user asks for it. Dynamic imports can defer that cost:
+
+```tsx
+"use client";
+
+import dynamic from "next/dynamic";
+import { useState } from "react";
+
+const ProjectChart = dynamic(() => import("./project-chart"), {
+  loading: () => <p>Loading chart…</p>,
+});
+
+export function ProjectInsights() {
+  const [showChart, setShowChart] = useState(false);
+
+  return (
+    <section>
+      <button
+        type="button"
+        aria-expanded={showChart}
+        onClick={() => setShowChart((visible) => !visible)}
+      >
+        {showChart ? "Hide insights" : "Show insights"}
+      </button>
+      {showChart ? <ProjectChart /> : null}
+    </section>
+  );
+}
+```
+
+This assumes a nearby chart module with a default export. The point is to defer an optional feature, not to dynamically import every small component. Splitting code too aggressively adds complexity without necessarily improving the experience.
+
+### Measure before adding memoization
+
+`useMemo` and `useCallback` are not universal performance fixes. A cheap calculation does not need a cache, and a stable callback only matters when something relies on its identity.
+
+Use profiling to find expensive rendering or repeated computation. First check whether state is placed too high in the tree or whether an unnecessary effect is causing extra updates. Fixing the structure is often more valuable than adding memoization everywhere.
+
+Track real user metrics such as Largest Contentful Paint, Interaction to Next Paint, and Cumulative Layout Shift. A development server is useful for iteration, but it does not represent production bundle size or runtime performance.
+
+## Make Public Pages Discoverable
+
+For public routes, metadata is part of the page's content contract.
+
+Give each page a descriptive title and summary. For dynamic detail pages, use `generateMetadata` to derive metadata from the same authorized or public data model that drives rendering. Avoid accidentally exposing private resource names in metadata.
+
+Consider canonical URLs when several filter or tracking URLs represent the same public content. Provide Open Graph images and descriptions where link sharing matters. Add a sitemap for discoverable public pages, and use robots directives deliberately.
+
+Server rendering helps make content available, but it is not a complete SEO strategy. Useful content, sensible navigation, correct status codes, and a clear distinction between public and private routes still matter.
+
+## Test Behavior at Several Levels
+
+Types catch a useful class of mistakes, but they cannot prove that a user can complete a workflow.
+
+A balanced test strategy includes:
+
+### Unit tests for domain rules
+
+Test logic that has meaningful edge cases: status transitions, permission decisions, validation limits, and formatting rules. These tests should be fast and should not require rendering the entire application.
+
+For a project name validator, cover empty input, whitespace-only input, valid names, and the maximum length boundary.
+
+### Integration tests for data boundaries
+
+Test how authenticated users interact with the data layer. Verify that a user cannot read or mutate another organization's records just by supplying a different project ID.
+
+Use isolated test data and a deliberate cleanup strategy. A test that depends on whatever happens to be in a shared development database is not reliable.
+
+### End-to-end tests for critical journeys
+
+Cover a small number of workflows that represent the product's core value:
+
+1. Sign in and open the project dashboard.
+2. Filter projects and verify that the URL reflects the selection.
+3. Open a project detail page.
+4. Rename a project and confirm the new name appears.
+5. Exercise an unauthorized or invalid request.
+
+Prefer selectors based on roles and accessible names. Tests that click a button by its visible purpose are less brittle than tests coupled to an arbitrary CSS class.
+
+Run type checking, linting, and a production build in continuous integration. Keep them as explicit steps rather than assuming one framework command covers every check.
+
+## Prepare for Production Before Launch Day
+
+Deployment should be repeatable, not a sequence of manual steps only one person remembers.
+
+Document the required environment variables, distinguish preview and production environments, and validate critical configuration early. A missing database URL should produce an actionable startup or build error rather than a mysterious failure after a user clicks a button.
+
+Think through database changes separately from application deployment. An additive migration is often safer than removing a column in the same release that stops using it. Keep old and new application versions compatible during a rolling deployment where necessary.
+
+Before going live, check:
+
+- Production builds complete successfully.
+- Private routes and mutations enforce authorization.
+- Preview deployments do not accidentally write to production data.
+- Error reports include enough context to investigate without logging secrets.
+- Database backups and recovery procedures are understood.
+- The hosting environment is compatible with your database driver and runtime requirements.
+- A rollback path exists for both application code and risky data changes.
+
+Observability matters after launch. Track server errors, slow requests, failed mutations, and important user journeys. A request or correlation ID can connect an interface failure to the relevant server logs without exposing internal details to the user.
+
+## Common Mistakes to Avoid
+
+**Making every component a Client Component.** Start with server rendering and introduce client boundaries where interactivity requires them.
+
+**Using type assertions instead of validation.** External data can be malformed even when the editor shows a reassuring type.
+
+**Fetching independent data sequentially.** Look for avoidable waterfalls before optimizing tiny rendering costs.
+
+**Caching without a freshness or privacy model.** Decide who can share a result and when it should become stale.
+
+**Checking permissions only in the interface.** Enforce authorization where the read or mutation actually happens.
+
+**Adding a global store too early.** Local state, URL state, and server data often cover the requirements without extra coordination.
+
+**Treating loading and errors as finishing touches.** They are part of the user experience, not exceptions to it.
+
+**Optimizing without measuring.** Bundle analysis and runtime metrics give you evidence; guesses give you extra complexity.
+
+## A Practical Build Order
+
+If you are starting a new application, a useful sequence is:
+
+1. Define the main user journey and its access requirements.
+2. Establish strict types and validate the external boundaries.
+3. Build one complete route with real data and meaningful empty states.
+4. Keep rendering on the server unless browser behavior is needed.
+5. Add mutations with authentication, validation, and authorization.
+6. Connect loading, error, and post-mutation refresh behavior.
+7. Test the core journey and its failure cases.
+8. Measure performance using a production build.
+9. Set up deployment, monitoring, and recovery procedures.
+10. Extract shared abstractions once repeated patterns are clear.
+
+This order favors a working vertical slice over a large amount of infrastructure with no finished user journey. It also exposes the important constraints early, while they are still relatively inexpensive to address.
+
+## Final Thoughts
+
+Building a modern web application is less about assembling the longest list of tools and more about making boundaries explicit: server versus client, trusted versus untrusted data, public versus private content, and local interaction versus persistent state.
+
+Next.js provides a strong framework for those boundaries. TypeScript makes many of the contracts easier to see and harder to break. Neither removes the need to think carefully about security, accessibility, freshness, or failure.
+
+Start small, deliver a complete workflow, and let evidence guide the next layer of complexity. An application that is easy to understand, test, and operate has a much better chance of staying useful long after its first deployment.

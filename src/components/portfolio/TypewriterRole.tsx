@@ -3,7 +3,7 @@
 import { m } from "framer-motion";
 import { useEffect, useState, useMemo } from "react";
 
-const DEFAULT_ROLES = ["Web Designer", "UI/UX Designer", "WordPress Developer", "Digital Creative"];
+const DEFAULT_ROLES = ["Web Designer", "UI/UX Designer", "Custom Web Design", "Digital Creative"];
 
 export default function TypewriterRole({ roles: cmsRoles }: { roles?: string[] }) {
   const [currentRoleIndex, setCurrentRoleIndex] = useState(0);

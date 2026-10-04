@@ -734,7 +734,7 @@ export function MedicationSearch() {
     clientType: "Construction Services",
     fullPagePreview: true,
     imageWidth: 1440,
-    imageHeight: 12000,
+    imageHeight: 9110,
   },
   {
     slug: "first-baptist-church",
