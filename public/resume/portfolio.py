@@ -450,55 +450,362 @@ def show_resume():
 
 def get_featured_projects():
     """Return a list of featured projects."""
-    return [
-        {
-            "name": "Neff Paving Website",
-            "description": "Complete modern website rebuild with video hero section, responsive design, and performance optimization. Features include interactive galleries, contact forms, and SEO optimization.",
-            "tech_stack": ["Vite", "JavaScript", "GSAP", "CSS3", "HTML5"],
-            "highlights": ["Video optimization", "GSAP animations", "Mobile-first design"],
-            "status": "Completed"
-        },
-        {
-            "name": "CLI Music Downloader",
-            "description": "Professional command-line tool for downloading music with high-quality metadata enhancement. Includes MusicBrainz API integration, album art processing, and comprehensive error handling.",
-            "tech_stack": ["Python", "MusicBrainz API", "Mutagen", "Shell Scripting"],
-            "highlights": ["Metadata enhancement", "Multi-source integration", "Professional documentation"],
-            "status": "Completed"
-        },
-        {
-            "name": "Interactive Terminal Portfolio",
-            "description": "This very portfolio! A modular Python script showcasing professional experience through an interactive command-line interface with colored output and typewriter effects.",
-            "tech_stack": ["Python", "Terminal UI", "ASCII Art", "Color Formatting"],
-            "highlights": ["Modular architecture", "Interactive navigation", "Professional presentation"],
-            "status": "Active"
-        },
-        {
-            "name": "Enterprise Web Application",
-            "description": "Full-stack business application with user authentication, real-time updates, and comprehensive dashboard. Features role-based access control and advanced reporting.",
-            "tech_stack": ["React", "Node.js", "PostgreSQL", "Socket.io", "Docker"],
-            "highlights": ["Real-time features", "Role-based access", "Scalable architecture"],
-            "status": "In Development"
-        },
-        {
-            "name": "API Management Platform",
-            "description": "Comprehensive platform for API documentation, testing, and monitoring. Includes automated testing suites, performance monitoring, and developer portal.",
-            "tech_stack": ["Vue.js", "Express.js", "MongoDB", "Redis", "AWS"],
-            "highlights": ["API testing", "Performance monitoring", "Developer tools"],
-            "status": "Planning"
-        },
-        {
-            "name": "E-commerce Solution",
-            "description": "Modern e-commerce platform with payment processing, inventory management, and customer analytics. Built with microservices architecture for scalability.",
-            "tech_stack": ["Next.js", "Stripe API", "GraphQL", "Docker", "Kubernetes"],
-            "highlights": ["Payment integration", "Microservices", "Analytics dashboard"],
-            "status": "Concept"
-        }
-    ]
+    return [   {   'name': 'The Leather Outlet',
+            'subtitle': 'Leather & Outdoor Retailer — Lake George, NY',
+            'description': 'A warm, image-led website for The Leather Outlet at the World Famous Tee '
+                           'Pee on Route 9: 30+ years of jackets, boots, handbags and name brands at '
+                           'outlet prices, plus the on-site gold mining sluice. Built to get people '
+                           'off the Northway and through the door.',
+            'tech_stack': ['HTML5', 'SCSS', 'Bootstrap 5', 'JavaScript', 'Gulp', 'Vercel'],
+            'highlights': [   'Full-bleed hero with click-to-call and directions',
+                              'Shop-by-category and brands-we-carry sections with a logo marquee',
+                              'Mining sluice attraction with a three-step how-it-works'],
+            'status': 'Live',
+            'url': 'https://leather-outlet.vercel.app'},
+        {   'name': 'Black Label Barbecue',
+            'subtitle': 'Bold BBQ Sauce Storefront',
+            'description': 'A dark, fire-lit storefront for Black Label Brand Barbecue. Five '
+                           'small-batch sauces, gallon jugs for crowds, recipes filtered by how you '
+                           'cook, and a custom-order page that hands off to BigCommerce checkout.',
+            'tech_stack': ['Next.js', 'React', 'TypeScript', 'BigCommerce', 'Vercel'],
+            'highlights': [   'Product lineup with bottle and gallon-jug sizes',
+                              'Cook-by-fire guides: smoker, charcoal, gas, flat top, campfire, pellet',
+                              'Recipe browser filtered by sauce and method'],
+            'status': 'Live',
+            'url': 'https://blacklabelsauce.vercel.app'},
+        {   'name': 'hey babe',
+            'subtitle': 'Permanent Jewelry Studio — CT, RI, MA & NY',
+            'description': 'A soft, editorial website for hey babe, a custom permanent jewelry studio '
+                           'serving Connecticut, Rhode Island, Massachusetts and New York. '
+                           'Scroll-scrubbed video walks visitors through the weld, and every chain, '
+                           'charm, event format and FAQ lives in one data file the owner can edit.',
+            'tech_stack': [   'Next.js',
+                              'React',
+                              'TypeScript',
+                              'Tailwind CSS',
+                              'Framer Motion',
+                              'Lenis',
+                              'Vercel'],
+            'highlights': [   'Scroll-scrubbed video sections that follow the weld, frame by frame',
+                              'Chain and charm menus with materials and pricing',
+                              'Booking form for parties, pop-ups, weddings and corporate events'],
+            'status': 'Live',
+            'url': 'https://heybabe.vercel.app'},
+        {   'name': 'Stuck On You',
+            'subtitle': 'Permanent Jewelry Bloomington, IN',
+            'description': 'A bespoke new home on the web for Stuck On You — elegant design, '
+                           'effortless content editing, and lightning-fast pages. Designed & built by '
+                           'JLang Development.',
+            'tech_stack': ['Next.js', 'React', 'TypeScript', 'Sanity', 'Vercel'],
+            'highlights': [   'Elegant, brand-led website design',
+                              'Effortless content editing',
+                              'Lightning-fast page performance'],
+            'status': 'Live',
+            'url': 'https://stuckonyoupj.com'},
+        {   'name': 'Steamers Stonewall Tavern',
+            'subtitle': 'Upscale-Casual Tavern — North Lima, OH',
+            'description': 'A cinematic front end for a family-run Market Street tavern: a '
+                           'scroll-driven walk-in from the parking lot to the octagonal bar, the full '
+                           '64-dish menu, and every fact on the page traceable to a verified source.',
+            'tech_stack': ['Next.js', 'React', 'TypeScript', 'Tailwind CSS', 'Framer Motion', 'Vercel'],
+            'highlights': [   'Scroll-scrubbed video hero that walks you into the room',
+                              'Full 64-dish menu across eight sections, prices current',
+                              "Live open/closed status from the restaurant's real hours"],
+            'status': 'Live',
+            'url': 'https://steamers-lima.vercel.app'},
+        {   'name': 'Muskingum Materials',
+            'subtitle': 'Aggregate & Construction Materials Supplier',
+            'description': 'The newest build: a clean, conversion-focused marketing site for a '
+                           'Muskingum County aggregate and construction materials supplier. Showcases '
+                           'products, service areas, and capabilities with a fast, mobile-first '
+                           'experience deployed on Vercel.',
+            'tech_stack': ['Next.js', 'React', 'TypeScript', 'Tailwind CSS', 'Vercel'],
+            'highlights': [   'Product and materials catalog presentation',
+                              'Service-area and capabilities overview',
+                              'Lead-generation contact and quote pathways'],
+            'status': 'Live',
+            'url': 'https://muskingum-materials.vercel.app'},
+        {   'name': 'Safety Screen',
+            'subtitle': 'Medication Search & Information Web App',
+            'description': 'A fast, search-first web application for looking up medications and their '
+                           'key details. Built for clarity and speed, it helps users find the '
+                           'information they need across a clean, responsive interface deployed on '
+                           'Vercel.',
+            'tech_stack': ['Next.js', 'React', 'TypeScript', 'Tailwind CSS', 'Vercel'],
+            'highlights': [   'Instant medication search and lookup',
+                              'Clear, structured drug information display',
+                              'Fast, responsive results as you type'],
+            'status': 'Live',
+            'url': 'https://drug-finder.vercel.app'},
+        {   'name': 'Roam',
+            'subtitle': 'AI Travel Agent & Trip Planner',
+            'description': 'An AI-powered travel agent that turns a simple prompt into a complete '
+                           'trip. Roam helps users discover destinations, build itineraries, and plan '
+                           'the details through a conversational, mobile-first experience.',
+            'tech_stack': ['Next.js', 'React', 'TypeScript', 'Tailwind CSS', 'AI SDK', 'Vercel'],
+            'highlights': [   'Conversational AI trip planning',
+                              'Personalized destination recommendations',
+                              'Itinerary building and organization'],
+            'status': 'In Development',
+            'url': ''},
+        {   'name': 'Jose Madrid Salsa',
+            'subtitle': 'Premium Gourmet Salsa – E-commerce & Marketing Site',
+            'description': 'Modern marketing and e‑commerce experience for an Ohio‑made gourmet salsa '
+                           'brand. Highlights include heat‑level guided shopping, fundraising and '
+                           'wholesale pathways, and a clean, mobile‑first design deployed on Vercel.',
+            'tech_stack': ['Next.js', 'React', 'TypeScript', 'Tailwind CSS', 'Vercel'],
+            'highlights': [   'Heat-level browsing (Mild, Medium, Hot)',
+                              'Fundraising and wholesale information flows',
+                              'Responsive, performance‑optimized pages'],
+            'status': 'Live',
+            'url': 'https://josemadrid.net'},
+        {   'name': 'Amplinks',
+            'subtitle': 'Self-Hosted iOS/Web Music Platform',
+            'description': 'A comprehensive self-hosted iOS/Web application for seamless music '
+                           'downloading directly to iPhone as MP3 files without any user interaction. '
+                           'Features a Linktree-style sharing page for real-time music streaming with '
+                           'friends, integrated web music player, and full music management system.',
+            'tech_stack': [   'React',
+                              'React Native',
+                              'Node.js',
+                              'TypeScript',
+                              'WebRTC',
+                              'Socket.io',
+                              'Swift'],
+            'highlights': [   'Automatic iOS MP3 downloads with zero clicks',
+                              'Linktree-style sharing pages for friends',
+                              'Real-time streaming and chat with friends'],
+            'status': 'In Development',
+            'url': 'https://paddle-mobile-web-payments-starter-pi-nine.vercel.app'},
+        {   'name': 'Zanesville.store',
+            'subtitle': 'Local E-commerce Platform',
+            'description': 'A comprehensive e-commerce platform designed to connect local Zanesville '
+                           'businesses with customers. Features intuitive navigation, secure payment '
+                           'processing, and a responsive design optimized for both desktop and mobile '
+                           'shopping.',
+            'tech_stack': [   'React',
+                              'Next.js',
+                              'TypeScript',
+                              'Tailwind CSS',
+                              'Node.js',
+                              'MongoDB',
+                              'Stripe'],
+            'highlights': [   'Modern responsive design for all devices',
+                              'Local business directory integration',
+                              'Secure payment processing system'],
+            'status': 'In Development',
+            'url': 'https://pallets.sale'},
+        {   'name': 'Homesh.app',
+            'subtitle': 'Self-Hosted Home Dashboard',
+            'description': 'A comprehensive self-hosted home dashboard for home automation enthusiasts '
+                           'and privacy-conscious users. Features a modern, customizable interface for '
+                           'monitoring and controlling smart home devices while keeping all data '
+                           'locally stored.',
+            'tech_stack': [   'React',
+                              'TypeScript',
+                              'Node.js',
+                              'Docker',
+                              'WebSockets',
+                              'Chart.js',
+                              'Tailwind CSS'],
+            'highlights': [   'Fully self-hosted with complete data privacy',
+                              'Customizable dashboard widgets and layouts',
+                              'Integration with popular home automation platforms'],
+            'status': 'In Development',
+            'url': 'https://homesh.app'},
+        {   'name': 'Apple-Sider',
+            'subtitle': 'Self-Hosted Apple Music Library Downloader',
+            'description': 'A 1-click self-hosted web application to download your entire Apple Music '
+                           'Library using a Library.xml file. Features a clean Apple-inspired '
+                           'interface with real-time progress tracking, concurrent downloads, and '
+                           'automatic metadata enhancement.',
+            'tech_stack': ['Python', 'Flask', 'Docker', 'WebSockets', 'yt-dlp', 'JavaScript', 'HTML5'],
+            'highlights': [   'Single-page web interface with drag-and-drop',
+                              'Real-time progress tracking and console output',
+                              'Concurrent downloads with queue management'],
+            'status': 'Live',
+            'url': 'https://jordolang.github.io/Apple-Sider/'},
+        {   'name': 'World Auto Net',
+            'subtitle': 'Automotive Marketplace Website',
+            'description': 'Modern, responsive website design for an automotive marketplace platform. '
+                           'A comprehensive digital presence with intuitive navigation, advanced '
+                           'search capabilities, and a mobile-first approach connecting car buyers and '
+                           'sellers.',
+            'tech_stack': ['HTML5', 'CSS3', 'JavaScript', 'Bootstrap', 'jQuery', 'PHP', 'MySQL'],
+            'highlights': [   'Responsive design optimized for all devices',
+                              'Vehicle inventory system with advanced filtering',
+                              'Search functionality with location-based results'],
+            'status': 'Live',
+            'url': 'https://web.archive.org/web/20210508120122/https://www.worldautonet.com'},
+        {   'name': 'Neff Paving',
+            'subtitle': 'Professional Paving Services Website',
+            'description': 'Complete website redesign for a professional paving contractor, featuring '
+                           'modern design principles, service showcases, and lead generation '
+                           'optimization focused on converting visitors into qualified leads.',
+            'tech_stack': [   'HTML5',
+                              'CSS3',
+                              'JavaScript',
+                              'WordPress',
+                              'PHP',
+                              'Photoshop',
+                              'Illustrator'],
+            'highlights': [   'Professional brand identity design',
+                              'Service portfolio with before/after galleries',
+                              'Mobile-responsive design'],
+            'status': 'Live',
+            'url': 'https://neffpaving.com'},
+        {   'name': 'First Baptist Church',
+            'subtitle': 'Church Community Website',
+            'description': 'Comprehensive church website design focused on community engagement and '
+                           'information accessibility. A welcoming digital space that reflects the '
+                           "church's values while providing essential information for members and "
+                           'visitors.',
+            'tech_stack': ['HTML5', 'CSS3', 'JavaScript', 'WordPress', 'PHP', 'MailChimp', 'Photoshop'],
+            'highlights': [   'Welcoming and accessible design',
+                              'Event calendar and announcements',
+                              'Sermon archive and media gallery'],
+            'status': 'Live',
+            'url': 'https://jordolang.github.io/First-Baptist/index.html'},
+        {   'name': 'Ohio Interests',
+            'subtitle': 'Local Interest & Tourism Website',
+            'description': "Engaging website design showcasing Ohio's attractions, events, and local "
+                           'interests. Built with tourism and local business promotion in mind, '
+                           'featuring interactive maps, event listings, and resource directories.',
+            'tech_stack': [   'HTML5',
+                              'CSS3',
+                              'JavaScript',
+                              'WordPress',
+                              'PHP',
+                              'Google Maps API',
+                              'Photoshop'],
+            'highlights': [   'Interactive attraction maps',
+                              'Local business directory',
+                              'Event calendar and listings'],
+            'status': 'Live',
+            'url': 'https://web.archive.org/web/20230816090905/https://ohiointerests.com/'},
+        {   'name': 'Amplinks (Mobile App)',
+            'subtitle': 'Native iOS & Android Music App',
+            'description': 'The native mobile companion to the Amplinks platform. Download music '
+                           'straight to your phone as MP3s with zero clicks, stream in real time, and '
+                           'share Linktree-style pages with friends — all from a self-hosted backend '
+                           'you control.',
+            'tech_stack': ['Swift', 'React Native', 'iOS', 'Android', 'WebRTC', 'Socket.io', 'Node.js'],
+            'highlights': [   'Zero-click MP3 downloads to your device',
+                              'Real-time streaming and listening with friends',
+                              'Linktree-style sharing pages on the go'],
+            'status': 'In Development',
+            'url': 'https://paddle-mobile-web-payments-starter-pi-nine.vercel.app'},
+        {   'name': 'Jose Madrid Salsa (Mobile App)',
+            'subtitle': 'Mobile Shopping App (iOS & Android)',
+            'description': 'A mobile commerce experience for the Ohio-made gourmet salsa brand. Browse '
+                           'by heat level, reorder favorites in a tap, and check out fast with a '
+                           'native, mobile-first storefront for iOS and Android.',
+            'tech_stack': ['React Native', 'Expo', 'TypeScript', 'iOS', 'Android', 'Stripe', 'Node.js'],
+            'highlights': [   'Heat-level guided browsing (Mild, Medium, Hot)',
+                              'One-tap reorder and saved favorites',
+                              'Native mobile checkout flow'],
+            'status': 'In Development',
+            'url': 'https://josemadrid.net'},
+        {   'name': 'Radius (Mobile App)',
+            'subtitle': 'Proximity-Based Connection App (iOS & Android)',
+            'description': 'A proximity-based mobile app built around mutual consent. When two nearby '
+                           'users are a potential match, each receives a discreet proximity alert and '
+                           'they only connect if both opt in — turning real-world nearness into '
+                           'spontaneous, consent-first introductions.',
+            'tech_stack': [   'React Native',
+                              'Expo',
+                              'TypeScript',
+                              'iOS',
+                              'Android',
+                              'Geolocation',
+                              'WebSockets'],
+            'highlights': [   'Real-time proximity detection between nearby users',
+                              'Mutual opt-in — connections only form when both agree',
+                              'Discreet, privacy-first proximity alerts'],
+            'status': 'In Development',
+            'url': ''},
+        {   'name': 'Jose Madrid Salsa for Mac',
+            'subtitle': 'Native macOS Business Management App',
+            'description': 'Run the entire business without ever leaving your desktop. A native macOS '
+                           "app that carries Jose Madrid Salsa's whole admin panel — manage orders, "
+                           'manage content, and run fundraisers, events, wholesale, finances and '
+                           'marketing from one keyboard-driven window. It reads the same live database '
+                           'as the website, so every new admin feature lands on the desktop the day it '
+                           'ships.',
+            'tech_stack': ['SwiftUI', 'macOS', 'Swift', 'Next.js', 'Prisma', 'PostgreSQL'],
+            'highlights': [   'Orders — every order with channel, status and totals, plus returns & '
+                              'RMAs and shipping labels',
+                              'Content & Blog — blog posts, pages, banners, FAQs, redirects and SEO',
+                              "Dashboard — today's revenue and orders, live fundraisers, jars on hand, "
+                              'reorder alerts, and the next shows'],
+            'status': 'Live',
+            'url': ''},
+        {   'name': 'Local Lead Scraper Pro',
+            'subtitle': 'Google Maps Prospecting Desktop App',
+            'description': 'A licensed Windows desktop app that turns a city and an industry into a '
+                           'worked lead list: scrape Google Maps listings, scan each site for '
+                           'contacts, compose and send personalised outreach, and work the follow-up '
+                           'calls from a prioritised cockpit.',
+            'tech_stack': ['Python', 'PySide6', 'Qt', 'Selenium', 'PyInstaller'],
+            'highlights': [   'Google Maps listing scraper with radius and result caps',
+                              'Website crawler that pulls emails and contact details',
+                              'Templated email generation and campaign sending'],
+            'status': 'Live',
+            'url': ''},
+        {   'name': 'FestivalNet Scraper',
+            'subtitle': 'Vendor Show-Finder Desktop App',
+            'description': 'Finds the most profitable shows for the lowest out-of-pocket cost. It '
+                           'scans every upcoming weekend within driving distance, scores each expo, '
+                           "fair, and festival on what it should actually put in a vendor's pocket, "
+                           'and lays the results out as a table, a map, a calendar, and four charts.',
+            'tech_stack': ['Python', 'Qt', 'Requests', 'Geocoding', 'PyInstaller'],
+            'highlights': [   'Scores every event on estimated profit, not just attendance',
+                              'Geocoding and a drive-time radius from your home town',
+                              'Results as a table, map, calendar, and four charts'],
+            'status': 'Live',
+            'url': ''},
+        {   'name': 'Salsa Kings Self-Order Kiosk',
+            'subtitle': 'Event Self-Service Kiosk for Jose Madrid Salsa',
+            'description': "A self-service till for Jose Madrid Salsa's expo and festival booth. "
+                           'Customers scan jars under a downward-facing barcode scanner or tap them on '
+                           "screen, the kiosk applies the booth's mix-and-match deals, they pay by tap "
+                           'on a Square reader, and a receipt prints. One tablet on a pole stand does '
+                           'the work of a cashier.',
+            'tech_stack': ['Next.js', 'React', 'TypeScript', 'Square', 'Swift', 'Kotlin', 'Prisma'],
+            'highlights': [   'Scan jars with a hands-free USB barcode scanner, or tap them on screen',
+                              'Booth deals (3 for $25, 4 for $32, 5 + chips for $40, case of 12) '
+                              'priced server-side',
+                              'Card payments through Square Terminal or a Square Reader on the iPad'],
+            'status': 'In Development',
+            'url': ''},
+        {   'name': 'CLI Music Downloader',
+            'subtitle': 'Command-Line Music Tool',
+            'description': 'Professional command-line tool for downloading music with high-quality '
+                           'metadata enhancement. Includes MusicBrainz API integration, album art '
+                           'processing, and comprehensive error handling.',
+            'tech_stack': ['Python', 'MusicBrainz API', 'Mutagen', 'Shell Scripting'],
+            'highlights': [   'Metadata enhancement',
+                              'Multi-source integration',
+                              'Professional documentation'],
+            'status': 'Live',
+            'url': ''},
+        {   'name': 'Interactive Terminal Portfolio',
+            'subtitle': 'This CLI Resume',
+            'description': 'This very portfolio! A modular Python script showcasing professional '
+                           'experience through an interactive command-line interface with colored '
+                           'output and typewriter effects.',
+            'tech_stack': ['Python', 'Terminal UI', 'ASCII Art', 'Color Formatting'],
+            'highlights': [   'Modular architecture',
+                              'Interactive navigation',
+                              'Professional presentation'],
+            'status': 'Live',
+            'url': 'https://jlang.dev/api/resume'}]
 
 
 def show_project_card(project: Dict, index: int):
     """Display a formatted project card."""
     status_colors = {
+        "Live": Colors.OKGREEN,
         "Completed": Colors.OKGREEN,
         "Active": Colors.OKBLUE,
         "In Development": Colors.WARNING,
@@ -509,6 +816,8 @@ def show_project_card(project: Dict, index: int):
     status_color = status_colors.get(project["status"], Colors.ENDC)
     
     print(f"{Colors.BOLD}【 {index + 1}. {project['name']} 】{Colors.ENDC}")
+    if project.get("subtitle"):
+        print(f"{Colors.CYAN}├─ {project['subtitle']}{Colors.ENDC}")
     print(f"{Colors.CYAN}└─ Status: {status_color}{project['status']}{Colors.ENDC}")
     print(f"\n{Colors.OKGREEN}Description:{Colors.ENDC}")
     print(f"  {project['description']}")
@@ -520,6 +829,9 @@ def show_project_card(project: Dict, index: int):
     print(f"\n{Colors.WARNING}Key Highlights:{Colors.ENDC}")
     for highlight in project['highlights']:
         print(f"  ⭐ {highlight}")
+
+    if project.get("url"):
+        print(f"\n  🔗 {project['url']}")
     
     print(f"{Colors.CYAN}" + "─" * 80 + f"{Colors.ENDC}\n")
 
