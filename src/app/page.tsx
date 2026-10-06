@@ -127,6 +127,7 @@ export default async function Portfolio() {
           <LazyContactSection
             email={settings?.email}
             publicEmail={settings?.publicEmail}
+            bookingUrl={process.env.NEXT_PUBLIC_BOOKING_URL || settings?.bookingUrl}
             heading={headings?.contact}
           />
         </div>

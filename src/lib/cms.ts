@@ -307,6 +307,7 @@ export interface CmsSiteSettings {
   resumeCopyCommand: string;
   email: string;
   publicEmail: string;
+  bookingUrl: string | null;
   location: string;
   website: string;
   socials: { label: string; href: string; icon: string; color: string }[];
@@ -330,7 +331,7 @@ export async function getSiteSettings(): Promise<CmsSiteSettings | null> {
   const raw = await query<RawSiteSettings | null>(
     `*[_type == "siteSettings"][0] {
       name, tagline, availabilityBanner, resumeCommand, resumeCopyCommand,
-      email, publicEmail, location, website, footerText,
+      email, publicEmail, bookingUrl, location, website, footerText,
       seoTitle, seoDescription, ogTitle, ogDescription,
       "typewriterRoles": coalesce(typewriterRoles, []),
       "seoKeywords": coalesce(seoKeywords, []),

@@ -15,6 +15,28 @@ export const structure: StructureResolver = (S) =>
         .id("reviewDashboard")
         .child(S.component(ReviewDashboard).title("Review Dashboard")),
 
+      S.listItem()
+        .title("Inquiries")
+        .id("inquiries")
+        .child(
+          S.list()
+            .title("Inquiries")
+            .items([
+              S.listItem()
+                .title("Open")
+                .id("openLeads")
+                .child(
+                  S.documentList()
+                    .title("Open inquiries")
+                    .schemaType("lead")
+                    .filter('_type == "lead" && !(status in ["won", "lost", "spam"])')
+                    .defaultOrdering([{ field: "createdAt", direction: "desc" }]),
+                ),
+              S.documentTypeListItem("lead").title("All inquiries"),
+            ]),
+        ),
+      S.documentTypeListItem("order").title("Orders"),
+
       S.divider(),
 
       S.listItem()

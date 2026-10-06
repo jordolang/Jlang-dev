@@ -1,6 +1,7 @@
 "use client";
 
-import { sendContactMessage } from '@/lib/contact';
+import { BUDGET_RANGES, PROJECT_TYPES, sendContactMessage, TIMELINES } from '@/lib/contact';
+import { useSpamGuard } from '@/components/forms/SpamGuard';
 import { Icon } from "@iconify/react";
 import { m } from "framer-motion";
 import Link from "next/link";
@@ -13,23 +14,23 @@ interface ContactSectionProps {
   /** Where the form is delivered, and the address shown as the direct contact link. */
   email?: string;
   publicEmail?: string;
+  /** Scheduling page offered after a successful inquiry. */
+  bookingUrl?: string | null;
   heading?: { tagText?: string; tagIcon?: string; heading?: string; description?: string };
 }
 
-export default function ContactSection({ email, publicEmail, heading }: ContactSectionProps) {
+export default function ContactSection({ email, publicEmail, bookingUrl, heading }: ContactSectionProps) {
   const recipient = email || 'jordan@jlang.dev';
   const directEmail = publicEmail || 'jordolang@gmail.com';
-  const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    message: ""
-  });
+  const emptyForm = { name: "", email: "", projectType: "", budget: "", timeline: "", message: "" };
+  const [formData, setFormData] = useState(emptyForm);
+  const spamGuard = useSpamGuard();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle');
   const [submittedName, setSubmittedName] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
     setFormData(prev => ({
       ...prev,
@@ -67,21 +68,33 @@ const handleSubmit = async (e: React.FormEvent) => {
         name: formData.name,
         email: formData.email,
         message: formData.message,
+        source: 'contact',
+        projectType: formData.projectType,
+        budget: formData.budget,
+        timeline: formData.timeline,
+        ...spamGuard.fields(),
       });
 
       // Track successful form submission
-      trackEvent(AnalyticsEvents.CONTACT_FORM_SUBMITTED, { status: 'success' });
+      trackEvent(AnalyticsEvents.CONTACT_FORM_SUBMITTED, {
+        status: 'success',
+        project_type: formData.projectType || 'unspecified',
+        budget: formData.budget || 'unspecified',
+        timeline: formData.timeline || 'unspecified',
+      });
       
       // Identify user in PostHog after successful submission
       identifyUser(formData.email, formData.name, {
         message_preview: formData.message.substring(0, 100), // First 100 chars for context
         contact_method: 'contact_form',
+        project_type: formData.projectType,
+        budget: formData.budget,
       });
       
       setSubmitStatus('success');
       // Keep the name temporarily for the thank you message
       const submittedName = formData.name;
-      setFormData({ name: "", email: "", message: "" });
+      setFormData(emptyForm);
       // Store the name for the success message
       setSubmittedName(submittedName);
 
@@ -104,6 +117,7 @@ const handleSubmit = async (e: React.FormEvent) => {
       setErrorMessage('Failed to send message. Please try again or contact me directly.');
     } finally {
       setIsSubmitting(false);
+      spamGuard.reset();
     }
   };
 
@@ -188,6 +202,32 @@ const handleSubmit = async (e: React.FormEvent) => {
               </m.div>
             </div>
 
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              {([
+                { id: 'projectType', label: 'Project type', options: PROJECT_TYPES },
+                { id: 'budget', label: 'Budget', options: BUDGET_RANGES },
+                { id: 'timeline', label: 'Timeline', options: TIMELINES },
+              ] as const).map(({ id, label, options }) => (
+                <div key={id}>
+                  <label htmlFor={id} className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                    {label} <span className="font-normal text-gray-500 dark:text-gray-400">(optional)</span>
+                  </label>
+                  <select
+                    id={id}
+                    name={id}
+                    value={formData[id]}
+                    onChange={handleInputChange}
+                    className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 transition-all duration-300"
+                  >
+                    <option value="">Select…</option>
+                    {options.map((option) => (
+                      <option key={option} value={option}>{option}</option>
+                    ))}
+                  </select>
+                </div>
+              ))}
+            </div>
+
             <m.div
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
@@ -211,6 +251,8 @@ const handleSubmit = async (e: React.FormEvent) => {
                 placeholder="Tell me about your project or idea..."
               />
             </m.div>
+
+            {spamGuard.element}
 
             <m.div
               className="text-center"
@@ -256,7 +298,24 @@ const handleSubmit = async (e: React.FormEvent) => {
                   <p className="text-green-600 dark:text-green-500 mb-4">
                     Thank you, <span className="font-medium">{submittedName}</span>! Your message has been delivered and I&apos;ll get back to you as soon as possible.
                   </p>
+                  {bookingUrl && (
+                    <p className="text-green-700 dark:text-green-400 mb-4">
+                      Want to talk it through sooner? Pick a time that works for you.
+                    </p>
+                  )}
                   <div className="flex flex-col sm:flex-row gap-3 justify-center">
+                    {bookingUrl && (
+                      <a
+                        href={bookingUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        onClick={() => trackEvent(AnalyticsEvents.CTA_CLICKED, { cta: 'book_call', location: 'contact_success' })}
+                        className="inline-flex items-center justify-center gap-2 px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-xl font-medium transition-all duration-300 shadow-md hover:shadow-lg"
+                      >
+                        <Icon icon="solar:calendar-bold" width={18} height={18} />
+                        Book a call
+                      </a>
+                    )}
                     <m.button
                       onClick={() => {
                         setSubmitStatus('idle');
@@ -337,6 +396,20 @@ const handleSubmit = async (e: React.FormEvent) => {
                 Send Email
               </Link>
             </m.div>
+            {bookingUrl && (
+              <m.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+                <a
+                  href={bookingUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  onClick={() => trackEvent(AnalyticsEvents.CTA_CLICKED, { cta: 'book_call', location: 'contact_direct' })}
+                  className="inline-flex items-center gap-2 px-6 py-3 bg-white hover:bg-gray-50 dark:bg-gray-800 dark:hover:bg-gray-700 border-2 border-gray-300 hover:border-gray-400 dark:border-gray-600 dark:hover:border-gray-500 rounded-xl font-medium transition-all duration-300 shadow-md hover:shadow-lg"
+                >
+                  <Icon icon="solar:calendar-bold-duotone" width={18} height={18} />
+                  Book a Call
+                </a>
+              </m.div>
+            )}
           </div>
         </m.div>
       </div>

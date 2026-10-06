@@ -22,9 +22,23 @@ REVIEW_NOTIFICATION_EMAIL=you@example.com
 PURCHASE_EMAIL_FROM=JLang Development <orders@jlang.dev>
 PORTAL_EMAIL_FROM=JLang Development <portal@jlang.dev>
 
-# Contact and order forms (sent through Resend via /api/contact)
+# Contact and order forms (saved to Sanity as "Inquiries", then emailed through Resend via /api/contact)
 CONTACT_EMAIL=jordan@jlang.dev
 CONTACT_EMAIL_FROM=JLang Development <contact@jlang.dev>
+# Optional scheduling link shown after an inquiry (overrides the "Booking link" in Studio site settings)
+NEXT_PUBLIC_BOOKING_URL=
+
+# Failure alerts (webhook, email and server errors). Default to CONTACT_EMAIL / CONTACT_EMAIL_FROM.
+ALERT_EMAIL=
+ALERT_EMAIL_FROM=
+
+# Blog newsletter: sign-ups become Resend contacts. Optionally add them to a Resend segment.
+RESEND_NEWSLETTER_SEGMENT_ID=
+
+# Spam protection (optional). Without these, forms still use a honeypot, a fill-time check and rate limits.
+# Create a Turnstile widget at dash.cloudflare.com > Turnstile for jlang.dev.
+NEXT_PUBLIC_TURNSTILE_SITE_KEY=
+TURNSTILE_SECRET_KEY=
 
 # Analytics (PostHog)
 NEXT_PUBLIC_POSTHOG_KEY=YOUR_POSTHOG_KEY

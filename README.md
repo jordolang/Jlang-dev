@@ -33,7 +33,10 @@ Every variable the app reads is listed with a comment in [`env-example`](env-exa
 | Feature | Variables |
 | --- | --- |
 | Content (all pages) | `NEXT_PUBLIC_SANITY_PROJECT_ID`, `NEXT_PUBLIC_SANITY_DATASET`, `NEXT_PUBLIC_SANITY_API_VERSION`, `SANITY_API_WRITE_TOKEN`, `NEXT_PUBLIC_SITE_URL` |
-| Contact and order forms | `RESEND_API_KEY`, optional `CONTACT_EMAIL`, `CONTACT_EMAIL_FROM` |
+| Contact and order forms | `SANITY_API_WRITE_TOKEN` (saves inquiries), `RESEND_API_KEY`, optional `CONTACT_EMAIL`, `CONTACT_EMAIL_FROM`, `NEXT_PUBLIC_BOOKING_URL` |
+| Spam protection (optional) | `NEXT_PUBLIC_TURNSTILE_SITE_KEY`, `TURNSTILE_SECRET_KEY` |
+| Blog newsletter | `RESEND_API_KEY`, optional `RESEND_NEWSLETTER_SEGMENT_ID` |
+| Failure alerts | `RESEND_API_KEY`, optional `ALERT_EMAIL`, `ALERT_EMAIL_FROM` |
 | Analytics | `NEXT_PUBLIC_POSTHOG_KEY`, `NEXT_PUBLIC_POSTHOG_HOST` |
 | Products store | `STRIPE_SECRET_KEY`, `STRIPE_WEBHOOK_SECRET`, `DOWNLOAD_TOKEN_SECRET`, `RESEND_API_KEY`, `PURCHASE_EMAIL_FROM` |
 | Client portal | `PORTAL_SESSION_SECRET`, `RESEND_API_KEY`, `PORTAL_EMAIL_FROM` |
@@ -42,11 +45,23 @@ Every variable the app reads is listed with a comment in [`env-example`](env-exa
 | Studio AI tools | `ANTHROPIC_API_KEY` |
 | Performance page | `GOOGLE_PAGESPEED_API_KEY` |
 
+### Inquiries
+
+Every contact, services and promo form submission is saved in Studio under **Inquiries** before any email is sent, so a lead survives an email outage. Each one starts as **New**; move it through Contacted, Qualified, Proposal sent, Won or Lost as the conversation goes. The sender gets an automatic confirmation that includes the **Booking link** from Site settings (or `NEXT_PUBLIC_BOOKING_URL`) when one is set.
+
+Forms are protected by a hidden honeypot field, a minimum fill time and a limit of five inquiries per sender every ten minutes. Setting the two Turnstile keys adds Cloudflare's invisible bot check on top.
+
+### Failure alerts
+
+When a payment can't be fulfilled, an inquiry can't be saved or emailed, the newsletter fails, or any page or API route throws in production, an email goes to `ALERT_EMAIL` (or `CONTACT_EMAIL`). Each kind of alert is sent at most once every ten minutes.
+
 ### Products store
 
 1. In Stripe, create a webhook endpoint for `https://jlang.dev/api/webhooks/stripe` with the `checkout.session.completed` event and save its signing secret as `STRIPE_WEBHOOK_SECRET`. Locally, use `stripe listen --forward-to localhost:3000/api/webhooks/stripe`.
 2. Checkout charges each product's **Base price (number)** from Studio (0 means free), so no Stripe Price objects are needed.
 3. Mark products **Published** in Studio for them to appear at `/products`.
+4. Each paid purchase is saved in Studio under **Orders** (test-mode purchases are marked TEST). Download links expire after 24 hours; buyers can get fresh ones at `/products/downloads` by entering their checkout email.
+5. Analytics records `checkout_started` in the browser and `purchase_completed` from the webhook with `revenue` and `is_test`, so test purchases can be filtered out of reports.
 
 ### Review workflow
 

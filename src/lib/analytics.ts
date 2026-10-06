@@ -23,6 +23,8 @@ export enum AnalyticsEvents {
   FEATURE_ADDED = "feature_added",
   FEATURE_REMOVED = "feature_removed",
   FEATURE_TOGGLED = "feature_toggled",
+  NEWSLETTER_SUBSCRIBED = "newsletter_subscribed",
+  CHECKOUT_STARTED = "checkout_started",
 }
 
 // Generate a unique visitor ID for anonymous users
