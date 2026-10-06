@@ -3,32 +3,39 @@
 import { useState } from 'react';
 import { Icon } from '@iconify/react';
 import { m } from 'framer-motion';
+import { useSpamGuard } from '@/components/forms/SpamGuard';
+import { AnalyticsEvents, trackEvent } from '@/lib/analytics';
 
 export default function Newsletter() {
   const [email, setEmail] = useState('');
   const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
   const [message, setMessage] = useState('');
+  const spamGuard = useSpamGuard();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setStatus('loading');
+    setMessage('');
 
-    // Simulate newsletter subscription (replace with actual API call)
-    setTimeout(() => {
-      if (email && email.includes('@')) {
-        setStatus('success');
-        setMessage('Thanks for subscribing! Check your email for confirmation.');
-        setEmail('');
-      } else {
-        setStatus('error');
-        setMessage('Please enter a valid email address.');
-      }
-      
-      setTimeout(() => {
-        setStatus('idle');
-        setMessage('');
-      }, 5000);
-    }, 1000);
+    try {
+      const response = await fetch('/api/newsletter', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, ...spamGuard.fields() }),
+      });
+      const data = await response.json().catch(() => null);
+      if (!response.ok) throw new Error(data?.error || 'Something went wrong. Please try again later.');
+
+      trackEvent(AnalyticsEvents.NEWSLETTER_SUBSCRIBED, { location: 'blog_post' });
+      setStatus('success');
+      setMessage("You're subscribed. New posts will land in your inbox.");
+      setEmail('');
+    } catch (error) {
+      setStatus('error');
+      setMessage(error instanceof Error ? error.message : 'Something went wrong. Please try again later.');
+    } finally {
+      spamGuard.reset();
+    }
   };
 
   return (
@@ -107,6 +114,7 @@ export default function Newsletter() {
                 </>
               )}
             </m.button>
+            {spamGuard.element}
           </form>
 
           {/* Status Message */}
@@ -133,7 +141,7 @@ export default function Newsletter() {
 
           {/* Privacy Note */}
           <p className="mt-6 text-xs text-gray-500 dark:text-gray-400">
-            We respect your privacy. Your email will never be shared.
+            Your email is only used to send new posts, and every email has an unsubscribe link.
           </p>
         </div>
       </m.div>

@@ -172,7 +172,7 @@ export default async function SuccessPage({ searchParams }: PageProps) {
                 </li>
                 <li className="flex items-start gap-2">
                   <Icon icon="solar:check-circle-bold" className="text-green-500 mt-0.5 flex-shrink-0" width={16} height={16} />
-                  <span>Access your purchase through the provided link</span>
+                  <span>Download links expire after 24 hours. Lost yours? <Link href="/products/downloads" className="font-semibold text-indigo-600 underline dark:text-indigo-400">Get a fresh link</Link></span>
                 </li>
                 <li className="flex items-start gap-2">
                   <Icon icon="solar:check-circle-bold" className="text-green-500 mt-0.5 flex-shrink-0" width={16} height={16} />

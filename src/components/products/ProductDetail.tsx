@@ -5,6 +5,7 @@ import { Icon } from "@iconify/react";
 import { m } from "framer-motion";
 import Link from "next/link";
 import Image from "next/image";
+import posthog from "posthog-js";
 import { AnalyticsEvents, trackEvent } from "@/lib/analytics";
 
 export interface ProductDetailProduct {
@@ -89,6 +90,11 @@ export default function ProductDetail({ product, relatedProducts = [] }: Product
     // For paid products, create Stripe Checkout session
     setIsProcessing(true);
     setError(null);
+    trackEvent(AnalyticsEvents.CHECKOUT_STARTED, {
+      product: product.name,
+      product_slug: product.slug,
+      price: product.basePrice,
+    });
 
     try {
       const response = await fetch('/api/checkout', {
@@ -96,7 +102,8 @@ export default function ProductDetail({ product, relatedProducts = [] }: Product
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ productSlug: product.slug }),
+        // The analytics id rides along so the server-side purchase event joins this visitor's journey.
+        body: JSON.stringify({ productSlug: product.slug, analyticsId: posthog.get_distinct_id?.() }),
       });
 
       if (!response.ok) {

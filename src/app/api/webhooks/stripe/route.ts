@@ -1,7 +1,9 @@
 import { NextResponse } from "next/server";
 import { getStripe } from "@/lib/stripe";
-import { generateDownloadToken } from "@/lib/download-tokens";
-import { getResend } from "@/lib/resend";
+import { alertOwner } from "@/lib/alerts";
+import { sendDownloadEmail } from "@/lib/orders";
+import { captureServerEvent } from "@/lib/server-analytics";
+import { sanityClient, sanityIsConfigured } from "@/sanity/lib/client";
 import Stripe from "stripe";
 
 export async function POST(request: Request) {
@@ -61,48 +63,71 @@ export async function POST(request: Request) {
         );
       }
 
-      // Generate download token
-      const downloadToken = generateDownloadToken(productId, customerEmail);
+      const productName = session.metadata?.productName || "Your purchase";
+      const livemode = event.livemode;
 
-      // Send purchase confirmation email with download link
-      const siteUrl = (process.env.NEXT_PUBLIC_SITE_URL || "https://jlang.dev").replace(/\/$/, "");
-      const downloadUrl = `${siteUrl}/api/download/${encodeURIComponent(downloadToken)}`;
+      // Record the order first, so the buyer can recover their links even if this email is lost.
+      // The id is derived from the session, so Stripe's retries never create duplicates.
+      const orderId = `order-${session.id.replace(/[^a-zA-Z0-9_-]/g, "")}`;
+      const canRecord = sanityIsConfigured && Boolean(process.env.SANITY_API_WRITE_TOKEN);
+      let alreadyTracked = false;
+      if (canRecord) {
+        try {
+          alreadyTracked = Boolean((await sanityClient.getDocument<{ purchaseTracked?: boolean }>(orderId))?.purchaseTracked);
+          await sanityClient.createIfNotExists({
+            _id: orderId,
+            _type: "order",
+            email: customerEmail.toLowerCase(),
+            customerName: session.customer_details?.name || undefined,
+            product: { _type: "reference", _ref: productId, _weak: true },
+            productName,
+            amountTotal: typeof session.amount_total === "number" ? session.amount_total / 100 : undefined,
+            currency: session.currency || undefined,
+            stripeSessionId: session.id,
+            livemode,
+            purchasedAt: new Date((session.created || Date.now() / 1000) * 1000).toISOString(),
+            lastLinkSentAt: new Date().toISOString(),
+          });
+        } catch (error) {
+          await alertOwner("Could not record a paid order in Sanity", { error, sessionId: session.id, customerEmail });
+        }
+      }
 
       try {
-        const { error } = await getResend().emails.send({
-          from: process.env.PURCHASE_EMAIL_FROM || "JLang Development <orders@jlang.dev>",
-          to: customerEmail,
-          subject: "Your purchase is ready - Download now",
-          html: `
-            <div style="font-family:Arial,sans-serif;max-width:600px;margin:auto;color:#172033;line-height:1.65">
-              <h1 style="font-size:28px">Thank you for your purchase!</h1>
-              <p>Your digital product is ready to download.</p>
-              <p><a href="${downloadUrl}" style="display:inline-block;background:#4f46e5;color:white;padding:13px 22px;border-radius:10px;text-decoration:none;font-weight:700">Download Now</a></p>
-              <p style="font-size:13px;color:#667085">This download link is unique to you and can be used to access your purchase.</p>
-              <hr style="border:none;border-top:1px solid #e5e7eb;margin:24px 0">
-              <p style="font-size:13px;color:#667085">Order ID: ${escapeHtml(session.id)}<br>Product ID: ${escapeHtml(productId)}</p>
-            </div>`,
-        });
-
-        if (error) {
-          throw new Error(error.message);
-        }
-
-        return NextResponse.json({ ok: true, sessionId: session.id, emailSent: true });
+        await sendDownloadEmail(customerEmail, [{ productId, productName }], { orderId: session.id });
       } catch (emailError) {
-        // The email is the only delivery channel, so fail the webhook and let Stripe retry.
+        // The email is how the buyer gets their file, so fail the webhook and let Stripe retry.
         console.error("Failed to send purchase confirmation email:", emailError);
+        await alertOwner("A buyer paid but their download email failed", { error: emailError, sessionId: session.id, customerEmail });
         return NextResponse.json(
           { error: "Failed to send purchase confirmation email", sessionId: session.id },
           { status: 500 }
         );
       }
+
+      if (!alreadyTracked) {
+        // Test-mode purchases are flagged so reports can leave them out.
+        await captureServerEvent(session.metadata?.analyticsId || customerEmail.toLowerCase(), "purchase_completed", {
+          product: productName,
+          product_id: productId,
+          revenue: typeof session.amount_total === "number" ? session.amount_total / 100 : undefined,
+          currency: session.currency,
+          is_test: !livemode,
+          $set: { email: customerEmail.toLowerCase() },
+        });
+        if (canRecord) {
+          await sanityClient.patch(orderId).set({ purchaseTracked: true }).commit().catch(() => undefined);
+        }
+      }
+
+      return NextResponse.json({ ok: true, sessionId: session.id, emailSent: true });
     }
 
     // Ignore other event types
     return NextResponse.json({ ignored: true, eventType: event.type });
   } catch (error) {
     const message = error instanceof Error ? error.message : "Webhook processing failed";
+    await alertOwner("Stripe webhook failed", { error });
     return NextResponse.json(
       { error: message },
       { status: 500 }
@@ -110,6 +135,3 @@ export async function POST(request: Request) {
   }
 }
 
-function escapeHtml(value: string) {
-  return value.replace(/[&<>'"]/g, (character) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", "'": "&#39;", '"': "&quot;" })[character] || character);
-}

@@ -111,6 +111,7 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
       previousPost={adjacent.previous ? { slug: adjacent.previous.slug, title: adjacent.previous.title } : undefined}
       nextPost={adjacent.next ? { slug: adjacent.next.slug, title: adjacent.next.title } : undefined}
       tocSource={tocSourceFor(post.content, post.body)}
+      newsletterEnabled={Boolean(process.env.RESEND_API_KEY)}
     />
     </>
   );

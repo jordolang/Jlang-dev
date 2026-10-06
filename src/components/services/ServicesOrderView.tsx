@@ -6,6 +6,7 @@ import { m } from "framer-motion";
 import Link from "next/link";
 import { useState, useEffect } from "react";
 import { sendContactMessage } from '@/lib/contact';
+import { useSpamGuard } from '@/components/forms/SpamGuard';
 import { AnalyticsEvents, identifyUser, trackEvent } from '@/lib/analytics';
 import { logger } from '@/lib/logger';
 import { ADDON_FEATURES, type AddonFeature } from "@/lib/content/addons";
@@ -155,6 +156,7 @@ export default function ServicesOrderView({ packages: cmsPackages, addons: cmsAd
   const additionalFeatures = cmsAddons?.length ? cmsAddons : ADDON_FEATURES;
   const [selectedPackage, setSelectedPackage] = useState<string>("launchpad");
   const [selectedFeatures, setSelectedFeatures] = useState<string[]>([]);
+  const spamGuard = useSpamGuard();
   const [formData, setFormData] = useState({
     businessName: "",
     contactName: "",
@@ -294,6 +296,13 @@ ${formData.projectDescription}
         email: formData.email,
         subject: `Service order: ${packageInfo.name} for ${formData.businessName}`,
         message: serviceMessage,
+        source: 'services',
+        company: formData.businessName,
+        phone: formData.phone,
+        projectType: packageInfo.name,
+        budget: formData.budget,
+        timeline: formData.timeline,
+        ...spamGuard.fields(),
       });
 
       trackEvent(AnalyticsEvents.SERVICE_ORDER_SUBMITTED, {
@@ -333,6 +342,7 @@ ${formData.projectDescription}
       setSubmitStatus('error');
     } finally {
       setIsSubmitting(false);
+      spamGuard.reset();
     }
   };
 
@@ -532,6 +542,8 @@ ${formData.projectDescription}
                       />
                     </div>
                   </div>
+
+                  {spamGuard.element}
 
                   {/* Submit Button */}
                   <m.button

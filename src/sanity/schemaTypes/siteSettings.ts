@@ -53,6 +53,13 @@ export const siteSettingsType = defineType({
     // Contact
     defineField({ name: "email", title: "Primary email", type: "string", group: "contact", description: "Where the contact form is delivered." }),
     defineField({ name: "publicEmail", title: "Public email", type: "string", group: "contact", description: "Shown as the direct 'email me' link." }),
+    defineField({
+      name: "bookingUrl",
+      title: "Booking link",
+      type: "url",
+      group: "contact",
+      description: "Scheduling page (Cal.com, Calendly, etc.) offered after someone sends an inquiry. Leave empty to hide.",
+    }),
     defineField({ name: "location", title: "Location", type: "string", group: "contact" }),
     defineField({ name: "website", title: "Website", type: "string", group: "contact" }),
     defineField({

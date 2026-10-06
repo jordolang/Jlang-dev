@@ -36,6 +36,8 @@ interface BlogPostViewProps {
   nextPost?: { slug: string; title: string };
   /** Markdown-shaped heading outline the TableOfContents parses. */
   tocSource: string;
+  /** Only offer the newsletter when sign-ups actually go somewhere. */
+  newsletterEnabled?: boolean;
 }
 
 function formatDate(dateString: string): string {
@@ -43,7 +45,7 @@ function formatDate(dateString: string): string {
   return date.toLocaleDateString('en-US', { year: "numeric", month: "long", day: "numeric", timeZone: 'UTC' });
 }
 
-export default function BlogPostView({ post, allPosts, previousPost, nextPost, tocSource }: BlogPostViewProps) {
+export default function BlogPostView({ post, allPosts, previousPost, nextPost, tocSource, newsletterEnabled = false }: BlogPostViewProps) {
   const [postUrl, setPostUrl] = useState("");
 
   useEffect(() => {
@@ -138,7 +140,7 @@ export default function BlogPostView({ post, allPosts, previousPost, nextPost, t
 
               <RelatedPosts currentSlug={post.slug} currentTags={post.tags} allPosts={allPosts} />
 
-              <Newsletter />
+              {newsletterEnabled && <Newsletter />}
 
               <div className="text-center mt-12">
                 <Link

@@ -9,7 +9,9 @@ import { comparisonPageType } from "./comparisonPage";
 import { digitalProductType } from "./digitalProduct";
 import { experienceType } from "./experience";
 import { faqType } from "./faq";
+import { leadType } from "./lead";
 import { magicLinkTokenType } from "./magicLinkToken";
+import { orderType } from "./order";
 import { portalDeliverableType } from "./portalDeliverable";
 import { portalMessageType } from "./portalMessage";
 import { projectType } from "./project";
@@ -50,6 +52,8 @@ export const schemaTypes = [
   portalDeliverableType,
   digitalProductType,
   socialPostType,
+  leadType,
+  orderType,
 
   // Object types
   blockContentType,

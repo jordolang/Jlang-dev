@@ -4,6 +4,8 @@ import { sanityClient } from "@/sanity/lib/client";
 
 interface CheckoutRequestBody {
   productSlug?: string;
+  /** PostHog distinct id, so the server-side purchase event lands on the same visitor. */
+  analyticsId?: string;
 }
 
 interface CheckoutProduct {
@@ -16,7 +18,7 @@ interface CheckoutProduct {
 
 export async function POST(request: Request) {
   try {
-    const { productSlug } = (await request.json()) as CheckoutRequestBody;
+    const { productSlug, analyticsId } = (await request.json()) as CheckoutRequestBody;
 
     if (!productSlug) {
       return NextResponse.json(
@@ -68,6 +70,7 @@ export async function POST(request: Request) {
       metadata: {
         productId: product._id,
         productName: product.name,
+        ...(typeof analyticsId === "string" && analyticsId ? { analyticsId: analyticsId.slice(0, 200) } : {}),
       },
     });
 

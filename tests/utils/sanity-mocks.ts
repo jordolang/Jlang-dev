@@ -197,6 +197,7 @@ export function createMockSiteSettings(overrides: Partial<CmsSiteSettings> = {})
     resumeCopyCommand: 'npx jlangdev --copy',
     email: 'test@example.com',
     publicEmail: 'hello@example.com',
+    bookingUrl: null,
     location: 'San Francisco, CA',
     website: 'https://example.com',
     socials: [
