@@ -31,6 +31,10 @@ const MACHINE_VALUE_FIELDS = new Set([
   "current",
   "sectionId",
   "credentialId",
+  "phone",
+  // Dates the résumé reformats
+  "issued",
+  "expires",
   "token",
   // Values matched against unions/enums or used as record keys
   "category",

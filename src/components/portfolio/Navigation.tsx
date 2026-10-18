@@ -51,6 +51,18 @@ const defaultNavItems: NavItem[] = [
   { label: "Contact", href: "/#contact" },
 ];
 
+/**
+ * Nav lists saved in Studio before /projects and /resume existed still point Projects at the home
+ * page section and have no Résumé link. Send Projects to the full page and add Résumé after it.
+ */
+export function withPageLinks(items: NavItem[]): NavItem[] {
+  const linked = items.map((item) => (item.href === "/#projects" ? { ...item, href: "/projects" } : item));
+  if (linked.some((item) => item.href === "/resume")) return linked;
+  const after = linked.findIndex((item) => item.href === "/projects");
+  const resume = { label: "Résumé", href: "/resume" };
+  return after === -1 ? [...linked, resume] : [...linked.slice(0, after + 1), resume, ...linked.slice(after + 1)];
+}
+
 interface NavigationProps {
   /** Nav items from Sanity. Falls back to the list above when the CMS has none. */
   items?: NavItem[];
@@ -58,7 +70,7 @@ interface NavigationProps {
 
 export default function Navigation({ items }: NavigationProps) {
   const { theme, toggleTheme } = useTheme();
-  const navItems = items?.length ? items : defaultNavItems;
+  const navItems = items?.length ? withPageLinks(items) : defaultNavItems;
 
   // Honor a hash on initial load (e.g. arriving at /#projects from another page).
   useEffect(() => {

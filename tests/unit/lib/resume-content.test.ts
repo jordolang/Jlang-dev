@@ -1,6 +1,8 @@
 import { describe, it, expect } from 'vitest'
-import { formatCredentialDate, pick, pickRecentProjects } from '@/lib/resumeContent'
+import { vercelStegaCombine } from '@vercel/stega'
+import { formatCredentialDate, pick, pickRecentProjects, sameCompany } from '@/lib/resumeContent'
 import { projectBucket } from '@/lib/projectBuckets'
+import { withPageLinks } from '@/components/portfolio/Navigation'
 
 describe('formatCredentialDate', () => {
   it('formats ISO dates as month and year', () => {
@@ -53,5 +55,30 @@ describe('projectBucket', () => {
     expect(projectBucket({ group: 'desktop', category: 'Mobile & Web Apps' })).toBe('webApps')
     expect(projectBucket({ group: 'desktop', category: 'Web Design' })).toBe('websites')
     expect(projectBucket({ category: 'E-Commerce' })).toBe('websites')
+  })
+})
+
+describe('sameCompany', () => {
+  it('ignores case, spacing and Studio edit markers', () => {
+    const marked = vercelStegaCombine('JLang Development', { origin: 'sanity.io', href: '/studio' })
+    expect(sameCompany('JLang Development ', 'jlang development')).toBe(true)
+    expect(sameCompany(marked, 'JLang Development')).toBe(true)
+    expect(sameCompany('Neff Paving', 'JLang Development')).toBe(false)
+  })
+})
+
+describe('withPageLinks', () => {
+  it('points Projects at the full page and adds Résumé after it', () => {
+    const items = withPageLinks([
+      { label: 'Overview', href: '/#overview' },
+      { label: 'Projects', href: '/#projects' },
+      { label: 'Contact', href: '/#contact' },
+    ])
+    expect(items.map((item) => item.href)).toEqual(['/#overview', '/projects', '/resume', '/#contact'])
+  })
+
+  it('leaves a list that already links the résumé alone', () => {
+    const items = [{ label: 'CV', href: '/resume' }]
+    expect(withPageLinks(items)).toEqual(items)
   })
 })

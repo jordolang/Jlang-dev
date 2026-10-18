@@ -9,6 +9,7 @@ import {
   DEFAULT_RESUME,
   pick,
   pickRecentProjects,
+  sameCompany,
   type ResumeContent,
   type ResumeCredential,
   type ResumeProject,
@@ -77,7 +78,7 @@ export async function getResume(): Promise<ResumeContent> {
 
   // The current role leads the page, so don't list the same company again under prior roles.
   const experience: ResumeRole[] = (cmsExperience ?? fallbackExperience)
-    .filter((item) => item.company.trim().toLowerCase() !== currentRole.company.trim().toLowerCase())
+    .filter((item) => !sameCompany(item.company, currentRole.company))
     .map((item) => ({
       role: item.role,
       company: item.company,

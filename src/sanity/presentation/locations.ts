@@ -53,6 +53,7 @@ export const locations: DocumentLocationResolvers = {
       locations: [
         ...(doc?.slug ? [{ title: doc.title || "Untitled project", href: `/projects/${doc.slug}` }] : []),
         { title: "All projects", href: "/projects" },
+        { title: "Home", href: "/" },
       ],
     }),
   }),
