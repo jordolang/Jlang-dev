@@ -26,7 +26,11 @@ export default async function ResumePage() {
     "@type": "Person",
     name: resume.name,
     jobTitle: resume.currentRole.role,
-    worksFor: { "@type": "Organization", name: resume.currentRole.company, url: resume.currentRole.website },
+    worksFor: [resume.currentRole, ...resume.otherCurrentRoles].map((role) => ({
+      "@type": "Organization",
+      name: role.company,
+      ...(role.website ? { url: role.website } : {}),
+    })),
     address: { "@type": "PostalAddress", addressLocality: resume.location },
     email: `mailto:${resume.email}`,
     url: `${SITE_URL}/resume`,

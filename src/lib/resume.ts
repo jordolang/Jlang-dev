@@ -25,6 +25,7 @@ interface RawResume {
   photo?: SanityImageRef | null;
   stats?: { value: string; label: string }[];
   currentRole?: Partial<ResumeRole> | null;
+  otherCurrentRoles?: Partial<ResumeRole>[] | null;
   credentials?: Array<
     Omit<ResumeCredential, "image" | "file"> & { image?: SanityImageRef | null; file?: string | null }
   >;
@@ -42,6 +43,7 @@ async function getRawResume(): Promise<RawResume | null> {
         headline, summary, location, email, phone, stats[]{ value, label },
         photo { asset->{ _id, url } },
         currentRole { role, company, period, website, description, highlights },
+        otherCurrentRoles[]{ role, company, period, type, website, description, highlights, technologies },
         credentials[]{ title, issuer, issued, expires, credentialId, url, image { asset->{ _id, url } }, "file": file.asset->url },
         skillGroups[]{ title, skills },
         education[]{ school, program, period },
@@ -76,9 +78,28 @@ export async function getResume(): Promise<ResumeContent> {
     highlights: pick(role.highlights, DEFAULT_RESUME.currentRole.highlights),
   };
 
-  // The current role leads the page, so don't list the same company again under prior roles.
+  const studioOtherRoles: ResumeRole[] = (raw?.otherCurrentRoles ?? []).flatMap((item) =>
+    item?.role && item?.company
+      ? [
+          {
+            role: item.role,
+            company: item.company,
+            period: item.period ?? "",
+            type: item.type,
+            website: item.website,
+            description: item.description ?? "",
+            highlights: item.highlights ?? [],
+            technologies: item.technologies ?? [],
+          },
+        ]
+      : [],
+  );
+  const otherCurrentRoles = pick(studioOtherRoles, DEFAULT_RESUME.otherCurrentRoles);
+  const currentCompanies = [currentRole, ...otherCurrentRoles].map((item) => item.company);
+
+  // Current roles lead the page, so don't list the same companies again under prior roles.
   const experience: ResumeRole[] = (cmsExperience ?? fallbackExperience)
-    .filter((item) => !sameCompany(item.company, currentRole.company))
+    .filter((item) => !currentCompanies.some((company) => sameCompany(item.company, company)))
     .map((item) => ({
       role: item.role,
       company: item.company,
@@ -131,6 +152,7 @@ export async function getResume(): Promise<ResumeContent> {
     photo: urlForImage(raw?.photo) ?? DEFAULT_RESUME.photo,
     stats: pick(raw?.stats, DEFAULT_RESUME.stats),
     currentRole,
+    otherCurrentRoles,
     experience,
     credentials,
     skillGroups: pick(

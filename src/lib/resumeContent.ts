@@ -52,6 +52,8 @@ export interface ResumeContent {
   links: { label: string; href: string; icon: string }[];
   stats: { value: string; label: string }[];
   currentRole: ResumeRole;
+  /** Other jobs held at the same time as the main role. */
+  otherCurrentRoles: ResumeRole[];
   experience: ResumeRole[];
   credentials: ResumeCredential[];
   skillGroups: { title: string; skills: string[] }[];
@@ -94,6 +96,24 @@ export const DEFAULT_RESUME: Omit<ResumeContent, "experience" | "projects"> = {
     ],
     technologies: ["Next.js", "React", "TypeScript", "Tailwind CSS", "Sanity", "Stripe", "Vercel"],
   },
+  otherCurrentRoles: [
+    {
+      role: "Marketing, Sales & IT",
+      company: "Jose Madrid Salsa",
+      period: "2025 — Present",
+      type: "Employed",
+      website: "https://josemadrid.net",
+      description:
+        "Run marketing, sales and IT for a gourmet salsa company: its website and online store, its social media, and the customers who buy from it.",
+      highlights: [
+        "Designed and maintain the company website and online store.",
+        "Sell the company's salsa products and look after customers from first question to repeat order.",
+        "Create and manage the company's social media marketing.",
+        "Handle the company's IT, including its macOS admin app and self-order kiosk.",
+      ],
+      technologies: ["Sales", "Social media marketing", "Customer service", "E-commerce", "IT support"],
+    },
+  ],
   credentials: [],
   skillGroups: [
     { title: "Frontend", skills: ["Next.js", "React", "TypeScript", "Tailwind CSS", "Framer Motion", "HTML5 / CSS3"] },

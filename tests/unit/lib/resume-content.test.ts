@@ -3,6 +3,7 @@ import { vercelStegaCombine } from '@vercel/stega'
 import { formatCredentialDate, pick, pickRecentProjects, sameCompany } from '@/lib/resumeContent'
 import { projectBucket } from '@/lib/projectBuckets'
 import { withPageLinks } from '@/components/portfolio/Navigation'
+import { followRedirects } from '@/components/portfolio/HeroSection'
 
 describe('formatCredentialDate', () => {
   it('formats ISO dates as month and year', () => {
@@ -80,5 +81,17 @@ describe('withPageLinks', () => {
   it('leaves a list that already links the résumé alone', () => {
     const items = [{ label: 'CV', href: '/resume' }]
     expect(withPageLinks(items)).toEqual(items)
+  })
+})
+
+describe('followRedirects', () => {
+  it('adds -sL to a bare curl command', () => {
+    expect(followRedirects('curl jlang.dev/resume | bash')).toBe('curl -sL jlang.dev/resume | bash')
+  })
+
+  it('leaves commands that already follow redirects, or are not curl, alone', () => {
+    expect(followRedirects('curl -L jlang.dev/resume | bash')).toBe('curl -L jlang.dev/resume | bash')
+    expect(followRedirects('curl -fsSL jlang.dev/resume | bash')).toBe('curl -fsSL jlang.dev/resume | bash')
+    expect(followRedirects('wget -qO- jlang.dev/resume | bash')).toBe('wget -qO- jlang.dev/resume | bash')
   })
 })

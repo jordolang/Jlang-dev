@@ -4,7 +4,7 @@ import { useState } from "react";
 import { Icon } from "@iconify/react";
 import { AnalyticsEvents, trackEvent } from "@/lib/analytics";
 
-const CLI_COMMAND = "curl https://jlang.dev/api/resume/launch.sh | bash";
+const CLI_COMMAND = "curl -sL https://jlang.dev/resume | bash";
 
 /** Download (via the browser's print-to-PDF) and the terminal version of the résumé. */
 export function ResumeActions() {

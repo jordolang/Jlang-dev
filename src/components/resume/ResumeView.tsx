@@ -64,8 +64,51 @@ function TimelineRole({ item }: { item: ResumeRole }) {
   );
 }
 
+function CurrentRole({ role }: { role: ResumeRole }) {
+  return (
+    <div className="py-6 first:pt-0 last:pb-0 break-inside-avoid print:py-3">
+      <div className="flex flex-wrap items-start justify-between gap-4">
+        <div>
+          <h3 className="text-2xl font-bold text-gray-900 dark:text-white print:text-lg">{role.role}</h3>
+          <p className="mt-1 text-lg font-medium text-gold-700 dark:text-gold-300 print:text-base print:text-black">
+            {role.website ? (
+              <a href={role.website} className="hover:underline">
+                {role.company}
+              </a>
+            ) : (
+              role.company
+            )}
+          </p>
+        </div>
+        <span className="inline-flex items-center gap-2 rounded-full bg-gold-500/10 px-3 py-1 text-sm font-semibold text-gold-800 dark:text-gold-200 ring-1 ring-gold-500/30 tabular-nums print:bg-transparent print:ring-0 print:px-0">
+          <Icon icon="solar:calendar-bold" width={14} height={14} className="print:hidden" />
+          {role.period}
+        </span>
+      </div>
+      <p className="mt-4 leading-relaxed text-gray-600 dark:text-gray-300 print:text-sm">{role.description}</p>
+      {role.highlights.length > 0 && (
+        <ul className="mt-5 grid gap-3 sm:grid-cols-2 print:block print:space-y-1">
+          {role.highlights.map((highlight) => (
+            <li key={highlight} className="flex gap-3 rounded-2xl bg-gray-50 dark:bg-white/[0.04] p-4 text-sm leading-relaxed text-gray-700 dark:text-gray-300 print:bg-transparent print:p-0">
+              <Icon icon="solar:check-circle-bold" width={18} height={18} className="mt-0.5 shrink-0 text-gold-600 dark:text-gold-400" />
+              {highlight}
+            </li>
+          ))}
+        </ul>
+      )}
+      {role.technologies && role.technologies.length > 0 && (
+        <div className="mt-5 flex flex-wrap gap-2">
+          {role.technologies.map((tech) => (
+            <Chip key={tech}>{tech}</Chip>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}
+
 export default function ResumeView({ resume }: { resume: ResumeContent }) {
-  const { currentRole } = resume;
+  const currentRoles = [resume.currentRole, ...resume.otherCurrentRoles];
   const contact = [
     { icon: "solar:map-point-bold", label: resume.location },
     { icon: "solar:letter-bold", label: resume.email, href: `mailto:${resume.email}` },
@@ -168,43 +211,12 @@ export default function ResumeView({ resume }: { resume: ResumeContent }) {
             <Reveal>
               <Panel className="relative overflow-hidden ring-1 ring-gold-500/30 print:ring-0">
                 <div aria-hidden className="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-gold-300 via-gold-600 to-gold-300 print:hidden" />
-                <SectionTitle icon="solar:case-round-bold">Current role</SectionTitle>
-                <div className="flex flex-wrap items-start justify-between gap-4">
-                  <div>
-                    <h3 className="text-2xl font-bold text-gray-900 dark:text-white print:text-lg">{currentRole.role}</h3>
-                    <p className="mt-1 text-lg font-medium text-gold-700 dark:text-gold-300 print:text-base print:text-black">
-                      {currentRole.website ? (
-                        <a href={currentRole.website} className="hover:underline">
-                          {currentRole.company}
-                        </a>
-                      ) : (
-                        currentRole.company
-                      )}
-                    </p>
-                  </div>
-                  <span className="inline-flex items-center gap-2 rounded-full bg-gold-500/10 px-3 py-1 text-sm font-semibold text-gold-800 dark:text-gold-200 ring-1 ring-gold-500/30 tabular-nums print:bg-transparent print:ring-0 print:px-0">
-                    <Icon icon="solar:calendar-bold" width={14} height={14} className="print:hidden" />
-                    {currentRole.period}
-                  </span>
+                <SectionTitle icon="solar:case-round-bold">{currentRoles.length > 1 ? "Current roles" : "Current role"}</SectionTitle>
+                <div className="divide-y divide-gray-200 dark:divide-white/10 print:divide-gray-300">
+                  {currentRoles.map((role) => (
+                    <CurrentRole key={`${role.company}-${role.role}`} role={role} />
+                  ))}
                 </div>
-                <p className="mt-4 leading-relaxed text-gray-600 dark:text-gray-300 print:text-sm">{currentRole.description}</p>
-                {currentRole.highlights.length > 0 && (
-                  <ul className="mt-5 grid gap-3 sm:grid-cols-2 print:block print:space-y-1">
-                    {currentRole.highlights.map((highlight) => (
-                      <li key={highlight} className="flex gap-3 rounded-2xl bg-gray-50 dark:bg-white/[0.04] p-4 text-sm leading-relaxed text-gray-700 dark:text-gray-300 print:bg-transparent print:p-0">
-                        <Icon icon="solar:check-circle-bold" width={18} height={18} className="mt-0.5 shrink-0 text-gold-600 dark:text-gold-400" />
-                        {highlight}
-                      </li>
-                    ))}
-                  </ul>
-                )}
-                {currentRole.technologies && currentRole.technologies.length > 0 && (
-                  <div className="mt-5 flex flex-wrap gap-2">
-                    {currentRole.technologies.map((tech) => (
-                      <Chip key={tech}>{tech}</Chip>
-                    ))}
-                  </div>
-                )}
               </Panel>
             </Reveal>
 

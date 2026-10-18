@@ -56,6 +56,31 @@ export const resumeType = defineType({
     }),
 
     defineField({
+      name: "otherCurrentRoles",
+      title: "Other current roles",
+      type: "array",
+      group: "current",
+      description: "Jobs you hold at the same time as the role above. Leave empty to keep the built-in list.",
+      of: [
+        defineArrayMember({
+          type: "object",
+          name: "otherRole",
+          fields: [
+            defineField({ name: "role", title: "Role", type: "string", validation: (rule) => rule.required() }),
+            defineField({ name: "company", title: "Company", type: "string", validation: (rule) => rule.required() }),
+            defineField({ name: "period", title: "Period", type: "string" }),
+            defineField({ name: "type", title: "Engagement type", type: "string", description: 'e.g. "Employed", "Contract".' }),
+            defineField({ name: "website", title: "Company website", type: "url" }),
+            defineField({ name: "description", title: "Description", type: "text", rows: 3 }),
+            defineField({ name: "highlights", title: "Highlights", type: "array", of: [{ type: "string" }] }),
+            defineField({ name: "technologies", title: "Skills used", type: "array", of: [{ type: "string" }], options: { layout: "tags" } }),
+          ],
+          preview: { select: { title: "role", subtitle: "company" } },
+        }),
+      ],
+    }),
+
+    defineField({
       name: "credentials",
       title: "Credentials",
       type: "array",
