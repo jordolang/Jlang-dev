@@ -30,6 +30,7 @@ export default async function ResumePage() {
     address: { "@type": "PostalAddress", addressLocality: resume.location },
     email: `mailto:${resume.email}`,
     url: `${SITE_URL}/resume`,
+    ...(resume.photo ? { image: new URL(resume.photo, SITE_URL).toString() } : {}),
     sameAs: resume.links.map((link) => link.href),
     hasCredential: resume.credentials.map((item) => ({
       "@type": "EducationalOccupationalCredential",

@@ -128,7 +128,7 @@ export async function getResume(): Promise<ResumeContent> {
     location: pick(raw?.location, pick(settings?.location, DEFAULT_RESUME.location)),
     email: pick(raw?.email, pick(settings?.publicEmail, DEFAULT_RESUME.email)),
     phone: raw?.phone || undefined,
-    photo: urlForImage(raw?.photo) ?? undefined,
+    photo: urlForImage(raw?.photo) ?? DEFAULT_RESUME.photo,
     stats: pick(raw?.stats, DEFAULT_RESUME.stats),
     currentRole,
     experience,

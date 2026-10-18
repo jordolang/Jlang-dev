@@ -67,6 +67,7 @@ export const DEFAULT_RESUME: Omit<ResumeContent, "experience" | "projects"> = {
   location: "Zanesville, OH",
   email: "jordan@jlang.dev",
   website: "jlang.dev",
+  photo: "/images/jordan-lang.webp",
   links: [
     { label: "jlang.dev", href: "https://jlang.dev", icon: "solar:global-bold" },
     { label: "GitHub", href: "https://github.com/jordolang", icon: "simple-icons:github" },
