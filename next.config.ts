@@ -13,11 +13,15 @@ const nextConfig: NextConfig = {
   async rewrites() {
     return {
       // /resume is a page for browsers, but `curl jlang.dev/resume | bash` must still get the
-      // terminal script. Browsers ask for text/html; curl, wget and friends don't.
+      // terminal script. Browsers ask for text/html; curl, wget and friends don't. Client-side
+      // <Link> navigation and prefetch send `RSC: 1` instead, so those must reach the page too.
       beforeFiles: [
         {
           source: "/resume",
-          missing: [{ type: "header", key: "accept", value: "(.*)text/html(.*)" }],
+          missing: [
+            { type: "header", key: "accept", value: "(.*)text/html(.*)" },
+            { type: "header", key: "rsc" },
+          ],
           destination: "/api/resume",
         },
       ],
