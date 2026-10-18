@@ -77,7 +77,7 @@ export default function CaseStudyView({ project }: CaseStudyViewProps) {
       <header className="border-b border-gray-200 dark:border-gray-800 sticky top-0 bg-white/80 dark:bg-gray-950/80 backdrop-blur-xl z-40">
         <div className="max-w-7xl mx-auto px-4 py-4">
           <Link
-            href="/#projects"
+            href="/projects"
             className="inline-flex items-center gap-2 text-indigo-600 dark:text-indigo-400 hover:text-indigo-700 dark:hover:text-indigo-300 transition-colors"
           >
             <Icon icon="solar:arrow-left-outline" width={20} height={20} />
@@ -392,7 +392,7 @@ export default function CaseStudyView({ project }: CaseStudyViewProps) {
           {/* Back to Projects Link */}
           <div className="text-center mt-12">
             <Link
-              href="/#projects"
+              href="/projects"
               className="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-indigo-500/10 to-purple-500/10 border border-indigo-500/20 rounded-xl hover:from-indigo-500/20 hover:to-purple-500/20 transition-all"
             >
               <Icon icon="solar:arrow-left-outline" width={20} height={20} className="text-indigo-600 dark:text-indigo-400" />

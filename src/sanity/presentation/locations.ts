@@ -52,13 +52,24 @@ export const locations: DocumentLocationResolvers = {
     resolve: (doc) => ({
       locations: [
         ...(doc?.slug ? [{ title: doc.title || "Untitled project", href: `/projects/${doc.slug}` }] : []),
-        { title: "Home", href: "/" },
+        { title: "All projects", href: "/projects" },
       ],
     }),
   }),
 
+  resume: defineLocations({
+    message: "The résumé page.",
+    locations: [{ title: "Résumé", href: "/resume" }],
+  }),
+
   aboutContent: homePage("About / overview"),
-  experience: homePage("Experience"),
+  experience: defineLocations({
+    message: "Experience appears on the home page and the résumé.",
+    locations: [
+      { title: "Home", href: "/" },
+      { title: "Résumé", href: "/resume" },
+    ],
+  }),
   techItem: homePage("Tech stack"),
   testimonial: homePage("Testimonials"),
   sectionContent: homePage("Section headings"),

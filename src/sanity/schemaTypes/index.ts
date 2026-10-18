@@ -16,6 +16,7 @@ import { portalDeliverableType } from "./portalDeliverable";
 import { portalMessageType } from "./portalMessage";
 import { projectType } from "./project";
 import { promoContentType } from "./promoContent";
+import { resumeType } from "./resume";
 import { reviewRequestType } from "./reviewRequest";
 import { sectionContentType } from "./sectionContent";
 import { servicePackageType } from "./servicePackage";
@@ -31,6 +32,7 @@ export const schemaTypes = [
   aboutContentType,
   promoContentType,
   comparisonPageType,
+  resumeType,
 
   // Collections
   projectType,
@@ -60,4 +62,4 @@ export const schemaTypes = [
 ];
 
 /** Document types that should only ever have one instance, stored under a fixed document id. */
-export const SINGLETON_TYPES = ["siteSettings", "aboutContent", "promoContent", "comparisonPage"] as const;
+export const SINGLETON_TYPES = ["siteSettings", "aboutContent", "promoContent", "comparisonPage", "resume"] as const;

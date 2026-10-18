@@ -48,6 +48,10 @@ export const structure: StructureResolver = (S) =>
         .id("aboutContent")
         .child(S.document().schemaType("aboutContent").documentId("aboutContent").title("About / Overview")),
       S.listItem()
+        .title("Résumé")
+        .id("resume")
+        .child(S.document().schemaType("resume").documentId("resume").title("Résumé")),
+      S.listItem()
         .title("Promo page")
         .id("promoContent")
         .child(S.document().schemaType("promoContent").documentId("promoContent").title("Promo page")),

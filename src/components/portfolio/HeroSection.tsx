@@ -163,7 +163,14 @@ export default function HeroSection({ content }: { content?: HeroContent }) {
         </p>
 
         {/* CLI Resume Button */}
-        <div className="hero-reveal flex justify-center mb-8" style={{ animationDelay: "0.15s" }}>
+        <div className="hero-reveal flex flex-wrap justify-center gap-3 mb-8" style={{ animationDelay: "0.15s" }}>
+          <Link
+            href="/resume"
+            className="inline-flex items-center gap-2 px-6 py-3 rounded-full font-semibold border border-gold-400/60 text-gray-900 dark:text-white bg-white/70 dark:bg-black/40 backdrop-blur hover:border-gold-400 hover:scale-105 active:scale-95 transition-transform duration-300"
+          >
+            <Icon icon="solar:document-text-bold" width={20} height={20} />
+            <span>View Résumé</span>
+          </Link>
           <button
             onClick={copyResumeCommand}
             className="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-gold-300 via-gold-400 to-gold-500 text-black rounded-full font-semibold transition-transform duration-300 shadow-lg shadow-gold-500/25 hover:shadow-xl hover:scale-105 active:scale-95 border border-gold-200/40"

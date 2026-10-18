@@ -398,3 +398,29 @@ select:focus-visible,
 		transition: none !important;
 	}
 }
+
+/* Résumé: print (and "Save as PDF") as a clean, light, single-column document whatever the theme. */
+@media print {
+  @page {
+    size: letter;
+    margin: 0.5in;
+  }
+
+  .resume-root,
+  .resume-root * {
+    color: #111827 !important;
+    background-color: transparent !important;
+    box-shadow: none !important;
+    backdrop-filter: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+  }
+
+  .resume-root h2 {
+    color: #8a6a1f !important;
+  }
+
+  .resume-root a {
+    text-decoration: none !important;
+  }
+}

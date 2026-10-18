@@ -98,6 +98,13 @@ export const projectType = defineType({
       initialValue: false,
     }),
     defineField({
+      name: "hidden",
+      title: "Hide from the site",
+      type: "boolean",
+      description: "Keeps the project in Studio but removes it from every page.",
+      initialValue: false,
+    }),
+    defineField({
       name: "order",
       title: "Display order",
       type: "number",
@@ -156,7 +163,11 @@ export const projectType = defineType({
   ],
   orderings: [{ title: "Display order", name: "orderAsc", by: [{ field: "order", direction: "asc" }] }],
   preview: {
-    select: { title: "title", subtitle: "subtitle", media: "image", status: "status" },
-    prepare: ({ title, subtitle, media, status }) => ({ title, subtitle: `${status ?? ""} · ${subtitle ?? ""}`, media }),
+    select: { title: "title", subtitle: "subtitle", media: "image", status: "status", hidden: "hidden" },
+    prepare: ({ title, subtitle, media, status, hidden }) => ({
+      title,
+      subtitle: `${hidden ? "Hidden · " : ""}${status ?? ""} · ${subtitle ?? ""}`,
+      media,
+    }),
   },
 });

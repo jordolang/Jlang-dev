@@ -63,6 +63,12 @@ When a payment can't be fulfilled, an inquiry can't be saved or emailed, the new
 4. Each paid purchase is saved in Studio under **Orders** (test-mode purchases are marked TEST). Download links expire after 24 hours; buyers can get fresh ones at `/products/downloads` by entering their checkout email.
 5. Analytics records `checkout_started` in the browser and `purchase_completed` from the webhook with `revenue` and `is_test`, so test purchases can be filtered out of reports.
 
+### Résumé and projects
+
+`/resume` is built from the **Résumé** document in Studio (headline, current role, certificates and licenses, skills, education and which projects to feature), plus the **Experience** entries for earlier roles. Empty fields fall back to the text bundled in `src/lib/resumeContent.ts`. Visitors can save it as a PDF from the page, and `curl jlang.dev/resume | bash` still runs the terminal version.
+
+`/projects` lists every project in Studio. Use **Display order** to sort them and **Hide from the site** to take one down without deleting it.
+
 ### Review workflow
 
 See [docs/review-workflow.md](docs/review-workflow.md).

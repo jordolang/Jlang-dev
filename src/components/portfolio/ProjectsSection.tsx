@@ -594,6 +594,14 @@ export default function ProjectsSection({ projects: cmsProjects, heading }: Proj
 
         {/* Call to Action */}
         <m.div variants={itemVariants} className="text-center mt-12 md:mt-16 lg:mt-20 px-4 mb-12">
+          <Link
+            href="/projects"
+            className="mb-6 inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-gold-300 via-gold-400 to-gold-500 px-6 py-3 font-semibold text-black shadow-lg shadow-gold-500/25 transition-transform hover:scale-105 active:scale-95"
+          >
+            See every project
+            <Icon icon="solar:arrow-right-linear" width={18} height={18} />
+          </Link>
+          <br />
           <Link href="#contact">
             <m.div
               className="inline-flex items-center gap-2 md:gap-3 px-4 py-2.5 md:px-6 md:py-3 bg-gradient-to-r from-blue-500/10 to-purple-500/10 backdrop-blur-sm border border-blue-500/20 dark:border-purple-500/20 rounded-xl md:rounded-2xl"
