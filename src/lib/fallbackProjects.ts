@@ -1128,12 +1128,23 @@ export function MedicationSearch() {
   },
 ];
 
+/** "https://Site.vercel.app/" and "site.vercel.app" name the same site. */
+function siteKey(url?: string | null) {
+  return url?.trim().toLowerCase().replace(/^https?:\/\//, "").replace(/^www\./, "").replace(/\/+$/, "") || undefined;
+}
+
 /**
- * Scores entered in the Studio win; without them, keep the bundled scores for the same
- * slug so a site already measured here still shows its rings before anyone types them in.
+ * Scores entered in the Studio win; without them, keep the bundled scores for the same site so a
+ * site already measured here still shows its rings before anyone types them in. Studio slugs often
+ * differ from the bundled ones (e.g. "-desktop" suffixes), so the live URL is matched too.
  */
-export function pagespeedFor(project: { slug: string; pagespeed?: PageSpeedResult | null }): PageSpeedResult | undefined {
+export function pagespeedFor(project: {
+  slug: string;
+  live?: string | null;
+  pagespeed?: PageSpeedResult | null;
+}): PageSpeedResult | undefined {
   if (project.pagespeed?.hidden) return undefined;
   if (project.pagespeed?.mobile || project.pagespeed?.desktop) return project.pagespeed;
-  return projects.find((p) => p.slug === project.slug)?.pagespeed;
+  const live = siteKey(project.live);
+  return projects.find((p) => p.pagespeed && (p.slug === project.slug || (live && siteKey(p.live) === live)))?.pagespeed;
 }

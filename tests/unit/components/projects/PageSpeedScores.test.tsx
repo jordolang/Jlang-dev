@@ -66,3 +66,21 @@ describe('PageSpeedScores edge cases', () => {
     expect(pagespeedFor({ slug: 'black-label-barbecue', pagespeed: { hidden: true } })).toBeUndefined()
   })
 })
+
+describe('Studio slugs that differ from the bundled ones', () => {
+  it('matches bundled scores by live URL', () => {
+    const found = pagespeedFor({ slug: 'black-label-barbecue-desktop', live: 'https://blacklabelsauce.vercel.app/' })
+    expect(found?.desktop?.performance).toBe(100)
+  })
+
+  it('does not match an unrelated site', () => {
+    expect(pagespeedFor({ slug: 'other-desktop', live: 'https://example.com' })).toBeUndefined()
+  })
+
+  it('static rings have no switch or report link', () => {
+    render(<PageSpeedScores pagespeed={{ ...pagespeed, reportUrl: 'https://pagespeed.web.dev/x' }} static />)
+    expect(screen.queryByRole('button')).not.toBeInTheDocument()
+    expect(screen.queryByRole('link')).not.toBeInTheDocument()
+    expect(screen.getByText('mobile')).toBeInTheDocument()
+  })
+})

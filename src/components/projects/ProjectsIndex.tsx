@@ -7,6 +7,8 @@ import { AnimatePresence, m } from "framer-motion";
 import { Icon } from "@iconify/react";
 import { AnalyticsEvents, trackEvent } from "@/lib/analytics";
 import { PROJECT_BUCKETS, projectBucket, type ProjectBucket } from "@/lib/projectBuckets";
+import type { PageSpeedResult } from "@/lib/fallbackProjects";
+import { PageSpeedScores } from "./PageSpeedScores";
 
 export interface ProjectsIndexItem {
   slug: string;
@@ -22,6 +24,7 @@ export interface ProjectsIndexItem {
   timeline: string;
   group?: string;
   featured?: boolean;
+  pagespeed?: PageSpeedResult;
 }
 
 type Filter = "all" | ProjectBucket;
@@ -181,6 +184,11 @@ export default function ProjectsIndex({ projects }: { projects: ProjectsIndexIte
                           </span>
                         ))}
                         {project.tech.length > 4 && <span className="px-1 text-xs text-gray-400">+{project.tech.length - 4}</span>}
+                      </div>
+                    )}
+                    {project.pagespeed && (
+                      <div className="mt-5">
+                        <PageSpeedScores pagespeed={project.pagespeed} static />
                       </div>
                     )}
                     <span className="mt-auto inline-flex items-center gap-1.5 pt-5 text-sm font-semibold text-gold-700 dark:text-gold-300">

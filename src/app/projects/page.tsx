@@ -33,6 +33,7 @@ export default async function ProjectsPage() {
         timeline: project.timeline,
         group: project.group,
         featured: project.featured,
+        pagespeed: project.pagespeed,
       }))}
     />
   );
