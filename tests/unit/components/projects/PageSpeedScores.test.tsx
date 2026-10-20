@@ -49,3 +49,20 @@ describe('pagespeedFor', () => {
     expect(pagespeedFor({ slug: 'no-such-project' })).toBeUndefined()
   })
 })
+
+describe('PageSpeedScores edge cases', () => {
+  it('ignores a half-entered run', () => {
+    const partial = { mobile: { performance: 90 } } as unknown as Parameters<typeof PageSpeedScores>[0]['pagespeed']
+    const { container } = render(<PageSpeedScores pagespeed={partial} />)
+    expect(container).toBeEmptyDOMElement()
+  })
+
+  it('names the device when only one run has no date or link', () => {
+    render(<PageSpeedScores pagespeed={{ desktop: pagespeed.desktop }} />)
+    expect(screen.getByText('desktop')).toBeInTheDocument()
+  })
+
+  it('lets the Studio hide bundled scores', () => {
+    expect(pagespeedFor({ slug: 'black-label-barbecue', pagespeed: { hidden: true } })).toBeUndefined()
+  })
+})

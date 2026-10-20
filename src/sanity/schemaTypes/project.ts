@@ -117,7 +117,7 @@ export const projectType = defineType({
       title: "PageSpeed scores",
       type: "object",
       description:
-        "Websites only. Run the live URL through pagespeed.web.dev and copy the four scores from each tab. Shown as score rings on the project card; leave empty to hide them.",
+        "Websites only. Run the live URL through pagespeed.web.dev and copy the four scores from each tab. Shown as score rings on the project card; leave empty for no rings.",
       options: { collapsible: true, collapsed: true },
       fields: [
         defineField({ name: "mobile", title: "Mobile", type: "pagespeedScores" }),
@@ -128,6 +128,13 @@ export const projectType = defineType({
           title: "Report link",
           type: "url",
           description: 'Optional. The PageSpeed "Copy Link" URL, shown as "View report" under the rings.',
+        }),
+        defineField({
+          name: "hidden",
+          title: "Hide scores",
+          type: "boolean",
+          description: "Turns the rings off for this project, including any scores built into the site code.",
+          initialValue: false,
         }),
       ],
     }),
