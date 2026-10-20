@@ -1,5 +1,27 @@
 import { defineField, defineType } from "sanity";
 
+const score = (name: string, title: string) =>
+  defineField({
+    name,
+    title,
+    type: "number",
+    validation: (rule) => rule.required().integer().min(0).max(100),
+  });
+
+/** The four Lighthouse category scores from one PageSpeed Insights tab. */
+export const pagespeedScoresType = defineType({
+  name: "pagespeedScores",
+  title: "PageSpeed scores",
+  type: "object",
+  options: { columns: 4 },
+  fields: [
+    score("performance", "Performance"),
+    score("accessibility", "Accessibility"),
+    score("bestPractices", "Best Practices"),
+    score("seo", "SEO"),
+  ],
+});
+
 export const projectType = defineType({
   name: "project",
   title: "Projects",
@@ -89,6 +111,25 @@ export const projectType = defineType({
       type: "boolean",
       description: "Embeds the whole site in the card so visitors scroll it in place. Requires a tall full-page screenshot.",
       initialValue: false,
+    }),
+    defineField({
+      name: "pagespeed",
+      title: "PageSpeed scores",
+      type: "object",
+      description:
+        "Websites only. Run the live URL through pagespeed.web.dev and copy the four scores from each tab. Shown as score rings on the project card; leave empty to hide them.",
+      options: { collapsible: true, collapsed: true },
+      fields: [
+        defineField({ name: "mobile", title: "Mobile", type: "pagespeedScores" }),
+        defineField({ name: "desktop", title: "Desktop", type: "pagespeedScores" }),
+        defineField({ name: "testedAt", title: "Tested on", type: "date" }),
+        defineField({
+          name: "reportUrl",
+          title: "Report link",
+          type: "url",
+          description: 'Optional. The PageSpeed "Copy Link" URL, shown as "View report" under the rings.',
+        }),
+      ],
     }),
     defineField({
       name: "featured",

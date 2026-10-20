@@ -4,6 +4,23 @@
  * to a page that resolves. Kept out of any "use client" module so server code
  * can import it as data.
  */
+/** One Lighthouse run, each category scored 0–100 as PageSpeed Insights shows it. */
+export interface PageSpeedScores {
+  performance: number;
+  accessibility: number;
+  bestPractices: number;
+  seo: number;
+}
+
+/** PageSpeed Insights results for a live website, entered by hand from pagespeed.web.dev. */
+export interface PageSpeedResult {
+  mobile?: PageSpeedScores;
+  desktop?: PageSpeedScores;
+  /** YYYY-MM-DD the test was run. */
+  testedAt?: string;
+  reportUrl?: string;
+}
+
 export interface Project {
   slug: string;
   title: string;
@@ -27,6 +44,8 @@ export interface Project {
   featured?: boolean;
   /** Extra screenshots, opened from the card's "View screenshots" button. With `video`, `src` is its poster. */
   gallery?: Array<{ src: string; caption: string; video?: string }>;
+  /** Score rings on the card. Websites only; omitted means no rings. */
+  pagespeed?: PageSpeedResult;
   /** Intrinsic size of `image`. Required for full-page captures so the scroll container renders them at true aspect ratio. */
   imageWidth?: number;
   imageHeight?: number;
@@ -101,6 +120,12 @@ export const projects: Project[] = [
     tech: ["Next.js", "React", "TypeScript", "BigCommerce", "Vercel"],
     github: "",
     live: "https://blacklabelsauce.vercel.app",
+    pagespeed: {
+      mobile: { performance: 96, accessibility: 96, bestPractices: 100, seo: 100 },
+      desktop: { performance: 100, accessibility: 96, bestPractices: 100, seo: 100 },
+      testedAt: "2026-10-20",
+      reportUrl: "https://pagespeed.web.dev/analysis/https-blacklabelsauce-vercel-app/h6xbtje4xf",
+    },
     gradient: "from-neutral-900 to-red-700",
     status: "Live",
     category: "E-Commerce",
@@ -1100,3 +1125,12 @@ export function MedicationSearch() {
     group: "desktopApp",
   },
 ];
+
+/**
+ * Scores entered in the Studio win; without them, keep the bundled scores for the same
+ * slug so a site already measured here still shows its rings before anyone types them in.
+ */
+export function pagespeedFor(project: { slug: string; pagespeed?: PageSpeedResult | null }): PageSpeedResult | undefined {
+  if (project.pagespeed?.mobile || project.pagespeed?.desktop) return project.pagespeed;
+  return projects.find((p) => p.slug === project.slug)?.pagespeed;
+}

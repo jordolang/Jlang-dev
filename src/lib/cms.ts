@@ -3,6 +3,7 @@ import "server-only";
 import { draftMode } from "next/headers";
 import { getSanityClient, sanityIsConfigured } from "@/sanity/lib/client";
 import { dimensionsForImage, urlForImage, type SanityImageRef } from "@/sanity/lib/image";
+import { pagespeedFor, type PageSpeedResult } from "@/lib/fallbackProjects";
 
 /**
  * Server-side content layer.
@@ -74,6 +75,7 @@ export interface CmsProject {
   imageHeight?: number;
   featured?: boolean;
   gallery?: Array<{ src: string; caption: string; video?: string }>;
+  pagespeed?: PageSpeedResult;
 }
 
 interface RawProject extends Omit<CmsProject, "image" | "imageWidth" | "imageHeight" | "gallery"> {
@@ -87,7 +89,7 @@ export async function getProjects(): Promise<CmsProject[] | null> {
       "slug": slug.current,
       title, subtitle, description, features, deliverables, tech, github, live,
       gradient, status, category, highlight, timeline, clientType, group,
-      fullPagePreview, featured,
+      fullPagePreview, featured, pagespeed,
       image ${IMAGE_PROJECTION},
       gallery[]{ caption, video, asset->{ _id, url } }
     }`,
@@ -107,6 +109,7 @@ export async function getProjects(): Promise<CmsProject[] | null> {
       live: project.live ?? "",
       imageWidth: dims?.width,
       imageHeight: dims?.height,
+      pagespeed: pagespeedFor(project),
       gallery: project.gallery?.flatMap((shot) => {
         const src = urlForImage(shot);
         return src ? [{ src, caption: shot.caption ?? "", ...(shot.video ? { video: shot.video } : {}) }] : [];
