@@ -19,6 +19,8 @@ export interface PageSpeedResult {
   /** YYYY-MM-DD the test was run. */
   testedAt?: string;
   reportUrl?: string;
+  /** Set in the Studio to hide the rings, including bundled scores for the same slug. */
+  hidden?: boolean;
 }
 
 export interface Project {
@@ -1131,6 +1133,7 @@ export function MedicationSearch() {
  * slug so a site already measured here still shows its rings before anyone types them in.
  */
 export function pagespeedFor(project: { slug: string; pagespeed?: PageSpeedResult | null }): PageSpeedResult | undefined {
+  if (project.pagespeed?.hidden) return undefined;
   if (project.pagespeed?.mobile || project.pagespeed?.desktop) return project.pagespeed;
   return projects.find((p) => p.slug === project.slug)?.pagespeed;
 }

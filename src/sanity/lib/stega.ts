@@ -32,6 +32,7 @@ const MACHINE_VALUE_FIELDS = new Set([
   "sectionId",
   "credentialId",
   "token",
+  "reportUrl",
   // Values matched against unions/enums or used as record keys
   "category",
   "level",
@@ -46,6 +47,8 @@ const MACHINE_VALUE_FIELDS = new Set([
   "skills",
   // Sliced character-by-character by the typewriter, which would reveal the hidden characters
   "typewriterRoles",
+  // Parsed as a date
+  "testedAt",
   // Code blocks are rendered verbatim by the syntax highlighter
   "code",
   "language",

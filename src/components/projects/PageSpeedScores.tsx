@@ -54,16 +54,22 @@ function ScoreRing({ score, label, size }: { score: number; label: string; size:
   );
 }
 
+/** A Studio draft can hold a half-typed run; only a run with all four numbers is shown. */
+function isComplete(scores?: Partial<Scores> | null): scores is Scores {
+  return !!scores && CATEGORIES.every(({ key }) => Number.isFinite(scores[key]));
+}
+
 /**
  * Lighthouse score rings for a live website, with a Mobile/Desktop switch when both
  * runs were recorded. Renders nothing when the project has no scores.
  */
 export function PageSpeedScores({ pagespeed, size = 48 }: { pagespeed?: PageSpeedResult; size?: number }) {
-  const available = (["mobile", "desktop"] as const).filter((device) => pagespeed?.[device]);
+  const available = (["mobile", "desktop"] as const).filter((device) => isComplete(pagespeed?.[device]));
   const [device, setDevice] = useState<"mobile" | "desktop">(available[0] ?? "mobile");
   if (!pagespeed || !available.length) return null;
 
-  const scores = pagespeed[device] ?? pagespeed[available[0]]!;
+  const shown = available.includes(device) ? device : available[0];
+  const scores = pagespeed[shown] as Scores;
   const tested = pagespeed.testedAt
     ? new Date(`${pagespeed.testedAt}T00:00:00`).toLocaleDateString("en-US", { month: "short", year: "numeric" })
     : null;
@@ -82,9 +88,9 @@ export function PageSpeedScores({ pagespeed, size = 48 }: { pagespeed?: PageSpee
                 key={option}
                 type="button"
                 onClick={() => setDevice(option)}
-                aria-pressed={device === option}
+                aria-pressed={shown === option}
                 className={`inline-flex items-center gap-1 rounded-md px-2 py-0.5 text-[11px] font-medium capitalize transition-colors ${
-                  device === option
+                  shown === option
                     ? "bg-white text-gray-900 shadow-sm dark:bg-gray-700 dark:text-white"
                     : "text-gray-500 hover:text-gray-800 dark:text-gray-400 dark:hover:text-gray-200"
                 }`}
@@ -103,9 +109,11 @@ export function PageSpeedScores({ pagespeed, size = 48 }: { pagespeed?: PageSpee
         ))}
       </div>
 
-      {(tested || pagespeed.reportUrl) && (
+      {/* With no toggle, this line is the only place that says which device was tested. */}
+      {(available.length === 1 || tested || pagespeed.reportUrl) && (
         <p className="mt-2.5 text-center text-[10px] text-gray-400 dark:text-gray-500">
-          {available.length === 1 && <span className="capitalize">{device} · </span>}
+          {available.length === 1 && <span className="capitalize">{shown}</span>}
+          {available.length === 1 && (tested || pagespeed.reportUrl) && " · "}
           {tested && <>Tested {tested}</>}
           {tested && pagespeed.reportUrl && " · "}
           {pagespeed.reportUrl && (
