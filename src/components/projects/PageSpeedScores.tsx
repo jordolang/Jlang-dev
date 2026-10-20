@@ -61,9 +61,18 @@ function isComplete(scores?: Partial<Scores> | null): scores is Scores {
 
 /**
  * Lighthouse score rings for a live website, with a Mobile/Desktop switch when both
- * runs were recorded. Renders nothing when the project has no scores.
+ * runs were recorded. Renders nothing when the project has no scores. `static` drops the switch
+ * and report link, for cards that are themselves one big link and can't nest controls.
  */
-export function PageSpeedScores({ pagespeed, size = 48 }: { pagespeed?: PageSpeedResult; size?: number }) {
+export function PageSpeedScores({
+  pagespeed,
+  size = 48,
+  static: isStatic = false,
+}: {
+  pagespeed?: PageSpeedResult;
+  size?: number;
+  static?: boolean;
+}) {
   const available = (["mobile", "desktop"] as const).filter((device) => isComplete(pagespeed?.[device]));
   const [device, setDevice] = useState<"mobile" | "desktop">(available[0] ?? "mobile");
   if (!pagespeed || !available.length) return null;
@@ -81,7 +90,7 @@ export function PageSpeedScores({ pagespeed, size = 48 }: { pagespeed?: PageSpee
           <Icon icon="solar:speedometer-bold" width={14} height={14} />
           PageSpeed
         </span>
-        {available.length > 1 && (
+        {available.length > 1 && !isStatic && (
           <div className="inline-flex rounded-lg bg-gray-100 p-0.5 dark:bg-gray-800" role="group" aria-label="Device">
             {available.map((option) => (
               <button
@@ -110,13 +119,13 @@ export function PageSpeedScores({ pagespeed, size = 48 }: { pagespeed?: PageSpee
       </div>
 
       {/* With no toggle, this line is the only place that says which device was tested. */}
-      {(available.length === 1 || tested || pagespeed.reportUrl) && (
+      {(available.length === 1 || isStatic || tested || pagespeed.reportUrl) && (
         <p className="mt-2.5 text-center text-[10px] text-gray-400 dark:text-gray-500">
-          {available.length === 1 && <span className="capitalize">{shown}</span>}
-          {available.length === 1 && (tested || pagespeed.reportUrl) && " · "}
+          {(available.length === 1 || isStatic) && <span className="capitalize">{shown}</span>}
+          {(available.length === 1 || isStatic) && (tested || (pagespeed.reportUrl && !isStatic)) && " · "}
           {tested && <>Tested {tested}</>}
-          {tested && pagespeed.reportUrl && " · "}
-          {pagespeed.reportUrl && (
+          {tested && pagespeed.reportUrl && !isStatic && " · "}
+          {pagespeed.reportUrl && !isStatic && (
             <a
               href={pagespeed.reportUrl}
               target="_blank"
