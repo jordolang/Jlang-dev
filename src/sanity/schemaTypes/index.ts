@@ -14,7 +14,7 @@ import { magicLinkTokenType } from "./magicLinkToken";
 import { orderType } from "./order";
 import { portalDeliverableType } from "./portalDeliverable";
 import { portalMessageType } from "./portalMessage";
-import { projectType } from "./project";
+import { pagespeedScoresType, projectType } from "./project";
 import { promoContentType } from "./promoContent";
 import { reviewRequestType } from "./reviewRequest";
 import { sectionContentType } from "./sectionContent";
@@ -34,6 +34,7 @@ export const schemaTypes = [
 
   // Collections
   projectType,
+  pagespeedScoresType,
   experienceType,
   techItemType,
   servicePackageType,

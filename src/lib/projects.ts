@@ -4,7 +4,7 @@ import { getSanityClient, sanityIsConfigured } from '@/sanity/lib/client';
 import { isDraftMode } from './cms';
 import { dimensionsForImage, urlForImage, type SanityImageRef } from '@/sanity/lib/image';
 import { logger } from './logger';
-import { projects as fallbackProjects } from './fallbackProjects';
+import { pagespeedFor, projects as fallbackProjects, type PageSpeedResult } from './fallbackProjects';
 import type { PortableTextBlock } from '@portabletext/react';
 
 /**
@@ -55,6 +55,7 @@ export interface Project {
   imageHeight?: number;
   featured?: boolean;
   gallery?: Array<{ src: string; caption: string; video?: string }>;
+  pagespeed?: PageSpeedResult;
   // Case study fields
   challenge?: PortableTextBlock[];
   approach?: PortableTextBlock[];
@@ -89,7 +90,7 @@ async function getSanityProjects(): Promise<Project[]> {
         "slug": slug.current,
         title, subtitle, description, features, deliverables, tech, github, live,
         gradient, status, category, highlight, timeline, clientType, group,
-        fullPagePreview, featured, challenge, approach, solution, results,
+        fullPagePreview, featured, pagespeed, challenge, approach, solution, results,
         codeExamples[]{ title, description, code, language },
         image ${IMAGE_PROJECTION},
         gallery[]{ caption, video, asset->{ _id, url } },
@@ -121,6 +122,7 @@ async function getSanityProjects(): Promise<Project[]> {
         group: project.group,
         fullPagePreview: project.fullPagePreview,
         featured: project.featured,
+        pagespeed: pagespeedFor(project),
         gallery: project.gallery?.flatMap((shot) => {
           const src = urlForImage(shot);
           return src ? [{ src, caption: shot.caption ?? '', ...(shot.video ? { video: shot.video } : {}) }] : [];

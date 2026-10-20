@@ -9,6 +9,7 @@ import { AnalyticsEvents, trackEvent } from "@/lib/analytics";
 import { projects, type Project } from "@/lib/fallbackProjects";
 import SectionHeader from "./SectionHeader";
 import { ScreenshotLightbox } from "@/components/projects/ScreenshotLightbox";
+import { PageSpeedScores } from "@/components/projects/PageSpeedScores";
 
 export interface SectionHeading {
   tagText?: string;
@@ -174,6 +175,12 @@ function FeaturedProject({ project }: { project: Project }) {
               </div>
             </div>
 
+            {project.pagespeed && (
+              <div className="mb-6 max-w-md">
+                <PageSpeedScores pagespeed={project.pagespeed} size={52} />
+              </div>
+            )}
+
             <div className="mt-auto">
               <ProjectLinks project={project} />
             </div>
@@ -295,7 +302,8 @@ function ProjectCard({ project }: { project: Project }) {
           )}
         </div>
 
-        <div className="mt-auto">
+        <div className="mt-auto space-y-4">
+          <PageSpeedScores pagespeed={project.pagespeed} />
           <ProjectLinks project={project} />
         </div>
       </div>
