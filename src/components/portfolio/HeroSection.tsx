@@ -40,15 +40,25 @@ const DEFAULT_SKILLS = [
   { icon: "mdi:web-check", label: "Web Accessibility" },
 ];
 
-const DEFAULT_COPY_COMMAND = "curl https://jlang.dev/api/resume/launch.sh | bash";
+const DEFAULT_COPY_COMMAND = "curl -sL https://jlang.dev/resume | bash";
+
+/**
+ * jlang.dev answers plain http with a redirect, and curl only follows redirects with -L, so a bare
+ * `curl jlang.dev/resume | bash` pipes the word "Redirecting..." into bash. Add -sL when the
+ * command (possibly saved that way in Studio) has no -L of its own.
+ */
+export function followRedirects(command: string): string {
+  if (!/^curl\s/.test(command) || /\s-[a-zA-Z]*L/.test(command)) return command;
+  return command.replace(/^curl\s+/, "curl -sL ");
+}
 
 export default function HeroSection({ content }: { content?: HeroContent }) {
   const name = content?.name || "Jordan Lang";
   const tagline = content?.tagline || "Creating beautiful, accessible websites that engage users and drive results";
   const logoDark = content?.logoDark || "/JLang-Development-Black.png";
   const availability = content?.availabilityBanner || "Available for contract web design & App Development & Various IT projects";
-  const resumeCommand = content?.resumeCommand || "curl jlang.dev/resume | bash";
-  const resumeCopyCommand = content?.resumeCopyCommand || DEFAULT_COPY_COMMAND;
+  const resumeCommand = followRedirects(content?.resumeCommand || "curl -sL jlang.dev/resume | bash");
+  const resumeCopyCommand = followRedirects(content?.resumeCopyCommand || DEFAULT_COPY_COMMAND);
   const socials = content?.socials?.length ? content.socials : DEFAULT_SOCIALS;
   const skills = content?.skillsPreview?.length ? content.skillsPreview : DEFAULT_SKILLS;
 
@@ -163,7 +173,14 @@ export default function HeroSection({ content }: { content?: HeroContent }) {
         </p>
 
         {/* CLI Resume Button */}
-        <div className="hero-reveal flex justify-center mb-8" style={{ animationDelay: "0.15s" }}>
+        <div className="hero-reveal flex flex-wrap justify-center gap-3 mb-8" style={{ animationDelay: "0.15s" }}>
+          <Link
+            href="/resume"
+            className="inline-flex items-center gap-2 px-6 py-3 rounded-full font-semibold border border-gold-400/60 text-gray-900 dark:text-white bg-white/70 dark:bg-black/40 backdrop-blur hover:border-gold-400 hover:scale-105 active:scale-95 transition-transform duration-300"
+          >
+            <Icon icon="solar:document-text-bold" width={20} height={20} />
+            <span>View Résumé</span>
+          </Link>
           <button
             onClick={copyResumeCommand}
             className="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-gold-300 via-gold-400 to-gold-500 text-black rounded-full font-semibold transition-transform duration-300 shadow-lg shadow-gold-500/25 hover:shadow-xl hover:scale-105 active:scale-95 border border-gold-200/40"

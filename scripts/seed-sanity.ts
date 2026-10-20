@@ -321,7 +321,7 @@ async function main() {
         { _key: "responsive", label: "Responsive Design", icon: "material-symbols:responsive-layout" },
         { _key: "a11y", label: "Web Accessibility", icon: "mdi:web-check" },
       ],
-      resumeCommand: "curl jlang.dev/resume | bash",
+      resumeCommand: "curl -sL jlang.dev/resume | bash",
       resumeCopyCommand: "curl https://jlang.dev/api/resume/launch.sh | bash",
       email: "jordan@jlang.dev",
       publicEmail: "jordolang@gmail.com",

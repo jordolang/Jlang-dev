@@ -86,7 +86,7 @@ async function getSanityProjects(): Promise<Project[]> {
 
   try {
     const projects = await getSanityClient(draft).fetch<RawProject[]>(
-      `*[_type == "project" && defined(slug.current)] | order(order asc, _createdAt asc) {
+      `*[_type == "project" && defined(slug.current) && hidden != true] | order(order asc, _createdAt asc) {
         "slug": slug.current,
         title, subtitle, description, features, deliverables, tech, github, live,
         gradient, status, category, highlight, timeline, clientType, group,

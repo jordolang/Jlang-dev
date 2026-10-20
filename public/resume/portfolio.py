@@ -407,20 +407,28 @@ def show_professional_journey():
     print(f"{Colors.CYAN}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━{Colors.ENDC}")
     
     timeline = [
-        ("2024 - Present", "Senior Full-Stack Developer", [
-            "Leading development of enterprise web applications",
-            "Mentoring junior developers and code reviews",
-            "Architecting scalable microservices solutions"
+        ("2015 - Present", "Founder & Lead Developer · JLang Development", [
+            "Design, build and host websites, web apps, desktop tools and kiosks for small businesses",
+            "Launched sites and stores for The Leather Outlet, Black Label Barbecue and Muskingum Materials",
+            "Shipped Local Lead Scraper Pro and FestivalNet Scraper desktop tools"
         ]),
-        ("2022 - 2024", "Full-Stack Developer", [
-            "Built responsive web applications using React and Node.js",
-            "Developed RESTful APIs and database optimization",
-            "Implemented CI/CD pipelines and automated testing"
+        ("2025 - Present", "Marketing, Sales & IT · Jose Madrid Salsa", [
+            "Designed and maintain the company website and online store",
+            "Sell the company's salsa products and look after its customers",
+            "Create and manage the company's social media marketing",
+            "Handle the company's IT, including its macOS admin app and self-order kiosk"
         ]),
-        ("2020 - 2022", "Frontend Developer", [
-            "Created modern, accessible user interfaces",
-            "Collaborated with UX/UI designers on user experience",
-            "Optimized application performance and SEO"
+        ("2022 - Current", "Web Designer · Neff Paving (Contract)", [
+            "Redesigned the company website with a project portfolio and quote requests"
+        ]),
+        ("2023", "Web Designer · First Baptist Church (Volunteer)", [
+            "Built a church website with events, sermon archives and online giving"
+        ]),
+        ("2020 - 2021", "Freelance Web Designer · Ohio Interests", [
+            "Delivered custom websites for 8+ local Ohio businesses"
+        ]),
+        ("2020 - 2021", "Lead Sales, Finance & Marketing Manager · World Auto Net", [
+            "Ran sales, finance and marketing, and built and managed the company website"
         ])
     ]
     
