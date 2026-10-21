@@ -3,7 +3,7 @@ import "server-only";
 import { draftMode } from "next/headers";
 import { getSanityClient, sanityIsConfigured } from "@/sanity/lib/client";
 import { dimensionsForImage, urlForImage, type SanityImageRef } from "@/sanity/lib/image";
-import { pagespeedFor, type PageSpeedResult } from "@/lib/fallbackProjects";
+import { pagespeedFor, unlistedBundledProjects, type PageSpeedResult } from "@/lib/fallbackProjects";
 
 /**
  * Server-side content layer.
@@ -118,7 +118,7 @@ export async function getProjects(): Promise<CmsProject[] | null> {
   });
 
   // ProjectsSection picks out the featured projects itself.
-  return projects;
+  return [...unlistedBundledProjects(projects), ...projects];
 }
 
 // ---------------------------------------------------------------------------

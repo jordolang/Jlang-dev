@@ -4,7 +4,7 @@ import { getSanityClient, sanityIsConfigured } from '@/sanity/lib/client';
 import { isDraftMode } from './cms';
 import { dimensionsForImage, urlForImage, type SanityImageRef } from '@/sanity/lib/image';
 import { logger } from './logger';
-import { pagespeedFor, projects as fallbackProjects, type PageSpeedResult } from './fallbackProjects';
+import { pagespeedFor, projects as fallbackProjects, unlistedBundledProjects, type PageSpeedResult } from './fallbackProjects';
 import type { PortableTextBlock } from '@portabletext/react';
 
 /**
@@ -152,7 +152,7 @@ async function getSanityProjects(): Promise<Project[]> {
  */
 export async function getAllProjects(): Promise<Project[]> {
   const projects = await getSanityProjects();
-  return projects.length ? projects : fallbackProjects;
+  return projects.length ? [...unlistedBundledProjects(projects), ...projects] : fallbackProjects;
 }
 
 /**

@@ -48,6 +48,8 @@ export interface Project {
   gallery?: Array<{ src: string; caption: string; video?: string }>;
   /** Score rings on the card. Websites only; omitted means no rings. */
   pagespeed?: PageSpeedResult;
+  /** Listed even when the Studio has projects but none for this site yet; a Studio entry for the same slug or live URL replaces it. */
+  ensureListed?: boolean;
   /** Intrinsic size of `image`. Required for full-page captures so the scroll container renders them at true aspect ratio. */
   imageWidth?: number;
   imageHeight?: number;
@@ -95,6 +97,7 @@ export const projects: Project[] = [
       desktop: { performance: 98, accessibility: 100, bestPractices: 100, seo: 100 },
       testedAt: "2026-10-21",
     },
+    ensureListed: true,
     gallery: [
       { src: "/images/projects/desktop/green-mountain-leather/01-hero.jpg", caption: "Home — hero with shop and show-schedule calls to action" },
       { src: "/images/projects/desktop/green-mountain-leather/02-categories.jpg", caption: "Shop by category — wallets, purses, backpacks, belts and more" },
@@ -1197,4 +1200,11 @@ export function pagespeedFor(project: {
   if (project.pagespeed?.mobile || project.pagespeed?.desktop) return project.pagespeed;
   const live = siteKey(project.live);
   return projects.find((p) => p.pagespeed && (p.slug === project.slug || (live && siteKey(p.live) === live)))?.pagespeed;
+}
+
+/** Bundled projects flagged `ensureListed` that the Studio list has no entry for yet (by slug or live URL). */
+export function unlistedBundledProjects(listed: Array<{ slug: string; live?: string | null }>): Project[] {
+  const slugs = new Set(listed.map((p) => p.slug));
+  const sites = new Set(listed.map((p) => siteKey(p.live)).filter(Boolean));
+  return projects.filter((p) => p.ensureListed && !slugs.has(p.slug) && !sites.has(siteKey(p.live)));
 }

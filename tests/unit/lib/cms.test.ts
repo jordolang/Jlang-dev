@@ -29,6 +29,12 @@ vi.mock('@/sanity/lib/client', () => ({
 }))
 
 // Mock Sanity image utilities
+// Bundled projects flagged ensureListed are covered in their own test below; keep fixtures exact here.
+vi.mock('@/lib/fallbackProjects', async (importOriginal) => ({
+  ...(await importOriginal<typeof import('@/lib/fallbackProjects')>()),
+  unlistedBundledProjects: vi.fn(() => []),
+}))
+
 vi.mock('@/sanity/lib/image', () => ({
   urlForImage: vi.fn(),
   dimensionsForImage: vi.fn(),
@@ -111,6 +117,21 @@ describe('CMS Library', () => {
         imageWidth: expect.any(Number),
         imageHeight: expect.any(Number),
       })
+    })
+
+    it('should list bundled projects the Studio has no entry for first', async () => {
+      const { getSanityClient } = await import('@/sanity/lib/client')
+      const { unlistedBundledProjects, projects } = await import('@/lib/fallbackProjects')
+      const bundled = projects.find((p) => p.slug === 'green-mountain-leather')!
+      vi.mocked(unlistedBundledProjects).mockReturnValueOnce([bundled])
+      vi.mocked(getSanityClient).mockReturnValue({
+        fetch: vi.fn().mockResolvedValue([{ ...createMockProject(), image: createMockSanityImage() }]),
+      } as never)
+
+      const { getProjects } = await import('@/lib/cms')
+      const result = await getProjects()
+
+      expect(result?.map((p) => p.slug)).toEqual(['green-mountain-leather', createMockProject().slug])
     })
 
     it('should return null when no projects exist', async () => {
