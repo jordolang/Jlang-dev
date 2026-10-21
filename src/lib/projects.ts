@@ -4,7 +4,7 @@ import { getSanityClient, sanityIsConfigured } from '@/sanity/lib/client';
 import { isDraftMode } from './cms';
 import { dimensionsForImage, urlForImage, type SanityImageRef } from '@/sanity/lib/image';
 import { logger } from './logger';
-import { pagespeedFor, projects as fallbackProjects, type PageSpeedResult } from './fallbackProjects';
+import { pagespeedFor, projects as fallbackProjects, unlistedBundledProjects, type PageSpeedResult } from './fallbackProjects';
 import type { PortableTextBlock } from '@portabletext/react';
 
 /**
@@ -146,13 +146,32 @@ async function getSanityProjects(): Promise<Project[]> {
   }
 }
 
+async function getHiddenSanityProjects(): Promise<Array<{ slug: string; live?: string }>> {
+  const draft = await isDraftMode();
+  try {
+    return (
+      (await getSanityClient(draft).fetch<Array<{ slug: string; live?: string }>>(
+        `*[_type == "project" && defined(slug.current) && hidden == true]{ "slug": slug.current, live }`,
+        {},
+        draft ? { cache: 'no-store' } : { next: { revalidate: 60, tags: ['projects'] } },
+      )) ?? []
+    );
+  } catch (error) {
+    logger.error('Error fetching hidden projects from Sanity:', error);
+    return [];
+  }
+}
+
 /**
  * Get all projects from Sanity CMS, falling back to the bundled list the
  * portfolio shows when Sanity has none, so every project card has a page.
  */
 export async function getAllProjects(): Promise<Project[]> {
   const projects = await getSanityProjects();
-  return projects.length ? projects : fallbackProjects;
+  if (!projects.length) return fallbackProjects;
+  // A project hidden in the Studio stays hidden, so its bundled copy must not stand in for it.
+  const hidden = unlistedBundledProjects(projects).length ? await getHiddenSanityProjects() : [];
+  return [...unlistedBundledProjects([...projects, ...hidden]), ...projects];
 }
 
 /**
