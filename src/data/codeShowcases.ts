@@ -314,7 +314,7 @@ function ProjectCard({ project }: { project: Project }) {
     title: 'React Error Boundary with Fallback UI',
     description: 'Robust error handling component that catches rendering errors and displays a user-friendly fallback UI with recovery options.',
     code: `import { Component, ReactNode, ErrorInfo } from 'react';
-import { Icon } from '@iconify/react';
+import { Icon } from '@/components/Icon';
 
 interface ErrorBoundaryProps {
   children: ReactNode;

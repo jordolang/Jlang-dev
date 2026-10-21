@@ -1,7 +1,7 @@
 "use client";
 
 import { Background, Footer, Navigation } from "@/components/portfolio";
-import { Icon } from "@iconify/react";
+import { Icon } from "@/components/Icon";
 import { m } from "framer-motion";
 import Link from "next/link";
 import { useState, useEffect } from "react";
@@ -353,16 +353,16 @@ ${formData.projectDescription}
       <Background />
       <Navigation />
 
-      <div className="max-w-6xl mx-auto px-6 pt-32 pb-16">
+      <div id="main-content" className="max-w-6xl mx-auto px-6 pt-32 pb-16">
         <m.div
-          initial={{ opacity: 0, y: 30 }}
+          initial={{ y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
         >
           {/* Header */}
           <div className="text-center mb-16">
             <m.div
-              initial={{ opacity: 0, scale: 0.9 }}
+              initial={{ scale: 0.9 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ duration: 0.5 }}
               className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gradient-to-r from-indigo-600/20 to-purple-600/20 dark:from-indigo-600/30 dark:to-purple-600/30 border border-indigo-300 dark:border-indigo-700 mb-6"
@@ -372,7 +372,7 @@ ${formData.projectDescription}
             </m.div>
 
             <m.h1
-              initial={{ opacity: 0, y: 20 }}
+              initial={{ y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.1 }}
               className="text-4xl md:text-6xl font-bold mb-6 bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 dark:from-indigo-400 dark:via-purple-400 dark:to-pink-400 bg-clip-text text-transparent"
@@ -381,7 +381,7 @@ ${formData.projectDescription}
             </m.h1>
 
             <m.p
-              initial={{ opacity: 0, y: 20 }}
+              initial={{ y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.2 }}
               className="text-xl text-gray-600 dark:text-gray-400 max-w-3xl mx-auto"
@@ -393,7 +393,7 @@ ${formData.projectDescription}
           <div className="grid lg:grid-cols-3 gap-8">
             {/* Order Form */}
             <m.div
-              initial={{ opacity: 0, x: -30 }}
+              initial={{ x: -30 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.6, delay: 0.3 }}
               className="lg:col-span-2"
@@ -605,7 +605,7 @@ ${formData.projectDescription}
 
             {/* Package Summary Sidebar */}
             <m.div
-              initial={{ opacity: 0, x: 30 }}
+              initial={{ x: 30 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.6, delay: 0.4 }}
               className="lg:col-span-1"
@@ -714,7 +714,7 @@ ${formData.projectDescription}
 
         {/* Additional Features Section */}
         <m.div
-          initial={{ opacity: 0, y: 30 }}
+          initial={{ y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.5 }}
           className="mt-16"
@@ -744,7 +744,7 @@ ${formData.projectDescription}
                 return (
                   <m.button
                     key={index}
-                    initial={{ opacity: 0, y: 20 }}
+                    initial={{ y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.5, delay: 0.6 + index * 0.02 }}
                     onClick={() => canAddFeatures && toggleFeature(feature.name)}
@@ -770,12 +770,12 @@ ${formData.projectDescription}
                         <Icon icon={feature.icon} className="text-white" width={24} height={24} />
                       </div>
                       <div className="flex-1 min-w-0">
-                        <h4 className="font-semibold text-gray-900 dark:text-white mb-1 text-sm flex items-center gap-2">
+                        <h3 className="font-semibold text-gray-900 dark:text-white mb-1 text-sm flex items-center gap-2">
                           {feature.name}
                           {isSelected && canAddFeatures && (
                             <Icon icon="solar:check-circle-bold" className="text-blue-600 dark:text-blue-400 flex-shrink-0" width={16} height={16} />
                           )}
-                        </h4>
+                        </h3>
                         <p className="text-xs text-gray-600 dark:text-gray-400 line-clamp-2">
                           {feature.desc}
                         </p>
@@ -807,7 +807,7 @@ ${formData.projectDescription}
             </div>
 
             <m.div
-              initial={{ opacity: 0, y: 20 }}
+              initial={{ y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 1.1 }}
               className="text-center mt-8 space-y-3"

@@ -1,10 +1,8 @@
-"use client";
-
 import Image from "next/image";
 import Link from "next/link";
 import { PortableText, type PortableTextComponents, type PortableTextBlock } from "@portabletext/react";
-import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
-import { oneDark } from "react-syntax-highlighter/dist/esm/styles/prism";
+import SyntaxHighlighter from "@/components/SyntaxHighlighter";
+import oneDark from "react-syntax-highlighter/dist/esm/styles/prism/one-dark";
 import { urlForImage } from "@/sanity/lib/image";
 
 /**

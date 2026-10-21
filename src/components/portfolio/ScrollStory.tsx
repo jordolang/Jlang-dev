@@ -1,6 +1,6 @@
 "use client";
 
-import { Icon } from "@iconify/react";
+import { Icon } from "@/components/Icon";
 import {
   m,
   useMotionTemplate,
@@ -95,9 +95,9 @@ function ChapterCopy({ chapter, index }: { chapter: Chapter; index: number }) {
         <span className="h-px w-12 bg-gradient-to-r from-gold-400 to-transparent" />
         <span className="text-sm uppercase tracking-[0.3em] text-silver-300">{chapter.label}</span>
       </div>
-      <h3 className="mb-5 text-4xl font-bold leading-[1.05] text-white md:text-6xl">
+      <h2 className="mb-5 text-4xl font-bold leading-[1.05] text-white md:text-6xl">
         {chapter.title}
-      </h3>
+      </h2>
       <p className="max-w-xl text-base leading-relaxed text-silver-200 md:text-lg">{chapter.body}</p>
 
       {index === N - 1 && (

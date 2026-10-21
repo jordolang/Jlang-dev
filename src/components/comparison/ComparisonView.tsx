@@ -1,7 +1,7 @@
 "use client";
 
 import { Background, Footer, Navigation } from "@/components/portfolio";
-import { Icon } from "@iconify/react";
+import { Icon } from "@/components/Icon";
 import { m } from "framer-motion";
 import Link from "next/link";
 import type { CmsComparisonPage } from "@/lib/cms";

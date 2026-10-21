@@ -3,7 +3,7 @@
 import { m } from "framer-motion";
 import Link from "next/link";
 import Image from "next/image";
-import { Icon } from "@iconify/react";
+import { Icon } from "@/components/Icon";
 import { AnalyticsEvents, trackEvent } from "@/lib/analytics";
 
 interface DigitalProduct {

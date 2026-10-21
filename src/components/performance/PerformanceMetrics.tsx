@@ -1,6 +1,6 @@
 "use client";
 
-import { Icon } from "@iconify/react";
+import { Icon } from "@/components/Icon";
 import { m } from "framer-motion";
 import { useState } from "react";
 import type { PerformanceMetrics as PerformanceMetricsType } from "@/lib/performance";

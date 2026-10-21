@@ -1,10 +1,10 @@
 "use client";
 
 import React, { ReactNode, useState } from 'react';
-import { Icon } from '@iconify/react';
+import { Icon } from '@/components/Icon';
 import { m } from 'framer-motion';
-import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
-import { vscDarkPlus } from 'react-syntax-highlighter/dist/cjs/styles/prism';
+import SyntaxHighlighter from '@/components/SyntaxHighlighter';
+import vscDarkPlus from 'react-syntax-highlighter/dist/esm/styles/prism/vsc-dark-plus';
 
 interface CodeShowcaseProps {
   /** The code to display in the code pane */

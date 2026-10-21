@@ -1,6 +1,6 @@
 "use client";
 
-import { Icon } from "@iconify/react";
+import { Icon } from "@/components/Icon";
 import React, { useState } from "react";
 import type { PageSpeedResult, PageSpeedScores as Scores } from "@/lib/fallbackProjects";
 
@@ -120,7 +120,7 @@ export function PageSpeedScores({
 
       {/* With no toggle, this line is the only place that says which device was tested. */}
       {(available.length === 1 || isStatic || tested || pagespeed.reportUrl) && (
-        <p className="mt-2.5 text-center text-[10px] text-gray-400 dark:text-gray-500">
+        <p className="mt-2.5 text-center text-[10px] text-gray-500 dark:text-gray-400">
           {(available.length === 1 || isStatic) && <span className="capitalize">{shown}</span>}
           {(available.length === 1 || isStatic) && (tested || (pagespeed.reportUrl && !isStatic)) && " · "}
           {tested && <>Tested {tested}</>}

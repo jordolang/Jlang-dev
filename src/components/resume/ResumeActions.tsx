@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { Icon } from "@iconify/react";
+import { Icon } from "@/components/Icon";
 import { AnalyticsEvents, trackEvent } from "@/lib/analytics";
 
 const CLI_COMMAND = "curl -sL https://jlang.dev/resume | bash";

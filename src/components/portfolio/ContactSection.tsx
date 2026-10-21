@@ -2,7 +2,7 @@
 
 import { BUDGET_RANGES, PROJECT_TYPES, sendContactMessage, TIMELINES } from '@/lib/contact';
 import { useSpamGuard } from '@/components/forms/SpamGuard';
-import { Icon } from "@iconify/react";
+import { Icon } from "@/components/Icon";
 import { m } from "framer-motion";
 import Link from "next/link";
 import { useState } from "react";

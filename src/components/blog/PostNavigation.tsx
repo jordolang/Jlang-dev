@@ -1,7 +1,7 @@
 "use client";
 
 import Link from 'next/link';
-import { Icon } from '@iconify/react';
+import { Icon } from '@/components/Icon';
 import { m } from 'framer-motion';
 
 interface PostNavigationProps {

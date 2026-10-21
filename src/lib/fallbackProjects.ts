@@ -297,7 +297,7 @@ export const projects: Project[] = [
         title: "Real-Time Search Implementation",
         description: "Instant medication search with debouncing to minimize API calls while providing a responsive user experience.",
         code: `import { useState, useEffect, useMemo } from 'react';
-import { Icon } from '@iconify/react';
+import { Icon } from '@/components/Icon';
 
 interface Medication {
   id: string;

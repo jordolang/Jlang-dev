@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { Icon } from "@iconify/react";
+import { Icon } from "@/components/Icon";
 import { m } from "framer-motion";
 import Link from "next/link";
 import Image from "next/image";
@@ -220,7 +220,7 @@ export default function ProductDetail({ product, relatedProducts = [] }: Product
                   {product.price}
                 </span>
                 {isFree && (
-                  <span className="px-3 py-1 bg-green-100 dark:bg-green-900/30 text-green-600 dark:text-green-400 rounded-full text-sm font-medium">
+                  <span className="px-3 py-1 bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-400 rounded-full text-sm font-medium">
                     Free Download
                   </span>
                 )}

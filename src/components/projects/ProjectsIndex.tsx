@@ -4,7 +4,7 @@ import { useMemo, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { AnimatePresence, m } from "framer-motion";
-import { Icon } from "@iconify/react";
+import { Icon } from "@/components/Icon";
 import { AnalyticsEvents, trackEvent } from "@/lib/analytics";
 import { PROJECT_BUCKETS, projectBucket, type ProjectBucket } from "@/lib/projectBuckets";
 import type { PageSpeedResult } from "@/lib/fallbackProjects";
@@ -74,7 +74,7 @@ export default function ProjectsIndex({ projects }: { projects: ProjectsIndexIte
       </header>
 
       <main id="main-content" className="relative z-10 mx-auto max-w-7xl px-4 pb-24 pt-12 md:px-6 md:pt-16">
-        <m.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }} className="max-w-3xl">
+        <div className="hero-reveal max-w-3xl">
           <p className="text-xs font-semibold uppercase tracking-[0.25em] text-gold-700 dark:text-gold-300">Portfolio</p>
           <h1 className="mt-3 text-4xl font-bold tracking-tight md:text-6xl">
             Every project,{" "}
@@ -85,7 +85,7 @@ export default function ProjectsIndex({ projects }: { projects: ProjectsIndexIte
           <p className="mt-4 text-lg text-gray-600 dark:text-gray-300">
             Websites, web apps, mobile apps, desktop tools and kiosks built by Jordan Lang. {projects.length} projects, {live} live today.
           </p>
-        </m.div>
+        </div>
 
         <div className="sticky top-0 z-20 -mx-4 mt-10 flex flex-col gap-3 bg-[#FAF8F3]/85 dark:bg-gray-950/85 px-4 py-4 backdrop-blur-xl md:flex-row md:items-center md:justify-between">
           <div role="tablist" aria-label="Filter projects" className="flex gap-2 overflow-x-auto pb-1 md:pb-0">
@@ -144,6 +144,9 @@ export default function ProjectsIndex({ projects }: { projects: ProjectsIndexIte
                         alt={`${project.title} screenshot`}
                         fill
                         sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                        // The first card is the LCP image on mobile; the first row is above the fold on desktop.
+                        priority={index === 0}
+                        loading={index > 0 && index < 3 ? "eager" : undefined}
                         className="object-cover object-top transition-transform duration-700 group-hover:scale-105"
                       />
                     ) : (
@@ -183,7 +186,7 @@ export default function ProjectsIndex({ projects }: { projects: ProjectsIndexIte
                             {tech}
                           </span>
                         ))}
-                        {project.tech.length > 4 && <span className="px-1 text-xs text-gray-400">+{project.tech.length - 4}</span>}
+                        {project.tech.length > 4 && <span className="px-1 text-xs text-gray-500">+{project.tech.length - 4}</span>}
                       </div>
                     )}
                     {project.pagespeed && (
