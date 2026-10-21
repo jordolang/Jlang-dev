@@ -1,9 +1,9 @@
 "use client";
 
 import { ReactNode, useState } from 'react';
-import { Icon } from '@iconify/react';
-import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
-import { vscDarkPlus } from 'react-syntax-highlighter/dist/cjs/styles/prism';
+import { Icon } from '@/components/Icon';
+import SyntaxHighlighter from '@/components/SyntaxHighlighter';
+import vscDarkPlus from 'react-syntax-highlighter/dist/esm/styles/prism/vsc-dark-plus';
 
 interface ViewSourceToggleProps {
   /** The rendered component/content to display */

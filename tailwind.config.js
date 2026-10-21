@@ -11,7 +11,9 @@ const gold = {
 	300: "#E0C282",
 	400: "#D4AC5F",
 	500: "#C39445",
-	600: "#9C7433",
+	// Darker than the sampled #9C7433 so gold-600 text (and white text on it) passes
+	// WCAG AA 4.5:1 on white and on the light gold-100 pills.
+	600: "#87642B",
 	700: "#7A5A25",
 	800: "#5C431B",
 	900: "#443214",

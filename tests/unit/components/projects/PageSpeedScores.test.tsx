@@ -4,7 +4,7 @@ import React from 'react'
 import { PageSpeedScores } from '@/components/projects/PageSpeedScores'
 import { pagespeedFor } from '@/lib/fallbackProjects'
 
-vi.mock('@iconify/react', () => ({
+vi.mock('@/components/Icon', () => ({
   Icon: ({ icon }: { icon: string }) => <span data-testid={`icon-${icon}`} />,
 }))
 

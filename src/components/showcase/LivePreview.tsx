@@ -1,7 +1,7 @@
 "use client";
 
 import { ReactNode, useState, Component, ErrorInfo } from 'react';
-import { Icon } from '@iconify/react';
+import { Icon } from '@/components/Icon';
 
 interface LivePreviewProps {
   /** The React component to render in the preview */

@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from 'react';
-import { Icon } from '@iconify/react';
+import { Icon } from '@/components/Icon';
 import { m } from 'framer-motion';
 import { logger } from '@/lib/logger';
 

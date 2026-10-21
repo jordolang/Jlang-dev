@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { Icon } from "@iconify/react";
+import { Icon } from "@/components/Icon";
 import { getStripe } from "@/lib/stripe";
 import StripSessionId from "./StripSessionId";
 

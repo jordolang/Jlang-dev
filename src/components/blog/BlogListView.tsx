@@ -2,7 +2,7 @@
 
 import { useState, useMemo, useEffect, useRef, useCallback, Suspense } from "react";
 import { useSearchParams } from "next/navigation";
-import { Icon } from "@iconify/react";
+import { Icon } from "@/components/Icon";
 import { m, AnimatePresence } from "framer-motion";
 import Link from "next/link";
 import Image from "next/image";

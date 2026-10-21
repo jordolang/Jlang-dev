@@ -100,9 +100,10 @@ export default async function Portfolio() {
           {/* Below the fold — interactive sections lazy-mount on scroll;
               Experience + Footer are static server components rendered directly. */}
           <LazyBlogSection
-            posts={posts.map(post => ({
-              ...post,
-              tags: post.tags.map(t => t.name)
+            // Card fields only: spreading the post would send every article's full text along.
+            posts={posts.map(({ slug, title, date, excerpt, image, author, readTime, tags }) => ({
+              slug, title, date, excerpt, image, author, readTime,
+              tags: tags.map(t => t.name)
             }))}
             heading={headings?.blog}
           />

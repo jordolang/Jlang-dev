@@ -4,22 +4,22 @@ import React from 'react'
 import { CodeShowcase } from '@/components/showcase/CodeShowcase'
 
 // Mock external dependencies
-vi.mock('@iconify/react', () => ({
+vi.mock('@/components/Icon', () => ({
   Icon: ({ icon, ...props }: { icon: string; [key: string]: unknown }) => (
     <span data-testid={`icon-${icon}`} {...props} />
   ),
 }))
 
-vi.mock('react-syntax-highlighter', () => ({
-  Prism: ({ children, ...props }: { children: string; [key: string]: unknown }) => (
+vi.mock('@/components/SyntaxHighlighter', () => ({
+  default: ({ children, ...props }: { children: string; [key: string]: unknown }) => (
     <pre data-testid="syntax-highlighter" {...props}>
       {children}
     </pre>
   ),
 }))
 
-vi.mock('react-syntax-highlighter/dist/cjs/styles/prism', () => ({
-  vscDarkPlus: {},
+vi.mock('react-syntax-highlighter/dist/esm/styles/prism/vsc-dark-plus', () => ({
+  default: {},
 }))
 
 describe('CodeShowcase', () => {

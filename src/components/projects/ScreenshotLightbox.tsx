@@ -1,7 +1,7 @@
 "use client";
 
 import { forwardRef } from "react";
-import { Icon } from "@iconify/react";
+import { Icon } from "@/components/Icon";
 import Image from "next/image";
 
 export interface Screenshot {

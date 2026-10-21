@@ -321,14 +321,15 @@ select:focus-visible,
    so the above-the-fold hero (including the LCP logo) is visible almost
    immediately instead of waiting ~3s for framer-motion to hydrate. Stagger is
    done with per-element `animation-delay`; `both` keeps the final state.
+   It only slides: Chrome does not count an element as painted for Largest
+   Contentful Paint while its opacity is 0, so fading the hero in pushed the
+   mobile LCP back behind hydration in Lighthouse.
 --------------------------------------------------------------------------- */
 @keyframes hero-fade-up {
 	from {
-		opacity: 0;
 		transform: translateY(20px);
 	}
 	to {
-		opacity: 1;
 		transform: none;
 	}
 }

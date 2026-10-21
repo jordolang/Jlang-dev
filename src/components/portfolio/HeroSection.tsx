@@ -1,6 +1,6 @@
 "use client";
 
-import { Icon } from "@iconify/react";
+import { Icon } from "@/components/Icon";
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
@@ -82,11 +82,29 @@ export default function HeroSection({ content }: { content?: HeroContent }) {
   // the video fades in over it once it is actually playing. Reduced-motion
   // visitors never get it: every <source> is gated on the media query, so the
   // browser selects no file and downloads nothing, with no hydration race.
+  // The sources are only attached a moment after the page has loaded, so the
+  // video's megabytes never compete with what the first paint needs.
   const videoRef = useRef<HTMLVideoElement>(null);
   const [videoReady, setVideoReady] = useState(false);
+  const [loadVideo, setLoadVideo] = useState(false);
   useEffect(() => {
-    videoRef.current?.play().catch(() => {});
+    let timer: number | undefined;
+    const start = () => {
+      timer = window.setTimeout(() => setLoadVideo(true), 1500);
+    };
+    if (document.readyState === "complete") start();
+    else window.addEventListener("load", start, { once: true });
+    return () => {
+      window.removeEventListener("load", start);
+      window.clearTimeout(timer);
+    };
   }, []);
+  useEffect(() => {
+    const video = videoRef.current;
+    if (!loadVideo || !video) return;
+    video.load();
+    video.play().catch(() => {});
+  }, [loadVideo]);
 
   return (
     // `dark` scopes the hero to its dark styling in both themes: it always sits on the video.
@@ -118,19 +136,23 @@ export default function HeroSection({ content }: { content?: HeroContent }) {
           muted
           loop
           playsInline
-          preload="auto"
+          preload="none"
           onPlaying={() => setVideoReady(true)}
         >
-          <source
-            src="/media/hero/hero-mobile.mp4"
-            type="video/mp4"
-            media="(prefers-reduced-motion: no-preference) and (max-width: 767px)"
-          />
-          <source
-            src="/media/hero/hero-desktop.mp4"
-            type="video/mp4"
-            media="(prefers-reduced-motion: no-preference)"
-          />
+          {loadVideo && (
+            <>
+              <source
+                src="/media/hero/hero-mobile.mp4"
+                type="video/mp4"
+                media="(prefers-reduced-motion: no-preference) and (max-width: 767px)"
+              />
+              <source
+                src="/media/hero/hero-desktop.mp4"
+                type="video/mp4"
+                media="(prefers-reduced-motion: no-preference)"
+              />
+            </>
+          )}
         </video>
         {/* Scrims keep the copy legible over any frame */}
         <div className="absolute inset-0 bg-black/55" />

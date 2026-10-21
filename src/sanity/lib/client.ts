@@ -1,4 +1,7 @@
-import { createClient } from "next-sanity";
+// From @sanity/client rather than the next-sanity barrel: that barrel also re-exports
+// next-sanity's live-preview client components, and importing it from server code
+// put the whole Sanity client into the JS bundle of every page.
+import { createClient } from "@sanity/client";
 import { apiVersion, dataset, projectId, sanityIsConfigured, studioUrl } from "../env";
 import { stegaFilter } from "./stega";
 

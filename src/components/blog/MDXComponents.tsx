@@ -1,9 +1,10 @@
 import { ReactNode } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { Icon } from '@iconify/react';
-import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
-import { vscDarkPlus } from 'react-syntax-highlighter/dist/cjs/styles/prism';
+import { Icon } from '@/components/Icon';
+import CopyCodeButton from './CopyCodeButton';
+import SyntaxHighlighter from '@/components/SyntaxHighlighter';
+import vscDarkPlus from 'react-syntax-highlighter/dist/esm/styles/prism/vsc-dark-plus';
 
 interface CodeProps {
   children?: ReactNode;
@@ -27,17 +28,7 @@ function Code({ children, className, inline }: CodeProps) {
     <div className="my-6 rounded-xl overflow-hidden border border-gray-200 dark:border-gray-800 shadow-lg">
       <div className="bg-gray-800 px-4 py-2 flex items-center justify-between">
         <span className="text-xs text-gray-400 font-mono uppercase">{language || 'code'}</span>
-        <button
-          onClick={() => {
-            if (typeof children === 'string') {
-              navigator.clipboard.writeText(children);
-            }
-          }}
-          className="text-xs text-gray-400 hover:text-white transition-colors flex items-center gap-1"
-        >
-          <Icon icon="solar:copy-outline" width={14} height={14} />
-          Copy
-        </button>
+        {typeof children === 'string' && <CopyCodeButton code={children} />}
       </div>
       <SyntaxHighlighter
         language={language || 'text'}

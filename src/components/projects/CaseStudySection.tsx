@@ -1,6 +1,6 @@
 "use client";
 
-import { Icon } from "@iconify/react";
+import { Icon } from "@/components/Icon";
 import { m } from "framer-motion";
 import type { PortableTextBlock } from "@portabletext/react";
 import PortableTextContent from "@/components/blog/PortableTextContent";

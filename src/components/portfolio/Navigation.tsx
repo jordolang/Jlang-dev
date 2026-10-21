@@ -1,7 +1,7 @@
 "use client";
 
 import { useTheme } from "@/components/ThemeProvider";
-import { Icon } from "@iconify/react";
+import { Icon } from "@/components/Icon";
 import { m } from "framer-motion";
 import Image from "next/image";
 import { useEffect } from "react";

@@ -2,11 +2,21 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import type { PortableTextBlock } from "@portabletext/react";
 import BlogPostView from "@/components/blog/BlogPostView";
-import { getAdjacentPosts, getAllBlogPosts, getBlogPost } from "@/lib/blog";
+import MDXContent from "@/components/blog/MDXContent";
+import PortableTextContent from "@/components/blog/PortableTextContent";
+import { getAdjacentPosts, getAllBlogPosts, getBlogPost, type BlogPost } from "@/lib/blog";
 import { JsonLd } from "@/components/JsonLd";
 import { generateBlogPostingSchema, SITE_URL } from "@/lib/schema";
 
 export const revalidate = 60;
+
+/**
+ * Only the fields the client view shows. The article body is rendered here on the server, and
+ * leaving the full text of every post out keeps it from riding along in the page payload.
+ */
+function toCard({ slug, title, date, excerpt, image, tags, author, readTime }: BlogPost) {
+  return { slug, title, date, excerpt, image, author, readTime, tags: tags.map((t) => t.name) };
+}
 
 export async function generateStaticParams() {
   const posts = await getAllBlogPosts();
@@ -100,14 +110,10 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
     <>
       <JsonLd data={blogPostingSchema} />
     <BlogPostView
-      post={{
-        ...post,
-        tags: post.tags.map(t => t.name)
-      }}
-      allPosts={allPosts.map(p => ({
-        ...p,
-        tags: p.tags.map(t => t.name)
-      }))}
+      post={toCard(post)}
+      // CMS posts render as Portable Text; posts still in content/blog render as MDX.
+      body={post.body?.length ? <PortableTextContent value={post.body} /> : <MDXContent content={post.content} />}
+      allPosts={allPosts.map(toCard)}
       previousPost={adjacent.previous ? { slug: adjacent.previous.slug, title: adjacent.previous.title } : undefined}
       nextPost={adjacent.next ? { slug: adjacent.next.slug, title: adjacent.next.title } : undefined}
       tocSource={tocSourceFor(post.content, post.body)}

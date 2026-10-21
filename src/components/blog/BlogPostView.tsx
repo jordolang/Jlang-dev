@@ -1,14 +1,11 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { Icon } from "@iconify/react";
-import { m } from "framer-motion";
+import { Icon } from "@/components/Icon";
 import Link from "next/link";
 import Image from "next/image";
-import type { PortableTextBlock } from "@portabletext/react";
+import type { ReactNode } from "react";
 import { AnalyticsEvents, trackEvent } from "@/lib/analytics";
-import MDXContent from "@/components/blog/MDXContent";
-import PortableTextContent from "@/components/blog/PortableTextContent";
 import ReadingProgress from "@/components/blog/ReadingProgress";
 import TableOfContents from "@/components/blog/TableOfContents";
 import ShareButtons from "@/components/blog/ShareButtons";
@@ -25,12 +22,12 @@ export interface BlogPostViewPost {
   tags: string[];
   author: string;
   readTime: string;
-  content: string;
-  body?: PortableTextBlock[];
 }
 
 interface BlogPostViewProps {
   post: BlogPostViewPost;
+  /** The article itself, rendered on the server so its markdown/Portable Text code stays there. */
+  body: ReactNode;
   allPosts: BlogPostViewPost[];
   previousPost?: { slug: string; title: string };
   nextPost?: { slug: string; title: string };
@@ -45,7 +42,7 @@ function formatDate(dateString: string): string {
   return date.toLocaleDateString('en-US', { year: "numeric", month: "long", day: "numeric", timeZone: 'UTC' });
 }
 
-export default function BlogPostView({ post, allPosts, previousPost, nextPost, tocSource, newsletterEnabled = false }: BlogPostViewProps) {
+export default function BlogPostView({ post, body, allPosts, previousPost, nextPost, tocSource, newsletterEnabled = false }: BlogPostViewProps) {
   const [postUrl, setPostUrl] = useState("");
 
   useEffect(() => {
@@ -73,14 +70,11 @@ export default function BlogPostView({ post, allPosts, previousPost, nextPost, t
           </div>
         </header>
 
-        <div className="max-w-7xl mx-auto px-4 py-12">
+        <main id="main-content" className="max-w-7xl mx-auto px-4 py-12">
           <div className="grid grid-cols-1 xl:grid-cols-[1fr_300px] gap-12">
-            <m.article
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6 }}
-              className="max-w-4xl"
-            >
+            {/* CSS entrance, not framer-motion: an opacity-0 start would keep the article
+                (and the LCP image) invisible until hydration. */}
+            <article className="hero-reveal max-w-4xl">
               {post.image && (
                 <div className="relative h-[400px] rounded-2xl overflow-hidden mb-8 shadow-2xl">
                   <div className="absolute inset-0 bg-gradient-to-br from-indigo-500/20 to-purple-500/20" />
@@ -127,10 +121,7 @@ export default function BlogPostView({ post, allPosts, previousPost, nextPost, t
                 <ShareButtons title={post.title} url={postUrl} />
               </div>
 
-              {/* CMS posts render as Portable Text; posts still in content/blog render as MDX. */}
-              <div className="prose prose-lg dark:prose-invert max-w-none">
-                {post.body?.length ? <PortableTextContent value={post.body} /> : <MDXContent content={post.content} />}
-              </div>
+              <div className="prose prose-lg dark:prose-invert max-w-none">{body}</div>
 
               <div className="mt-12 pt-8 border-t border-gray-200 dark:border-gray-800">
                 <ShareButtons title={post.title} url={postUrl} />
@@ -151,11 +142,11 @@ export default function BlogPostView({ post, allPosts, previousPost, nextPost, t
                   <span className="text-gray-700 dark:text-gray-300 font-medium">View All Posts</span>
                 </Link>
               </div>
-            </m.article>
+            </article>
 
             <TableOfContents content={tocSource} />
           </div>
-        </div>
+        </main>
       </div>
     </>
   );

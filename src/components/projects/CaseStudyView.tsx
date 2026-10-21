@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { Icon } from "@iconify/react";
+import { Icon } from "@/components/Icon";
 import { m } from "framer-motion";
 import Link from "next/link";
 import Image from "next/image";
@@ -86,13 +86,10 @@ export default function CaseStudyView({ project }: CaseStudyViewProps) {
         </div>
       </header>
 
-      <div className="max-w-7xl mx-auto px-4 py-12">
-        <m.article
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-          className="max-w-4xl mx-auto"
-        >
+      <main id="main-content" className="max-w-7xl mx-auto px-4 py-12">
+        {/* CSS entrance, not framer-motion: an opacity-0 start would keep the article
+            (and the LCP screenshot) invisible until hydration. */}
+        <article className="hero-reveal max-w-4xl mx-auto">
           {/* Hero Image */}
           {project.image && project.fullPagePreview ? (
             // Full top-to-bottom site screenshot: scroll inside the frame instead of cropping it
@@ -125,7 +122,7 @@ export default function CaseStudyView({ project }: CaseStudyViewProps) {
           <div className="flex flex-wrap items-center gap-3 mb-6">
             <span className={`px-3 py-1.5 text-sm font-medium rounded-full ${
               project.status === 'Live'
-                ? 'bg-green-100 dark:bg-green-900/30 text-green-600 dark:text-green-400'
+                ? 'bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-400'
                 : 'bg-yellow-100 dark:bg-yellow-900/30 text-yellow-600 dark:text-yellow-400'
             }`}>
               {project.status}
@@ -399,8 +396,8 @@ export default function CaseStudyView({ project }: CaseStudyViewProps) {
               <span className="text-gray-700 dark:text-gray-300 font-medium">View All Projects</span>
             </Link>
           </div>
-        </m.article>
-      </div>
+        </article>
+      </main>
     </div>
   );
 }

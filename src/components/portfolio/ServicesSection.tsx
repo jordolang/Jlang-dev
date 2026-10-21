@@ -1,9 +1,9 @@
 "use client";
 
-import { Icon } from "@iconify/react";
+import { Icon } from "@/components/Icon";
 import { AnimatePresence, m } from "framer-motion";
 import Link from "next/link";
-import { stegaClean } from "next-sanity";
+import { stegaClean } from "@sanity/client/stega";
 import { useEffect, useState } from "react";
 import { AnalyticsEvents, trackEvent } from "@/lib/analytics";
 import SectionHeader from "./SectionHeader";

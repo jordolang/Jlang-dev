@@ -1,12 +1,11 @@
 import { PostHogProvider } from "@/components/PostHogProvider";
 import { ThemeProvider } from "@/components/ThemeProvider";
 import { MotionProvider } from "@/components/MotionProvider";
-import { DisableDraftMode } from "@/components/DisableDraftMode";
 import { SkipToContent } from "@/components/SkipToContent";
 import type { Metadata } from "next";
 import { draftMode } from "next/headers";
-import { VisualEditing } from "next-sanity";
 import { getSiteSettings } from "@/lib/cms";
+import DraftModeTools from "@/components/DraftModeTools";
 import "./globals.css";
 
 const DEFAULT_TITLE = "Jordan Lang | Web Developer & IT Specialist Portfolio";
@@ -83,12 +82,7 @@ export default async function RootLayout({
           </ThemeProvider>
         </PostHogProvider>
         {/* Only mounted in draft mode, so the overlay bundle never reaches real visitors. */}
-        {isDraft && (
-          <>
-            <VisualEditing />
-            <DisableDraftMode />
-          </>
-        )}
+        {isDraft && <DraftModeTools />}
         {/* Google Analytics (gtag.js) is loaded lazily on first interaction from
             PostHogProvider, alongside PostHog, to keep it out of the Total
             Blocking Time window. */}

@@ -23,5 +23,9 @@ export const metadata: Metadata = {
 
 export default async function BlogPage() {
   const posts = await getAllBlogPosts();
-  return <BlogListView posts={posts} />;
+  // The list never shows the article text; leaving it out keeps it out of the page payload.
+  const cards = posts.map(({ slug, title, date, excerpt, image, category, tags, author, readTime }) => ({
+    slug, title, date, excerpt, image, category, tags, author, readTime,
+  }));
+  return <BlogListView posts={cards} />;
 }
