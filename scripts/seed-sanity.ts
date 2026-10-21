@@ -4,6 +4,7 @@
  *
  *   npx tsx scripts/seed-sanity.ts          # create missing documents only
  *   npx tsx scripts/seed-sanity.ts --force  # overwrite documents that already exist
+ *   npx tsx scripts/seed-sanity.ts --only=green-mountain-leather  # add just this bundled project
  *
  * Safe to re-run: documents use deterministic ids, and without --force existing ones are
  * left alone, so it never clobbers edits made in the Studio.
@@ -34,6 +35,8 @@ if (!projectId || !token) {
 
 const client = createClient({ projectId, dataset, token, apiVersion: "2026-01-01", useCdn: false });
 const FORCE = process.argv.includes("--force");
+/** Slug from src/lib/fallbackProjects.ts: seed only that project and skip everything else. */
+const ONLY = process.argv.find((arg) => arg.startsWith("--only="))?.slice("--only=".length);
 
 /** Stable, readable document ids so re-runs update rather than duplicate. */
 const id = (prefix: string, key: string) =>
@@ -112,8 +115,62 @@ function toFeatureGroups(features: string[]) {
   return groups;
 }
 
+/** Projects, with their images uploaded to the asset library. */
+async function seedProjects() {
+  const projectDocs = [];
+  for (const [index, project] of projects.entries()) {
+    if (ONLY && project.slug !== ONLY) continue;
+    const image = await uploadImage(project.image);
+    const gallery = [];
+    for (const shot of project.gallery ?? []) {
+      const uploaded = await uploadImage(shot.src);
+      if (uploaded) {
+        gallery.push({
+          ...uploaded,
+          _key: slugify(shot.video ?? shot.src),
+          caption: shot.caption,
+          ...(shot.video ? { video: shot.video } : {}),
+        });
+      }
+    }
+    projectDocs.push({
+      _id: id("project", `${project.title}-${project.group ?? "desktop"}`),
+      _type: "project",
+      title: project.title,
+      slug: { _type: "slug", current: slugify(`${project.title}-${project.group ?? "desktop"}`) },
+      subtitle: project.subtitle,
+      description: project.description,
+      ...(image ? { image } : {}),
+      ...(gallery.length ? { gallery } : {}),
+      features: project.features,
+      deliverables: project.deliverables,
+      tech: project.tech,
+      github: project.github || undefined,
+      live: project.live || undefined,
+      gradient: project.gradient,
+      status: project.status,
+      category: project.category,
+      highlight: project.highlight,
+      timeline: project.timeline,
+      clientType: project.clientType,
+      group: project.group ?? "desktop",
+      fullPagePreview: project.fullPagePreview ?? false,
+      featured: project.featured ?? false,
+      ...(project.pagespeed ? { pagespeed: project.pagespeed } : {}),
+      // A lone project added later goes above the ones already in the Studio.
+      order: ONLY ? -1 : index,
+    });
+  }
+  if (ONLY && !projectDocs.length) {
+    console.error(`No bundled project with slug "${ONLY}".`);
+    process.exit(1);
+  }
+  await seedGroup("Projects", projectDocs);
+}
+
 async function main() {
   console.log(`Seeding Sanity project ${projectId}/${dataset}${FORCE ? " (force)" : ""}\n`);
+  if (ONLY) return seedProjects();
 
   // --- Add-on features first: service packages reference them. ---
   await seedGroup(
@@ -178,49 +235,7 @@ async function main() {
     })),
   );
 
-  // --- Projects (images uploaded to the asset library). ---
-  const projectDocs = [];
-  for (const [index, project] of projects.entries()) {
-    const image = await uploadImage(project.image);
-    const gallery = [];
-    for (const shot of project.gallery ?? []) {
-      const uploaded = await uploadImage(shot.src);
-      if (uploaded) {
-        gallery.push({
-          ...uploaded,
-          _key: slugify(shot.video ?? shot.src),
-          caption: shot.caption,
-          ...(shot.video ? { video: shot.video } : {}),
-        });
-      }
-    }
-    projectDocs.push({
-      _id: id("project", `${project.title}-${project.group ?? "desktop"}`),
-      _type: "project",
-      title: project.title,
-      slug: { _type: "slug", current: slugify(`${project.title}-${project.group ?? "desktop"}`) },
-      subtitle: project.subtitle,
-      description: project.description,
-      ...(image ? { image } : {}),
-      ...(gallery.length ? { gallery } : {}),
-      features: project.features,
-      deliverables: project.deliverables,
-      tech: project.tech,
-      github: project.github || undefined,
-      live: project.live || undefined,
-      gradient: project.gradient,
-      status: project.status,
-      category: project.category,
-      highlight: project.highlight,
-      timeline: project.timeline,
-      clientType: project.clientType,
-      group: project.group ?? "desktop",
-      fullPagePreview: project.fullPagePreview ?? false,
-      featured: project.featured ?? false,
-      order: index,
-    });
-  }
-  await seedGroup("Projects", projectDocs);
+  await seedProjects();
 
   await seedGroup(
     "Experience",
