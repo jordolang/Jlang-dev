@@ -123,7 +123,7 @@ describe('CMS Library', () => {
       const { getSanityClient } = await import('@/sanity/lib/client')
       const { unlistedBundledProjects, projects } = await import('@/lib/fallbackProjects')
       const bundled = projects.find((p) => p.slug === 'green-mountain-leather')!
-      vi.mocked(unlistedBundledProjects).mockReturnValueOnce([bundled])
+      vi.mocked(unlistedBundledProjects).mockReturnValueOnce([bundled]).mockReturnValueOnce([bundled])
       vi.mocked(getSanityClient).mockReturnValue({
         fetch: vi.fn().mockResolvedValue([{ ...createMockProject(), image: createMockSanityImage() }]),
       } as never)
@@ -132,6 +132,25 @@ describe('CMS Library', () => {
       const result = await getProjects()
 
       expect(result?.map((p) => p.slug)).toEqual(['green-mountain-leather', createMockProject().slug])
+    })
+
+    it('should not stand a bundled project in for one hidden in the Studio', async () => {
+      const { getSanityClient } = await import('@/sanity/lib/client')
+      const fallback = await import('@/lib/fallbackProjects')
+      const actual = await vi.importActual<typeof import('@/lib/fallbackProjects')>('@/lib/fallbackProjects')
+      vi.mocked(fallback.unlistedBundledProjects).mockImplementation(actual.unlistedBundledProjects)
+      vi.mocked(getSanityClient).mockReturnValue({
+        fetch: vi
+          .fn()
+          .mockResolvedValueOnce([{ ...createMockProject(), image: createMockSanityImage() }])
+          .mockResolvedValueOnce([{ slug: 'green-mountain-leather-desktop', live: 'https://green-mountain-leather.vercel.app' }]),
+      } as never)
+
+      const { getProjects } = await import('@/lib/cms')
+      const result = await getProjects()
+      vi.mocked(fallback.unlistedBundledProjects).mockImplementation(() => [])
+
+      expect(result?.map((p) => p.slug)).toEqual([createMockProject().slug])
     })
 
     it('should return null when no projects exist', async () => {

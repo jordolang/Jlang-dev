@@ -117,8 +117,16 @@ export async function getProjects(): Promise<CmsProject[] | null> {
     };
   });
 
+  // A project hidden in the Studio stays hidden, so its bundled copy must not stand in for it.
+  const hidden = unlistedBundledProjects(projects).length
+    ? await query<Array<{ slug: string; live?: string }>>(
+        `*[_type == "project" && defined(slug.current) && hidden == true]{ "slug": slug.current, live }`,
+        ["projects"],
+      )
+    : null;
+
   // ProjectsSection picks out the featured projects itself.
-  return [...unlistedBundledProjects(projects), ...projects];
+  return [...unlistedBundledProjects([...projects, ...(hidden ?? [])]), ...projects];
 }
 
 // ---------------------------------------------------------------------------
