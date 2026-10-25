@@ -19,6 +19,8 @@ export interface PageSpeedResult {
   /** YYYY-MM-DD the test was run. */
   testedAt?: string;
   reportUrl?: string;
+  /** Context shown under the rings, e.g. what kind of build the scores come from. */
+  note?: string;
   /** Set in the Studio to hide the rings, including bundled scores for the same slug. */
   hidden?: boolean;
 }
@@ -901,6 +903,12 @@ export function MedicationSearch() {
     tech: ["HTML5", "CSS3", "JavaScript", "WordPress", "PHP", "MailChimp", "Photoshop", "Illustrator", "Google Fonts", "Social Media APIs", "Calendar Plugins", "Accessibility Tools"],
     github: "https://github.com",
     live: "https://jordolang.github.io/First-Baptist/index.html",
+    pagespeed: {
+      mobile: { performance: 60, accessibility: 64, bestPractices: 77, seo: 91 },
+      desktop: { performance: 93, accessibility: 64, bestPractices: 77, seo: 91 },
+      testedAt: "2026-10-25",
+      note: "This is a WordPress site. Scores like these are typical for WordPress websites.",
+    },
     gradient: "from-green-500 to-teal-500",
     status: "Live",
     category: "Web Design",

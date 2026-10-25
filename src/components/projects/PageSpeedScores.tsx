@@ -137,6 +137,13 @@ export function PageSpeedScores({
           )}
         </p>
       )}
+
+      {pagespeed.note && (
+        <p className="mt-2.5 flex items-start gap-1.5 rounded-lg bg-amber-50 px-2.5 py-2 text-[11px] leading-snug text-amber-900 dark:bg-amber-500/10 dark:text-amber-200">
+          <Icon icon="solar:info-circle-linear" width={14} height={14} className="mt-px flex-shrink-0" />
+          <span>{pagespeed.note}</span>
+        </p>
+      )}
     </div>
   );
 }

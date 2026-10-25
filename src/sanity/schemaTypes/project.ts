@@ -130,6 +130,13 @@ export const projectType = defineType({
           description: 'Optional. The PageSpeed "Copy Link" URL, shown as "View report" under the rings.',
         }),
         defineField({
+          name: "note",
+          title: "Note",
+          type: "text",
+          rows: 2,
+          description: 'Optional. Shown under the rings, e.g. "This is a WordPress site. Scores like these are typical for WordPress websites."',
+        }),
+        defineField({
           name: "hidden",
           title: "Hide scores",
           type: "boolean",
