@@ -141,6 +141,11 @@ export const projects: Project[] = [
     tech: ["HTML5", "SCSS", "Bootstrap 5", "JavaScript", "Gulp", "Vercel"],
     github: "",
     live: "https://leather-outlet.vercel.app",
+    pagespeed: {
+      mobile: { performance: 94, accessibility: 100, bestPractices: 100, seo: 100 },
+      desktop: { performance: 99, accessibility: 100, bestPractices: 100, seo: 100 },
+      testedAt: "2026-10-25",
+    },
     gradient: "from-amber-800 to-orange-700",
     status: "Live",
     category: "Web Design",
@@ -846,6 +851,11 @@ export function MedicationSearch() {
     tech: ["HTML5", "CSS3", "JavaScript", "WordPress", "PHP", "Photoshop", "Illustrator", "Google Maps API", "Contact Form 7", "Yoast SEO", "GTmetrix", "PageSpeed Insights"],
     github: "https://github.com",
     live: "https://neffpaving.com",
+    pagespeed: {
+      mobile: { performance: 99, accessibility: 99, bestPractices: 100, seo: 100 },
+      desktop: { performance: 99, accessibility: 99, bestPractices: 100, seo: 100 },
+      testedAt: "2026-10-25",
+    },
     gradient: "from-orange-500 to-red-500",
     status: "Live",
     category: "Web Design",
