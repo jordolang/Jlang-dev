@@ -102,7 +102,7 @@ export const DEFAULT_RESUME: Omit<ResumeContent, "experience" | "projects"> = {
       company: "Jose Madrid Salsa",
       period: "2025 — Present",
       type: "Employed",
-      website: "https://josemadrid.net",
+      website: "https://www.josemadridsalsa.com",
       description:
         "Run marketing, sales and IT for a gourmet salsa company: its website and online store, its social media, and the customers who buy from it.",
       highlights: [

@@ -566,7 +566,7 @@ def get_featured_projects():
                               'Fundraising and wholesale information flows',
                               'Responsive, performance‑optimized pages'],
             'status': 'Live',
-            'url': 'https://josemadrid.net'},
+            'url': 'https://www.josemadridsalsa.com'},
         {   'name': 'Amplinks',
             'subtitle': 'Self-Hosted iOS/Web Music Platform',
             'description': 'A comprehensive self-hosted iOS/Web application for seamless music '
@@ -713,7 +713,7 @@ def get_featured_projects():
                               'One-tap reorder and saved favorites',
                               'Native mobile checkout flow'],
             'status': 'In Development',
-            'url': 'https://josemadrid.net'},
+            'url': 'https://www.josemadridsalsa.com'},
         {   'name': 'Radius (Mobile App)',
             'subtitle': 'Proximity-Based Connection App (iOS & Android)',
             'description': 'A proximity-based mobile app built around mutual consent. When two nearby '
