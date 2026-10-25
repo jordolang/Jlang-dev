@@ -777,6 +777,11 @@ export function MedicationSearch() {
     tech: ["Python", "Flask", "Docker", "WebSockets", "yt-dlp", "JavaScript", "HTML5", "CSS3", "MusicBrainz", "iTunes API", "pip", "Docker Compose"],
     github: "https://github.com/jordolang/Apple-Sider",
     live: "https://jordolang.github.io/Apple-Sider/",
+    pagespeed: {
+      mobile: { performance: 96, accessibility: 88, bestPractices: 92, seo: 100 },
+      desktop: { performance: 100, accessibility: 88, bestPractices: 96, seo: 100 },
+      testedAt: "2026-10-25",
+    },
     gradient: "from-red-500 to-pink-500",
     status: "Live",
     category: "Self-Hosted Solutions",
