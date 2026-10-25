@@ -602,38 +602,6 @@ export function MedicationSearch() {
     clientType: "Documentation"
   },
   {
-    slug: "jessica-asp",
-    title: "Jessica ASP",
-    subtitle: "Creator Subscription Platform",
-    description: "A full-featured creator subscription platform where creators publish gated content and fans subscribe to tiers. Includes creator dashboards, admin tools, subscription management, web push notifications, file uploads via UploadThing, and Stripe subscription payments — built on Next.js 14 App Router.",
-    image: "/images/projects/jessica-asp.png",
-    features: [
-      "Creator dashboard for content, earnings, and subscriber management",
-      "Subscription tier system for fan access to gated content",
-      "Web push notifications via VAPID",
-      "Stripe subscription payments and webhook handling",
-      "File upload system powered by UploadThing",
-      "Admin tools for users, content moderation, and payouts"
-    ],
-    deliverables: [
-      "Full-stack Next.js 14 App Router platform",
-      "Stripe subscription and webhook integration",
-      "Creator and admin dashboard development",
-      "UploadThing file upload system",
-      "Web push notification infrastructure",
-      "Vitest unit tests and Playwright E2E test suite"
-    ],
-    tech: ["Next.js 14", "React", "TypeScript", "NextAuth", "Prisma", "PostgreSQL", "Stripe", "UploadThing", "Tailwind CSS", "Radix UI", "Vitest", "Playwright"],
-    github: "https://github.com/jordolang/jessica-asp",
-    live: "",
-    gradient: "from-violet-600 to-purple-700",
-    status: "In Development",
-    category: "Web Apps",
-    highlight: "Current Project",
-    timeline: "Ongoing",
-    clientType: "Creator Economy"
-  },
-  {
     slug: "amplinks",
     title: "Amplinks",
     image: "/images/projects/amplinks.png",
