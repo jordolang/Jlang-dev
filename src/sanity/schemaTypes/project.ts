@@ -130,6 +130,20 @@ export const projectType = defineType({
           description: 'Optional. The PageSpeed "Copy Link" URL, shown as "View report" under the rings.',
         }),
         defineField({
+          name: "defaultDevice",
+          title: "Show first",
+          type: "string",
+          description: "Which tab the rings open on when both are filled in. Mobile if left empty.",
+          options: {
+            list: [
+              { title: "Mobile", value: "mobile" },
+              { title: "Desktop", value: "desktop" },
+            ],
+            layout: "radio",
+            direction: "horizontal",
+          },
+        }),
+        defineField({
           name: "note",
           title: "Note",
           type: "text",

@@ -74,7 +74,10 @@ export function PageSpeedScores({
   static?: boolean;
 }) {
   const available = (["mobile", "desktop"] as const).filter((device) => isComplete(pagespeed?.[device]));
-  const [device, setDevice] = useState<"mobile" | "desktop">(available[0] ?? "mobile");
+  const preferred = pagespeed?.defaultDevice;
+  const [device, setDevice] = useState<"mobile" | "desktop">(
+    preferred && available.includes(preferred) ? preferred : (available[0] ?? "mobile"),
+  );
   if (!pagespeed || !available.length) return null;
 
   const shown = available.includes(device) ? device : available[0];

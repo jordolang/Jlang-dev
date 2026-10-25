@@ -21,6 +21,8 @@ export interface PageSpeedResult {
   reportUrl?: string;
   /** Context shown under the rings, e.g. what kind of build the scores come from. */
   note?: string;
+  /** Tab shown first when both runs are recorded. Defaults to mobile. */
+  defaultDevice?: "mobile" | "desktop";
   /** Set in the Studio to hide the rings, including bundled scores for the same slug. */
   hidden?: boolean;
 }
@@ -93,6 +95,12 @@ export const projects: Project[] = [
     tech: ["Next.js 16", "React 19", "TypeScript", "Tailwind CSS", "Shopify", "Hydrogen", "Stripe", "Amazon SP-API", "GitHub Actions", "Vercel"],
     github: "https://github.com/jordolang/zanesville-bid",
     live: "https://zanesville.bid",
+    pagespeed: {
+      mobile: { performance: 86, accessibility: 96, bestPractices: 100, seo: 100 },
+      desktop: { performance: 99, accessibility: 100, bestPractices: 100, seo: 100 },
+      testedAt: "2026-10-25",
+      defaultDevice: "desktop",
+    },
     ensureListed: true,
     gradient: "from-yellow-600 to-amber-900",
     status: "Live",
