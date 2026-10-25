@@ -1,0 +1,981 @@
+{
+  "_id": "drafts.blogPost.facebook-page-and-business-website",
+  "_type": "blogPost",
+  "title": "A Facebook Page and a Website: What Each Does for Your Business",
+  "slug": {
+    "_type": "slug",
+    "current": "facebook-page-and-business-website"
+  },
+  "date": "2026-10-21",
+  "excerpt": "Use Facebook for visibility and conversation, and your website for clear information and action. A practical plan for making both work together without doubling your workload.",
+  "author": "Jordan Lang",
+  "readTime": "8 min read",
+  "image": {
+    "_type": "image",
+    "_key": "se0",
+    "asset": {
+      "_type": "reference",
+      "_ref": "image-d5c02fa4801fd97dcc3d0d0d213291e9db31c83c-1600x1600-jpg"
+    },
+    "alt": "A Facebook Page and a Website: What Each Does for Your Business"
+  },
+  "body": [
+    {
+      "_type": "block",
+      "_key": "s9u",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "s9v",
+          "text": "“We already have a Facebook page” is a reasonable response when someone suggests building a website. You may have years of photos, recommendations, and customer conversations there. If it brings in business, that work has value.",
+          "marks": []
+        }
+      ],
+      "markDefs": []
+    },
+    {
+      "_type": "block",
+      "_key": "s9w",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "s9x",
+          "text": "The useful question is what customers need to do next. Can someone unfamiliar with the business understand your services, find current details, and take the right action? Can you keep that experience dependable without spending your whole week maintaining it?",
+          "marks": []
+        }
+      ],
+      "markDefs": []
+    },
+    {
+      "_type": "block",
+      "_key": "s9y",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "s9z",
+          "text": "A Facebook page and a website can share the workload. Each becomes more useful when you give it a clear job and connect the two deliberately.",
+          "marks": []
+        }
+      ],
+      "markDefs": []
+    },
+    {
+      "_type": "block",
+      "_key": "sa0",
+      "style": "blockquote",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "sa1",
+          "text": "A practical division:",
+          "marks": [
+            "strong"
+          ]
+        },
+        {
+          "_type": "span",
+          "_key": "sa2",
+          "text": " Use social posts to start relevant conversations. Give customers a dependable destination for the details they need to make a decision.",
+          "marks": []
+        }
+      ],
+      "markDefs": []
+    },
+    {
+      "_type": "block",
+      "_key": "sa3",
+      "style": "h2",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "sa4",
+          "text": "What a Facebook page can do well",
+          "marks": []
+        }
+      ],
+      "markDefs": []
+    },
+    {
+      "_type": "block",
+      "_key": "sa5",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "sa6",
+          "text": "Social content can make a business feel active and familiar. A photo from today's project, a new product, a seasonal announcement, or a short answer to a common question gives customers something timely to notice and share.",
+          "marks": []
+        }
+      ],
+      "markDefs": []
+    },
+    {
+      "_type": "block",
+      "_key": "sa7",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "sa8",
+          "text": "That is especially useful for businesses whose work is visual or local. A homeowner may recognize a neighborhood in a project photo. A customer may tag a friend who needs the service. A regular may share an event announcement with someone who has never visited.",
+          "marks": []
+        }
+      ],
+      "markDefs": []
+    },
+    {
+      "_type": "block",
+      "_key": "sa9",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "saa",
+          "text": "Conversation is another strength. Comments and messages can reveal confusion, recurring questions, and the language people use to describe what they need. Those insights can improve your website, sales process, and future posts.",
+          "marks": []
+        }
+      ],
+      "markDefs": []
+    },
+    {
+      "_type": "block",
+      "_key": "sab",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "sac",
+          "text": "But posting does not mean every follower will see every update. Treat a social post as one distribution opportunity. Important changes should also reach the places where customers expect dependable information, such as your website, booking system, and business listings.",
+          "marks": []
+        }
+      ],
+      "markDefs": []
+    },
+    {
+      "_type": "block",
+      "_key": "sad",
+      "style": "h2",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "sae",
+          "text": "What a website can do well",
+          "marks": []
+        }
+      ],
+      "markDefs": []
+    },
+    {
+      "_type": "block",
+      "_key": "saf",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "sag",
+          "text": "A website lets you arrange information around the customer's task. You can give each important service a stable page, place related projects beside it, explain the process, and provide a relevant next step.",
+          "marks": []
+        }
+      ],
+      "markDefs": []
+    },
+    {
+      "_type": "block",
+      "_key": "sah",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "sai",
+          "text": "A visitor should not need to scroll through last spring's posts to learn whether you offer delivery or serve their town. A customer comparing two services should be able to compare them directly. Someone ready to inquire should find the form without searching a feed.",
+          "marks": []
+        }
+      ],
+      "markDefs": []
+    },
+    {
+      "_type": "block",
+      "_key": "saj",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "sak",
+          "text": "A domain also gives your materials a consistent address. Your business card, vehicle, estimate, email signature, and social profile can point to the same place. The website can then direct visitors to the appropriate phone number, booking tool, or store.",
+          "marks": []
+        }
+      ],
+      "markDefs": []
+    },
+    {
+      "_type": "block",
+      "_key": "sal",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "sam",
+          "text": "The value comes from maintaining that destination. Owning a domain does not automatically make the information accurate or the experience useful. You still need clear content, working forms, secure account access, and a plan for updates.",
+          "marks": []
+        }
+      ],
+      "markDefs": []
+    },
+    {
+      "_type": "image",
+      "_key": "san",
+      "asset": {
+        "_type": "reference",
+        "_ref": "image-d5c02fa4801fd97dcc3d0d0d213291e9db31c83c-1600x1600-jpg"
+      },
+      "alt": "A smartphone displaying app icons beside a laptop"
+    },
+    {
+      "_type": "block",
+      "_key": "sao",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "sap",
+          "text": "Social channels help people encounter your business. Give interested visitors an obvious route to useful details. Image: ",
+          "marks": [
+            "em"
+          ]
+        },
+        {
+          "_type": "span",
+          "_key": "sar",
+          "text": "Unsplash",
+          "marks": [
+            "em",
+            "saq"
+          ]
+        },
+        {
+          "_type": "span",
+          "_key": "sas",
+          "text": "; ",
+          "marks": [
+            "em"
+          ]
+        },
+        {
+          "_type": "span",
+          "_key": "sau",
+          "text": "license",
+          "marks": [
+            "em",
+            "sat"
+          ]
+        },
+        {
+          "_type": "span",
+          "_key": "sav",
+          "text": ".",
+          "marks": [
+            "em"
+          ]
+        }
+      ],
+      "markDefs": [
+        {
+          "_type": "link",
+          "_key": "saq",
+          "href": "https://images.unsplash.com/photo-1511707171634-5f897ff02aa9"
+        },
+        {
+          "_type": "link",
+          "_key": "sat",
+          "href": "https://unsplash.com/license"
+        }
+      ]
+    },
+    {
+      "_type": "block",
+      "_key": "saw",
+      "style": "h2",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "sax",
+          "text": "Follow a customer across both",
+          "marks": []
+        }
+      ],
+      "markDefs": []
+    },
+    {
+      "_type": "block",
+      "_key": "say",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "saz",
+          "text": "Consider a hypothetical landscaping business. A homeowner sees a patio project in a Facebook post. The photo catches their attention, but it does not answer every question about hiring the company.",
+          "marks": []
+        }
+      ],
+      "markDefs": []
+    },
+    {
+      "_type": "block",
+      "_key": "sb0",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "sb1",
+          "text": "The post links to the patio service page. That page explains the type of work, service area, project process, and what to include in an inquiry. It shows related projects and directs the homeowner to an estimate request.",
+          "marks": []
+        }
+      ],
+      "markDefs": []
+    },
+    {
+      "_type": "block",
+      "_key": "sb2",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "sb3",
+          "text": "The owner receives a request with enough context to begin a useful conversation. The social post handled discovery; the website handled explanation and the handoff. Neither needed to do everything.",
+          "marks": []
+        }
+      ],
+      "markDefs": []
+    },
+    {
+      "_type": "block",
+      "_key": "sb4",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "sb5",
+          "text": "Now imagine the post linked only to a homepage with a slogan and no service information. The homeowner would need to reconstruct the path. Linking to the relevant destination reduces that extra work.",
+          "marks": []
+        }
+      ],
+      "markDefs": []
+    },
+    {
+      "_type": "block",
+      "_key": "sb6",
+      "style": "h2",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "sb7",
+          "text": "Give different information different homes",
+          "marks": []
+        }
+      ],
+      "markDefs": []
+    },
+    {
+      "_type": "table",
+      "_key": "sb8",
+      "hasHeader": true,
+      "rows": [
+        {
+          "_type": "tableRow",
+          "_key": "sb9",
+          "cells": [
+            "Customer need",
+            "Useful home",
+            "How to connect it"
+          ]
+        },
+        {
+          "_type": "tableRow",
+          "_key": "sbd",
+          "cells": [
+            "Recent work and updates",
+            "Social posts",
+            "Link to the relevant service or project"
+          ]
+        },
+        {
+          "_type": "tableRow",
+          "_key": "sbh",
+          "cells": [
+            "Complete service explanation",
+            "Website service page",
+            "Include it in profile and campaign links"
+          ]
+        },
+        {
+          "_type": "tableRow",
+          "_key": "sbl",
+          "cells": [
+            "Booking or inquiry",
+            "A tested booking page or form",
+            "Link directly when the post asks for action"
+          ]
+        },
+        {
+          "_type": "tableRow",
+          "_key": "sbp",
+          "cells": [
+            "Hours and location",
+            "Website and business listings",
+            "Update all authoritative locations together"
+          ]
+        },
+        {
+          "_type": "tableRow",
+          "_key": "sbt",
+          "cells": [
+            "A detailed project story",
+            "Website project page",
+            "Share a short version socially"
+          ]
+        },
+        {
+          "_type": "tableRow",
+          "_key": "sbx",
+          "cells": [
+            "A customer conversation",
+            "Monitored message channel",
+            "Move into the appropriate business workflow"
+          ]
+        }
+      ]
+    },
+    {
+      "_type": "block",
+      "_key": "sc1",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "sc2",
+          "text": "These are starting assignments, not rigid rules. A restaurant and a consulting firm need different paths. The principle is to decide where the full answer lives and make other channels point there.",
+          "marks": []
+        }
+      ],
+      "markDefs": []
+    },
+    {
+      "_type": "block",
+      "_key": "sc3",
+      "style": "h2",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "sc4",
+          "text": "Do not make customers hunt through old posts",
+          "marks": []
+        }
+      ],
+      "markDefs": []
+    },
+    {
+      "_type": "block",
+      "_key": "sc5",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "sc6",
+          "text": "An old menu photo, a holiday-hours post, and a new promotion can all coexist in a feed. A customer may encounter the wrong one first, especially through a shared link or saved screenshot.",
+          "marks": []
+        }
+      ],
+      "markDefs": []
+    },
+    {
+      "_type": "block",
+      "_key": "sc7",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "sc8",
+          "text": "Put durable information on a page you can update. For a restaurant, that might mean a readable menu page with current details. For a contractor, it may mean service descriptions and an estimate process. For a retailer, it may mean location, categories, and how to check availability.",
+          "marks": []
+        }
+      ],
+      "markDefs": []
+    },
+    {
+      "_type": "block",
+      "_key": "sc9",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "sca",
+          "text": "Use social posts to announce changes and link to the current information. When an offer ends, update the landing page and remove misleading calls to action where you control them. You cannot retrieve every screenshot, but you can maintain the authoritative destination.",
+          "marks": []
+        }
+      ],
+      "markDefs": []
+    },
+    {
+      "_type": "block",
+      "_key": "scb",
+      "style": "h2",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "scc",
+          "text": "Make messages part of a real process",
+          "marks": []
+        }
+      ],
+      "markDefs": []
+    },
+    {
+      "_type": "block",
+      "_key": "scd",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "sce",
+          "text": "Messages are useful only if someone owns the response. Decide who checks the inbox, when they check it, and how an inquiry becomes a job, booking, or customer record.",
+          "marks": []
+        }
+      ],
+      "markDefs": []
+    },
+    {
+      "_type": "block",
+      "_key": "scf",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "scg",
+          "text": "If you need an address, project photos, or appointment details, guide people toward the appropriate form or scheduling step. Avoid repeatedly asking customers to resend the same information across several disconnected channels.",
+          "marks": []
+        }
+      ],
+      "markDefs": []
+    },
+    {
+      "_type": "block",
+      "_key": "sch",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "sci",
+          "text": "Keep sensitive information out of public comments. If someone posts a private address or account detail, move the conversation to an appropriate channel. Collect only the information needed for the task and follow your business's actual privacy practices.",
+          "marks": []
+        }
+      ],
+      "markDefs": []
+    },
+    {
+      "_type": "block",
+      "_key": "scj",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "sck",
+          "text": "A simple shared lead log can help a small team: date received, source, requested service, assigned person, and next action. As volume increases, consider a more structured system. See ",
+          "marks": []
+        },
+        {
+          "_type": "span",
+          "_key": "scm",
+          "text": "when your business outgrows spreadsheets",
+          "marks": [
+            "scl"
+          ]
+        },
+        {
+          "_type": "span",
+          "_key": "scn",
+          "text": ".",
+          "marks": []
+        }
+      ],
+      "markDefs": [
+        {
+          "_type": "link",
+          "_key": "scl",
+          "href": "https://jlang.dev/blog/when-your-business-outgrows-spreadsheets"
+        }
+      ]
+    },
+    {
+      "_type": "block",
+      "_key": "sco",
+      "style": "h2",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "scp",
+          "text": "Protect access to both assets",
+          "marks": []
+        }
+      ],
+      "markDefs": []
+    },
+    {
+      "_type": "block",
+      "_key": "scq",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "scr",
+          "text": "Make sure the business can recover access to its domain, website accounts, and social presence. Use individual access where supported, appropriate permissions, and multifactor authentication. Document who has administrative responsibility.",
+          "marks": []
+        }
+      ],
+      "markDefs": []
+    },
+    {
+      "_type": "block",
+      "_key": "scs",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "sct",
+          "text": "Avoid making one former employee's personal login the only route into an important account. Access arrangements should survive staff changes and a lost phone. Review them periodically and remove access that is no longer needed.",
+          "marks": []
+        }
+      ],
+      "markDefs": []
+    },
+    {
+      "_type": "block",
+      "_key": "scu",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "scv",
+          "text": "A website also depends on providers: hosting, a registrar, and possibly a CMS or payment service. Plan for those dependencies rather than assuming any channel is completely independent. Keep essential business information and original photos in storage the business controls.",
+          "marks": []
+        }
+      ],
+      "markDefs": []
+    },
+    {
+      "_type": "block",
+      "_key": "scw",
+      "style": "h2",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "scx",
+          "text": "Build one content routine",
+          "marks": []
+        }
+      ],
+      "markDefs": []
+    },
+    {
+      "_type": "block",
+      "_key": "scy",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "scz",
+          "text": "You do not need two separate editorial operations. Start with one genuine piece of work and adapt it to each place.",
+          "marks": []
+        }
+      ],
+      "markDefs": []
+    },
+    {
+      "_type": "block",
+      "_key": "sd0",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "sd1",
+          "text": "For a completed project, save a few approved photos and write down the problem, the work performed, and a useful lesson. Publish the fuller explanation on the website when the project merits it. Share a concise photo-led version on Facebook with a link to the relevant page.",
+          "marks": []
+        }
+      ],
+      "markDefs": []
+    },
+    {
+      "_type": "image",
+      "_key": "sd2",
+      "asset": {
+        "_type": "reference",
+        "_ref": "image-68656801d1601fd763cda0c68fc4b0798f9315b1-1600x1201-jpg"
+      },
+      "alt": "Fountain pen and handwritten notes for planning"
+    },
+    {
+      "_type": "block",
+      "_key": "sd3",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "sd4",
+          "text": "Capture the facts once, then adapt them to the channel. Image: ",
+          "marks": [
+            "em"
+          ]
+        },
+        {
+          "_type": "span",
+          "_key": "sd6",
+          "text": "Unsplash",
+          "marks": [
+            "em",
+            "sd5"
+          ]
+        },
+        {
+          "_type": "span",
+          "_key": "sd7",
+          "text": "; ",
+          "marks": [
+            "em"
+          ]
+        },
+        {
+          "_type": "span",
+          "_key": "sd9",
+          "text": "license",
+          "marks": [
+            "em",
+            "sd8"
+          ]
+        },
+        {
+          "_type": "span",
+          "_key": "sda",
+          "text": ".",
+          "marks": [
+            "em"
+          ]
+        }
+      ],
+      "markDefs": [
+        {
+          "_type": "link",
+          "_key": "sd5",
+          "href": "https://images.unsplash.com/photo-1455390582262-044cdead277a"
+        },
+        {
+          "_type": "link",
+          "_key": "sd8",
+          "href": "https://unsplash.com/license"
+        }
+      ]
+    },
+    {
+      "_type": "block",
+      "_key": "sdb",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "sdc",
+          "text": "A manageable routine might include one project update, one answer to a customer question, and one check that hours and contact details remain accurate. Choose a pace you can sustain. A neglected weekly publishing promise creates more pressure than a consistent, realistic schedule.",
+          "marks": []
+        }
+      ],
+      "markDefs": []
+    },
+    {
+      "_type": "block",
+      "_key": "sdd",
+      "style": "h2",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "sde",
+          "text": "Measure the handoff",
+          "marks": []
+        }
+      ],
+      "markDefs": []
+    },
+    {
+      "_type": "block",
+      "_key": "sdf",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "sdg",
+          "text": "Track whether social activity leads to useful actions: relevant page visits, completed inquiries, bookings, and actual customer conversations. Likes can tell you a post attracted attention, but they do not establish business value by themselves.",
+          "marks": []
+        }
+      ],
+      "markDefs": []
+    },
+    {
+      "_type": "block",
+      "_key": "sdh",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "sdi",
+          "text": "Campaign links can help distinguish traffic sources when analytics is configured appropriately. Combine that information with what customers tell you and what happens in your lead process. A social referral may return later through a direct visit, so attribution will not always be complete.",
+          "marks": []
+        }
+      ],
+      "markDefs": []
+    },
+    {
+      "_type": "block",
+      "_key": "sdj",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "sdk",
+          "text": "Google's ",
+          "marks": []
+        },
+        {
+          "_type": "span",
+          "_key": "sdm",
+          "text": "local visibility guidance",
+          "marks": [
+            "sdl"
+          ]
+        },
+        {
+          "_type": "span",
+          "_key": "sdn",
+          "text": " also reinforces the value of accurate business information, photos, and customer reviews. Keep the basics aligned across channels before pursuing more complicated tactics.",
+          "marks": []
+        }
+      ],
+      "markDefs": [
+        {
+          "_type": "link",
+          "_key": "sdl",
+          "href": "https://support.google.com/business/answer/7091"
+        }
+      ]
+    },
+    {
+      "_type": "block",
+      "_key": "sdo",
+      "style": "h2",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "sdp",
+          "text": "Start with the missing piece",
+          "marks": []
+        }
+      ],
+      "markDefs": []
+    },
+    {
+      "_type": "block",
+      "_key": "sdq",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "sdr",
+          "text": "If your Facebook page is active but customers struggle to find complete service details, build a focused website around those questions. If your website explains the business well but nobody encounters it, improve the ways people discover and share it.",
+          "marks": []
+        }
+      ],
+      "markDefs": []
+    },
+    {
+      "_type": "block",
+      "_key": "sds",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "sdt",
+          "text": "If both exist, inspect the connections. Update the profile link, send posts to relevant pages, test forms, and assign responsibility for messages. Those small improvements may matter more than adding another channel.",
+          "marks": []
+        }
+      ],
+      "markDefs": []
+    },
+    {
+      "_type": "block",
+      "_key": "sdu",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "sdv",
+          "text": "Want a website that supports the attention your social presence already earns?",
+          "marks": [
+            "strong"
+          ]
+        },
+        {
+          "_type": "span",
+          "_key": "sdw",
+          "text": " Explore ",
+          "marks": []
+        },
+        {
+          "_type": "span",
+          "_key": "sdy",
+          "text": "website services",
+          "marks": [
+            "sdx"
+          ]
+        },
+        {
+          "_type": "span",
+          "_key": "sdz",
+          "text": ", then prepare a few examples of the questions customers ask before they buy.",
+          "marks": []
+        }
+      ],
+      "markDefs": [
+        {
+          "_type": "link",
+          "_key": "sdx",
+          "href": "https://jlang.dev/services"
+        }
+      ]
+    }
+  ],
+  "published": false,
+  "category": {
+    "_type": "reference",
+    "_ref": "category.small-business"
+  },
+  "tags": [
+    {
+      "_type": "reference",
+      "_key": "facebook",
+      "_ref": "tag.facebook"
+    },
+    {
+      "_type": "reference",
+      "_key": "marketing",
+      "_ref": "tag.marketing"
+    },
+    {
+      "_type": "reference",
+      "_key": "websites",
+      "_ref": "tag.websites"
+    },
+    {
+      "_type": "reference",
+      "_key": "small-business",
+      "_ref": "tag.small-business"
+    }
+  ]
+}

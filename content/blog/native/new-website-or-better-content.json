@@ -1,0 +1,1171 @@
+{
+  "_id": "drafts.blogPost.new-website-or-better-content",
+  "_type": "blogPost",
+  "title": "Do You Need a New Website—or Just Better Content?",
+  "slug": {
+    "_type": "slug",
+    "current": "new-website-or-better-content"
+  },
+  "date": "2026-10-21",
+  "excerpt": "Before paying for a redesign, diagnose what is actually holding your website back. This practical audit separates problems with messaging, structure, and technology.",
+  "author": "Jordan Lang",
+  "readTime": "8 min read",
+  "image": {
+    "_type": "image",
+    "_key": "s9t",
+    "asset": {
+      "_type": "reference",
+      "_ref": "image-ca71109134f696a7a3a33bf482500344f8a8287a-1600x1067-jpg"
+    },
+    "alt": "Do You Need a New Website—or Just Better Content?"
+  },
+  "body": [
+    {
+      "_type": "block",
+      "_key": "s4y",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "s4z",
+          "text": "Your website feels wrong. The phone is quiet, the wording sounds dated, and a competitor just launched something that looks much better. A redesign starts to feel like the obvious next step.",
+          "marks": []
+        }
+      ],
+      "markDefs": []
+    },
+    {
+      "_type": "block",
+      "_key": "s50",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "s51",
+          "text": "It might be the right move. But a new layout cannot decide which customer you want, explain an offer you have not defined, or supply project photos you have never collected. Move vague copy into a new design and you may end up with a more attractive version of the same problem.",
+          "marks": []
+        }
+      ],
+      "markDefs": []
+    },
+    {
+      "_type": "block",
+      "_key": "s52",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "s53",
+          "text": "Before buying a rebuild, separate three questions: ",
+          "marks": []
+        },
+        {
+          "_type": "span",
+          "_key": "s54",
+          "text": "Does the site work? Can people find what they need? Does the content give them a reason to act?",
+          "marks": [
+            "strong"
+          ]
+        },
+        {
+          "_type": "span",
+          "_key": "s55",
+          "text": " Each points toward a different kind of investment.",
+          "marks": []
+        }
+      ],
+      "markDefs": []
+    },
+    {
+      "_type": "block",
+      "_key": "s56",
+      "style": "blockquote",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "s57",
+          "text": "A useful diagnosis names the obstacle between a visitor and a decision. “It looks old” is a starting observation, not the diagnosis.",
+          "marks": []
+        }
+      ],
+      "markDefs": []
+    },
+    {
+      "_type": "block",
+      "_key": "s58",
+      "style": "h2",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "s59",
+          "text": "Start with the task a customer came to complete",
+          "marks": []
+        }
+      ],
+      "markDefs": []
+    },
+    {
+      "_type": "block",
+      "_key": "s5a",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "s5b",
+          "text": "Pick one important visitor and one realistic task. A homeowner wants to know whether you replace windows in their town. A restaurant customer wants tonight's hours and the menu. A wholesale buyer wants to know minimum order requirements.",
+          "marks": []
+        }
+      ],
+      "markDefs": []
+    },
+    {
+      "_type": "block",
+      "_key": "s5c",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "s5d",
+          "text": "Now open your website on a phone and attempt that task without relying on what you already know about your business. Where is the answer? Is it clear? Does the next step work? Write down the actual obstacle rather than your opinion of the page's appearance.",
+          "marks": []
+        }
+      ],
+      "markDefs": []
+    },
+    {
+      "_type": "block",
+      "_key": "s5e",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "s5f",
+          "text": "This matters because different visitors need different evidence. A prospective employee and a prospective customer might both need the site, but they should not compete for the same primary button. Name the main job of each important page before evaluating how it looks.",
+          "marks": []
+        }
+      ],
+      "markDefs": []
+    },
+    {
+      "_type": "block",
+      "_key": "s5g",
+      "style": "h2",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "s5h",
+          "text": "The signs you have a content problem",
+          "marks": []
+        }
+      ],
+      "markDefs": []
+    },
+    {
+      "_type": "block",
+      "_key": "s5i",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "s5j",
+          "text": "Content problems usually appear as missing, vague, or unconvincing answers. The page loads, the navigation functions, and the text is readable, but a visitor still cannot confidently choose you.",
+          "marks": []
+        }
+      ],
+      "markDefs": []
+    },
+    {
+      "_type": "block",
+      "_key": "s5k",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "s5l",
+          "text": "Watch for these symptoms:",
+          "marks": []
+        }
+      ],
+      "markDefs": []
+    },
+    {
+      "_type": "block",
+      "_key": "s5m",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "s5n",
+          "text": "The headline could describe any business in your industry.",
+          "marks": []
+        }
+      ],
+      "markDefs": [],
+      "listItem": "bullet",
+      "level": 1
+    },
+    {
+      "_type": "block",
+      "_key": "s5o",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "s5p",
+          "text": "Service descriptions emphasize quality without explaining the work.",
+          "marks": []
+        }
+      ],
+      "markDefs": [],
+      "listItem": "bullet",
+      "level": 1
+    },
+    {
+      "_type": "block",
+      "_key": "s5q",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "s5r",
+          "text": "The site never says where you operate or whom you serve.",
+          "marks": []
+        }
+      ],
+      "markDefs": [],
+      "listItem": "bullet",
+      "level": 1
+    },
+    {
+      "_type": "block",
+      "_key": "s5s",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "s5t",
+          "text": "Photos are generic despite real projects being available.",
+          "marks": []
+        }
+      ],
+      "markDefs": [],
+      "listItem": "bullet",
+      "level": 1
+    },
+    {
+      "_type": "block",
+      "_key": "s5u",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "s5v",
+          "text": "Customers repeatedly ask questions the site should answer.",
+          "marks": []
+        }
+      ],
+      "markDefs": [],
+      "listItem": "bullet",
+      "level": 1
+    },
+    {
+      "_type": "block",
+      "_key": "s5w",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "s5x",
+          "text": "Buttons say “Learn more” without making the destination clear.",
+          "marks": []
+        }
+      ],
+      "markDefs": [],
+      "listItem": "bullet",
+      "level": 1
+    },
+    {
+      "_type": "block",
+      "_key": "s5y",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "s5z",
+          "text": "Consider “We provide innovative solutions with unmatched service.” It asks the reader to supply the meaning. “Kitchen and bathroom remodeling for homeowners in Muskingum County” establishes a service, customer, and location. Supporting text can then explain the process, practical constraints, and next step.",
+          "marks": []
+        }
+      ],
+      "markDefs": []
+    },
+    {
+      "_type": "block",
+      "_key": "s60",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "s61",
+          "text": "Specificity should come from the business. Do not invent a turnaround guarantee, price, customer count, or certification to make a sentence sound stronger. Ask the owner or project team for the information, and use qualified wording when something varies.",
+          "marks": []
+        }
+      ],
+      "markDefs": []
+    },
+    {
+      "_type": "image",
+      "_key": "s62",
+      "asset": {
+        "_type": "reference",
+        "_ref": "image-68656801d1601fd763cda0c68fc4b0798f9315b1-1600x1201-jpg"
+      },
+      "alt": "Close view of a fountain pen on handwritten notes"
+    },
+    {
+      "_type": "block",
+      "_key": "s63",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "s64",
+          "text": "Before adjusting colors, write down the answers a customer needs. Image: ",
+          "marks": [
+            "em"
+          ]
+        },
+        {
+          "_type": "span",
+          "_key": "s66",
+          "text": "Unsplash",
+          "marks": [
+            "em",
+            "s65"
+          ]
+        },
+        {
+          "_type": "span",
+          "_key": "s67",
+          "text": "; ",
+          "marks": [
+            "em"
+          ]
+        },
+        {
+          "_type": "span",
+          "_key": "s69",
+          "text": "license",
+          "marks": [
+            "em",
+            "s68"
+          ]
+        },
+        {
+          "_type": "span",
+          "_key": "s6a",
+          "text": ".",
+          "marks": [
+            "em"
+          ]
+        }
+      ],
+      "markDefs": [
+        {
+          "_type": "link",
+          "_key": "s65",
+          "href": "https://images.unsplash.com/photo-1455390582262-044cdead277a"
+        },
+        {
+          "_type": "link",
+          "_key": "s68",
+          "href": "https://unsplash.com/license"
+        }
+      ]
+    },
+    {
+      "_type": "block",
+      "_key": "s6b",
+      "style": "h2",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "s6c",
+          "text": "The signs you have a structure problem",
+          "marks": []
+        }
+      ],
+      "markDefs": []
+    },
+    {
+      "_type": "block",
+      "_key": "s6d",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "s6e",
+          "text": "Sometimes the answers exist but live in the wrong places. A service is buried in a long homepage. Contact details appear only in a footer. The menu uses internal department names that customers do not recognize.",
+          "marks": []
+        }
+      ],
+      "markDefs": []
+    },
+    {
+      "_type": "block",
+      "_key": "s6f",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "s6g",
+          "text": "That is an information architecture problem: how the material is arranged and connected. It may require new page templates or navigation, but it does not automatically require replacing every part of the website.",
+          "marks": []
+        }
+      ],
+      "markDefs": []
+    },
+    {
+      "_type": "block",
+      "_key": "s6h",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "s6i",
+          "text": "Map a short path from the customer's question to a useful answer and then to an action. For a service business, that might be homepage, service detail, relevant project, estimate request. If a visitor must open six unrelated pages to understand one service, simplify the path.",
+          "marks": []
+        }
+      ],
+      "markDefs": []
+    },
+    {
+      "_type": "block",
+      "_key": "s6j",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "s6k",
+          "text": "A good structural change also makes the site easier to maintain. If business hours appear in seven separate places, future updates can drift. Consolidating repeated information may improve reliability as much as usability.",
+          "marks": []
+        }
+      ],
+      "markDefs": []
+    },
+    {
+      "_type": "block",
+      "_key": "s6l",
+      "style": "h2",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "s6m",
+          "text": "The signs a rebuild deserves consideration",
+          "marks": []
+        }
+      ],
+      "markDefs": []
+    },
+    {
+      "_type": "block",
+      "_key": "s6n",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "s6o",
+          "text": "A rebuild becomes more reasonable when the current foundation prevents ordinary improvements or creates recurring operational problems.",
+          "marks": []
+        }
+      ],
+      "markDefs": []
+    },
+    {
+      "_type": "block",
+      "_key": "s6p",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "s6q",
+          "text": "Examples include a layout that fails on phones, an unsupported system that cannot be updated safely, a publishing process that requires editing code for every basic change, or a booking requirement the existing platform cannot support appropriately.",
+          "marks": []
+        }
+      ],
+      "markDefs": []
+    },
+    {
+      "_type": "block",
+      "_key": "s6r",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "s6s",
+          "text": "Another sign is cumulative patchwork. If each modest request requires fragile workarounds, the cost of retaining the foundation may eventually exceed the value of preserving it. The comparison should include future maintenance and migration work, rather than just the next invoice.",
+          "marks": []
+        }
+      ],
+      "markDefs": []
+    },
+    {
+      "_type": "block",
+      "_key": "s6t",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "s6u",
+          "text": "Ask for a concrete explanation. “The site is old” is less useful than “the form depends on an abandoned component, and replacing it safely requires changes to the page templates.” A competent recommendation should connect the technical condition to a business consequence.",
+          "marks": []
+        }
+      ],
+      "markDefs": []
+    },
+    {
+      "_type": "block",
+      "_key": "s6v",
+      "style": "h2",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "s6w",
+          "text": "Use a simple diagnosis table",
+          "marks": []
+        }
+      ],
+      "markDefs": []
+    },
+    {
+      "_type": "table",
+      "_key": "s6x",
+      "hasHeader": true,
+      "rows": [
+        {
+          "_type": "tableRow",
+          "_key": "s6y",
+          "cells": [
+            "What you observe",
+            "First investigation",
+            "Possible next step"
+          ]
+        },
+        {
+          "_type": "tableRow",
+          "_key": "s72",
+          "cells": [
+            "People misunderstand the offer",
+            "Headline and service copy",
+            "Content rewrite"
+          ]
+        },
+        {
+          "_type": "tableRow",
+          "_key": "s76",
+          "cells": [
+            "Visitors cannot find a service",
+            "Navigation and page structure",
+            "Structural update"
+          ]
+        },
+        {
+          "_type": "tableRow",
+          "_key": "s7a",
+          "cells": [
+            "Mobile form is hard to complete",
+            "Form layout and interaction",
+            "Targeted repair"
+          ]
+        },
+        {
+          "_type": "tableRow",
+          "_key": "s7e",
+          "cells": [
+            "Staff cannot update basic details",
+            "Editing workflow",
+            "CMS improvement or rebuild"
+          ]
+        },
+        {
+          "_type": "tableRow",
+          "_key": "s7i",
+          "cells": [
+            "Unsupported components block changes",
+            "Technical audit",
+            "Migration or rebuild"
+          ]
+        },
+        {
+          "_type": "tableRow",
+          "_key": "s7m",
+          "cells": [
+            "Leads arrive but are poor fits",
+            "Audience, offer, and targeting",
+            "Content and acquisition review"
+          ]
+        }
+      ]
+    },
+    {
+      "_type": "block",
+      "_key": "s7q",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "s7r",
+          "text": "Several problems can coexist. A useful proposal should identify which work addresses each one, rather than treating a redesign as a universal cure.",
+          "marks": []
+        }
+      ],
+      "markDefs": []
+    },
+    {
+      "_type": "block",
+      "_key": "s7s",
+      "style": "h2",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "s7t",
+          "text": "Run a focused content experiment",
+          "marks": []
+        }
+      ],
+      "markDefs": []
+    },
+    {
+      "_type": "block",
+      "_key": "s7u",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "s7v",
+          "text": "Choose one important page. Record its present content and a baseline for whatever meaningful activity you can observe: qualified inquiries, bookings, or requests for a specific service. If tracking is unreliable, fix that before interpreting the numbers.",
+          "marks": []
+        }
+      ],
+      "markDefs": []
+    },
+    {
+      "_type": "block",
+      "_key": "s7w",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "s7x",
+          "text": "Rewrite the page around five questions:",
+          "marks": []
+        }
+      ],
+      "markDefs": []
+    },
+    {
+      "_type": "block",
+      "_key": "s7y",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "s7z",
+          "text": "What do you offer?",
+          "marks": []
+        }
+      ],
+      "markDefs": [],
+      "listItem": "number",
+      "level": 1
+    },
+    {
+      "_type": "block",
+      "_key": "s80",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "s81",
+          "text": "Who is it for?",
+          "marks": []
+        }
+      ],
+      "markDefs": [],
+      "listItem": "number",
+      "level": 1
+    },
+    {
+      "_type": "block",
+      "_key": "s82",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "s83",
+          "text": "What should someone expect?",
+          "marks": []
+        }
+      ],
+      "markDefs": [],
+      "listItem": "number",
+      "level": 1
+    },
+    {
+      "_type": "block",
+      "_key": "s84",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "s85",
+          "text": "Why should they trust you?",
+          "marks": []
+        }
+      ],
+      "markDefs": [],
+      "listItem": "number",
+      "level": 1
+    },
+    {
+      "_type": "block",
+      "_key": "s86",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "s87",
+          "text": "What happens next?",
+          "marks": []
+        }
+      ],
+      "markDefs": [],
+      "listItem": "number",
+      "level": 1
+    },
+    {
+      "_type": "block",
+      "_key": "s88",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "s89",
+          "text": "Add real proof: a relevant project, a sourced testimonial, a product detail, or a clear explanation of the process. Make the main action explicit. Then test the page with people who are reasonably similar to your intended customers.",
+          "marks": []
+        }
+      ],
+      "markDefs": []
+    },
+    {
+      "_type": "block",
+      "_key": "s8a",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "s8b",
+          "text": "Ask them to explain the offer in their own words. Ask what makes them hesitate. Avoid asking only whether they “like” the page; people can like a design while misunderstanding the business.",
+          "marks": []
+        }
+      ],
+      "markDefs": []
+    },
+    {
+      "_type": "block",
+      "_key": "s8c",
+      "style": "h2",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "s8d",
+          "text": "Judge the experiment with appropriate patience",
+          "marks": []
+        }
+      ],
+      "markDefs": []
+    },
+    {
+      "_type": "block",
+      "_key": "s8e",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "s8f",
+          "text": "A low-traffic website may not produce enough inquiries in two weeks to support a confident numerical comparison. Seasonality, advertising changes, weather, and capacity can also affect results. Treat small samples as directional information.",
+          "marks": []
+        }
+      ],
+      "markDefs": []
+    },
+    {
+      "_type": "block",
+      "_key": "s8g",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "s8h",
+          "text": "Qualitative feedback can still be valuable. If several people independently cannot find your service area, that is a concrete issue worth fixing. If an inquiry form consistently fails on a particular phone, you do not need a conversion study to justify repairing it.",
+          "marks": []
+        }
+      ],
+      "markDefs": []
+    },
+    {
+      "_type": "block",
+      "_key": "s8i",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "s8j",
+          "text": "When reviewing analytics, distinguish button clicks from completed actions. A person opening the form is not the same as submitting it, and a submission is not necessarily a qualified lead. Measure the steps that match the business question.",
+          "marks": []
+        }
+      ],
+      "markDefs": []
+    },
+    {
+      "_type": "block",
+      "_key": "s8k",
+      "style": "h2",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "s8l",
+          "text": "Avoid rewriting for search engines alone",
+          "marks": []
+        }
+      ],
+      "markDefs": []
+    },
+    {
+      "_type": "block",
+      "_key": "s8m",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "s8n",
+          "text": "Useful service content should help someone make a decision even if they arrive through a referral. Repeating a location or keyword does not substitute for explaining the work, evidence, and process.",
+          "marks": []
+        }
+      ],
+      "markDefs": []
+    },
+    {
+      "_type": "block",
+      "_key": "s8o",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "s8p",
+          "text": "Google's own ",
+          "marks": []
+        },
+        {
+          "_type": "span",
+          "_key": "s8r",
+          "text": "people-first content guidance",
+          "marks": [
+            "s8q"
+          ]
+        },
+        {
+          "_type": "span",
+          "_key": "s8s",
+          "text": " emphasizes useful, reliable information created for an intended audience. Use that as a quality check, rather than treating word count as the objective.",
+          "marks": []
+        }
+      ],
+      "markDefs": [
+        {
+          "_type": "link",
+          "_key": "s8q",
+          "href": "https://developers.google.com/search/docs/fundamentals/creating-helpful-content"
+        }
+      ]
+    },
+    {
+      "_type": "block",
+      "_key": "s8t",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "s8u",
+          "text": "A service page can be concise if it answers the questions well. Another may need substantial explanation because the purchase is complicated. Let the reader's decision determine the depth.",
+          "marks": []
+        }
+      ],
+      "markDefs": []
+    },
+    {
+      "_type": "image",
+      "_key": "s8v",
+      "asset": {
+        "_type": "reference",
+        "_ref": "image-ca71109134f696a7a3a33bf482500344f8a8287a-1600x1067-jpg"
+      },
+      "alt": "Laptop on a desk, illustrating a review of an existing website"
+    },
+    {
+      "_type": "block",
+      "_key": "s8w",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "s8x",
+          "text": "Review the existing experience before deciding how much of it to replace. Image: ",
+          "marks": [
+            "em"
+          ]
+        },
+        {
+          "_type": "span",
+          "_key": "s8z",
+          "text": "Unsplash",
+          "marks": [
+            "em",
+            "s8y"
+          ]
+        },
+        {
+          "_type": "span",
+          "_key": "s90",
+          "text": "; ",
+          "marks": [
+            "em"
+          ]
+        },
+        {
+          "_type": "span",
+          "_key": "s92",
+          "text": "license",
+          "marks": [
+            "em",
+            "s91"
+          ]
+        },
+        {
+          "_type": "span",
+          "_key": "s93",
+          "text": ".",
+          "marks": [
+            "em"
+          ]
+        }
+      ],
+      "markDefs": [
+        {
+          "_type": "link",
+          "_key": "s8y",
+          "href": "https://images.unsplash.com/photo-1496181133206-80ce9b88a853"
+        },
+        {
+          "_type": "link",
+          "_key": "s91",
+          "href": "https://unsplash.com/license"
+        }
+      ]
+    },
+    {
+      "_type": "block",
+      "_key": "s94",
+      "style": "h2",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "s95",
+          "text": "Know what to preserve during a redesign",
+          "marks": []
+        }
+      ],
+      "markDefs": []
+    },
+    {
+      "_type": "block",
+      "_key": "s96",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "s97",
+          "text": "If a rebuild is justified, bring the useful material with you. Inventory important URLs, successful service descriptions, project photography, analytics access, and customer questions. Identify which pages receive valuable traffic or appear in existing links.",
+          "marks": []
+        }
+      ],
+      "markDefs": []
+    },
+    {
+      "_type": "block",
+      "_key": "s98",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "s99",
+          "text": "Plan redirects when addresses change. Check forms, phone links, and other actions after launch. Preserve accurate business information and confirm that search engines can access the intended public pages.",
+          "marks": []
+        }
+      ],
+      "markDefs": []
+    },
+    {
+      "_type": "block",
+      "_key": "s9a",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "s9b",
+          "text": "A migration is an opportunity to improve the system, but avoid discarding evidence merely because it belongs to the old website. A strong project gallery or clearly written FAQ may be more valuable than a completely fresh visual concept.",
+          "marks": []
+        }
+      ],
+      "markDefs": []
+    },
+    {
+      "_type": "block",
+      "_key": "s9c",
+      "style": "h2",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "s9d",
+          "text": "Choose the smallest complete solution",
+          "marks": []
+        }
+      ],
+      "markDefs": []
+    },
+    {
+      "_type": "block",
+      "_key": "s9e",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "s9f",
+          "text": "A content refresh is appropriate when the foundation works and the message is weak. A structural update fits a site whose useful information is difficult to navigate. A rebuild is appropriate when the foundation obstructs the experience or the business has materially changed.",
+          "marks": []
+        }
+      ],
+      "markDefs": []
+    },
+    {
+      "_type": "block",
+      "_key": "s9g",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "s9h",
+          "text": "The smallest complete solution still needs to solve the problem. Rewriting a headline will not repair an unusable checkout. Rebuilding a checkout will not explain why your offer matters. Match the investment to the diagnosis.",
+          "marks": []
+        }
+      ],
+      "markDefs": []
+    },
+    {
+      "_type": "block",
+      "_key": "s9i",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "s9j",
+          "text": "Before requesting a quote, finish this sentence:",
+          "marks": [
+            "strong"
+          ]
+        },
+        {
+          "_type": "span",
+          "_key": "s9k",
+          "text": " “Our website makes it difficult for this customer to do this important thing.” That statement gives your developer a much stronger starting point than “we want something modern.”",
+          "marks": []
+        }
+      ],
+      "markDefs": []
+    },
+    {
+      "_type": "block",
+      "_key": "s9l",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "s9m",
+          "text": "If you are ready to investigate, explore ",
+          "marks": []
+        },
+        {
+          "_type": "span",
+          "_key": "s9o",
+          "text": "website services",
+          "marks": [
+            "s9n"
+          ]
+        },
+        {
+          "_type": "span",
+          "_key": "s9p",
+          "text": ". For the materials to bring, use ",
+          "marks": []
+        },
+        {
+          "_type": "span",
+          "_key": "s9r",
+          "text": "the short website project brief",
+          "marks": [
+            "s9q"
+          ]
+        },
+        {
+          "_type": "span",
+          "_key": "s9s",
+          "text": ".",
+          "marks": []
+        }
+      ],
+      "markDefs": [
+        {
+          "_type": "link",
+          "_key": "s9n",
+          "href": "https://jlang.dev/services"
+        },
+        {
+          "_type": "link",
+          "_key": "s9q",
+          "href": "https://jlang.dev/blog/prepare-for-a-website-project"
+        }
+      ]
+    }
+  ],
+  "published": false,
+  "category": {
+    "_type": "reference",
+    "_ref": "category.small-business"
+  },
+  "tags": [
+    {
+      "_type": "reference",
+      "_key": "website-strategy",
+      "_ref": "tag.website-strategy"
+    },
+    {
+      "_type": "reference",
+      "_key": "content",
+      "_ref": "tag.content"
+    },
+    {
+      "_type": "reference",
+      "_key": "web-design",
+      "_ref": "tag.web-design"
+    }
+  ]
+}

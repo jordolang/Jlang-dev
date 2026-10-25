@@ -1,0 +1,1256 @@
+{
+  "_id": "drafts.blogPost.prepare-for-a-website-project",
+  "_type": "blogPost",
+  "title": "How to Prepare for a Website Project Without Writing a 20-Page Brief",
+  "slug": {
+    "_type": "slug",
+    "current": "prepare-for-a-website-project"
+  },
+  "date": "2026-10-21",
+  "excerpt": "Bring the decisions, materials, and context that move a website project forward. Includes a short brief you can copy and a practical asset checklist.",
+  "author": "Jordan Lang",
+  "readTime": "8 min read",
+  "image": {
+    "_type": "image",
+    "_key": "sry",
+    "asset": {
+      "_type": "reference",
+      "_ref": "image-68656801d1601fd763cda0c68fc4b0798f9315b1-1600x1201-jpg"
+    },
+    "alt": "How to Prepare for a Website Project Without Writing a 20-Page Brief"
+  },
+  "body": [
+    {
+      "_type": "block",
+      "_key": "smy",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "smz",
+          "text": "You do not need to become a web designer before hiring one. You do need to explain what the business does, what the website should help accomplish, and which facts the developer cannot responsibly guess.",
+          "marks": []
+        }
+      ],
+      "markDefs": []
+    },
+    {
+      "_type": "block",
+      "_key": "sn0",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "sn1",
+          "text": "A useful brief is a starting point for decisions. It can be short enough to write between other responsibilities, provided it contains the right information. Twenty pages of vague preferences are less helpful than one page of clear priorities and a folder of genuine assets.",
+          "marks": []
+        }
+      ],
+      "markDefs": []
+    },
+    {
+      "_type": "block",
+      "_key": "sn2",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "sn3",
+          "text": "Here is what to prepare, what can wait, and how to keep the project moving after the first conversation.",
+          "marks": []
+        }
+      ],
+      "markDefs": []
+    },
+    {
+      "_type": "block",
+      "_key": "sn4",
+      "style": "blockquote",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "sn5",
+          "text": "Bring the business context.",
+          "marks": [
+            "strong"
+          ]
+        },
+        {
+          "_type": "span",
+          "_key": "sn6",
+          "text": " Your developer can help turn it into pages, design, and functionality. You should not have to specify the technical solution before discussing the problem.",
+          "marks": []
+        }
+      ],
+      "markDefs": []
+    },
+    {
+      "_type": "block",
+      "_key": "sn7",
+      "style": "h2",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "sn8",
+          "text": "1. Choose the main outcome",
+          "marks": []
+        }
+      ],
+      "markDefs": []
+    },
+    {
+      "_type": "block",
+      "_key": "sn9",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "sna",
+          "text": "Finish this sentence: “When the website is working well, more of the right people will _____.” The answer might be request an estimate, book an appointment, visit a store, understand a service, or buy a product.",
+          "marks": []
+        }
+      ],
+      "markDefs": []
+    },
+    {
+      "_type": "block",
+      "_key": "snb",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "snc",
+          "text": "Choose one primary outcome and identify any secondary ones. If the project must equally prioritize hiring, wholesale sales, retail shopping, events, and general brand awareness, discuss how those audiences should be separated. A single opening screen cannot make every path equally prominent.",
+          "marks": []
+        }
+      ],
+      "markDefs": []
+    },
+    {
+      "_type": "block",
+      "_key": "snd",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "sne",
+          "text": "Then define the quality of the outcome. A contractor may want inquiries for larger residential projects within a particular service area. A studio may want event requests with dates and approximate group size. That detail changes the content and form design.",
+          "marks": []
+        }
+      ],
+      "markDefs": []
+    },
+    {
+      "_type": "block",
+      "_key": "snf",
+      "style": "h2",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "sng",
+          "text": "2. Describe the customer in practical terms",
+          "marks": []
+        }
+      ],
+      "markDefs": []
+    },
+    {
+      "_type": "block",
+      "_key": "snh",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "sni",
+          "text": "You do not need a fictional persona with a favorite coffee order. Describe the person, the situation, and the questions they need answered before they take action.",
+          "marks": []
+        }
+      ],
+      "markDefs": []
+    },
+    {
+      "_type": "block",
+      "_key": "snj",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "snk",
+          "text": "For example: “Homeowners in our service area who need a driveway replaced. They want to see similar work, know whether we handle preparation, and understand how to request an estimate.” That is enough to begin shaping a useful page.",
+          "marks": []
+        }
+      ],
+      "markDefs": []
+    },
+    {
+      "_type": "block",
+      "_key": "snl",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "snm",
+          "text": "Collect questions from actual conversations. What do customers ask repeatedly? What assumptions create confusion? What makes a project a poor fit? Those answers often become the most valuable service copy and FAQs.",
+          "marks": []
+        }
+      ],
+      "markDefs": []
+    },
+    {
+      "_type": "block",
+      "_key": "snn",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "sno",
+          "text": "If you serve different audiences, explain their differences. A commercial buyer may need capabilities and procurement details while a homeowner needs process and reassurance. The site can support both when the paths are intentional.",
+          "marks": []
+        }
+      ],
+      "markDefs": []
+    },
+    {
+      "_type": "block",
+      "_key": "snp",
+      "style": "h2",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "snq",
+          "text": "3. List the essential tasks",
+          "marks": []
+        }
+      ],
+      "markDefs": []
+    },
+    {
+      "_type": "block",
+      "_key": "snr",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "sns",
+          "text": "Describe functionality as tasks people must complete. “Customers should request an appointment and receive confirmation” is more useful than “we need something interactive.” “Staff should update product descriptions without a developer” identifies a real editing requirement.",
+          "marks": []
+        }
+      ],
+      "markDefs": []
+    },
+    {
+      "_type": "block",
+      "_key": "snt",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "snu",
+          "text": "For each task, say who uses it, what information goes in, and what should happen afterward. Include existing tools the workflow depends on, such as scheduling, accounting, payment, email, or customer management systems.",
+          "marks": []
+        }
+      ],
+      "markDefs": []
+    },
+    {
+      "_type": "block",
+      "_key": "snv",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "snw",
+          "text": "Separate ",
+          "marks": []
+        },
+        {
+          "_type": "span",
+          "_key": "snx",
+          "text": "needed at launch",
+          "marks": [
+            "strong"
+          ]
+        },
+        {
+          "_type": "span",
+          "_key": "sny",
+          "text": ", ",
+          "marks": []
+        },
+        {
+          "_type": "span",
+          "_key": "snz",
+          "text": "useful soon",
+          "marks": [
+            "strong"
+          ]
+        },
+        {
+          "_type": "span",
+          "_key": "so0",
+          "text": ", and ",
+          "marks": []
+        },
+        {
+          "_type": "span",
+          "_key": "so1",
+          "text": "possible later",
+          "marks": [
+            "strong"
+          ]
+        },
+        {
+          "_type": "span",
+          "_key": "so2",
+          "text": ". A clear first release can be complete without including every future idea. Ask your developer which future needs affect today's foundation and which can safely wait.",
+          "marks": []
+        }
+      ],
+      "markDefs": []
+    },
+    {
+      "_type": "image",
+      "_key": "so3",
+      "asset": {
+        "_type": "reference",
+        "_ref": "image-68656801d1601fd763cda0c68fc4b0798f9315b1-1600x1201-jpg"
+      },
+      "alt": "Close view of a fountain pen and handwritten page"
+    },
+    {
+      "_type": "block",
+      "_key": "so4",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "so5",
+          "text": "An effective brief records decisions and questions, not a finished website specification. Image: ",
+          "marks": [
+            "em"
+          ]
+        },
+        {
+          "_type": "span",
+          "_key": "so7",
+          "text": "Unsplash",
+          "marks": [
+            "em",
+            "so6"
+          ]
+        },
+        {
+          "_type": "span",
+          "_key": "so8",
+          "text": "; ",
+          "marks": [
+            "em"
+          ]
+        },
+        {
+          "_type": "span",
+          "_key": "soa",
+          "text": "license",
+          "marks": [
+            "em",
+            "so9"
+          ]
+        },
+        {
+          "_type": "span",
+          "_key": "sob",
+          "text": ".",
+          "marks": [
+            "em"
+          ]
+        }
+      ],
+      "markDefs": [
+        {
+          "_type": "link",
+          "_key": "so6",
+          "href": "https://images.unsplash.com/photo-1455390582262-044cdead277a"
+        },
+        {
+          "_type": "link",
+          "_key": "so9",
+          "href": "https://unsplash.com/license"
+        }
+      ]
+    },
+    {
+      "_type": "block",
+      "_key": "soc",
+      "style": "h2",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "sod",
+          "text": "4. Assemble a small, organized asset folder",
+          "marks": []
+        }
+      ],
+      "markDefs": []
+    },
+    {
+      "_type": "block",
+      "_key": "soe",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "sof",
+          "text": "Gather the materials you already have. Avoid delaying the conversation because everything is not polished yet. Identifying a missing logo file or a photography gap early is useful progress.",
+          "marks": []
+        }
+      ],
+      "markDefs": []
+    },
+    {
+      "_type": "table",
+      "_key": "sog",
+      "hasHeader": true,
+      "rows": [
+        {
+          "_type": "tableRow",
+          "_key": "soh",
+          "cells": [
+            "Folder",
+            "What to include"
+          ]
+        },
+        {
+          "_type": "tableRow",
+          "_key": "sok",
+          "cells": [
+            "Brand",
+            "Logo originals, colors, existing brand guidelines"
+          ]
+        },
+        {
+          "_type": "tableRow",
+          "_key": "son",
+          "cells": [
+            "Photos",
+            "Original approved images, with useful filenames"
+          ]
+        },
+        {
+          "_type": "tableRow",
+          "_key": "soq",
+          "cells": [
+            "Business facts",
+            "Contact details, hours, service area, service list"
+          ]
+        },
+        {
+          "_type": "tableRow",
+          "_key": "sot",
+          "cells": [
+            "Proof",
+            "Approved reviews, credentials, project descriptions"
+          ]
+        },
+        {
+          "_type": "tableRow",
+          "_key": "sow",
+          "cells": [
+            "Existing content",
+            "Brochures, menus, product lists, useful page copy"
+          ]
+        },
+        {
+          "_type": "tableRow",
+          "_key": "soz",
+          "cells": [
+            "References",
+            "A few sites with notes about specific features"
+          ]
+        }
+      ]
+    },
+    {
+      "_type": "block",
+      "_key": "sp2",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "sp3",
+          "text": "Use originals when possible. A logo copied from a screenshot can be difficult to reproduce cleanly. Photos sent through messaging apps may have been compressed. Tell the developer which materials are approved for publication and which need permission or replacement.",
+          "marks": []
+        }
+      ],
+      "markDefs": []
+    },
+    {
+      "_type": "block",
+      "_key": "sp4",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "sp5",
+          "text": "For project photos, add a short note explaining the work and what the image shows. A developer cannot reliably identify the service, location, material, or project sequence from a filename like “IMG_4821.”",
+          "marks": []
+        }
+      ],
+      "markDefs": []
+    },
+    {
+      "_type": "block",
+      "_key": "sp6",
+      "style": "h2",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "sp7",
+          "text": "5. Share references with reasons",
+          "marks": []
+        }
+      ],
+      "markDefs": []
+    },
+    {
+      "_type": "block",
+      "_key": "sp8",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "sp9",
+          "text": "Three useful references are often enough. For each one, point to something specific: the menu is easy to browse, the service explanation is clear, the photography feels appropriate, or the booking path is simple.",
+          "marks": []
+        }
+      ],
+      "markDefs": []
+    },
+    {
+      "_type": "block",
+      "_key": "spa",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "spb",
+          "text": "Explain dislikes the same way. “This menu covers the content on my phone” gives a concrete concern. “I hate modern websites” leaves too much room for interpretation.",
+          "marks": []
+        }
+      ],
+      "markDefs": []
+    },
+    {
+      "_type": "block",
+      "_key": "spc",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "spd",
+          "text": "References communicate preferences; they are not permission to copy another business's branding, photography, or text. Your project should use your own material and a design appropriate to your audience.",
+          "marks": []
+        }
+      ],
+      "markDefs": []
+    },
+    {
+      "_type": "block",
+      "_key": "spe",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "spf",
+          "text": "If a visual preference conflicts with the main task, discuss the tradeoff. A dramatic opening video may support one brand, while another business needs immediate access to a menu or phone number. Tie decisions back to what the customer came to do.",
+          "marks": []
+        }
+      ],
+      "markDefs": []
+    },
+    {
+      "_type": "block",
+      "_key": "spg",
+      "style": "h2",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "sph",
+          "text": "6. Identify accounts without sharing passwords in a brief",
+          "marks": []
+        }
+      ],
+      "markDefs": []
+    },
+    {
+      "_type": "block",
+      "_key": "spi",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "spj",
+          "text": "Make a list of the domain registrar, hosting provider, existing CMS, analytics property, email service, and any essential integrations. Note who currently has administrative access and whether you can sign in.",
+          "marks": []
+        }
+      ],
+      "markDefs": []
+    },
+    {
+      "_type": "block",
+      "_key": "spk",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "spl",
+          "text": "Do not paste passwords, recovery codes, or payment details into the planning document. Arrange access through appropriate invitations or another agreed secure method. Access can be provided when the work requires it.",
+          "marks": []
+        }
+      ],
+      "markDefs": []
+    },
+    {
+      "_type": "block",
+      "_key": "spm",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "spn",
+          "text": "Flag anything uncertain. “The former developer may control the domain” is important information. Discovering that during planning is easier than discovering it on launch day. Domain and email changes need particular care because a website migration can affect more than the website.",
+          "marks": []
+        }
+      ],
+      "markDefs": []
+    },
+    {
+      "_type": "block",
+      "_key": "spo",
+      "style": "h2",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "spp",
+          "text": "7. State the budget and deadline honestly",
+          "marks": []
+        }
+      ],
+      "markDefs": []
+    },
+    {
+      "_type": "block",
+      "_key": "spq",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "spr",
+          "text": "A budget range helps determine a feasible scope. It does not require you to know the final price in advance. Explain whether it covers only the build or also photography, copy, subscriptions, and ongoing support.",
+          "marks": []
+        }
+      ],
+      "markDefs": []
+    },
+    {
+      "_type": "block",
+      "_key": "sps",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "spt",
+          "text": "For a deadline, distinguish a preference from a fixed event. “We would like it soon” differs from “our trade show opens on this date.” If a fixed date matters, identify what must be ready and what could follow later.",
+          "marks": []
+        }
+      ],
+      "markDefs": []
+    },
+    {
+      "_type": "block",
+      "_key": "spu",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "spv",
+          "text": "Ask what the schedule depends on: content delivery, access, review time, approvals, or third-party work. A fast development phase cannot compensate for several weeks waiting on the correct menu or product list.",
+          "marks": []
+        }
+      ],
+      "markDefs": []
+    },
+    {
+      "_type": "block",
+      "_key": "spw",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "spx",
+          "text": "Review ",
+          "marks": []
+        },
+        {
+          "_type": "span",
+          "_key": "spz",
+          "text": "the current service packages",
+          "marks": [
+            "spy"
+          ]
+        },
+        {
+          "_type": "span",
+          "_key": "sq0",
+          "text": " as a starting point, then discuss the actual scope. For support and recurring responsibilities, read ",
+          "marks": []
+        },
+        {
+          "_type": "span",
+          "_key": "sq2",
+          "text": "the website maintenance guide",
+          "marks": [
+            "sq1"
+          ]
+        },
+        {
+          "_type": "span",
+          "_key": "sq3",
+          "text": ".",
+          "marks": []
+        }
+      ],
+      "markDefs": [
+        {
+          "_type": "link",
+          "_key": "spy",
+          "href": "https://jlang.dev/services"
+        },
+        {
+          "_type": "link",
+          "_key": "sq1",
+          "href": "https://jlang.dev/blog/website-maintenance-what-you-pay-for"
+        }
+      ]
+    },
+    {
+      "_type": "block",
+      "_key": "sq4",
+      "style": "h2",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "sq5",
+          "text": "8. Choose a decision-maker and review process",
+          "marks": []
+        }
+      ],
+      "markDefs": []
+    },
+    {
+      "_type": "block",
+      "_key": "sq6",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "sq7",
+          "text": "Name the person who can approve content, design, and scope. Other people can contribute, but somebody needs to reconcile conflicting feedback and make the final call.",
+          "marks": []
+        }
+      ],
+      "markDefs": []
+    },
+    {
+      "_type": "block",
+      "_key": "sq8",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "sq9",
+          "text": "Agree on how feedback will be collected. A single organized set of notes is easier to act on than scattered texts, emails, and comments describing different versions. Include the page, the issue, and the intended result.",
+          "marks": []
+        }
+      ],
+      "markDefs": []
+    },
+    {
+      "_type": "block",
+      "_key": "sqa",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "sqb",
+          "text": "For example: “On the patio service page, the estimate button is difficult to find after the gallery. Please make the next step obvious there.” That describes a user problem while leaving room for the developer to choose an appropriate solution.",
+          "marks": []
+        }
+      ],
+      "markDefs": []
+    },
+    {
+      "_type": "block",
+      "_key": "sqc",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "sqd",
+          "text": "Avoid waiting until final review to introduce a major requirement. If online deposits are essential, mention them at the start. If they become important later, ask how they affect scope and schedule.",
+          "marks": []
+        }
+      ],
+      "markDefs": []
+    },
+    {
+      "_type": "block",
+      "_key": "sqe",
+      "style": "h2",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "sqf",
+          "text": "Copy this short brief",
+          "marks": []
+        }
+      ],
+      "markDefs": []
+    },
+    {
+      "_type": "block",
+      "_key": "sqg",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "sqh",
+          "text": "Use these prompts as a one-page starting document. Bullet-point answers are fine.",
+          "marks": []
+        }
+      ],
+      "markDefs": []
+    },
+    {
+      "_type": "block",
+      "_key": "sqi",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "sqj",
+          "text": "Business:",
+          "marks": [
+            "strong"
+          ]
+        },
+        {
+          "_type": "span",
+          "_key": "sqk",
+          "text": " What do we do, and where do we operate?",
+          "marks": []
+        }
+      ],
+      "markDefs": [],
+      "listItem": "bullet",
+      "level": 1
+    },
+    {
+      "_type": "block",
+      "_key": "sql",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "sqm",
+          "text": "Primary audience:",
+          "marks": [
+            "strong"
+          ]
+        },
+        {
+          "_type": "span",
+          "_key": "sqn",
+          "text": " Who should use the site, and what are they trying to do?",
+          "marks": []
+        }
+      ],
+      "markDefs": [],
+      "listItem": "bullet",
+      "level": 1
+    },
+    {
+      "_type": "block",
+      "_key": "sqo",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "sqp",
+          "text": "Main outcome:",
+          "marks": [
+            "strong"
+          ]
+        },
+        {
+          "_type": "span",
+          "_key": "sqq",
+          "text": " What action matters most?",
+          "marks": []
+        }
+      ],
+      "markDefs": [],
+      "listItem": "bullet",
+      "level": 1
+    },
+    {
+      "_type": "block",
+      "_key": "sqr",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "sqs",
+          "text": "Current problem:",
+          "marks": [
+            "strong"
+          ]
+        },
+        {
+          "_type": "span",
+          "_key": "sqt",
+          "text": " What makes the existing situation difficult?",
+          "marks": []
+        }
+      ],
+      "markDefs": [],
+      "listItem": "bullet",
+      "level": 1
+    },
+    {
+      "_type": "block",
+      "_key": "squ",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "sqv",
+          "text": "Launch essentials:",
+          "marks": [
+            "strong"
+          ]
+        },
+        {
+          "_type": "span",
+          "_key": "sqw",
+          "text": " What pages and tasks must work on day one?",
+          "marks": []
+        }
+      ],
+      "markDefs": [],
+      "listItem": "bullet",
+      "level": 1
+    },
+    {
+      "_type": "block",
+      "_key": "sqx",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "sqy",
+          "text": "Existing tools:",
+          "marks": [
+            "strong"
+          ]
+        },
+        {
+          "_type": "span",
+          "_key": "sqz",
+          "text": " What systems must the site connect to?",
+          "marks": []
+        }
+      ],
+      "markDefs": [],
+      "listItem": "bullet",
+      "level": 1
+    },
+    {
+      "_type": "block",
+      "_key": "sr0",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "sr1",
+          "text": "Available materials:",
+          "marks": [
+            "strong"
+          ]
+        },
+        {
+          "_type": "span",
+          "_key": "sr2",
+          "text": " What copy, photos, reviews, and brand files do we have?",
+          "marks": []
+        }
+      ],
+      "markDefs": [],
+      "listItem": "bullet",
+      "level": 1
+    },
+    {
+      "_type": "block",
+      "_key": "sr3",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "sr4",
+          "text": "References:",
+          "marks": [
+            "strong"
+          ]
+        },
+        {
+          "_type": "span",
+          "_key": "sr5",
+          "text": " Which three examples help explain our preferences, and why?",
+          "marks": []
+        }
+      ],
+      "markDefs": [],
+      "listItem": "bullet",
+      "level": 1
+    },
+    {
+      "_type": "block",
+      "_key": "sr6",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "sr7",
+          "text": "Constraints:",
+          "marks": [
+            "strong"
+          ]
+        },
+        {
+          "_type": "span",
+          "_key": "sr8",
+          "text": " What budget range, deadline, or access issue matters?",
+          "marks": []
+        }
+      ],
+      "markDefs": [],
+      "listItem": "bullet",
+      "level": 1
+    },
+    {
+      "_type": "block",
+      "_key": "sr9",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "sra",
+          "text": "Approvals:",
+          "marks": [
+            "strong"
+          ]
+        },
+        {
+          "_type": "span",
+          "_key": "srb",
+          "text": " Who decides, and who supplies the missing information?",
+          "marks": []
+        }
+      ],
+      "markDefs": [],
+      "listItem": "bullet",
+      "level": 1
+    },
+    {
+      "_type": "block",
+      "_key": "src",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "srd",
+          "text": "Mark unknowns explicitly. “Need help writing service copy” is actionable. Pretending the copy is ready can create an avoidable schedule problem.",
+          "marks": []
+        }
+      ],
+      "markDefs": []
+    },
+    {
+      "_type": "block",
+      "_key": "sre",
+      "style": "h2",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "srf",
+          "text": "Prepare for launch while planning the project",
+          "marks": []
+        }
+      ],
+      "markDefs": []
+    },
+    {
+      "_type": "block",
+      "_key": "srg",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "srh",
+          "text": "Decide who will receive form submissions, update business details, renew accounts, and request support. Ask how you will learn to edit the parts you are expected to maintain.",
+          "marks": []
+        }
+      ],
+      "markDefs": []
+    },
+    {
+      "_type": "image",
+      "_key": "sri",
+      "asset": {
+        "_type": "reference",
+        "_ref": "image-04a259e01c25bcadcc9b9421eb1dd70098d0c5f3-1600x2399-jpg"
+      },
+      "alt": "A team reviewing work together"
+    },
+    {
+      "_type": "block",
+      "_key": "srj",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "srk",
+          "text": "Clear ownership keeps approvals and post-launch responsibilities moving. Image: ",
+          "marks": [
+            "em"
+          ]
+        },
+        {
+          "_type": "span",
+          "_key": "srm",
+          "text": "Unsplash",
+          "marks": [
+            "em",
+            "srl"
+          ]
+        },
+        {
+          "_type": "span",
+          "_key": "srn",
+          "text": "; ",
+          "marks": [
+            "em"
+          ]
+        },
+        {
+          "_type": "span",
+          "_key": "srp",
+          "text": "license",
+          "marks": [
+            "em",
+            "sro"
+          ]
+        },
+        {
+          "_type": "span",
+          "_key": "srq",
+          "text": ".",
+          "marks": [
+            "em"
+          ]
+        }
+      ],
+      "markDefs": [
+        {
+          "_type": "link",
+          "_key": "srl",
+          "href": "https://images.unsplash.com/photo-1521737711867-e3b97375f902"
+        },
+        {
+          "_type": "link",
+          "_key": "sro",
+          "href": "https://unsplash.com/license"
+        }
+      ]
+    },
+    {
+      "_type": "block",
+      "_key": "srr",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "srs",
+          "text": "Agree on a launch checklist: important pages reviewed, contact details verified, forms tested end to end, account access confirmed, and recovery arrangements understood. Your developer should help define the technical checks.",
+          "marks": []
+        }
+      ],
+      "markDefs": []
+    },
+    {
+      "_type": "block",
+      "_key": "srt",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "sru",
+          "text": "The strongest preparation is a short, honest picture of the business and the decisions ahead. Bring that, a few real assets, and a willingness to answer questions. There is enough to start a productive conversation about ",
+          "marks": []
+        },
+        {
+          "_type": "span",
+          "_key": "srw",
+          "text": "your website project",
+          "marks": [
+            "srv"
+          ]
+        },
+        {
+          "_type": "span",
+          "_key": "srx",
+          "text": ".",
+          "marks": []
+        }
+      ],
+      "markDefs": [
+        {
+          "_type": "link",
+          "_key": "srv",
+          "href": "https://jlang.dev/services"
+        }
+      ]
+    }
+  ],
+  "published": false,
+  "category": {
+    "_type": "reference",
+    "_ref": "category.website-strategy"
+  },
+  "tags": [
+    {
+      "_type": "reference",
+      "_key": "project-planning",
+      "_ref": "tag.project-planning"
+    },
+    {
+      "_type": "reference",
+      "_key": "website-brief",
+      "_ref": "tag.website-brief"
+    },
+    {
+      "_type": "reference",
+      "_key": "small-business",
+      "_ref": "tag.small-business"
+    }
+  ]
+}

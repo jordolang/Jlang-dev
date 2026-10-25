@@ -74,7 +74,7 @@ export default function BlogPostView({ post, body, allPosts, previousPost, nextP
           <div className="grid grid-cols-1 xl:grid-cols-[1fr_300px] gap-12">
             {/* CSS entrance, not framer-motion: an opacity-0 start would keep the article
                 (and the LCP image) invisible until hydration. */}
-            <article className="hero-reveal max-w-4xl">
+            <article className="hero-reveal min-w-0 max-w-4xl">
               {post.image && (
                 <div className="relative h-[400px] rounded-2xl overflow-hidden mb-8 shadow-2xl">
                   <div className="absolute inset-0 bg-gradient-to-br from-indigo-500/20 to-purple-500/20" />

@@ -1,0 +1,1063 @@
+{
+  "_id": "drafts.blogPost.when-your-business-outgrows-spreadsheets",
+  "_type": "blogPost",
+  "title": "When Your Business Outgrows Spreadsheets",
+  "slug": {
+    "_type": "slug",
+    "current": "when-your-business-outgrows-spreadsheets"
+  },
+  "date": "2026-10-21",
+  "excerpt": "Recognize when a useful spreadsheet has become a fragile business system—and choose a sensible next step without commissioning more software than you need.",
+  "author": "Jordan Lang",
+  "readTime": "8 min read",
+  "image": {
+    "_type": "image",
+    "_key": "sib",
+    "asset": {
+      "_type": "reference",
+      "_ref": "image-04a259e01c25bcadcc9b9421eb1dd70098d0c5f3-1600x2399-jpg"
+    },
+    "alt": "When Your Business Outgrows Spreadsheets"
+  },
+  "body": [
+    {
+      "_type": "block",
+      "_key": "se1",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "se2",
+          "text": "A spreadsheet often starts as the right solution. You need to track a few customers, jobs, products, or appointments. It is quick to build, easy to change, and familiar enough that the team can use it immediately.",
+          "marks": []
+        }
+      ],
+      "markDefs": []
+    },
+    {
+      "_type": "block",
+      "_key": "se3",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "se4",
+          "text": "Then the business grows around it. Someone adds a status column. Another person creates a second tab. A formula becomes essential to quoting. Staff copy information into invoices, calendars, and email. The sheet still looks simple, but it now carries a complicated process.",
+          "marks": []
+        }
+      ],
+      "markDefs": []
+    },
+    {
+      "_type": "block",
+      "_key": "se5",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "se6",
+          "text": "The question is whether that process remains dependable. You have outgrown the spreadsheet when the work required to keep it trustworthy starts interfering with the work it was supposed to support.",
+          "marks": []
+        }
+      ],
+      "markDefs": []
+    },
+    {
+      "_type": "block",
+      "_key": "se7",
+      "style": "blockquote",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "se8",
+          "text": "The warning sign is dependency:",
+          "marks": [
+            "strong"
+          ]
+        },
+        {
+          "_type": "span",
+          "_key": "se9",
+          "text": " If one person must explain which file, formula, color, or workaround makes the business run, investigate the system around the sheet.",
+          "marks": []
+        }
+      ],
+      "markDefs": []
+    },
+    {
+      "_type": "block",
+      "_key": "sea",
+      "style": "h2",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "seb",
+          "text": "Recognize the operational symptoms",
+          "marks": []
+        }
+      ],
+      "markDefs": []
+    },
+    {
+      "_type": "block",
+      "_key": "sec",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "sed",
+          "text": "The number of rows is not a useful boundary by itself. A large reference table can work well in a spreadsheet. A small table controlling sensitive approvals or multi-person scheduling may need stronger structure.",
+          "marks": []
+        }
+      ],
+      "markDefs": []
+    },
+    {
+      "_type": "block",
+      "_key": "see",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "sef",
+          "text": "Look for recurring patterns:",
+          "marks": []
+        }
+      ],
+      "markDefs": []
+    },
+    {
+      "_type": "block",
+      "_key": "seg",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "seh",
+          "text": "Staff disagree about which version is current.",
+          "marks": []
+        }
+      ],
+      "markDefs": [],
+      "listItem": "bullet",
+      "level": 1
+    },
+    {
+      "_type": "block",
+      "_key": "sei",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "sej",
+          "text": "The same information is entered into several places.",
+          "marks": []
+        }
+      ],
+      "markDefs": [],
+      "listItem": "bullet",
+      "level": 1
+    },
+    {
+      "_type": "block",
+      "_key": "sek",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "sel",
+          "text": "Important status changes depend on a cell color or comment.",
+          "marks": []
+        }
+      ],
+      "markDefs": [],
+      "listItem": "bullet",
+      "level": 1
+    },
+    {
+      "_type": "block",
+      "_key": "sem",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "sen",
+          "text": "Formula edits create errors that are discovered much later.",
+          "marks": []
+        }
+      ],
+      "markDefs": [],
+      "listItem": "bullet",
+      "level": 1
+    },
+    {
+      "_type": "block",
+      "_key": "seo",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "sep",
+          "text": "People receive more access than their job requires.",
+          "marks": []
+        }
+      ],
+      "markDefs": [],
+      "listItem": "bullet",
+      "level": 1
+    },
+    {
+      "_type": "block",
+      "_key": "seq",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "ser",
+          "text": "Customers must call because staff cannot reliably see progress.",
+          "marks": []
+        }
+      ],
+      "markDefs": [],
+      "listItem": "bullet",
+      "level": 1
+    },
+    {
+      "_type": "block",
+      "_key": "ses",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "set",
+          "text": "The process stops when the person who built the sheet is away.",
+          "marks": []
+        }
+      ],
+      "markDefs": [],
+      "listItem": "bullet",
+      "level": 1
+    },
+    {
+      "_type": "block",
+      "_key": "seu",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "sev",
+          "text": "A single mistake may call for better training or a small repair. Repeated mistakes at the same handoff suggest a process problem. Write down what happens, who notices, and how the team recovers before shopping for software.",
+          "marks": []
+        }
+      ],
+      "markDefs": []
+    },
+    {
+      "_type": "block",
+      "_key": "sew",
+      "style": "h2",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "sex",
+          "text": "Count the hidden work",
+          "marks": []
+        }
+      ],
+      "markDefs": []
+    },
+    {
+      "_type": "block",
+      "_key": "sey",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "sez",
+          "text": "A free tool can support an expensive routine. Time spent reconciling versions, repairing formulas, copying records, and checking whether a task happened is part of the system's operating cost.",
+          "marks": []
+        }
+      ],
+      "markDefs": []
+    },
+    {
+      "_type": "block",
+      "_key": "sf0",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "sf1",
+          "text": "Use a modest example. Suppose three people each spend twenty minutes a working day moving or checking data. Together, that is an hour a day. Across twenty working days, it is twenty hours. At an illustrative loaded labor cost of $30 an hour, the routine represents $600 a month in staff time.",
+          "marks": []
+        }
+      ],
+      "markDefs": []
+    },
+    {
+      "_type": "block",
+      "_key": "sf2",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "sf3",
+          "text": "Those figures are assumptions, not promised savings. Some checking will remain after a change, and some recovered time may become capacity rather than a lower payroll bill. Use your own observed activity and distinguish time you could redirect from cash you would actually stop spending.",
+          "marks": []
+        }
+      ],
+      "markDefs": []
+    },
+    {
+      "_type": "block",
+      "_key": "sf4",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "sf5",
+          "text": "Also consider mistakes that time tracking misses: an unassigned inquiry, an outdated quote, a double booking, or an inventory decision based on stale information. Estimate them conservatively and avoid counting the same loss twice.",
+          "marks": []
+        }
+      ],
+      "markDefs": []
+    },
+    {
+      "_type": "block",
+      "_key": "sf6",
+      "style": "h2",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "sf7",
+          "text": "Map one workflow before choosing a tool",
+          "marks": []
+        }
+      ],
+      "markDefs": []
+    },
+    {
+      "_type": "block",
+      "_key": "sf8",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "sf9",
+          "text": "Pick a process with a clear beginning and end, such as inquiry to scheduled job. Write each step in ordinary language: request received, details confirmed, estimate prepared, approval recorded, work scheduled, job completed, invoice sent.",
+          "marks": []
+        }
+      ],
+      "markDefs": []
+    },
+    {
+      "_type": "block",
+      "_key": "sfa",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "sfb",
+          "text": "For each step, identify the responsible person, required information, and rule for moving forward. Note where data crosses into another tool. Those handoffs often explain why the spreadsheet feels unreliable.",
+          "marks": []
+        }
+      ],
+      "markDefs": []
+    },
+    {
+      "_type": "block",
+      "_key": "sfc",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "sfd",
+          "text": "Then ask what can be simplified. If staff enter the same address three times, the answer may be one shared customer record. If nobody owns quote follow-up, a new database will not assign that responsibility by magic. Define ownership as part of the improvement.",
+          "marks": []
+        }
+      ],
+      "markDefs": []
+    },
+    {
+      "_type": "image",
+      "_key": "sfe",
+      "asset": {
+        "_type": "reference",
+        "_ref": "image-04a259e01c25bcadcc9b9421eb1dd70098d0c5f3-1600x2399-jpg"
+      },
+      "alt": "People working together around a table"
+    },
+    {
+      "_type": "block",
+      "_key": "sff",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "sfg",
+          "text": "Map the way the team actually works before choosing a replacement. Image: ",
+          "marks": [
+            "em"
+          ]
+        },
+        {
+          "_type": "span",
+          "_key": "sfi",
+          "text": "Unsplash",
+          "marks": [
+            "em",
+            "sfh"
+          ]
+        },
+        {
+          "_type": "span",
+          "_key": "sfj",
+          "text": "; ",
+          "marks": [
+            "em"
+          ]
+        },
+        {
+          "_type": "span",
+          "_key": "sfl",
+          "text": "license",
+          "marks": [
+            "em",
+            "sfk"
+          ]
+        },
+        {
+          "_type": "span",
+          "_key": "sfm",
+          "text": ".",
+          "marks": [
+            "em"
+          ]
+        }
+      ],
+      "markDefs": [
+        {
+          "_type": "link",
+          "_key": "sfh",
+          "href": "https://images.unsplash.com/photo-1521737711867-e3b97375f902"
+        },
+        {
+          "_type": "link",
+          "_key": "sfk",
+          "href": "https://unsplash.com/license"
+        }
+      ]
+    },
+    {
+      "_type": "block",
+      "_key": "sfn",
+      "style": "h2",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "sfo",
+          "text": "Choose among four sensible next steps",
+          "marks": []
+        }
+      ],
+      "markDefs": []
+    },
+    {
+      "_type": "block",
+      "_key": "sfp",
+      "style": "h3",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "sfq",
+          "text": "Improve the spreadsheet",
+          "marks": []
+        }
+      ],
+      "markDefs": []
+    },
+    {
+      "_type": "block",
+      "_key": "sfr",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "sfs",
+          "text": "Stay with the existing tool when the process is small, access needs are simple, and errors come from fixable habits. Consolidate duplicate files, standardize column names, protect formulas, use validation, and document the workflow.",
+          "marks": []
+        }
+      ],
+      "markDefs": []
+    },
+    {
+      "_type": "block",
+      "_key": "sft",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "sfu",
+          "text": "Assign an owner and agree on where the current version lives. If those changes remove most of the friction, you may have solved the immediate problem at relatively low cost.",
+          "marks": []
+        }
+      ],
+      "markDefs": []
+    },
+    {
+      "_type": "block",
+      "_key": "sfv",
+      "style": "h3",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "sfw",
+          "text": "Adopt an existing business application",
+          "marks": []
+        }
+      ],
+      "markDefs": []
+    },
+    {
+      "_type": "block",
+      "_key": "sfx",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "sfy",
+          "text": "A CRM, scheduling system, inventory tool, or service-management product may already support your workflow. Test it with a real example rather than judging a feature list. Can staff complete the normal task? Can you export the information? Does it integrate with the systems you depend on?",
+          "marks": []
+        }
+      ],
+      "markDefs": []
+    },
+    {
+      "_type": "block",
+      "_key": "sfz",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "sg0",
+          "text": "Consider the full cost: subscriptions, configuration, training, migration, integrations, and ongoing administration. A familiar industry tool can be a better fit than a custom system, even if you adapt a few habits.",
+          "marks": []
+        }
+      ],
+      "markDefs": []
+    },
+    {
+      "_type": "block",
+      "_key": "sg1",
+      "style": "h3",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "sg2",
+          "text": "Connect the tools you already use",
+          "marks": []
+        }
+      ],
+      "markDefs": []
+    },
+    {
+      "_type": "block",
+      "_key": "sg3",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "sg4",
+          "text": "Sometimes the problem is the gap between useful products. A form may need to create a CRM record, or an approved estimate may need to trigger a scheduling task. A focused integration can remove duplicate entry without replacing the entire process.",
+          "marks": []
+        }
+      ],
+      "markDefs": []
+    },
+    {
+      "_type": "block",
+      "_key": "sg5",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "sg6",
+          "text": "Every integration needs a failure plan. Who notices when it stops? Can you retry safely without duplicating records? Is there a record of what moved and what failed? Automation should make failures visible.",
+          "marks": []
+        }
+      ],
+      "markDefs": []
+    },
+    {
+      "_type": "block",
+      "_key": "sg7",
+      "style": "h3",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "sg8",
+          "text": "Build a focused custom system",
+          "marks": []
+        }
+      ],
+      "markDefs": []
+    },
+    {
+      "_type": "block",
+      "_key": "sg9",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "sga",
+          "text": "A custom application becomes worth considering when a valuable workflow has requirements existing products cannot meet reasonably. That might involve unusual quoting rules, field-worker access, specialized approvals, or a customer portal tied to internal records.",
+          "marks": []
+        }
+      ],
+      "markDefs": []
+    },
+    {
+      "_type": "block",
+      "_key": "sgb",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "sgc",
+          "text": "Define the smallest complete workflow first. “Replace every spreadsheet” is too vague. “Let dispatch assign a job and let the crew record completion with photos” is something you can demonstrate and evaluate.",
+          "marks": []
+        }
+      ],
+      "markDefs": []
+    },
+    {
+      "_type": "block",
+      "_key": "sgd",
+      "style": "h2",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "sge",
+          "text": "Compare the options honestly",
+          "marks": []
+        }
+      ],
+      "markDefs": []
+    },
+    {
+      "_type": "table",
+      "_key": "sgf",
+      "hasHeader": true,
+      "rows": [
+        {
+          "_type": "tableRow",
+          "_key": "sgg",
+          "cells": [
+            "Option",
+            "Good fit",
+            "Main tradeoff"
+          ]
+        },
+        {
+          "_type": "tableRow",
+          "_key": "sgk",
+          "cells": [
+            "Better spreadsheet",
+            "Simple, stable workflow",
+            "Discipline still carries much of the process"
+          ]
+        },
+        {
+          "_type": "tableRow",
+          "_key": "sgo",
+          "cells": [
+            "Existing application",
+            "Common industry requirements",
+            "You adapt to the product's structure"
+          ]
+        },
+        {
+          "_type": "tableRow",
+          "_key": "sgs",
+          "cells": [
+            "Integration",
+            "Useful tools with repetitive handoffs",
+            "Connections need monitoring and ownership"
+          ]
+        },
+        {
+          "_type": "tableRow",
+          "_key": "sgw",
+          "cells": [
+            "Custom application",
+            "Valuable, distinct workflow",
+            "Development and maintenance become responsibilities"
+          ]
+        }
+      ]
+    },
+    {
+      "_type": "block",
+      "_key": "sh0",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "sh1",
+          "text": "Choose based on the work, the people using the system, and the cost of getting it wrong. A complicated tool can increase friction if staff avoid it or recreate the old spreadsheet on the side.",
+          "marks": []
+        }
+      ],
+      "markDefs": []
+    },
+    {
+      "_type": "block",
+      "_key": "sh2",
+      "style": "h2",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "sh3",
+          "text": "Design around records and permissions",
+          "marks": []
+        }
+      ],
+      "markDefs": []
+    },
+    {
+      "_type": "block",
+      "_key": "sh4",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "sh5",
+          "text": "A business system should make important things explicit. A customer has a record. A job belongs to a customer. A status change has a meaning. Staff can tell who is responsible and what happens next.",
+          "marks": []
+        }
+      ],
+      "markDefs": []
+    },
+    {
+      "_type": "block",
+      "_key": "sh6",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "sh7",
+          "text": "Agree on definitions before migration. Does “complete” mean the crew finished, the customer approved, or the invoice was paid? If different people use the same word differently, reports will disagree even in a technically excellent application.",
+          "marks": []
+        }
+      ],
+      "markDefs": []
+    },
+    {
+      "_type": "block",
+      "_key": "sh8",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "sh9",
+          "text": "Decide who can view, edit, approve, and export information. Separate privileges where the workflow requires it. Keep an appropriate history of important changes and a way to recover from mistakes. Those needs should shape the design early.",
+          "marks": []
+        }
+      ],
+      "markDefs": []
+    },
+    {
+      "_type": "block",
+      "_key": "sha",
+      "style": "h2",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "shb",
+          "text": "Plan the move before importing data",
+          "marks": []
+        }
+      ],
+      "markDefs": []
+    },
+    {
+      "_type": "block",
+      "_key": "shc",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "shd",
+          "text": "Start with a copy of the source material and preserve an untouched backup. Identify duplicate customers, inconsistent dates, missing fields, and values that changed meaning over time.",
+          "marks": []
+        }
+      ],
+      "markDefs": []
+    },
+    {
+      "_type": "block",
+      "_key": "she",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "shf",
+          "text": "Create a mapping from old columns to the new structure. Decide what to do with incomplete or ambiguous records. Do not silently guess when the wrong interpretation could affect billing, scheduling, or customer communication.",
+          "marks": []
+        }
+      ],
+      "markDefs": []
+    },
+    {
+      "_type": "block",
+      "_key": "shg",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "shh",
+          "text": "Import a small representative sample first. Include ordinary records and awkward cases: an inactive customer, a cancelled job, a partial payment, or an unusual address. Ask the people who do the work to verify the result.",
+          "marks": []
+        }
+      ],
+      "markDefs": []
+    },
+    {
+      "_type": "image",
+      "_key": "shi",
+      "asset": {
+        "_type": "reference",
+        "_ref": "image-8117d1f15503de64e1c20cbaa49451c2f1074181-1600x898-jpg"
+      },
+      "alt": "Server infrastructure supporting a structured business application"
+    },
+    {
+      "_type": "block",
+      "_key": "shj",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "shk",
+          "text": "A shared application still needs backups, maintenance, and a recovery plan. Image: ",
+          "marks": [
+            "em"
+          ]
+        },
+        {
+          "_type": "span",
+          "_key": "shm",
+          "text": "Unsplash",
+          "marks": [
+            "em",
+            "shl"
+          ]
+        },
+        {
+          "_type": "span",
+          "_key": "shn",
+          "text": "; ",
+          "marks": [
+            "em"
+          ]
+        },
+        {
+          "_type": "span",
+          "_key": "shp",
+          "text": "license",
+          "marks": [
+            "em",
+            "sho"
+          ]
+        },
+        {
+          "_type": "span",
+          "_key": "shq",
+          "text": ".",
+          "marks": [
+            "em"
+          ]
+        }
+      ],
+      "markDefs": [
+        {
+          "_type": "link",
+          "_key": "shl",
+          "href": "https://images.unsplash.com/photo-1558494949-ef010cbdcc31"
+        },
+        {
+          "_type": "link",
+          "_key": "sho",
+          "href": "https://unsplash.com/license"
+        }
+      ]
+    },
+    {
+      "_type": "block",
+      "_key": "shr",
+      "style": "h2",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "shs",
+          "text": "Pilot without creating two competing systems",
+          "marks": []
+        }
+      ],
+      "markDefs": []
+    },
+    {
+      "_type": "block",
+      "_key": "sht",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "shu",
+          "text": "Give the pilot a specific workflow, a small group of users, and clear acceptance criteria. For example: a test inquiry becomes one customer record, a job can be assigned, staff can see the current status, and an export contains the expected information.",
+          "marks": []
+        }
+      ],
+      "markDefs": []
+    },
+    {
+      "_type": "block",
+      "_key": "shv",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "shw",
+          "text": "During transition, state which system is authoritative for each task. Running both indefinitely without clear rules can double the work and create conflicting records. Reconcile the pilot, fix problems, and choose a deliberate cutover point.",
+          "marks": []
+        }
+      ],
+      "markDefs": []
+    },
+    {
+      "_type": "block",
+      "_key": "shx",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "shy",
+          "text": "Train with real tasks rather than a tour of every screen. Provide short instructions for the common paths and a clear route for reporting issues. Keep a rollback or recovery plan proportionate to the process.",
+          "marks": []
+        }
+      ],
+      "markDefs": []
+    },
+    {
+      "_type": "block",
+      "_key": "shz",
+      "style": "h2",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "si0",
+          "text": "Know whether the change worked",
+          "marks": []
+        }
+      ],
+      "markDefs": []
+    },
+    {
+      "_type": "block",
+      "_key": "si1",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "si2",
+          "text": "Return to the original symptoms. Are staff entering information fewer times? Are responsibilities clearer? Can someone find the current job status without asking the spreadsheet expert? How often does a record need correction?",
+          "marks": []
+        }
+      ],
+      "markDefs": []
+    },
+    {
+      "_type": "block",
+      "_key": "si3",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "si4",
+          "text": "Measure those outcomes alongside costs. A system can succeed by improving reliability and capacity, even when it does not immediately reduce expenses. Be explicit about what improvement you are buying.",
+          "marks": []
+        }
+      ],
+      "markDefs": []
+    },
+    {
+      "_type": "block",
+      "_key": "si5",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "si6",
+          "text": "Start by bringing one painful workflow to the table.",
+          "marks": [
+            "strong"
+          ]
+        },
+        {
+          "_type": "span",
+          "_key": "si7",
+          "text": " A sample sheet with sensitive details removed, a rough process sketch, and two recent examples of friction are enough to begin a useful conversation about ",
+          "marks": []
+        },
+        {
+          "_type": "span",
+          "_key": "si9",
+          "text": "custom business applications",
+          "marks": [
+            "si8"
+          ]
+        },
+        {
+          "_type": "span",
+          "_key": "sia",
+          "text": ".",
+          "marks": []
+        }
+      ],
+      "markDefs": [
+        {
+          "_type": "link",
+          "_key": "si8",
+          "href": "https://jlang.dev/services"
+        }
+      ]
+    }
+  ],
+  "published": false,
+  "category": {
+    "_type": "reference",
+    "_ref": "category.business-systems"
+  },
+  "tags": [
+    {
+      "_type": "reference",
+      "_key": "spreadsheets",
+      "_ref": "tag.spreadsheets"
+    },
+    {
+      "_type": "reference",
+      "_key": "automation",
+      "_ref": "tag.automation"
+    },
+    {
+      "_type": "reference",
+      "_key": "business-systems",
+      "_ref": "tag.business-systems"
+    },
+    {
+      "_type": "reference",
+      "_key": "web-apps",
+      "_ref": "tag.web-apps"
+    }
+  ]
+}

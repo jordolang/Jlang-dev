@@ -9,6 +9,7 @@
 		"build": "next build",
 		"start": "next start",
 		"lint": "next lint",
+		"blog:import": "tsx scripts/import-blog-posts.ts",
 		"seed-categories": "npx tsx scripts/seed-blog-categories.ts",
 		"verify:workflow": "npx tsx scripts/verify-review-workflow.ts",
 		"test": "vitest run",

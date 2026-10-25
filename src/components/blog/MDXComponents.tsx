@@ -200,15 +200,16 @@ export const MDXComponents = {
     </Link>
   ),
   img: ({ src, alt }: { src?: string; alt?: string }) => (
-    <div className="my-8 rounded-xl overflow-hidden border border-gray-200 dark:border-gray-800 shadow-lg">
+    <span className="my-8 block rounded-xl overflow-hidden border border-gray-200 dark:border-gray-800 shadow-lg">
       <Image
         src={src || ''}
         alt={alt || ''}
         width={1200}
         height={600}
         className="w-full h-auto"
+        sizes="(max-width: 768px) 100vw, 896px"
       />
-    </div>
+    </span>
   ),
   blockquote: ({ children }: { children: ReactNode }) => (
     <Quote>{children}</Quote>
@@ -238,7 +239,7 @@ export const MDXComponents = {
     </th>
   ),
   td: ({ children }: { children: ReactNode }) => (
-    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-700 dark:text-gray-300">
+    <td className="px-6 py-4 align-top break-words text-sm text-gray-700 dark:text-gray-300">
       {children}
     </td>
   ),

@@ -1,0 +1,956 @@
+{
+  "_id": "drafts.blogPost.local-business-website-rebuild-neff-paving",
+  "_type": "blogPost",
+  "title": "Inside a Local Business Website Rebuild: From First Call to Launch",
+  "slug": {
+    "_type": "slug",
+    "current": "local-business-website-rebuild-neff-paving"
+  },
+  "date": "2026-10-21",
+  "excerpt": "A practical walkthrough of a contractor website rebuild, using Neff Paving’s documented service pages, galleries, forms, and mobile experience to explain the decisions behind the work.",
+  "author": "Jordan Lang",
+  "readTime": "8 min read",
+  "image": {
+    "_type": "image",
+    "_key": "svx",
+    "asset": {
+      "_type": "reference",
+      "_ref": "image-2195dc04b0918378ed1f8eaaead16f8b45c57c77-1440x1008-jpg"
+    },
+    "alt": "Inside a Local Business Website Rebuild: From First Call to Launch"
+  },
+  "body": [
+    {
+      "_type": "block",
+      "_key": "srz",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "ss0",
+          "text": "A local business website rebuild starts before anyone chooses a font. It starts with the gap between what the business does and what a customer can understand from the website.",
+          "marks": []
+        }
+      ],
+      "markDefs": []
+    },
+    {
+      "_type": "block",
+      "_key": "ss1",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "ss2",
+          "text": "For a paving contractor, that gap is practical. A property owner needs to identify the right service, judge the quality of the work, and request an estimate. A commercial buyer may need to understand the company's capabilities before starting a conversation. The website has to help both move forward.",
+          "marks": []
+        }
+      ],
+      "markDefs": []
+    },
+    {
+      "_type": "block",
+      "_key": "ss3",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "ss4",
+          "text": "This walkthrough uses the documented ",
+          "marks": []
+        },
+        {
+          "_type": "span",
+          "_key": "ss6",
+          "text": "Neff Paving project",
+          "marks": [
+            "ss5"
+          ]
+        },
+        {
+          "_type": "span",
+          "_key": "ss7",
+          "text": ": a redesign featuring service-page templates, before-and-after galleries, contact forms, mobile optimization, reviews, and local SEO setup. The project record lists a two-month timeline.",
+          "marks": []
+        }
+      ],
+      "markDefs": [
+        {
+          "_type": "link",
+          "_key": "ss5",
+          "href": "https://jlang.dev/projects/neff-paving"
+        }
+      ]
+    },
+    {
+      "_type": "block",
+      "_key": "ss8",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "ss9",
+          "text": "The stages below explain how those requirements fit into a rebuild from discovery through launch. They are a process walkthrough grounded in the recorded deliverables, rather than a reconstruction of private client conversations. No before-and-after traffic or lead figures are claimed here.",
+          "marks": []
+        }
+      ],
+      "markDefs": []
+    },
+    {
+      "_type": "block",
+      "_key": "ssa",
+      "style": "blockquote",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "ssb",
+          "text": "The central design question:",
+          "marks": [
+            "strong"
+          ]
+        },
+        {
+          "_type": "span",
+          "_key": "ssc",
+          "text": " What does a property owner need to see and understand before asking this contractor for an estimate?",
+          "marks": []
+        }
+      ],
+      "markDefs": []
+    },
+    {
+      "_type": "block",
+      "_key": "ssd",
+      "style": "h2",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "sse",
+          "text": "The first conversation defines the business problem",
+          "marks": []
+        }
+      ],
+      "markDefs": []
+    },
+    {
+      "_type": "block",
+      "_key": "ssf",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "ssg",
+          "text": "The opening conversation should establish what the website is supposed to accomplish. “We need a redesign” identifies a project category, but it leaves the important decisions open.",
+          "marks": []
+        }
+      ],
+      "markDefs": []
+    },
+    {
+      "_type": "block",
+      "_key": "ssh",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "ssi",
+          "text": "For a contractor, useful questions include which services deserve emphasis, which areas are served, what kinds of projects are a good fit, and how inquiries should reach the team. The answers shape page structure and contact forms before visual design begins.",
+          "marks": []
+        }
+      ],
+      "markDefs": []
+    },
+    {
+      "_type": "block",
+      "_key": "ssj",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "ssk",
+          "text": "This is also the time to identify constraints. Is the domain accessible? Which photographs can be published? Who supplies service details? Does somebody already own the estimate follow-up process? Missing answers become tasks in the project, rather than surprises near launch.",
+          "marks": []
+        }
+      ],
+      "markDefs": []
+    },
+    {
+      "_type": "block",
+      "_key": "ssl",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "ssm",
+          "text": "The Neff Paving record establishes a conversion-focused redesign with service showcases and lead-generation forms. That makes the customer journey a useful organizing principle: understand the service, inspect relevant work, then inquire.",
+          "marks": []
+        }
+      ],
+      "markDefs": []
+    },
+    {
+      "_type": "block",
+      "_key": "ssn",
+      "style": "h2",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "sso",
+          "text": "Audit what deserves to carry forward",
+          "marks": []
+        }
+      ],
+      "markDefs": []
+    },
+    {
+      "_type": "block",
+      "_key": "ssp",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "ssq",
+          "text": "A rebuild should begin with an inventory of existing pages, useful copy, photography, account access, and important customer paths. Useful material can survive a design change even when the surrounding presentation needs replacement.",
+          "marks": []
+        }
+      ],
+      "markDefs": []
+    },
+    {
+      "_type": "block",
+      "_key": "ssr",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "sss",
+          "text": "For a paving site, the audit should distinguish service explanations from project evidence. A photo can show a finished surface, but it may not explain whether the company also handles preparation, repairs, or related work. Copy and photography need to support each other.",
+          "marks": []
+        }
+      ],
+      "markDefs": []
+    },
+    {
+      "_type": "block",
+      "_key": "sst",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "ssu",
+          "text": "Record important URLs and consider existing links before changing addresses. Identify which contact details, hours, and service-area descriptions need verification. A rebuild can look polished while introducing factual inconsistencies if content review is treated as an afterthought.",
+          "marks": []
+        }
+      ],
+      "markDefs": []
+    },
+    {
+      "_type": "image",
+      "_key": "ssv",
+      "asset": {
+        "_type": "reference",
+        "_ref": "image-2195dc04b0918378ed1f8eaaead16f8b45c57c77-1440x1008-jpg"
+      },
+      "alt": "Upper section of the Neff Paving website captured in the project portfolio"
+    },
+    {
+      "_type": "block",
+      "_key": "ssw",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "ssx",
+          "text": "Detail from the Neff Paving screenshot retained in the JLang Development project portfolio. This is a project capture, rather than a live view of the current website.",
+          "marks": [
+            "em"
+          ]
+        }
+      ],
+      "markDefs": []
+    },
+    {
+      "_type": "block",
+      "_key": "ssy",
+      "style": "h2",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "ssz",
+          "text": "Organize around the customer's questions",
+          "marks": []
+        }
+      ],
+      "markDefs": []
+    },
+    {
+      "_type": "block",
+      "_key": "st0",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "st1",
+          "text": "The project deliverables include custom service-page templates. That matters because a service page can answer a specific hiring question without overloading the homepage.",
+          "marks": []
+        }
+      ],
+      "markDefs": []
+    },
+    {
+      "_type": "block",
+      "_key": "st2",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "st3",
+          "text": "A useful contractor page explains what the service includes, which properties it suits, what the customer should expect, and how to request an estimate. It should show related work and address common concerns using accurate business information.",
+          "marks": []
+        }
+      ],
+      "markDefs": []
+    },
+    {
+      "_type": "block",
+      "_key": "st4",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "st5",
+          "text": "The homepage then acts as an introduction and a set of clear routes. Someone who already knows what they need should be able to reach the relevant service. Someone still comparing options should find enough context to choose a path.",
+          "marks": []
+        }
+      ],
+      "markDefs": []
+    },
+    {
+      "_type": "block",
+      "_key": "st6",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "st7",
+          "text": "Navigation labels should reflect how customers describe the work. Internal terminology may be precise within the company but unfamiliar to a property owner. Use the business's actual services and explain specialist terms where they affect a decision.",
+          "marks": []
+        }
+      ],
+      "markDefs": []
+    },
+    {
+      "_type": "block",
+      "_key": "st8",
+      "style": "h2",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "st9",
+          "text": "Make the visual identity support recognition",
+          "marks": []
+        }
+      ],
+      "markDefs": []
+    },
+    {
+      "_type": "block",
+      "_key": "sta",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "stb",
+          "text": "The Neff Paving feature list includes professional brand identity design. In a contractor project, that work should help the website feel consistent with the business people encounter elsewhere: trucks, signs, estimates, and job sites.",
+          "marks": []
+        }
+      ],
+      "markDefs": []
+    },
+    {
+      "_type": "block",
+      "_key": "stc",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "std",
+          "text": "Visual identity includes more than a logo. It affects color, typography, photography, spacing, and the hierarchy of information. A clear heading should help a visitor orient themselves. A prominent action should make the next step apparent. Supporting details should remain readable.",
+          "marks": []
+        }
+      ],
+      "markDefs": []
+    },
+    {
+      "_type": "block",
+      "_key": "ste",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "stf",
+          "text": "Consistency also reduces uncertainty. If every service page uses the same recognizable structure, a visitor can concentrate on the differences between services instead of learning a new interface on each page.",
+          "marks": []
+        }
+      ],
+      "markDefs": []
+    },
+    {
+      "_type": "block",
+      "_key": "stg",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "sth",
+          "text": "The visual choices should remain useful on small screens and in ordinary conditions. A design that looks impressive in a desktop mockup still needs to work for someone reviewing a contractor on a phone outside.",
+          "marks": []
+        }
+      ],
+      "markDefs": []
+    },
+    {
+      "_type": "block",
+      "_key": "sti",
+      "style": "h2",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "stj",
+          "text": "Turn the gallery into evidence",
+          "marks": []
+        }
+      ],
+      "markDefs": []
+    },
+    {
+      "_type": "block",
+      "_key": "stk",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "stl",
+          "text": "Before-and-after galleries are among the documented features. Their value comes from helping customers inspect relevant work and understand the type of improvement the contractor performs.",
+          "marks": []
+        }
+      ],
+      "markDefs": []
+    },
+    {
+      "_type": "block",
+      "_key": "stm",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "stn",
+          "text": "The strongest project presentation pairs images with factual context: the original issue, the work completed, and the kind of property. It avoids implying every customer will receive the same result under different conditions.",
+          "marks": []
+        }
+      ],
+      "markDefs": []
+    },
+    {
+      "_type": "block",
+      "_key": "sto",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "stp",
+          "text": "Photo selection matters. Use clear views, comparable angles where available, and details that show the finished work. Organize the gallery so a prospective customer can find examples relevant to their service. A large unsorted collection can obscure the best evidence.",
+          "marks": []
+        }
+      ],
+      "markDefs": []
+    },
+    {
+      "_type": "image",
+      "_key": "stq",
+      "asset": {
+        "_type": "reference",
+        "_ref": "image-82870449f7c42dc1842b7567bc07f48b132e9f60-1440x1008-jpg"
+      },
+      "alt": "A middle section of the recorded Neff Paving website capture"
+    },
+    {
+      "_type": "block",
+      "_key": "str",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "sts",
+          "text": "Another section of the portfolio capture. The project record documents service showcases, before-and-after galleries, testimonials, and estimate forms as part of the redesign.",
+          "marks": [
+            "em"
+          ]
+        }
+      ],
+      "markDefs": []
+    },
+    {
+      "_type": "block",
+      "_key": "stt",
+      "style": "h2",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "stu",
+          "text": "Build the inquiry handoff",
+          "marks": []
+        }
+      ],
+      "markDefs": []
+    },
+    {
+      "_type": "block",
+      "_key": "stv",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "stw",
+          "text": "Lead-generation contact forms are another recorded deliverable. The design problem extends beyond drawing fields on a page: the right person must receive a request and understand what to do with it.",
+          "marks": []
+        }
+      ],
+      "markDefs": []
+    },
+    {
+      "_type": "block",
+      "_key": "stx",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "sty",
+          "text": "For a contractor, the initial inquiry usually needs contact information, project location, the service of interest, and a short description. Additional questions should earn their place by helping the team respond or qualify the request.",
+          "marks": []
+        }
+      ],
+      "markDefs": []
+    },
+    {
+      "_type": "block",
+      "_key": "stz",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "su0",
+          "text": "A good confirmation tells the customer what happened and what to expect next. That expectation must reflect the business's actual process. Avoid promising immediate estimates if a site visit or a detailed review is required.",
+          "marks": []
+        }
+      ],
+      "markDefs": []
+    },
+    {
+      "_type": "block",
+      "_key": "su1",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "su2",
+          "text": "Testing should cover the full journey. Submit a realistic request, verify delivery, check the reply route, and confirm the responsible person can find the information. Repeat on a phone. The form's success message alone is not the acceptance test.",
+          "marks": []
+        }
+      ],
+      "markDefs": []
+    },
+    {
+      "_type": "block",
+      "_key": "su3",
+      "style": "h2",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "su4",
+          "text": "Treat mobile and performance as part of the build",
+          "marks": []
+        }
+      ],
+      "markDefs": []
+    },
+    {
+      "_type": "block",
+      "_key": "su5",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "su6",
+          "text": "Mobile optimization and fast-loading optimized images appear in the Neff Paving project record. These are practical requirements for a photo-heavy contractor website.",
+          "marks": []
+        }
+      ],
+      "markDefs": []
+    },
+    {
+      "_type": "block",
+      "_key": "su7",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "su8",
+          "text": "Large project photos need appropriate dimensions and compression. Navigation needs to remain usable with touch. Important content should not depend on hover. A phone link should dial the correct number, and form controls should be large enough to use comfortably.",
+          "marks": []
+        }
+      ],
+      "markDefs": []
+    },
+    {
+      "_type": "block",
+      "_key": "su9",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "sua",
+          "text": "Performance work should be measured against the important pages and actions. A gallery page may need different attention from a simple contact page. Test realistic content rather than an empty template that becomes heavy once all photographs are added.",
+          "marks": []
+        }
+      ],
+      "markDefs": []
+    },
+    {
+      "_type": "block",
+      "_key": "sub",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "suc",
+          "text": "The recorded technology stack includes WordPress and PHP alongside front-end tools. That is a reminder to choose a stack around the project and maintenance needs. A useful business website is judged by the experience it delivers and the practicality of keeping it healthy.",
+          "marks": []
+        }
+      ],
+      "markDefs": []
+    },
+    {
+      "_type": "block",
+      "_key": "sud",
+      "style": "h2",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "sue",
+          "text": "Connect the site to local information",
+          "marks": []
+        }
+      ],
+      "markDefs": []
+    },
+    {
+      "_type": "block",
+      "_key": "suf",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "sug",
+          "text": "The project deliverables include local SEO setup, Google Business Profile integration, and maps. Those pieces should support an accurate and coherent picture of the business.",
+          "marks": []
+        }
+      ],
+      "markDefs": []
+    },
+    {
+      "_type": "block",
+      "_key": "suh",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "sui",
+          "text": "Keep the business name, contact details, service descriptions, and area information consistent. Explain genuine service coverage rather than creating the impression of offices that do not exist. Use maps where they help the visitor complete a task.",
+          "marks": []
+        }
+      ],
+      "markDefs": []
+    },
+    {
+      "_type": "block",
+      "_key": "suj",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "suk",
+          "text": "Google's ",
+          "marks": []
+        },
+        {
+          "_type": "span",
+          "_key": "sum",
+          "text": "local ranking guidance",
+          "marks": [
+            "sul"
+          ]
+        },
+        {
+          "_type": "span",
+          "_key": "sun",
+          "text": " describes relevance, distance, and prominence as important factors. A redesign can improve the quality and clarity of business information; it cannot guarantee a particular local search position.",
+          "marks": []
+        }
+      ],
+      "markDefs": [
+        {
+          "_type": "link",
+          "_key": "sul",
+          "href": "https://support.google.com/business/answer/7091"
+        }
+      ]
+    },
+    {
+      "_type": "block",
+      "_key": "suo",
+      "style": "h2",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "sup",
+          "text": "Launch is a controlled handover",
+          "marks": []
+        }
+      ],
+      "markDefs": []
+    },
+    {
+      "_type": "block",
+      "_key": "suq",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "sur",
+          "text": "Before launch, the owner should review the facts and approved content while the developer checks the working site. Those reviews overlap, but they establish different things: factual accuracy and functional readiness.",
+          "marks": []
+        }
+      ],
+      "markDefs": []
+    },
+    {
+      "_type": "table",
+      "_key": "sus",
+      "hasHeader": true,
+      "rows": [
+        {
+          "_type": "tableRow",
+          "_key": "sut",
+          "cells": [
+            "Area",
+            "Useful launch check"
+          ]
+        },
+        {
+          "_type": "tableRow",
+          "_key": "suw",
+          "cells": [
+            "Content",
+            "Services, contact details, and claims are approved"
+          ]
+        },
+        {
+          "_type": "tableRow",
+          "_key": "suz",
+          "cells": [
+            "Navigation",
+            "Important customer paths work on mobile and desktop"
+          ]
+        },
+        {
+          "_type": "tableRow",
+          "_key": "sv2",
+          "cells": [
+            "Inquiries",
+            "Test requests reach the correct destination"
+          ]
+        },
+        {
+          "_type": "tableRow",
+          "_key": "sv5",
+          "cells": [
+            "Search",
+            "Public pages are accessible and changed URLs are addressed"
+          ]
+        },
+        {
+          "_type": "tableRow",
+          "_key": "sv8",
+          "cells": [
+            "Operations",
+            "Access, backups, and support responsibilities are clear"
+          ]
+        },
+        {
+          "_type": "tableRow",
+          "_key": "svb",
+          "cells": [
+            "Measurement",
+            "Agreed inquiry events are checked against real behavior"
+          ]
+        }
+      ]
+    },
+    {
+      "_type": "block",
+      "_key": "sve",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "svf",
+          "text": "A project timeline also includes feedback and decisions. The recorded two-month Neff Paving timeline is a fact about this project record, rather than a promise that another rebuild will take the same amount of time. Scope, content readiness, access, and integrations change the schedule.",
+          "marks": []
+        }
+      ],
+      "markDefs": []
+    },
+    {
+      "_type": "block",
+      "_key": "svg",
+      "style": "h2",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "svh",
+          "text": "What a business owner should take from the project",
+          "marks": []
+        }
+      ],
+      "markDefs": []
+    },
+    {
+      "_type": "block",
+      "_key": "svi",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "svj",
+          "text": "The documented outcome is a rebuilt contractor website with clear service presentation, galleries, contact pathways, mobile optimization, and local SEO work. The available record does not establish a percentage increase in leads or revenue, so those claims do not belong in this story.",
+          "marks": []
+        }
+      ],
+      "markDefs": []
+    },
+    {
+      "_type": "block",
+      "_key": "svk",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "svl",
+          "text": "The transferable lesson is the relationship between the pieces. Service pages explain the offer. Galleries provide evidence. Reviews support trust. Forms create a next step. Mobile and performance work make those pieces usable in the conditions customers actually face.",
+          "marks": []
+        }
+      ],
+      "markDefs": []
+    },
+    {
+      "_type": "block",
+      "_key": "svm",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "svn",
+          "text": "If you are considering a similar rebuild, use ",
+          "marks": []
+        },
+        {
+          "_type": "span",
+          "_key": "svp",
+          "text": "the Ohio contractor checklist",
+          "marks": [
+            "svo"
+          ]
+        },
+        {
+          "_type": "span",
+          "_key": "svq",
+          "text": ", then collect your services, approved project photos, common customer questions, and access information. You can review ",
+          "marks": []
+        },
+        {
+          "_type": "span",
+          "_key": "svs",
+          "text": "the Neff Paving project",
+          "marks": [
+            "svr"
+          ]
+        },
+        {
+          "_type": "span",
+          "_key": "svt",
+          "text": " and explore ",
+          "marks": []
+        },
+        {
+          "_type": "span",
+          "_key": "svv",
+          "text": "website services",
+          "marks": [
+            "svu"
+          ]
+        },
+        {
+          "_type": "span",
+          "_key": "svw",
+          "text": " when you are ready to discuss the work.",
+          "marks": []
+        }
+      ],
+      "markDefs": [
+        {
+          "_type": "link",
+          "_key": "svo",
+          "href": "https://jlang.dev/blog/ohio-contractor-website-checklist"
+        },
+        {
+          "_type": "link",
+          "_key": "svr",
+          "href": "https://jlang.dev/projects/neff-paving"
+        },
+        {
+          "_type": "link",
+          "_key": "svu",
+          "href": "https://jlang.dev/services"
+        }
+      ]
+    }
+  ],
+  "published": false,
+  "category": {
+    "_type": "reference",
+    "_ref": "category.project-stories"
+  },
+  "tags": [
+    {
+      "_type": "reference",
+      "_key": "case-study",
+      "_ref": "tag.case-study"
+    },
+    {
+      "_type": "reference",
+      "_key": "neff-paving",
+      "_ref": "tag.neff-paving"
+    },
+    {
+      "_type": "reference",
+      "_key": "contractors",
+      "_ref": "tag.contractors"
+    },
+    {
+      "_type": "reference",
+      "_key": "web-design",
+      "_ref": "tag.web-design"
+    }
+  ]
+}

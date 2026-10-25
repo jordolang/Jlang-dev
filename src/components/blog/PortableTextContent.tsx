@@ -73,7 +73,7 @@ const components: PortableTextComponents = {
       return (
         <figure className="my-8">
           <div className="relative aspect-video overflow-hidden rounded-xl border border-gray-200 shadow-lg dark:border-gray-800">
-            <Image src={src} alt={alt} fill className="object-cover" sizes="(max-width: 768px) 100vw, 768px" />
+            <Image src={src} alt={alt} fill className="object-contain" sizes="(max-width: 768px) 100vw, 768px" />
           </div>
           {alt && <figcaption className="mt-2 text-center text-sm italic text-gray-600 dark:text-gray-400">{alt}</figcaption>}
         </figure>

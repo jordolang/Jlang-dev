@@ -1,0 +1,1171 @@
+{
+  "_id": "drafts.blogPost.website-maintenance-what-you-pay-for",
+  "_type": "blogPost",
+  "title": "Website Maintenance: What You’re Paying For Each Month (And What You’re Paying With Me!)",
+  "slug": {
+    "_type": "slug",
+    "current": "website-maintenance-what-you-pay-for"
+  },
+  "date": "2026-10-21",
+  "excerpt": "Understand hosting, maintenance, support, and improvements—plus the actual support periods and hosting inclusions in JLang Development’s website packages.",
+  "author": "Jordan Lang",
+  "readTime": "8 min read",
+  "image": {
+    "_type": "image",
+    "_key": "smx",
+    "asset": {
+      "_type": "reference",
+      "_ref": "image-8117d1f15503de64e1c20cbaa49451c2f1074181-1600x898-jpg"
+    },
+    "alt": "Website Maintenance: What You’re Paying For Each Month (And What You’re Paying With Me!)"
+  },
+  "body": [
+    {
+      "_type": "block",
+      "_key": "sic",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "sid",
+          "text": "A website launches, the project invoice is paid, and then another question appears: what does it cost to keep the thing working?",
+          "marks": []
+        }
+      ],
+      "markDefs": []
+    },
+    {
+      "_type": "block",
+      "_key": "sie",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "sif",
+          "text": "The answer can be confusing because “maintenance” often bundles several different services. Hosting, software updates, content changes, monitoring, emergency help, and marketing may appear under the same heading even though they solve different problems.",
+          "marks": []
+        }
+      ],
+      "markDefs": []
+    },
+    {
+      "_type": "block",
+      "_key": "sig",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "sih",
+          "text": "You should be able to look at an agreement and understand what work is included, who handles an issue, and what creates an additional charge. That applies whether you hire me or another developer.",
+          "marks": []
+        }
+      ],
+      "markDefs": []
+    },
+    {
+      "_type": "block",
+      "_key": "sii",
+      "style": "blockquote",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "sij",
+          "text": "The most useful question:",
+          "marks": [
+            "strong"
+          ]
+        },
+        {
+          "_type": "span",
+          "_key": "sik",
+          "text": " “What happens when something changes or breaks, and which parts of that response are included?”",
+          "marks": []
+        }
+      ],
+      "markDefs": []
+    },
+    {
+      "_type": "block",
+      "_key": "sil",
+      "style": "h2",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "sim",
+          "text": "Separate four kinds of ongoing work",
+          "marks": []
+        }
+      ],
+      "markDefs": []
+    },
+    {
+      "_type": "block",
+      "_key": "sin",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "sio",
+          "text": "Hosting",
+          "marks": [
+            "strong"
+          ]
+        },
+        {
+          "_type": "span",
+          "_key": "sip",
+          "text": " provides the infrastructure that serves the website. Depending on the arrangement, that may include deployment, bandwidth, certificates, and related platform services. Hosting makes the site available; it does not inherently include editing pages or troubleshooting every connected service.",
+          "marks": []
+        }
+      ],
+      "markDefs": []
+    },
+    {
+      "_type": "block",
+      "_key": "siq",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "sir",
+          "text": "Maintenance",
+          "marks": [
+            "strong"
+          ]
+        },
+        {
+          "_type": "span",
+          "_key": "sis",
+          "text": " keeps the existing system healthy. That can involve dependency updates, compatibility checks, backup verification, security work, and testing important functions. The exact tasks depend on how the site is built.",
+          "marks": []
+        }
+      ],
+      "markDefs": []
+    },
+    {
+      "_type": "block",
+      "_key": "sit",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "siu",
+          "text": "Support",
+          "marks": [
+            "strong"
+          ]
+        },
+        {
+          "_type": "span",
+          "_key": "siv",
+          "text": " gives you a route to help. It may cover questions, bug reports, and troubleshooting. Response windows, support hours, and the distinction between an acknowledgment and a completed fix belong in the agreement.",
+          "marks": []
+        }
+      ],
+      "markDefs": []
+    },
+    {
+      "_type": "block",
+      "_key": "siw",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "six",
+          "text": "Improvements",
+          "marks": [
+            "strong"
+          ]
+        },
+        {
+          "_type": "span",
+          "_key": "siy",
+          "text": " change what the website does. A new booking workflow, product catalog, landing-page campaign, or customer portal is often new project work. It should have a defined scope rather than quietly consuming an unclear maintenance allowance.",
+          "marks": []
+        }
+      ],
+      "markDefs": []
+    },
+    {
+      "_type": "block",
+      "_key": "siz",
+      "style": "h2",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "sj0",
+          "text": "What useful maintenance can include",
+          "marks": []
+        }
+      ],
+      "markDefs": []
+    },
+    {
+      "_type": "block",
+      "_key": "sj1",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "sj2",
+          "text": "A small brochure site and an online store have different needs. Good maintenance begins with the important parts of your actual website, rather than applying the same checklist to every client.",
+          "marks": []
+        }
+      ],
+      "markDefs": []
+    },
+    {
+      "_type": "block",
+      "_key": "sj3",
+      "style": "h3",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "sj4",
+          "text": "Software and compatibility checks",
+          "marks": []
+        }
+      ],
+      "markDefs": []
+    },
+    {
+      "_type": "block",
+      "_key": "sj5",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "sj6",
+          "text": "Websites depend on software that changes. Updating a component can fix a problem, but it can also affect another part of the system. Responsible work includes assessing the update, checking relevant behavior, and having a recovery route if something goes wrong.",
+          "marks": []
+        }
+      ],
+      "markDefs": []
+    },
+    {
+      "_type": "block",
+      "_key": "sj7",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "sj8",
+          "text": "A site using fewer plugins may have a different maintenance profile from a plugin-heavy CMS. That does not make either one automatically maintenance-free. Forms, APIs, build tools, browsers, and external services can still change around it.",
+          "marks": []
+        }
+      ],
+      "markDefs": []
+    },
+    {
+      "_type": "block",
+      "_key": "sj9",
+      "style": "h3",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "sja",
+          "text": "Backups and recovery",
+          "marks": []
+        }
+      ],
+      "markDefs": []
+    },
+    {
+      "_type": "block",
+      "_key": "sjb",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "sjc",
+          "text": "A useful backup plan identifies what is backed up, how frequently, where copies are stored, and how restoration works. The code repository may not include uploaded photos, customer records, CMS content, or configuration held by another provider.",
+          "marks": []
+        }
+      ],
+      "markDefs": []
+    },
+    {
+      "_type": "block",
+      "_key": "sjd",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "sje",
+          "text": "Ask what amount of recent data could be lost and how long recovery might take. Those answers depend on the agreed setup. A successful backup job and a successful restoration test establish different things; both can matter.",
+          "marks": []
+        }
+      ],
+      "markDefs": []
+    },
+    {
+      "_type": "block",
+      "_key": "sjf",
+      "style": "h3",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "sjg",
+          "text": "Monitoring and functional testing",
+          "marks": []
+        }
+      ],
+      "markDefs": []
+    },
+    {
+      "_type": "block",
+      "_key": "sjh",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "sji",
+          "text": "An uptime check may tell you a page responds. It may not tell you whether the estimate form delivers email or the payment handoff works. Monitoring should be complemented by checks of important business actions.",
+          "marks": []
+        }
+      ],
+      "markDefs": []
+    },
+    {
+      "_type": "block",
+      "_key": "sjj",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "sjk",
+          "text": "When a failure occurs, ownership matters. Someone needs to investigate whether the issue is in the website, a third-party service, an account setting, or an expired subscription. Clarify who coordinates that work and which provider charges remain separate.",
+          "marks": []
+        }
+      ],
+      "markDefs": []
+    },
+    {
+      "_type": "image",
+      "_key": "sjl",
+      "asset": {
+        "_type": "reference",
+        "_ref": "image-8117d1f15503de64e1c20cbaa49451c2f1074181-1600x898-jpg"
+      },
+      "alt": "Server racks and networking infrastructure"
+    },
+    {
+      "_type": "block",
+      "_key": "sjm",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "sjn",
+          "text": "Infrastructure supports the site; ongoing responsibility includes the parts customers actually use. Image: ",
+          "marks": [
+            "em"
+          ]
+        },
+        {
+          "_type": "span",
+          "_key": "sjp",
+          "text": "Unsplash",
+          "marks": [
+            "em",
+            "sjo"
+          ]
+        },
+        {
+          "_type": "span",
+          "_key": "sjq",
+          "text": "; ",
+          "marks": [
+            "em"
+          ]
+        },
+        {
+          "_type": "span",
+          "_key": "sjs",
+          "text": "license",
+          "marks": [
+            "em",
+            "sjr"
+          ]
+        },
+        {
+          "_type": "span",
+          "_key": "sjt",
+          "text": ".",
+          "marks": [
+            "em"
+          ]
+        }
+      ],
+      "markDefs": [
+        {
+          "_type": "link",
+          "_key": "sjo",
+          "href": "https://images.unsplash.com/photo-1558494949-ef010cbdcc31"
+        },
+        {
+          "_type": "link",
+          "_key": "sjr",
+          "href": "https://unsplash.com/license"
+        }
+      ]
+    },
+    {
+      "_type": "block",
+      "_key": "sju",
+      "style": "h2",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "sjv",
+          "text": "What you are paying for with JLang Development",
+          "marks": []
+        }
+      ],
+      "markDefs": []
+    },
+    {
+      "_type": "block",
+      "_key": "sjw",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "sjx",
+          "text": "Here is how my website packages describe the relevant inclusions ",
+          "marks": []
+        },
+        {
+          "_type": "span",
+          "_key": "sjy",
+          "text": "as checked on October 21, 2026",
+          "marks": [
+            "strong"
+          ]
+        },
+        {
+          "_type": "span",
+          "_key": "sjz",
+          "text": ". These are package build prices and included support periods, not a published monthly maintenance rate card. Your written proposal defines the scope for your project; consult the ",
+          "marks": []
+        },
+        {
+          "_type": "span",
+          "_key": "sk1",
+          "text": "current services page",
+          "marks": [
+            "sk0"
+          ]
+        },
+        {
+          "_type": "span",
+          "_key": "sk2",
+          "text": " for the current offering.",
+          "marks": []
+        }
+      ],
+      "markDefs": [
+        {
+          "_type": "link",
+          "_key": "sk0",
+          "href": "https://jlang.dev/services"
+        }
+      ]
+    },
+    {
+      "_type": "table",
+      "_key": "sk3",
+      "hasHeader": true,
+      "rows": [
+        {
+          "_type": "tableRow",
+          "_key": "sk4",
+          "cells": [
+            "Package",
+            "Published build price",
+            "Hosting and support described"
+          ]
+        },
+        {
+          "_type": "tableRow",
+          "_key": "sk8",
+          "cells": [
+            "Launchpad",
+            "$499",
+            "One year of simple domain registration, free lifetime web hosting, and one month of post-launch support and bug fixes"
+          ]
+        },
+        {
+          "_type": "tableRow",
+          "_key": "skc",
+          "cells": [
+            "Professional",
+            "Starting at $1,499+",
+            "Six months of post-launch support and maintenance"
+          ]
+        },
+        {
+          "_type": "tableRow",
+          "_key": "skg",
+          "cells": [
+            "Enterprise",
+            "Custom pricing",
+            "Dedicated cloud hosting, automated backups described as 50GB offsite, uptime monitoring and management, and one year of priority support"
+          ]
+        }
+      ]
+    },
+    {
+      "_type": "block",
+      "_key": "skk",
+      "style": "h3",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "skl",
+          "text": "Launchpad: a focused launch with initial support",
+          "marks": []
+        }
+      ],
+      "markDefs": []
+    },
+    {
+      "_type": "block",
+      "_key": "skm",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "skn",
+          "text": "Launchpad is the single-page website package. Its published inclusions specifically list simple one-year domain registration, free lifetime web hosting on optimized servers, and one month of post-launch support and bug fixes.",
+          "marks": []
+        }
+      ],
+      "markDefs": []
+    },
+    {
+      "_type": "block",
+      "_key": "sko",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "skp",
+          "text": "Those are distinct inclusions. The domain registration has a stated first-year period. The support period is one month. The hosting wording should not be interpreted as unlimited future development, indefinite free domain renewals, or an unlimited third-party service budget.",
+          "marks": []
+        }
+      ],
+      "markDefs": []
+    },
+    {
+      "_type": "block",
+      "_key": "skq",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "skr",
+          "text": "Before ordering, confirm how the hosting arrangement applies to your site, who controls the domain account, what renewals will cost, and what happens if your needs change. Put any project-specific conditions in the proposal so both sides have the same understanding.",
+          "marks": []
+        }
+      ],
+      "markDefs": []
+    },
+    {
+      "_type": "block",
+      "_key": "sks",
+      "style": "h3",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "skt",
+          "text": "Professional: a longer maintenance period",
+          "marks": []
+        }
+      ],
+      "markDefs": []
+    },
+    {
+      "_type": "block",
+      "_key": "sku",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "skv",
+          "text": "Professional starts at $1,499+ and describes a custom website with five to twenty-five pages. Its published support inclusion is six months of post-launch support and maintenance.",
+          "marks": []
+        }
+      ],
+      "markDefs": []
+    },
+    {
+      "_type": "block",
+      "_key": "skw",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "skx",
+          "text": "The package also describes a broader set of integrations and marketing capabilities. Those features can introduce separate provider costs. The published description explicitly states that basic AI integration excludes API or service fees, and identifies local premium advertising campaigns as an add-on.",
+          "marks": []
+        }
+      ],
+      "markDefs": []
+    },
+    {
+      "_type": "block",
+      "_key": "sky",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "skz",
+          "text": "Do not assume that every optional integration, content request, or campaign is included without limits. During scoping, identify which features are part of the build, what the maintenance period covers, and how work after that period will be handled. The published Professional description does not repeat Launchpad's lifetime-hosting promise, so confirm the hosting arrangement in your own proposal.",
+          "marks": []
+        }
+      ],
+      "markDefs": []
+    },
+    {
+      "_type": "block",
+      "_key": "sl0",
+      "style": "h3",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "sl1",
+          "text": "Enterprise: infrastructure and a custom scope",
+          "marks": []
+        }
+      ],
+      "markDefs": []
+    },
+    {
+      "_type": "block",
+      "_key": "sl2",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "sl3",
+          "text": "Enterprise uses custom pricing and describes dedicated hosting, 24/7 uptime monitoring and management, automated offsite backups, and one year of priority support. It also includes broader infrastructure, security, integration, and training capabilities.",
+          "marks": []
+        }
+      ],
+      "markDefs": []
+    },
+    {
+      "_type": "block",
+      "_key": "sl4",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "sl5",
+          "text": "For a system with this scope, the details matter as much as the labels. Confirm backup frequency, retained history, restoration responsibility, the meaning of priority support, and the services covered by monitoring. Monitoring around the clock does not by itself specify an instant human response or a guaranteed resolution time.",
+          "marks": []
+        }
+      ],
+      "markDefs": []
+    },
+    {
+      "_type": "block",
+      "_key": "sl6",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "sl7",
+          "text": "A custom agreement should make those expectations explicit. It should also explain external platform fees, usage limits, and responsibilities for business data and account access.",
+          "marks": []
+        }
+      ],
+      "markDefs": []
+    },
+    {
+      "_type": "block",
+      "_key": "sl8",
+      "style": "h2",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "sl9",
+          "text": "There is no single monthly rate to quote here",
+          "marks": []
+        }
+      ],
+      "markDefs": []
+    },
+    {
+      "_type": "block",
+      "_key": "sla",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "slb",
+          "text": "The published package information does not establish a universal ongoing monthly maintenance price after the included support period. It would be misleading to invent one or imply every client has the same continuing arrangement.",
+          "marks": []
+        }
+      ],
+      "markDefs": []
+    },
+    {
+      "_type": "block",
+      "_key": "slc",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "sld",
+          "text": "If your included support is ending, the useful next step is to define what you need: occasional content help, proactive technical care, monitoring, integration support, or a regular improvement budget. The price can then correspond to the actual responsibility.",
+          "marks": []
+        }
+      ],
+      "markDefs": []
+    },
+    {
+      "_type": "block",
+      "_key": "sle",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "slf",
+          "text": "Ask for the scope and recurring costs in writing before the period ends. That avoids uncertainty when the next request arrives and makes it easier to compare options on their substance.",
+          "marks": []
+        }
+      ],
+      "markDefs": []
+    },
+    {
+      "_type": "block",
+      "_key": "slg",
+      "style": "h2",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "slh",
+          "text": "Know what counts as a bug or a change",
+          "marks": []
+        }
+      ],
+      "markDefs": []
+    },
+    {
+      "_type": "block",
+      "_key": "sli",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "slj",
+          "text": "Suppose the agreed contact form stops submitting because of a defect in the delivered site. That is different from asking the form to assign leads to three sales territories and create CRM records automatically.",
+          "marks": []
+        }
+      ],
+      "markDefs": []
+    },
+    {
+      "_type": "block",
+      "_key": "slk",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "sll",
+          "text": "Likewise, replacing an outdated phone number is a small content change. Adding an appointment scheduler with staff calendars, cancellation rules, and reminders is new functionality. Neither category is inherently unreasonable; they simply need different scope and pricing.",
+          "marks": []
+        }
+      ],
+      "markDefs": []
+    },
+    {
+      "_type": "block",
+      "_key": "slm",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "sln",
+          "text": "A helpful request describes what you expected, what happened, when it started, and an example. For a new feature, describe the business task and who will use it. Clear requests reduce time spent reconstructing the problem.",
+          "marks": []
+        }
+      ],
+      "markDefs": []
+    },
+    {
+      "_type": "image",
+      "_key": "slo",
+      "asset": {
+        "_type": "reference",
+        "_ref": "image-ca71109134f696a7a3a33bf482500344f8a8287a-1600x1067-jpg"
+      },
+      "alt": "A laptop used to review a website and its ongoing requirements"
+    },
+    {
+      "_type": "block",
+      "_key": "slp",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "slq",
+          "text": "An agreement should make routine work, extra work, and provider charges understandable. Image: ",
+          "marks": [
+            "em"
+          ]
+        },
+        {
+          "_type": "span",
+          "_key": "sls",
+          "text": "Unsplash",
+          "marks": [
+            "em",
+            "slr"
+          ]
+        },
+        {
+          "_type": "span",
+          "_key": "slt",
+          "text": "; ",
+          "marks": [
+            "em"
+          ]
+        },
+        {
+          "_type": "span",
+          "_key": "slv",
+          "text": "license",
+          "marks": [
+            "em",
+            "slu"
+          ]
+        },
+        {
+          "_type": "span",
+          "_key": "slw",
+          "text": ".",
+          "marks": [
+            "em"
+          ]
+        }
+      ],
+      "markDefs": [
+        {
+          "_type": "link",
+          "_key": "slr",
+          "href": "https://images.unsplash.com/photo-1496181133206-80ce9b88a853"
+        },
+        {
+          "_type": "link",
+          "_key": "slu",
+          "href": "https://unsplash.com/license"
+        }
+      ]
+    },
+    {
+      "_type": "block",
+      "_key": "slx",
+      "style": "h2",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "sly",
+          "text": "Ask for evidence that fits the work",
+          "marks": []
+        }
+      ],
+      "markDefs": []
+    },
+    {
+      "_type": "block",
+      "_key": "slz",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "sm0",
+          "text": "A useful maintenance update can be brief: what changed, what was checked, what needs your decision, and whether a cost is approaching. For a quiet month, that might be confirmation of checks and no required action. For a complicated site, it may include a more detailed report.",
+          "marks": []
+        }
+      ],
+      "markDefs": []
+    },
+    {
+      "_type": "block",
+      "_key": "sm1",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "sm2",
+          "text": "Separate maintenance from business growth claims. Keeping forms working protects the inquiry path. It does not guarantee more customers. SEO, advertising, content strategy, and conversion improvements should have their own goals and scope when purchased.",
+          "marks": []
+        }
+      ],
+      "markDefs": []
+    },
+    {
+      "_type": "block",
+      "_key": "sm3",
+      "style": "h2",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "sm4",
+          "text": "Review these details before signing",
+          "marks": []
+        }
+      ],
+      "markDefs": []
+    },
+    {
+      "_type": "block",
+      "_key": "sm5",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "sm6",
+          "text": "Included work:",
+          "marks": [
+            "strong"
+          ]
+        },
+        {
+          "_type": "span",
+          "_key": "sm7",
+          "text": " Which maintenance and support tasks are covered?",
+          "marks": []
+        }
+      ],
+      "markDefs": [],
+      "listItem": "bullet",
+      "level": 1
+    },
+    {
+      "_type": "block",
+      "_key": "sm8",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "sm9",
+          "text": "Timing:",
+          "marks": [
+            "strong"
+          ]
+        },
+        {
+          "_type": "span",
+          "_key": "sma",
+          "text": " When does support begin and end, and how are requests handled?",
+          "marks": []
+        }
+      ],
+      "markDefs": [],
+      "listItem": "bullet",
+      "level": 1
+    },
+    {
+      "_type": "block",
+      "_key": "smb",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "smc",
+          "text": "Accounts:",
+          "marks": [
+            "strong"
+          ]
+        },
+        {
+          "_type": "span",
+          "_key": "smd",
+          "text": " Who owns the domain, hosting, CMS, and integrations?",
+          "marks": []
+        }
+      ],
+      "markDefs": [],
+      "listItem": "bullet",
+      "level": 1
+    },
+    {
+      "_type": "block",
+      "_key": "sme",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "smf",
+          "text": "Recovery:",
+          "marks": [
+            "strong"
+          ]
+        },
+        {
+          "_type": "span",
+          "_key": "smg",
+          "text": " What is backed up, and who restores it?",
+          "marks": []
+        }
+      ],
+      "markDefs": [],
+      "listItem": "bullet",
+      "level": 1
+    },
+    {
+      "_type": "block",
+      "_key": "smh",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "smi",
+          "text": "Other charges:",
+          "marks": [
+            "strong"
+          ]
+        },
+        {
+          "_type": "span",
+          "_key": "smj",
+          "text": " Which renewals, subscriptions, and usage fees are separate?",
+          "marks": []
+        }
+      ],
+      "markDefs": [],
+      "listItem": "bullet",
+      "level": 1
+    },
+    {
+      "_type": "block",
+      "_key": "smk",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "sml",
+          "text": "Changes:",
+          "marks": [
+            "strong"
+          ]
+        },
+        {
+          "_type": "span",
+          "_key": "smm",
+          "text": " How are additional requests estimated and approved?",
+          "marks": []
+        }
+      ],
+      "markDefs": [],
+      "listItem": "bullet",
+      "level": 1
+    },
+    {
+      "_type": "block",
+      "_key": "smn",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "smo",
+          "text": "Exit:",
+          "marks": [
+            "strong"
+          ]
+        },
+        {
+          "_type": "span",
+          "_key": "smp",
+          "text": " How do you obtain your content, assets, and relevant account access?",
+          "marks": []
+        }
+      ],
+      "markDefs": [],
+      "listItem": "bullet",
+      "level": 1
+    },
+    {
+      "_type": "block",
+      "_key": "smq",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "smr",
+          "text": "You are buying an ongoing arrangement that should be understandable before an issue occurs. Clear responsibility helps both the business owner and the person maintaining the site.",
+          "marks": []
+        }
+      ],
+      "markDefs": []
+    },
+    {
+      "_type": "block",
+      "_key": "sms",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "smt",
+          "text": "Review ",
+          "marks": [
+            "strong"
+          ]
+        },
+        {
+          "_type": "span",
+          "_key": "smv",
+          "text": "my current packages",
+          "marks": [
+            "strong",
+            "smu"
+          ]
+        },
+        {
+          "_type": "span",
+          "_key": "smw",
+          "text": " and ask for a proposal that names the included period, ongoing responsibilities, and any separate recurring costs for your website.",
+          "marks": []
+        }
+      ],
+      "markDefs": [
+        {
+          "_type": "link",
+          "_key": "smu",
+          "href": "https://jlang.dev/services"
+        }
+      ]
+    }
+  ],
+  "published": false,
+  "category": {
+    "_type": "reference",
+    "_ref": "category.website-ownership"
+  },
+  "tags": [
+    {
+      "_type": "reference",
+      "_key": "maintenance",
+      "_ref": "tag.maintenance"
+    },
+    {
+      "_type": "reference",
+      "_key": "hosting",
+      "_ref": "tag.hosting"
+    },
+    {
+      "_type": "reference",
+      "_key": "support",
+      "_ref": "tag.support"
+    },
+    {
+      "_type": "reference",
+      "_key": "jlang-development",
+      "_ref": "tag.jlang-development"
+    }
+  ]
+}

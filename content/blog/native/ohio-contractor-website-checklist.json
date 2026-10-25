@@ -1,0 +1,1243 @@
+{
+  "_id": "drafts.blogPost.ohio-contractor-website-checklist",
+  "_type": "blogPost",
+  "title": "The Website Checklist for Ohio Contractors",
+  "slug": {
+    "_type": "slug",
+    "current": "ohio-contractor-website-checklist"
+  },
+  "date": "2026-10-21",
+  "excerpt": "A practical field guide to a contractor website that answers the right questions, shows your work, and makes requesting an estimate easy.",
+  "author": "Jordan Lang",
+  "readTime": "8 min read",
+  "image": {
+    "_type": "image",
+    "_key": "s4x",
+    "asset": {
+      "_type": "reference",
+      "_ref": "image-75ad5a0adf215fa25a36075e11ef76c8ab15ae2d-1600x1060-jpg"
+    },
+    "alt": "The Website Checklist for Ohio Contractors"
+  },
+  "body": [
+    {
+      "_type": "block",
+      "_key": "s0",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "s1",
+          "text": "A homeowner in Zanesville needs a driveway replaced. They have three names from a neighbor, a few minutes between errands, and a phone in their hand. Your website has one immediate job: help them decide whether you belong on the estimate list.",
+          "marks": []
+        }
+      ],
+      "markDefs": []
+    },
+    {
+      "_type": "block",
+      "_key": "s2",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "s3",
+          "text": "They are looking for answers. Do you do this kind of work? Do you come to their area? Can they see a finished job? How do they reach you? A beautiful page that makes those answers difficult to find creates extra work for the person you want to hire you.",
+          "marks": []
+        }
+      ],
+      "markDefs": []
+    },
+    {
+      "_type": "block",
+      "_key": "s4",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "s5",
+          "text": "This checklist is built around that decision, whether you run a paving company, remodeling crew, landscaping business, or another local trade.",
+          "marks": []
+        }
+      ],
+      "markDefs": []
+    },
+    {
+      "_type": "block",
+      "_key": "s6",
+      "style": "blockquote",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "s7",
+          "text": "The field test:",
+          "marks": [
+            "strong"
+          ]
+        },
+        {
+          "_type": "span",
+          "_key": "s8",
+          "text": " Hand your phone to someone unfamiliar with your business. Ask them to identify your service, location, and next step. Watch where they hesitate.",
+          "marks": []
+        }
+      ],
+      "markDefs": []
+    },
+    {
+      "_type": "block",
+      "_key": "s9",
+      "style": "h2",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "sa",
+          "text": "1. Say what you do and where you work",
+          "marks": []
+        }
+      ],
+      "markDefs": []
+    },
+    {
+      "_type": "block",
+      "_key": "sb",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "sc",
+          "text": "Your opening headline should identify the work and the area in ordinary language. “Built on excellence” could describe almost any business. “Residential paving and driveway repair in Zanesville and surrounding communities” gives a visitor something useful immediately.",
+          "marks": []
+        }
+      ],
+      "markDefs": []
+    },
+    {
+      "_type": "block",
+      "_key": "sd",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "se",
+          "text": "Under that headline, explain the type of customer you serve and the next step. A paving business might mention driveways, parking lots, and estimates. A remodeler might identify kitchens, bathrooms, and additions. Choose the work you actually want to book, rather than listing every job you could theoretically accept.",
+          "marks": []
+        }
+      ],
+      "markDefs": []
+    },
+    {
+      "_type": "block",
+      "_key": "sf",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "sg",
+          "text": "Include a clear service-area section. Name the towns or counties you genuinely cover and explain when travel depends on project size. Do not imply you have an office in every nearby city. If you sometimes go farther for commercial work, say so.",
+          "marks": []
+        }
+      ],
+      "markDefs": []
+    },
+    {
+      "_type": "block",
+      "_key": "sh",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "si",
+          "text": "Check:",
+          "marks": [
+            "strong"
+          ]
+        },
+        {
+          "_type": "span",
+          "_key": "sj",
+          "text": " A visitor can tell what you do and whether their property is in range without opening the navigation.",
+          "marks": []
+        }
+      ],
+      "markDefs": []
+    },
+    {
+      "_type": "block",
+      "_key": "sk",
+      "style": "h2",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "sl",
+          "text": "2. Give important services their own space",
+          "marks": []
+        }
+      ],
+      "markDefs": []
+    },
+    {
+      "_type": "block",
+      "_key": "sm",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "sn",
+          "text": "A single sentence listing twelve services leaves customers guessing. Someone comparing driveway replacement needs different information from someone looking for sealcoating or commercial lot maintenance.",
+          "marks": []
+        }
+      ],
+      "markDefs": []
+    },
+    {
+      "_type": "block",
+      "_key": "so",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "sp",
+          "text": "For each major service, cover:",
+          "marks": []
+        }
+      ],
+      "markDefs": []
+    },
+    {
+      "_type": "block",
+      "_key": "sq",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "sr",
+          "text": "The problem it solves and the properties it suits.",
+          "marks": []
+        }
+      ],
+      "markDefs": [],
+      "listItem": "bullet",
+      "level": 1
+    },
+    {
+      "_type": "block",
+      "_key": "ss",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "st",
+          "text": "What is normally included in the work.",
+          "marks": []
+        }
+      ],
+      "markDefs": [],
+      "listItem": "bullet",
+      "level": 1
+    },
+    {
+      "_type": "block",
+      "_key": "su",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "sv",
+          "text": "What happens during an estimate or site visit.",
+          "marks": []
+        }
+      ],
+      "markDefs": [],
+      "listItem": "bullet",
+      "level": 1
+    },
+    {
+      "_type": "block",
+      "_key": "sw",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "sx",
+          "text": "Factors that change scope, timing, or price.",
+          "marks": []
+        }
+      ],
+      "markDefs": [],
+      "listItem": "bullet",
+      "level": 1
+    },
+    {
+      "_type": "block",
+      "_key": "sy",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "sz",
+          "text": "Relevant completed projects and a way to inquire.",
+          "marks": []
+        }
+      ],
+      "markDefs": [],
+      "listItem": "bullet",
+      "level": 1
+    },
+    {
+      "_type": "block",
+      "_key": "s10",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "s11",
+          "text": "You do not need dozens of thin pages. Begin with a few genuinely useful service pages. If two services require essentially the same explanation, a combined page may be clearer. Build the structure around customer decisions, rather than a target page count.",
+          "marks": []
+        }
+      ],
+      "markDefs": []
+    },
+    {
+      "_type": "block",
+      "_key": "s12",
+      "style": "h2",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "s13",
+          "text": "3. Show completed work with context",
+          "marks": []
+        }
+      ],
+      "markDefs": []
+    },
+    {
+      "_type": "image",
+      "_key": "s14",
+      "asset": {
+        "_type": "reference",
+        "_ref": "image-75ad5a0adf215fa25a36075e11ef76c8ab15ae2d-1600x1060-jpg"
+      },
+      "alt": "Two construction workers on a reinforced concrete building site"
+    },
+    {
+      "_type": "block",
+      "_key": "s15",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "s16",
+          "text": "Illustrative construction photography from ",
+          "marks": [
+            "em"
+          ]
+        },
+        {
+          "_type": "span",
+          "_key": "s18",
+          "text": "Unsplash",
+          "marks": [
+            "em",
+            "s17"
+          ]
+        },
+        {
+          "_type": "span",
+          "_key": "s19",
+          "text": ", used under the ",
+          "marks": [
+            "em"
+          ]
+        },
+        {
+          "_type": "span",
+          "_key": "s1b",
+          "text": "Unsplash license",
+          "marks": [
+            "em",
+            "s1a"
+          ]
+        },
+        {
+          "_type": "span",
+          "_key": "s1c",
+          "text": ". Your own project photography should provide the proof on your business website.",
+          "marks": [
+            "em"
+          ]
+        }
+      ],
+      "markDefs": [
+        {
+          "_type": "link",
+          "_key": "s17",
+          "href": "https://images.unsplash.com/photo-1504307651254-35680f356dfd"
+        },
+        {
+          "_type": "link",
+          "_key": "s1a",
+          "href": "https://unsplash.com/license"
+        }
+      ]
+    },
+    {
+      "_type": "block",
+      "_key": "s1d",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "s1e",
+          "text": "A gallery becomes more persuasive when each photo answers a question. Add the type of project, approximate location when appropriate, the original problem, and what your crew completed. Obtain permission before sharing a customer's property or identifying details.",
+          "marks": []
+        }
+      ],
+      "markDefs": []
+    },
+    {
+      "_type": "block",
+      "_key": "s1f",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "s1g",
+          "text": "For example: “Residential driveway replacement in Muskingum County. Removed the failing surface, prepared the base, and installed the replacement driveway.” Include only the steps that actually happened. Specific, accurate context carries more weight than “another happy customer.”",
+          "marks": []
+        }
+      ],
+      "markDefs": []
+    },
+    {
+      "_type": "block",
+      "_key": "s1h",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "s1i",
+          "text": "Before-and-after pairs work best when the angle is comparable. Avoid making the “before” photo artificially dark or cropping out defects in the “after.” You want the work to withstand a closer look.",
+          "marks": []
+        }
+      ],
+      "markDefs": []
+    },
+    {
+      "_type": "block",
+      "_key": "s1j",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "s1k",
+          "text": "At the next job, take a wide establishing photo, a progress photo, a finished photo, and a detail shot. Keep the original files. That small habit builds an asset library you can use across service pages, estimates, and social posts.",
+          "marks": []
+        }
+      ],
+      "markDefs": []
+    },
+    {
+      "_type": "block",
+      "_key": "s1l",
+      "style": "h2",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "s1m",
+          "text": "4. Make trust easy to verify",
+          "marks": []
+        }
+      ],
+      "markDefs": []
+    },
+    {
+      "_type": "block",
+      "_key": "s1n",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "s1o",
+          "text": "Show real reviews with their source, relevant experience, and accurate credentials. Explain who runs the business and how customers communicate with you. A short introduction to the owner or crew can make the company easier to recognize when you arrive at a property.",
+          "marks": []
+        }
+      ],
+      "markDefs": []
+    },
+    {
+      "_type": "block",
+      "_key": "s1p",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "s1q",
+          "text": "Be precise about insurance, certifications, licensing, and warranties. Use only descriptions that apply to your actual business and work. If a credential covers a specific specialty, do not present it as a blanket qualification for every service.",
+          "marks": []
+        }
+      ],
+      "markDefs": []
+    },
+    {
+      "_type": "block",
+      "_key": "s1r",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "s1s",
+          "text": "Publish genuine testimonials with permission where needed. Do not invent a review or rewrite one so aggressively that its meaning changes. Link to the original review platform when possible, and keep customer details appropriate to the permission you received.",
+          "marks": []
+        }
+      ],
+      "markDefs": []
+    },
+    {
+      "_type": "block",
+      "_key": "s1t",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "s1u",
+          "text": "A warranty deserves more than a badge. Explain where customers can find its scope, exclusions, and claim process. A clear explanation prevents confusion later and gives a serious buyer something concrete to evaluate.",
+          "marks": []
+        }
+      ],
+      "markDefs": []
+    },
+    {
+      "_type": "block",
+      "_key": "s1v",
+      "style": "h2",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "s1w",
+          "text": "5. Make the estimate request short and useful",
+          "marks": []
+        }
+      ],
+      "markDefs": []
+    },
+    {
+      "_type": "block",
+      "_key": "s1x",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "s1y",
+          "text": "A good form helps you respond intelligently without turning an initial inquiry into paperwork. Start with name, contact information, project location, service needed, and a short description. Photo uploads can help, but they should be optional unless truly necessary.",
+          "marks": []
+        }
+      ],
+      "markDefs": []
+    },
+    {
+      "_type": "block",
+      "_key": "s1z",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "s20",
+          "text": "Ask only for information you will use at this stage. You may eventually need measurements, access constraints, drainage details, or a site visit. Requiring all of that before a first conversation can discourage a customer who is still figuring out the problem.",
+          "marks": []
+        }
+      ],
+      "markDefs": []
+    },
+    {
+      "_type": "table",
+      "_key": "s21",
+      "hasHeader": true,
+      "rows": [
+        {
+          "_type": "tableRow",
+          "_key": "s22",
+          "cells": [
+            "Element",
+            "What the customer needs"
+          ]
+        },
+        {
+          "_type": "tableRow",
+          "_key": "s25",
+          "cells": [
+            "Phone link",
+            "A tap opens the dialer with the correct number"
+          ]
+        },
+        {
+          "_type": "tableRow",
+          "_key": "s28",
+          "cells": [
+            "Request form",
+            "Clear labels and a useful submission confirmation"
+          ]
+        },
+        {
+          "_type": "tableRow",
+          "_key": "s2b",
+          "cells": [
+            "Response expectation",
+            "An honest description of when you usually reply"
+          ]
+        },
+        {
+          "_type": "tableRow",
+          "_key": "s2e",
+          "cells": [
+            "Emergency wording",
+            "An accurate statement of whether urgent service exists"
+          ]
+        },
+        {
+          "_type": "tableRow",
+          "_key": "s2h",
+          "cells": [
+            "Photo upload",
+            "File guidance and a helpful error if upload fails"
+          ]
+        }
+      ]
+    },
+    {
+      "_type": "block",
+      "_key": "s2k",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "s2l",
+          "text": "Test the complete path. Submit a request from a phone, verify it reaches the person responsible, and check the reply address. A successful on-screen message does not prove the email arrived.",
+          "marks": []
+        }
+      ],
+      "markDefs": []
+    },
+    {
+      "_type": "block",
+      "_key": "s2m",
+      "style": "h2",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "s2n",
+          "text": "6. Treat mobile as a real job-site condition",
+          "marks": []
+        }
+      ],
+      "markDefs": []
+    },
+    {
+      "_type": "block",
+      "_key": "s2o",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "s2p",
+          "text": "Your customer may be standing outside, using one hand, on an ordinary connection. Small text, tiny menu controls, and large videos make that experience harder.",
+          "marks": []
+        }
+      ],
+      "markDefs": []
+    },
+    {
+      "_type": "block",
+      "_key": "s2q",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "s2r",
+          "text": "Check the site on a small phone. Read the service descriptions without zooming. Open the menu. Tap the phone number. Complete the form. Rotate the device and confirm that buttons, captions, and tables remain usable.",
+          "marks": []
+        }
+      ],
+      "markDefs": []
+    },
+    {
+      "_type": "block",
+      "_key": "s2s",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "s2t",
+          "text": "Large photographs should be compressed and sized appropriately. A gallery of original camera files can make a simple page unnecessarily heavy. Animation should help a visitor understand the page and respect reduced-motion preferences. It should never block access to the estimate button.",
+          "marks": []
+        }
+      ],
+      "markDefs": []
+    },
+    {
+      "_type": "block",
+      "_key": "s2u",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "s2v",
+          "text": "Also check contrast, descriptive link text, image alternatives, and keyboard navigation. These are practical ways to make the site usable by more customers, including people using assistive technology.",
+          "marks": []
+        }
+      ],
+      "markDefs": []
+    },
+    {
+      "_type": "block",
+      "_key": "s2w",
+      "style": "h2",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "s2x",
+          "text": "7. Connect the website to local discovery",
+          "marks": []
+        }
+      ],
+      "markDefs": []
+    },
+    {
+      "_type": "block",
+      "_key": "s2y",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "s2z",
+          "text": "Keep your business name, contact details, hours, and service descriptions accurate across your website and Google Business Profile. Link the profile to the most useful page and keep seasonal changes current.",
+          "marks": []
+        }
+      ],
+      "markDefs": []
+    },
+    {
+      "_type": "block",
+      "_key": "s30",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "s31",
+          "text": "Google explains that local results consider relevance, distance, and prominence. Complete business information helps Google understand the business, but a website cannot promise a particular map position. See ",
+          "marks": []
+        },
+        {
+          "_type": "span",
+          "_key": "s33",
+          "text": "Google's local ranking guidance",
+          "marks": [
+            "s32"
+          ]
+        },
+        {
+          "_type": "span",
+          "_key": "s34",
+          "text": ".",
+          "marks": []
+        }
+      ],
+      "markDefs": [
+        {
+          "_type": "link",
+          "_key": "s32",
+          "href": "https://support.google.com/business/answer/7091"
+        }
+      ]
+    },
+    {
+      "_type": "block",
+      "_key": "s35",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "s36",
+          "text": "Write location information for a person planning to hire you. Explain the area you cover, the work you perform there, and any relevant project examples. Replacing a city name across otherwise identical pages does little to help someone decide.",
+          "marks": []
+        }
+      ],
+      "markDefs": []
+    },
+    {
+      "_type": "block",
+      "_key": "s37",
+      "style": "h2",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "s38",
+          "text": "8. Plan for Ohio's working seasons",
+          "marks": []
+        }
+      ],
+      "markDefs": []
+    },
+    {
+      "_type": "block",
+      "_key": "s39",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "s3a",
+          "text": "A seasonal business should make its availability understandable without promising dates it cannot control. Explain whether you are taking estimates, booking for the next season, or providing a different service during colder months.",
+          "marks": []
+        }
+      ],
+      "markDefs": []
+    },
+    {
+      "_type": "image",
+      "_key": "s3b",
+      "asset": {
+        "_type": "reference",
+        "_ref": "image-68656801d1601fd763cda0c68fc4b0798f9315b1-1600x1201-jpg"
+      },
+      "alt": "Fountain pen resting on a handwritten page"
+    },
+    {
+      "_type": "block",
+      "_key": "s3c",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "s3d",
+          "text": "Use the quieter part of your schedule to organize project photos, update service details, and check inquiry handling. Photo: Aaron Burden / ",
+          "marks": [
+            "em"
+          ]
+        },
+        {
+          "_type": "span",
+          "_key": "s3f",
+          "text": "Unsplash",
+          "marks": [
+            "em",
+            "s3e"
+          ]
+        },
+        {
+          "_type": "span",
+          "_key": "s3g",
+          "text": ", used under the ",
+          "marks": [
+            "em"
+          ]
+        },
+        {
+          "_type": "span",
+          "_key": "s3i",
+          "text": "Unsplash license",
+          "marks": [
+            "em",
+            "s3h"
+          ]
+        },
+        {
+          "_type": "span",
+          "_key": "s3j",
+          "text": ".",
+          "marks": [
+            "em"
+          ]
+        }
+      ],
+      "markDefs": [
+        {
+          "_type": "link",
+          "_key": "s3e",
+          "href": "https://images.unsplash.com/photo-1455390582262-044cdead277a"
+        },
+        {
+          "_type": "link",
+          "_key": "s3h",
+          "href": "https://unsplash.com/license"
+        }
+      ]
+    },
+    {
+      "_type": "block",
+      "_key": "s3k",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "s3l",
+          "text": "Separate a request from a confirmed appointment. Explain that weather, site conditions, and the final scope may affect scheduling when that is true. Customers can handle uncertainty more easily when the process is clear.",
+          "marks": []
+        }
+      ],
+      "markDefs": []
+    },
+    {
+      "_type": "block",
+      "_key": "s3m",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "s3n",
+          "text": "Before the next busy period, review old offers, crew photos, phone numbers, and seasonal wording. Remove claims that no longer reflect the business. Assign that review to one person so it actually happens.",
+          "marks": []
+        }
+      ],
+      "markDefs": []
+    },
+    {
+      "_type": "block",
+      "_key": "s3o",
+      "style": "h2",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "s3p",
+          "text": "9. Measure inquiries you can act on",
+          "marks": []
+        }
+      ],
+      "markDefs": []
+    },
+    {
+      "_type": "block",
+      "_key": "s3q",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "s3r",
+          "text": "Track estimate requests, phone-link clicks, and completed bookings where relevant. Then compare those signals with actual conversations and qualified jobs. A phone-link click is an expression of intent; it is not proof of a completed call or a booked project.",
+          "marks": []
+        }
+      ],
+      "markDefs": []
+    },
+    {
+      "_type": "block",
+      "_key": "s3s",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "s3t",
+          "text": "Record how customers heard about you and which services they requested. After enough activity to see a pattern, ask whether your website attracts the work you want. More traffic is useful only when it contributes to a useful business outcome.",
+          "marks": []
+        }
+      ],
+      "markDefs": []
+    },
+    {
+      "_type": "block",
+      "_key": "s3u",
+      "style": "h2",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "s3v",
+          "text": "Your next inspection",
+          "marks": []
+        }
+      ],
+      "markDefs": []
+    },
+    {
+      "_type": "block",
+      "_key": "s3w",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "s3x",
+          "text": "Use this short list during your next website review:",
+          "marks": []
+        }
+      ],
+      "markDefs": []
+    },
+    {
+      "_type": "block",
+      "_key": "s3y",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "s40",
+          "text": "☐ ",
+          "marks": []
+        },
+        {
+          "_type": "span",
+          "_key": "s3z",
+          "text": "The opening screen identifies the service and area.",
+          "marks": []
+        }
+      ],
+      "markDefs": [],
+      "listItem": "bullet",
+      "level": 1
+    },
+    {
+      "_type": "block",
+      "_key": "s41",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "s43",
+          "text": "☐ ",
+          "marks": []
+        },
+        {
+          "_type": "span",
+          "_key": "s42",
+          "text": "Major services have clear, useful explanations.",
+          "marks": []
+        }
+      ],
+      "markDefs": [],
+      "listItem": "bullet",
+      "level": 1
+    },
+    {
+      "_type": "block",
+      "_key": "s44",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "s46",
+          "text": "☐ ",
+          "marks": []
+        },
+        {
+          "_type": "span",
+          "_key": "s45",
+          "text": "Real project photos include meaningful context.",
+          "marks": []
+        }
+      ],
+      "markDefs": [],
+      "listItem": "bullet",
+      "level": 1
+    },
+    {
+      "_type": "block",
+      "_key": "s47",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "s49",
+          "text": "☐ ",
+          "marks": []
+        },
+        {
+          "_type": "span",
+          "_key": "s48",
+          "text": "Reviews and credentials are accurate and verifiable.",
+          "marks": []
+        }
+      ],
+      "markDefs": [],
+      "listItem": "bullet",
+      "level": 1
+    },
+    {
+      "_type": "block",
+      "_key": "s4a",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "s4c",
+          "text": "☐ ",
+          "marks": []
+        },
+        {
+          "_type": "span",
+          "_key": "s4b",
+          "text": "Calling and requesting an estimate work on a phone.",
+          "marks": []
+        }
+      ],
+      "markDefs": [],
+      "listItem": "bullet",
+      "level": 1
+    },
+    {
+      "_type": "block",
+      "_key": "s4d",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "s4f",
+          "text": "☐ ",
+          "marks": []
+        },
+        {
+          "_type": "span",
+          "_key": "s4e",
+          "text": "A real test inquiry reaches the right inbox.",
+          "marks": []
+        }
+      ],
+      "markDefs": [],
+      "listItem": "bullet",
+      "level": 1
+    },
+    {
+      "_type": "block",
+      "_key": "s4g",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "s4i",
+          "text": "☐ ",
+          "marks": []
+        },
+        {
+          "_type": "span",
+          "_key": "s4h",
+          "text": "Seasonal information and business details are current.",
+          "marks": []
+        }
+      ],
+      "markDefs": [],
+      "listItem": "bullet",
+      "level": 1
+    },
+    {
+      "_type": "block",
+      "_key": "s4j",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "s4l",
+          "text": "☐ ",
+          "marks": []
+        },
+        {
+          "_type": "span",
+          "_key": "s4k",
+          "text": "Someone owns maintenance and lead follow-up.",
+          "marks": []
+        }
+      ],
+      "markDefs": [],
+      "listItem": "bullet",
+      "level": 1
+    },
+    {
+      "_type": "block",
+      "_key": "s4m",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "s4n",
+          "text": "Fix the issue most likely to lose an inquiry first. A broken form matters more than a new animation. An unclear service area matters more than another paragraph about quality.",
+          "marks": []
+        }
+      ],
+      "markDefs": []
+    },
+    {
+      "_type": "block",
+      "_key": "s4o",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "s4p",
+          "text": "Want help applying the checklist?",
+          "marks": [
+            "strong"
+          ]
+        },
+        {
+          "_type": "span",
+          "_key": "s4q",
+          "text": " Explore ",
+          "marks": []
+        },
+        {
+          "_type": "span",
+          "_key": "s4s",
+          "text": "website services",
+          "marks": [
+            "s4r"
+          ]
+        },
+        {
+          "_type": "span",
+          "_key": "s4t",
+          "text": " or see the ",
+          "marks": []
+        },
+        {
+          "_type": "span",
+          "_key": "s4v",
+          "text": "Neff Paving project",
+          "marks": [
+            "s4u"
+          ]
+        },
+        {
+          "_type": "span",
+          "_key": "s4w",
+          "text": " for an example of contractor-focused service pages, project galleries, and contact pathways.",
+          "marks": []
+        }
+      ],
+      "markDefs": [
+        {
+          "_type": "link",
+          "_key": "s4r",
+          "href": "https://jlang.dev/services"
+        },
+        {
+          "_type": "link",
+          "_key": "s4u",
+          "href": "https://jlang.dev/projects/neff-paving"
+        }
+      ]
+    }
+  ],
+  "published": false,
+  "category": {
+    "_type": "reference",
+    "_ref": "category.small-business"
+  },
+  "tags": [
+    {
+      "_type": "reference",
+      "_key": "contractors",
+      "_ref": "tag.contractors"
+    },
+    {
+      "_type": "reference",
+      "_key": "ohio",
+      "_ref": "tag.ohio"
+    },
+    {
+      "_type": "reference",
+      "_key": "web-design",
+      "_ref": "tag.web-design"
+    },
+    {
+      "_type": "reference",
+      "_key": "local-seo",
+      "_ref": "tag.local-seo"
+    }
+  ]
+}
