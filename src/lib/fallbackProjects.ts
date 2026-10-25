@@ -1003,11 +1003,6 @@ export function MedicationSearch() {
     tech: ["React Native", "Expo", "TypeScript", "iOS", "Android", "Stripe", "Node.js"],
     github: "",
     live: "https://www.josemadridsalsa.com",
-    pagespeed: {
-      mobile: { performance: 93, accessibility: 100, bestPractices: 92, seo: 92 },
-      desktop: { performance: 93, accessibility: 100, bestPractices: 92, seo: 92 },
-      testedAt: "2026-10-25",
-    },
     gradient: "from-rose-600 to-red-600",
     status: "In Development",
     category: "Mobile App",
