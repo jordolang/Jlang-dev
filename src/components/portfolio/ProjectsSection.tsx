@@ -188,7 +188,8 @@ function FeaturedProject({ project }: { project: Project }) {
 
           {/* Right: full top-to-bottom site screenshot */}
           <div className="relative bg-gray-100 dark:bg-gray-950 border-t lg:border-t-0 lg:border-l border-gray-200/60 dark:border-gray-800">
-            <div className="relative z-10 h-[420px] sm:h-[560px] lg:h-full lg:max-h-[860px] overflow-y-auto">
+            {/* On desktop the preview fills the column, so it always matches the details' height */}
+            <div className="relative z-10 h-[420px] sm:h-[560px] lg:absolute lg:inset-0 lg:h-auto overflow-y-auto">
               <Image
                 src={project.image}
                 alt={`${project.title} – full page screenshot`}
@@ -199,8 +200,8 @@ function FeaturedProject({ project }: { project: Project }) {
                 priority
               />
             </div>
-            <div className="pointer-events-none absolute bottom-0 inset-x-0 h-16 bg-gradient-to-t from-black/30 to-transparent" />
-            <span className="pointer-events-none absolute bottom-3 left-1/2 -translate-x-1/2 px-3 py-1 rounded-full bg-black/50 text-white text-[11px] font-medium backdrop-blur-sm flex items-center gap-1.5">
+            <div className="pointer-events-none absolute z-20 bottom-0 inset-x-0 h-16 bg-gradient-to-t from-black/30 to-transparent" />
+            <span className="pointer-events-none absolute z-20 bottom-3 left-1/2 -translate-x-1/2 px-3 py-1 rounded-full bg-black/50 text-white text-[11px] font-medium backdrop-blur-sm flex items-center gap-1.5">
               <Icon icon="solar:mouse-bold" width={12} height={12} />
               Scroll to explore full page
             </span>

@@ -544,7 +544,7 @@ def get_featured_projects():
                               'Clear, structured drug information display',
                               'Fast, responsive results as you type'],
             'status': 'Live',
-            'url': 'https://drug-finder.vercel.app'},
+            'url': 'https://safety-screen.vercel.app'},
         {   'name': 'Roam',
             'subtitle': 'AI Travel Agent & Trip Planner',
             'description': 'An AI-powered travel agent that turns a simple prompt into a complete '
