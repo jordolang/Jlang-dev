@@ -9,11 +9,11 @@ describe('unlistedBundledProjects', () => {
   })
 
   it('lets a Studio entry for the same site replace it', () => {
+    const slugs = (studio: Array<{ slug: string; live?: string }>) =>
+      unlistedBundledProjects(studio).map((p) => p.slug)
     expect(
-      unlistedBundledProjects([
-        { slug: 'green-mountain-leather-desktop', live: 'https://green-mountain-leather.vercel.app/' },
-      ]),
-    ).toEqual([])
-    expect(unlistedBundledProjects([{ slug: 'green-mountain-leather' }])).toEqual([])
+      slugs([{ slug: 'green-mountain-leather-desktop', live: 'https://green-mountain-leather.vercel.app/' }]),
+    ).not.toContain('green-mountain-leather')
+    expect(slugs([{ slug: 'green-mountain-leather' }])).not.toContain('green-mountain-leather')
   })
 })

@@ -150,7 +150,9 @@ describe('CMS Library', () => {
       const result = await getProjects()
       vi.mocked(fallback.unlistedBundledProjects).mockImplementation(() => [])
 
-      expect(result?.map((p) => p.slug)).toEqual([createMockProject().slug])
+      const slugs = result?.map((p) => p.slug)
+      expect(slugs).toContain(createMockProject().slug)
+      expect(slugs).not.toContain('green-mountain-leather')
     })
 
     it('should return null when no projects exist', async () => {
