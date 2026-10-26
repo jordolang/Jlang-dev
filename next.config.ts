@@ -10,6 +10,16 @@ const nextConfig: NextConfig = {
       },
     ],
   },
+  async redirects() {
+    return [
+      // The business guides link to the short slug; the project lives at the -desktop slug.
+      {
+        source: "/projects/neff-paving",
+        destination: "/projects/neff-paving-desktop",
+        permanent: true,
+      },
+    ];
+  },
   async rewrites() {
     return {
       // /resume is a page for browsers, but `curl jlang.dev/resume | bash` must still get the
