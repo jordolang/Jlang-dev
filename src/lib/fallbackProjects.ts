@@ -101,7 +101,7 @@ export const projects: Project[] = [
       mobile: { performance: 98, accessibility: 97, bestPractices: 100, seo: 100 },
       desktop: { performance: 99, accessibility: 97, bestPractices: 100, seo: 100 },
       testedAt: "2026-10-30",
-      note: "SEO shows the score at launch. The preview is kept out of Google on purpose until then, which scores 69 today.",
+      note: "The preview is kept out of Google purposefully until the actual launch date. Actual figures may differ on SEO until the project is actually launched in order to not interfere with existing websites/services.",
     },
     ensureListed: true,
     gallery: [
