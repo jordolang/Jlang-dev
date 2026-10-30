@@ -1324,6 +1324,27 @@ export function pagespeedFor(project: {
   return bundledFor(project)?.pagespeed;
 }
 
+/**
+ * Fields of a Studio project that its bundled copy fills in: the live URL when the Studio has none,
+ * the screenshot when the bundled one is flagged `imageOverridesStudio`, and the PageSpeed scores.
+ */
+export function withBundledFallbacks(
+  project: { slug: string; live?: string | null; pagespeed?: PageSpeedResult | null; fullPagePreview?: boolean },
+  studioImage: { src: string; width?: number; height?: number },
+) {
+  const bundled = bundledFor(project);
+  const image = bundled?.imageOverridesStudio ? bundled : undefined;
+  const live = project.live || bundled?.live || "";
+  return {
+    live,
+    image: image?.image ?? studioImage.src,
+    imageWidth: image ? image.imageWidth : studioImage.width,
+    imageHeight: image ? image.imageHeight : studioImage.height,
+    fullPagePreview: image ? image.fullPagePreview : project.fullPagePreview,
+    pagespeed: pagespeedFor({ ...project, live }),
+  };
+}
+
 /** Bundled projects flagged `ensureListed` that the Studio list has no entry for yet (by slug or live URL). */
 export function unlistedBundledProjects(listed: Array<{ slug: string; live?: string | null }>): Project[] {
   const slugs = new Set(listed.map((p) => p.slug));

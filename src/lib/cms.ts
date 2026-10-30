@@ -3,7 +3,7 @@ import "server-only";
 import { draftMode } from "next/headers";
 import { getSanityClient, sanityIsConfigured } from "@/sanity/lib/client";
 import { dimensionsForImage, urlForImage, type SanityImageRef } from "@/sanity/lib/image";
-import { bundledFor, pagespeedFor, unlistedBundledProjects, type PageSpeedResult } from "@/lib/fallbackProjects";
+import { unlistedBundledProjects, withBundledFallbacks, type PageSpeedResult } from "@/lib/fallbackProjects";
 
 /**
  * Server-side content layer.
@@ -99,22 +99,13 @@ export async function getProjects(): Promise<CmsProject[] | null> {
 
   const projects = raw.map((project) => {
     const dims = dimensionsForImage(project.image);
-    const bundled = bundledFor(project);
-    const bundledImage = bundled?.imageOverridesStudio ? bundled : undefined;
-    // An empty Studio live URL falls back to the bundled one, so the rings and "Visit site" still work.
-    const live = project.live || bundled?.live || "";
     return {
       ...project,
-      image: bundledImage?.image ?? urlForImage(project.image) ?? "",
       features: project.features ?? [],
       deliverables: project.deliverables ?? [],
       tech: project.tech ?? [],
       github: project.github ?? "",
-      live,
-      imageWidth: bundledImage ? bundledImage.imageWidth : dims?.width,
-      imageHeight: bundledImage ? bundledImage.imageHeight : dims?.height,
-      fullPagePreview: bundledImage ? bundledImage.fullPagePreview : project.fullPagePreview,
-      pagespeed: pagespeedFor({ ...project, live }),
+      ...withBundledFallbacks(project, { src: urlForImage(project.image) ?? "", width: dims?.width, height: dims?.height }),
       gallery: project.gallery?.flatMap((shot) => {
         const src = urlForImage(shot);
         return src ? [{ src, caption: shot.caption ?? "", ...(shot.video ? { video: shot.video } : {}) }] : [];
