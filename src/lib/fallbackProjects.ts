@@ -97,6 +97,12 @@ export const projects: Project[] = [
     tech: ["Python", "Jinja2", "HTML5", "CSS", "JavaScript", "Playwright", "Resend", "Vercel"],
     github: "",
     live: "https://downtown-exchange.vercel.app",
+    pagespeed: {
+      mobile: { performance: 98, accessibility: 97, bestPractices: 100, seo: 100 },
+      desktop: { performance: 99, accessibility: 97, bestPractices: 100, seo: 100 },
+      testedAt: "2026-10-30",
+      note: "The preview is kept out of Google purposefully until the actual launch date. Actual figures may differ on SEO until the project is actually launched in order to not interfere with existing websites/services.",
+    },
     ensureListed: true,
     gallery: [
       { src: "/images/projects/desktop/downtown-exchange/01-hero.jpg", caption: "Home — hours, open-now status and the vendor marquee" },
