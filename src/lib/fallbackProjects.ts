@@ -54,6 +54,8 @@ export interface Project {
   pagespeed?: PageSpeedResult;
   /** Listed even when the Studio has projects but none for this site yet; a Studio entry for the same slug or live URL replaces it. */
   ensureListed?: boolean;
+  /** Use this `image` (and its size) in place of the Studio one, while the Studio still holds an older screenshot. */
+  imageOverridesStudio?: boolean;
   /** Intrinsic size of `image`. Required for full-page captures so the scroll container renders them at true aspect ratio. */
   imageWidth?: number;
   imageHeight?: number;
@@ -673,7 +675,11 @@ export function MedicationSearch() {
     title: "SalsaDocs",
     subtitle: "Jose Madrid Salsa Developer Documentation",
     description: "Comprehensive developer documentation site for the Jose Madrid Salsa e-commerce platform. Built with Next.js and Fumadocs, it serves as the single source of truth for the platform — covering API reference, integration guides, deployment, configuration, and system architecture with Mermaid diagram support.",
-    image: "/images/projects/salsadocs.png",
+    image: "/images/projects/salsadocs.jpg",
+    imageWidth: 1440,
+    imageHeight: 4584,
+    fullPagePreview: true,
+    imageOverridesStudio: true,
     features: [
       "Full API reference with endpoint schemas and examples",
       "Getting started and developer onboarding guides",
@@ -692,7 +698,12 @@ export function MedicationSearch() {
     ],
     tech: ["Next.js", "TypeScript", "Fumadocs", "MDX", "Tailwind CSS", "Mermaid", "Framer Motion", "Vercel"],
     github: "https://github.com/jordolang/salsadocs",
-    live: "",
+    live: "https://salsadocs.vercel.app",
+    pagespeed: {
+      mobile: { performance: 100, accessibility: 93, bestPractices: 100, seo: 100 },
+      desktop: { performance: 100, accessibility: 93, bestPractices: 100, seo: 100 },
+      testedAt: "2026-10-30",
+    },
     gradient: "from-slate-700 to-gray-800",
     status: "Live",
     category: "Web Design",
@@ -1285,9 +1296,23 @@ function siteKey(url?: string | null) {
 }
 
 /**
+ * The bundled copy of a Studio project. Studio website slugs often carry a "-desktop" suffix the
+ * bundled ones lack, so the slug without it (for bundled websites only) and the live URL match too.
+ */
+export function bundledFor(project: { slug: string; live?: string | null }): Project | undefined {
+  const website = project.slug?.endsWith("-desktop") ? project.slug.slice(0, -"-desktop".length) : undefined;
+  const live = siteKey(project.live);
+  return projects.find(
+    (p) =>
+      p.slug === project.slug ||
+      (website && !p.group && p.slug === website) ||
+      (live && siteKey(p.live) === live),
+  );
+}
+
+/**
  * Scores entered in the Studio win; without them, keep the bundled scores for the same site so a
- * site already measured here still shows its rings before anyone types them in. Studio slugs often
- * differ from the bundled ones (e.g. "-desktop" suffixes), so the live URL is matched too.
+ * site already measured here still shows its rings before anyone types them in.
  */
 export function pagespeedFor(project: {
   slug: string;
@@ -1296,8 +1321,7 @@ export function pagespeedFor(project: {
 }): PageSpeedResult | undefined {
   if (project.pagespeed?.hidden) return undefined;
   if (project.pagespeed?.mobile || project.pagespeed?.desktop) return project.pagespeed;
-  const live = siteKey(project.live);
-  return projects.find((p) => p.pagespeed && (p.slug === project.slug || (live && siteKey(p.live) === live)))?.pagespeed;
+  return bundledFor(project)?.pagespeed;
 }
 
 /** Bundled projects flagged `ensureListed` that the Studio list has no entry for yet (by slug or live URL). */

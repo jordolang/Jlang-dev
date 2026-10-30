@@ -155,6 +155,30 @@ describe('CMS Library', () => {
       expect(slugs).not.toContain('green-mountain-leather')
     })
 
+    it('should use the bundled screenshot, live URL and scores for SalsaDocs', async () => {
+      const { getSanityClient } = await import('@/sanity/lib/client')
+      const { urlForImage, dimensionsForImage } = await import('@/sanity/lib/image')
+      vi.mocked(urlForImage).mockReturnValue('https://cdn.sanity.io/old-400x300.png')
+      vi.mocked(dimensionsForImage).mockReturnValue({ width: 400, height: 300 })
+      vi.mocked(getSanityClient).mockReturnValue({
+        fetch: vi.fn().mockResolvedValue([
+          { ...createMockProject(), slug: 'salsadocs-desktop', live: '', pagespeed: null, image: createMockSanityImage() },
+        ]),
+      } as never)
+
+      const { getProjects } = await import('@/lib/cms')
+      const result = await getProjects()
+
+      expect(result?.[0]).toMatchObject({
+        image: '/images/projects/salsadocs.jpg',
+        imageWidth: 1440,
+        imageHeight: 4584,
+        fullPagePreview: true,
+        live: 'https://salsadocs.vercel.app',
+        pagespeed: { mobile: { accessibility: 93 }, desktop: { accessibility: 93 } },
+      })
+    })
+
     it('should return null when no projects exist', async () => {
       const { getSanityClient } = await import('@/sanity/lib/client')
       const mockClient = {
