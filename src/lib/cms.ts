@@ -3,7 +3,7 @@ import "server-only";
 import { draftMode } from "next/headers";
 import { getSanityClient, sanityIsConfigured } from "@/sanity/lib/client";
 import { dimensionsForImage, urlForImage, type SanityImageRef } from "@/sanity/lib/image";
-import { pagespeedFor, unlistedBundledProjects, type PageSpeedResult } from "@/lib/fallbackProjects";
+import { unlistedBundledProjects, withBundledFallbacks, type PageSpeedResult } from "@/lib/fallbackProjects";
 
 /**
  * Server-side content layer.
@@ -101,15 +101,11 @@ export async function getProjects(): Promise<CmsProject[] | null> {
     const dims = dimensionsForImage(project.image);
     return {
       ...project,
-      image: urlForImage(project.image) ?? "",
       features: project.features ?? [],
       deliverables: project.deliverables ?? [],
       tech: project.tech ?? [],
       github: project.github ?? "",
-      live: project.live ?? "",
-      imageWidth: dims?.width,
-      imageHeight: dims?.height,
-      pagespeed: pagespeedFor(project),
+      ...withBundledFallbacks(project, { src: urlForImage(project.image) ?? "", width: dims?.width, height: dims?.height }),
       gallery: project.gallery?.flatMap((shot) => {
         const src = urlForImage(shot);
         return src ? [{ src, caption: shot.caption ?? "", ...(shot.video ? { video: shot.video } : {}) }] : [];

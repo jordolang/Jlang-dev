@@ -4,7 +4,7 @@ import { getSanityClient, sanityIsConfigured } from '@/sanity/lib/client';
 import { isDraftMode } from './cms';
 import { dimensionsForImage, urlForImage, type SanityImageRef } from '@/sanity/lib/image';
 import { logger } from './logger';
-import { pagespeedFor, projects as fallbackProjects, unlistedBundledProjects, type PageSpeedResult } from './fallbackProjects';
+import { projects as fallbackProjects, withBundledFallbacks, unlistedBundledProjects, type PageSpeedResult } from './fallbackProjects';
 import type { PortableTextBlock } from '@portabletext/react';
 
 /**
@@ -102,17 +102,18 @@ async function getSanityProjects(): Promise<Project[]> {
 
     return (projects ?? []).map((project) => {
       const dims = dimensionsForImage(project.image);
+      const bundled = withBundledFallbacks(project, { src: urlForImage(project.image) ?? '', width: dims?.width, height: dims?.height });
       return {
         slug: project.slug,
         title: project.title,
         subtitle: project.subtitle,
         description: project.description,
-        image: urlForImage(project.image) ?? '',
+        image: bundled.image,
         features: project.features ?? [],
         deliverables: project.deliverables ?? [],
         tech: project.tech ?? [],
         github: project.github ?? '',
-        live: project.live ?? '',
+        live: bundled.live,
         gradient: project.gradient,
         status: project.status,
         category: project.category,
@@ -120,15 +121,15 @@ async function getSanityProjects(): Promise<Project[]> {
         timeline: project.timeline,
         clientType: project.clientType,
         group: project.group,
-        fullPagePreview: project.fullPagePreview,
+        fullPagePreview: bundled.fullPagePreview,
         featured: project.featured,
-        pagespeed: pagespeedFor(project),
+        pagespeed: bundled.pagespeed,
         gallery: project.gallery?.flatMap((shot) => {
           const src = urlForImage(shot);
           return src ? [{ src, caption: shot.caption ?? '', ...(shot.video ? { video: shot.video } : {}) }] : [];
         }),
-        imageWidth: dims?.width,
-        imageHeight: dims?.height,
+        imageWidth: bundled.imageWidth,
+        imageHeight: bundled.imageHeight,
         challenge: project.challenge,
         approach: project.approach,
         solution: project.solution,
